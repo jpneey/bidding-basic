@@ -1,0 +1,39 @@
+<?php
+
+class Router {
+
+    /**
+     * Render Current View
+     * Based on $_SERVER["QUERY_STRING"].
+     * Convert $_SERVER["QUERY_STRING"] to Array 
+     * of Views and assign base $view based on
+     * the first value in the array of views.
+     */
+    
+    public function renderPage() {
+
+        $view = 'home';
+
+        if(isset($_SERVER["QUERY_STRING"])) {
+            $uri = explode("/", $_SERVER["QUERY_STRING"]);
+            $view = isset($uri[0]) && !empty($uri[0]) ? $uri[0] : 'home';
+        }
+
+        return $this->getPage($view);
+    }
+
+    public function getPage($pageTitle = '404') {
+
+        require_once 'include/include.import.php';
+        
+        if(file_exists("./page/".$pageTitle.".php")) {
+            require_once './page/'.$pageTitle.'.php';
+            return;
+        }
+
+        $pageTitle = $pageTitle.' - Not Found'; 
+        require_once  'view/404.php';
+        return;
+    }
+
+}
