@@ -5,17 +5,83 @@
  *
  * Made By MaterializeCSS.com
  */
-
- .container {
-   position: relative;
-   display: block;
-   max-width: 1400px;
-   margin: auto;
- }
-
-.icon-block {
-  padding: 0 15px;
+html, body {
+  font-family: 'Poppins', sans-serif;
 }
-.icon-block .material-icons {
-	font-size: inherit;
+.container {
+  position: relative;
+  display: block;
+  max-width: 1400px;
+  margin: auto;
+}
+.navbar-fixed { height: 128px; }
+
+.mini {
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.custom-card > div.card-image,
+.custom-card {
+  display: block;
+  position: relative;
+}
+
+.custom-card > div.card-image{ 
+  overflow: hidden;
+  width: 100%;
+  height: 190px;
+}
+
+.custom-card > div.card-image > img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+.page,
+.custom-card > .content {
+  padding: 15px;
+}
+
+.btn-custom {
+  font-size: 12px;
+  text-transform: none;
+}
+
+footer {
+  margin-top: 64px;
+}
+.no-margin { margin: 0; }
+.no-padding { padding: 0; }
+.no-border { border: none; }
+.brand-logo > img {
+  height: 34px;
+  margin-top: 15px;
+}
+.dropdown-content{ top: 65px !important; }
+.normal-text {
+  font-weight: normal;
+  text-transform: none !important;
+  font-size: 12px !important;
+}
+nav i { height: 64px !important; line-height: 64px !important; }
+
+input.prefilled {
+  padding-left: 15px !important;
+  margin-top: 10px !important;
+}
+@media only screen and (max-width: 1110px) {
+  .brand-logo > img { margin-top: 12px; }
+  .container {
+    width: 90% !important;
+  }
+  .custom-card > div.card-image, .custom-card {
+    display: block;
+    position: relative;
+    max-width: 240px;
+    margin: auto;
+  }
 }

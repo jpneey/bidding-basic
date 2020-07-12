@@ -20,7 +20,7 @@ nav {
   height: $navbar-height-mobile;
   line-height: $navbar-line-height-mobile;
 
-  a { color: $navbar-font-color; }
+  a { color: #ffffff; }
 
   i,
   [class^="mdi-"], [class*="mdi-"],
@@ -59,7 +59,7 @@ nav {
   // Logo
   .brand-logo {
     position: absolute;
-    color: $navbar-font-color;
+    color: #ffffff;
     display: inline-block;
     font-size: $navbar-brand-font-size;
     padding: 0;
@@ -122,8 +122,9 @@ nav {
     }
     a {
       transition: background-color .3s;
-      font-size: $navbar-font-size;
-      color: $navbar-font-color;
+      font-size: 12px;
+      font-weight: bold;
+      color: #ffffff;
       display: block;
       padding: 0 15px;
       cursor: pointer;
@@ -179,7 +180,7 @@ nav {
         color: rgba(255,255,255,.7);
         transition: color .3s;
       }
-      &.active i { color: $navbar-font-color; }
+      &.active i { color: #ffffff; }
     }
   }
 }
