@@ -32,7 +32,7 @@ class Router {
         }
 
         $pageTitle = $pageTitle.' - Not Found'; 
-        require_once  'view/404.php';
+        require_once  './page/404.php';
         return;
     }
 

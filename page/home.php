@@ -6,20 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
   <title><?php echo $pageTitle ?></title>
 
-  <!-- CSS  -->
   <?php
     require "./component/head.php";
   ?>
+
 </head>
 <body>
 
-  <nav>
-      <div class="container">
-        
-      </div>
-  </nav>
-
   <?php
+    require "./component/navbar.php";
     require "./component/footer.php";
   ?>
 
