@@ -39,7 +39,7 @@ $(function(){
             location.reload();
             return
           }
-          
+          $('.submit').val('Login');
           M.toast({
             html: data.message,
             classes: "red darken-2 white-text normal-text"

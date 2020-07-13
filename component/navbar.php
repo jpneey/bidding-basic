@@ -27,7 +27,7 @@
     <?php
 
         if(!$isLoggedIn){
-            require 'component/login.php';
+            require 'view/view.login.php';
         } else {
             require 'view/view.profile.php';
         }

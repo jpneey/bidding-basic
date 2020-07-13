@@ -16,7 +16,8 @@ html, body {
   height: 30px;
 }
 
-.sidenav .banner,
+.sidenav .banner, 
+.feed-card .content,
 .feed-head, .feed-user-avatar,
 .feed-image-wrapper, .feed-footer,
 .wrapper, .wrapper-top-bottom,
@@ -105,6 +106,38 @@ html, body {
 
 .feed-card .content {
   padding: 15px 25px;
+  padding-left: 70px;
+  padding-right: 15px;
+  padding-bottom: 35px;
+  margin-top: -20px;
+  max-height: 60px;
+  overflow: hidden;
+}
+
+.feed-card .content,
+.feed-card .content * {
+  font-size: 14px;
+  color: #424242 !important;
+}
+.feed-card .content::before,
+.feed-card .content::after {
+  position: absolute;
+  display: block;
+  content:  ' ';
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 20px;
+  background: white;
+}
+
+.feed-card .content::before {
+  width: 70px;
+  bottom: 25px;
+  right: 0;
+  left: auto;
+  content: ' . . .';
+  padding-left: 10px;
 }
 .feed-footer {
   padding-top: 25px;

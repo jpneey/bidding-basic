@@ -12,13 +12,16 @@ if(!empty($bidsInFeed)){
 
         $datePosted = '<time class="timeago" datetime="'.$bidsInFeed[$key]["cs_bidding_added"].'">'.$bidsInFeed[$key]["cs_bidding_added"].'</time>';
         $bidInFeedPicture = '';
+        $bidInFeedDetails = $bidsInFeed[$key]["cs_bidding_details"];
+
         if($bidsInFeed[$key]["cs_bidding_picture"] !== '#!'){
             $bidInFeedPicture = '
             <div class="feed-image-wrapper">
                 <img src="'.$BASE_DIR.'static/asset/bidding/'.$bidsInFeed[$key]["cs_bidding_picture"].'" class="materialboxed" />
             </div>
             ';
-        } ?>
+        }
+        ?>
 
 
         <div class="feed-card white z-depth-1">
@@ -33,8 +36,13 @@ if(!empty($bidsInFeed)){
                     </span>
                 </p>
             </div>
+            <div class="content">
+                <?php echo $bidInFeedDetails ?>
+            </div>
             <?php echo $bidInFeedPicture ?>
         </div>
+
+        
 
         <?php
     }

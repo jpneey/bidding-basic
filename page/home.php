@@ -27,7 +27,8 @@
       </div>
     </div>
   </div>
-  
+    
+  <script src="<?php echo $BASE_DIR ?>static/js/services/services.login.js" type="text/javascript"></script>
   <?php
     require "./component/footer.php";
   ?>
