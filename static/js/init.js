@@ -5,4 +5,6 @@ $(function(){
     $('.fixed-action-btn').floatingActionButton({
         hoverEnabled: false
     });
+    $('.materialboxed').materialbox();
+    $("time.timeago").timeago();
 })

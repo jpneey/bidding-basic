@@ -15,38 +15,17 @@
   <?php
     require "component/navbar.php";
   ?>
-
-  <div class="container row">
-    
-      <?php
-        require "model/model.bidding.php";
-        $bidding = new Bids();
-
-        $allBidding = $bidding->getAllBids();
-        if(!empty($allBidding)){
-
-          foreach($allBidding as $key=>$value){
-            $bidCardAction = 'biddings/'.$allBidding[$key]["cs_bidding_id"];
-            $bidCardDate = $bidding->getBiddingProduct($allBidding[$key]["cs_bidding_id"], true);
-            $bidCardProduct = $bidding->getBiddingProduct($allBidding[$key]["cs_bidding_id"], true);
-            $bidCardThumb = 
-              ($bidding->getBiddingPicture($allBidding[$key]["cs_bidding_id"]) != "#!") ?
-              $bidding->getBiddingPicture($allBidding[$key]["cs_bidding_id"]) :
-              'placeholder.svg';
-
-            $bidCardNeededDate = $allBidding[$key]["cs_bidding_date_needed"];
-            $date = date_create($bidCardNeededDate);
-            $bidCardNeededDate = date_format($date, 'jS  \o\f\ F Y');
-
-            echo "<div class=\"col s6 m4 l3\">";
-            require "component/card.php";
-            echo "</div>";
-
-
-          }
-
-        }
-      ?>
+  <div class="main">
+    <div class="wrapper wrapper-top-bottom">
+      <div class="container row">
+        <div class="col s12 m12">
+          <?php
+          error_reporting(E_ALL);
+            require "view/view.feed.php";
+          ?>
+        </div>
+      </div>
+    </div>
   </div>
   
   <?php

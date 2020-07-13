@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 12, 2020 at 04:59 PM
+-- Generation Time: Jul 13, 2020 at 04:51 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.1.31
 
@@ -40,6 +40,7 @@ CREATE TABLE `cs_biddings` (
   `cs_bidding_product_qty` int(11) NOT NULL,
   `cs_bidding_product_unit` varchar(50) NOT NULL,
   `cs_bidding_product_price` varchar(255) NOT NULL,
+  `cs_bidding_added` datetime NOT NULL DEFAULT current_timestamp(),
   `cs_bidding_expiration` datetime NOT NULL,
   `cs_bidding_status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -48,8 +49,8 @@ CREATE TABLE `cs_biddings` (
 -- Dumping data for table `cs_biddings`
 --
 
-INSERT INTO `cs_biddings` (`cs_bidding_id`, `cs_bidding_category_id`, `cs_bidding_user_id`, `cs_bidding_title`, `cs_bidding_picture`, `cs_bidding_details`, `cs_bidding_date_needed`, `cs_bidding_product`, `cs_bidding_product_qty`, `cs_bidding_product_unit`, `cs_bidding_product_price`, `cs_bidding_expiration`, `cs_bidding_status`) VALUES
-(1, 0, 1, 'Looking for cheap plastic bottles', '#!', 'I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively. We hope you have enjoyed using Materialize and if you feel like it has helped you out and want to support the team you can help us by donating or backing us on Patreon. Any amount would help support and continue development on this project and is greatly appreciated.\r\n\r\n', '2020-07-26 00:00:00', 'Plastic bottles', 2, 'pc', '15.00', '2020-07-26 00:00:00', 1);
+INSERT INTO `cs_biddings` (`cs_bidding_id`, `cs_bidding_category_id`, `cs_bidding_user_id`, `cs_bidding_title`, `cs_bidding_picture`, `cs_bidding_details`, `cs_bidding_date_needed`, `cs_bidding_product`, `cs_bidding_product_qty`, `cs_bidding_product_unit`, `cs_bidding_product_price`, `cs_bidding_added`, `cs_bidding_expiration`, `cs_bidding_status`) VALUES
+(1, 0, 1, 'Looking for cheap plastic bottles', 'placeholder.svg', 'I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively. We hope you have enjoyed using Materialize and if you feel like it has helped you out and want to support the team you can help us by donating or backing us on Patreon. Any amount would help support and continue development on this project and is greatly appreciated.\r\n\r\n', '2020-07-26 00:00:00', 'Plastic bottles', 2, 'pc', '15.00', '2020-07-13 21:34:37', '2020-07-26 00:00:00', 1);
 
 -- --------------------------------------------------------
 

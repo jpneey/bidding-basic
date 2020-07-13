@@ -11,6 +11,12 @@ class User extends DBController {
         return $this->runQuery("SELECT * FROM cs_users WHERE cs_user_id = '$id' LIMIT 1");
     }
 
+    public function getUserName($id){
+        $id = (int)$id;
+        $thisUser = $this->runQuery("SELECT * FROM cs_users WHERE cs_user_id = '$id' LIMIT 1");
+        return !empty($thisUser) ? $thisUser[0]["cs_user_name"] : 'Guest User';
+    }
+
     public function getUserBids($id){
 
         $id = (int)$id;

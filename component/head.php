@@ -5,5 +5,6 @@
   
 <script src="<?php echo $BASE_DIR ?>static/js/jquery.js" type="text/javascript"></script>
 <script src="<?php echo $BASE_DIR ?>static/js/materialize.min.js" type="text/javascript"></script>
+<script src="<?php echo $BASE_DIR ?>static/js/timeago.js" type="text/javascript"></script>
 <script src="<?php echo $BASE_DIR ?>static/js/init.js" type="text/javascript"></script>
 <script src="<?php echo $BASE_DIR ?>static/js/services/services.login.js" type="text/javascript"></script>
