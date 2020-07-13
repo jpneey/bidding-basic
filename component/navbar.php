@@ -30,11 +30,11 @@
 <div id="login" class="modal">
     <form action="<?php echo $BASE_DIR ?>controller/controller.login.php?mode=login" class="login-form" method="POST" enctype="multipart/form-data" >
         <div class="modal-content row">
-            <div class="input-field col s12 m5">
+            <div class="input-field col s12">
                 <h3><b>Welcome Back.</b></h3>
                 <p>We've missed you. We'll love to have you back.</p>
             </div>
-            <div class="col s12 m7">
+            <div class="col s12">
                 <div class="input-field col s12">
                     <input placeholder="your@email.address" id="email" name="cs_ems" type="email" class="validate prefilled" required />
                     <label for="email">Email Address</label>

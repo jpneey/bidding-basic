@@ -11,8 +11,12 @@ html, body {
 .container {
   position: relative;
   display: block;
-  max-width: 1400px;
+  width: 90% !important;
+  max-width: 1280px;
   margin: auto;
+}
+#login {
+  max-width: 600px;
 }
 .navbar-fixed { height: 128px; }
 
