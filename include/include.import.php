@@ -19,7 +19,8 @@ $isLoggedIn = $auth->compareSession('auth', true);
 if($isLoggedIn){
     $__user_id   = (int)$auth->getSession('__user_id');
     $loggedInUserRole = (int)$auth->getSession('__user_role');
-    $loggedInUserName = $user->getUserName($__user_id);
+    $loggedInUserName = $user->getUser($__user_id, "cs_user_name");
+    $loggedInUserAvatar = $user->getUser($__user_id, "cs_user_avatar");
 }
 
 $uri = explode("/", $_SERVER["QUERY_STRING"]);

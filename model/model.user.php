@@ -6,12 +6,16 @@ class User extends DBController {
         return $this->runQuery("SELECT * FROM cs_users");
     }
 
-    public function getUser($id){
+    public function getUser($id, $param = false){
         $id = (int)$id;
-        return $this->runQuery("SELECT * FROM cs_users WHERE cs_user_id = '$id' LIMIT 1");
+        $value = $this->runQuery("SELECT * FROM cs_users WHERE cs_user_id = '$id' LIMIT 1");
+        if($param && !empty($value)){
+            return $value[0][$param];
+        }
+        return (empty($value)) ? 'guest' : $value;
     }
 
-    public function getUserName($id){
+    public function getUserPicture($id){
         $id = (int)$id;
         $thisUser = $this->runQuery("SELECT * FROM cs_users WHERE cs_user_id = '$id' LIMIT 1");
         return !empty($thisUser) ? $thisUser[0]["cs_user_name"] : 'guest';

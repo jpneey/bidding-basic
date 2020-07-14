@@ -5,14 +5,12 @@ $bidsInFeed = $dbhandle->runQuery("SELECT * FROM cs_biddings WHERE cs_bidding_st
 if(!empty($bidsInFeed)){
 
     foreach($bidsInFeed as $key=>$value){
-
         $bidInFeedTitle = $bidsInFeed[$key]["cs_bidding_title"];
-        $bidInFeedAuthor = $user->getUserName($bidsInFeed[$key]["cs_bidding_user_id"]);
+        $bidInFeedAuthor = $user->getUser($bidsInFeed[$key]["cs_bidding_user_id"], "cs_user_name");
         $datePosted = Render::dateFormat($bidsInFeed[$key]["cs_bidding_added"]);
-        $bidInFeedAuthorAvatar = 'avatar.png';
+        $bidInFeedAuthorAvatar = $user->getUser($bidsInFeed[$key]["cs_bidding_user_id"], "cs_user_avatar");
         $datePosted = '<time class="timeago" datetime="'.$bidsInFeed[$key]["cs_bidding_added"].'">'.$bidsInFeed[$key]["cs_bidding_added"].'</time>';
         $bidInFeedPicture = '';
-        $bidInFeedDetails = $bidsInFeed[$key]["cs_bidding_details"];
         if($bidsInFeed[$key]["cs_bidding_picture"] !== '#!'){
             $bidInFeedPicture = '
             <div class="feed-image-wrapper">
@@ -35,10 +33,10 @@ if(!empty($bidsInFeed)){
                     </span>
                 </p>
             </div>
-            <div class="content">
-                <?php echo $bidInFeedDetails ?>
-            </div>
             <?php echo $bidInFeedPicture ?>
+            <div class="content">
+                <a class="waves-effect waves-light btn-flat normal-text">Read More</a>
+            </div>
         </div>
 
         

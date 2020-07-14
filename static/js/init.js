@@ -5,6 +5,12 @@ $(function(){
     $('.fixed-action-btn').floatingActionButton({
         hoverEnabled: false
     });
+    $('.collapsible').collapsible();
+    $('#profile-nav').sidenav();
+    $('#category-nav').sidenav({
+        menuWidth: '200',
+        edge: 'right'
+    });
     $('.materialboxed').materialbox();
     $("time.timeago").timeago();
 })
