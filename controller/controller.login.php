@@ -22,7 +22,7 @@ switch($mode) {
             $message = 'Success';
             $auth->setSession('auth', true);
             $auth->setSession('__user_id', (int)$account[0]["cs_user_id"]);
-            $auth->setSession('__user_role', $account[0]["cs_user_role"]);
+            $auth->setSession('__user_role', (int)$account[0]["cs_user_role"]);
         } else {
             $data = '1';
             $message = 'Account not found';    

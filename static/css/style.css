@@ -19,7 +19,6 @@ html, body {
 
 .normal-text { font-size: 14px; text-transform: none;}
 
-.sidenav .banner, 
 .feed-card .content,
 .feed-head, .feed-user-avatar,
 .feed-image-wrapper, .feed-footer,
@@ -60,6 +59,7 @@ html, body {
   padding: 10px 20px;
   font-size: 14px;
 }
+.bio,
 .sidenav a.btn,
 .sidenav input {
   max-width: 200px;
@@ -135,42 +135,6 @@ html, body {
 .feed-footer {
   padding-top: 25px;
 }
-.banner-user-name {
-  padding-top: 45px;
-}
-
-.banner-user-name > span {
-  position: relative;
-}
-.banner-user-name > span::after {
-  position: absolute;
-  left: -15px;
-  display: table;
-  content: ' ';
-  width: 10px;
-  border-radius: 5px;
-  height: 10px;
-  background-color: #2eb564;
-}
-.sidenav .banner {
-  height: 170px;
-}
-
-.sidenav .banner span {
-  display: block;
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  bottom: -50px;
-  left: 50%;
-  overflow: hidden;
-  transform: translateX(-50%);
-}
-
-.sidenav .banner span > img {
-  width: 100%;
-}
-
 .margin-auto {
   margin: 10px auto !important;
 }

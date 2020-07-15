@@ -5,7 +5,7 @@
             <a href="<?php echo $BASE_DIR ?>" class="brand-logo left">
                 <img src="<?php echo $BASE_DIR ?>static/asset/logo.png" alt="Site Logo" />
             </a>
-            <ul class="right">
+            <ul class="right hide-on-med-and-down">
                 <li>
                     <a href="#!">Home</a>
                 </li>
@@ -27,28 +27,31 @@
     <?php
 
         if(!$isLoggedIn){
-            require 'view/view.login.php';
-        } else {
-            require 'view/view.profile.php';
+            require 'view/view.sidenav.login.php';
+        } else {        
+            if($isBidder) {
+                require 'component/bidder-fab.php';
+            }
+            require 'view/view.sidenav.profile.php';
         }
     ?>
 </ul>
 <ul id="category-nav" class="sidenav sidenav-fixed">
     <li class="navbar-fixed"></li>
     
-      <li class="no-padding">
+    <li class="no-padding">
         <ul class="collapsible collapsible-accordion">
-          <li>
+            <li>
             <a class="collapsible-header">Dropdown<i class="material-icons">arrow_drop_down</i></a>
             <div class="collapsible-body">
-              <ul>
+                <ul>
                 <li><a href="#!">First</a></li>
                 <li><a href="#!">Second</a></li>
                 <li><a href="#!">Third</a></li>
                 <li><a href="#!">Fourth</a></li>
-              </ul>
+                </ul>
             </div>
-          </li>
+            </li>
         </ul>
     </li>
 </ul>

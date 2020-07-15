@@ -14,6 +14,7 @@ $bid = new Bids();
 
 $__user_id = 0;
 $loggedInUserRole = 'Guest';
+$isBidder = false;
 
 $isLoggedIn = $auth->compareSession('auth', true);
 if($isLoggedIn){
@@ -21,6 +22,7 @@ if($isLoggedIn){
     $loggedInUserRole = (int)$auth->getSession('__user_role');
     $loggedInUserName = $user->getUser($__user_id, "cs_user_name");
     $loggedInUserAvatar = $user->getUser($__user_id, "cs_user_avatar");
+    $isBidder =($loggedInUserRole == '1') ? true : false;
 }
 
 $uri = explode("/", $_SERVER["QUERY_STRING"]);

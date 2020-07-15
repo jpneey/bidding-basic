@@ -1,5 +1,12 @@
 $(function(){
-        
+  
+  login();
+  
+});
+
+
+function login(){
+
   $(".login-form").on("submit", function(e) { 
     
     e.preventDefault();
@@ -49,11 +56,5 @@ $(function(){
     })
 
   });
-});
-
-
-function login(){
-
-
 
 }
