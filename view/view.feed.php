@@ -1,14 +1,15 @@
 <?php
 
+defined('included') || die("Bad request");
+
 $bidsInFeed = $dbhandle->runQuery("SELECT * FROM cs_biddings WHERE cs_bidding_status in('1', '2') ORDER BY cs_bidding_added DESC");
 
 if(!empty($bidsInFeed)){
 
     foreach($bidsInFeed as $key=>$value){
         $bidInFeedTitle = $bidsInFeed[$key]["cs_bidding_title"];
-        $bidInFeedAuthor = $user->getUser($bidsInFeed[$key]["cs_bidding_user_id"], "cs_user_name");
-        $datePosted = Render::dateFormat($bidsInFeed[$key]["cs_bidding_added"]);
-        $bidInFeedAuthorAvatar = $user->getUser($bidsInFeed[$key]["cs_bidding_user_id"], "cs_user_avatar");
+        $bidInFeedId = $bidsInFeed[$key]["cs_bidding_id"];
+        $datePosted = $bidsInFeed[$key]["cs_bidding_added"];
         $datePosted = '<time class="timeago" datetime="'.$bidsInFeed[$key]["cs_bidding_added"].'">'.$bidsInFeed[$key]["cs_bidding_added"].'</time>';
         $bidInFeedPicture = '';
         if($bidsInFeed[$key]["cs_bidding_picture"] !== '#!'){
@@ -18,24 +19,31 @@ if(!empty($bidsInFeed)){
             </div>
             ';
         }
+        switch($bidsInFeed[$key]["cs_bidding_status"]){
+            case '1':
+                $statusStyle = 'green lighten-1';
+                break;
+            case '2':
+                $statusStyle = 'orange lighten-2';
+                break;
+            case '0':
+                $statusStyle = 'red lighten-2';
+                break;
+        }
         ?>
-
-
         <div class="feed-card white z-depth-1">
             <div class="feed-head">
-                <div class="feed-user-avatar">
-                    <img src="<?php echo $BASE_DIR.'static/asset/user/'.$bidInFeedAuthorAvatar; ?>" alt="<?php echo $bidInFeedAuthor.'\'s'; ?> avatar" />
-                </div>
+                <div class="feed-user-avatar green lighten-2 <?php echo $statusStyle ?>"></div>
                 <p class="grey-text text-darken-3">
                     <?php echo $bidInFeedTitle ?><br>
                     <span class="grey-text lighten-2">
-                    <?php echo '<a href="'.$BASE_DIR.'user/'.$bidInFeedAuthor.'">@'.$bidInFeedAuthor.'</a>  '.$datePosted ?><br>
+                    <?php echo 'Posted @ '.$datePosted ?><br>
                     </span>
                 </p>
             </div>
             <?php echo $bidInFeedPicture ?>
             <div class="content">
-                <a class="waves-effect waves-light btn-flat normal-text">Read More</a>
+                <a href="<?php echo $BASE_DIR.'bid/'.$bidInFeedId ?>" class="waves-effect waves-light btn-flat normal-text">Read More <i class="material-icons right">launch</i></a>
             </div>
         </div>
 

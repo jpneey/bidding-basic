@@ -40,15 +40,14 @@ function login(){
           $inputs.val("");
           $('button').text('Login');
           $inputs.prop("disabled", false);
-          data = JSON.parse(data);
-          console.log(data);
-          if(data.code == '0') {
+          var parsedData = JSON.parse(data);
+          if(parsedData.code == '0') {
             location.reload();
-            return
+            return;
           }
           $('.submit').val('Login');
           M.toast({
-            html: data.message,
+            html: parsedData.message,
             classes: "red darken-2 white-text normal-text"
           });
 

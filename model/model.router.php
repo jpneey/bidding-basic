@@ -36,4 +36,13 @@ class Router {
         return;
     }
 
+    public function loadView($view){
+        $view = "./view/view".$view.".php";
+        if(file_exists($view)) {
+            require_once $view;
+            return;
+        }
+        return '<b>Unable to load requested view</b>';
+    }
+
 }

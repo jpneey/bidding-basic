@@ -1,22 +1,27 @@
 <div class="navbar-fixed">
     <nav>
-        <div class="wrapper">
+        <div class="wrapper nav-wrapper">
             
             <a href="<?php echo $BASE_DIR ?>" class="brand-logo left">
                 <img src="<?php echo $BASE_DIR ?>static/asset/logo.png" alt="Site Logo" />
             </a>
-            <ul class="right hide-on-med-and-down">
+            <ul class="right">
                 <li>
-                    <a href="#!">Home</a>
+                    <a>Home</a>   
                 </li>
                 <li>
-                    <a href="#!">Feed</a>
+                    <a>Feed</a>   
                 </li>
                 <li>
-                    <a href="#!">My Account</a>
+                    <a>The Lorem</a>   
                 </li>
             </ul>
-
+            <ul class="right hide-on-med-and-up show-on-medium-and-down">
+                <li>
+                    <a href="#!" data-target="profile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+                </li>
+            </ul>
+            
         </div>
         
     </nav>
@@ -29,14 +34,11 @@
         if(!$isLoggedIn){
             require 'view/view.sidenav.login.php';
         } else {        
-            if($isBidder) {
-                require 'component/bidder-fab.php';
-            }
             require 'view/view.sidenav.profile.php';
         }
     ?>
 </ul>
-<ul id="category-nav" class="sidenav sidenav-fixed">
+<!-- <ul id="category-nav" class="sidenav sidenav-fixed">
     <li class="navbar-fixed"></li>
     
     <li class="no-padding">
@@ -54,4 +56,4 @@
             </li>
         </ul>
     </li>
-</ul>
+</ul> -->

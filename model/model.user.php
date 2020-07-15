@@ -21,13 +21,16 @@ class User extends DBController {
         return !empty($thisUser) ? $thisUser[0]["cs_user_name"] : 'guest';
     }
 
-    public function getUserBids($id){
+    public function getUserBids($id, $misc = false){
 
         $id = (int)$id;
-        $user = $this->runQuery("SELECT * FROM cs_users WHERE cs_user_id = '$id' AND cs_user_role = 'bidder' LIMIT 1");
-
+        $user = $this->runQuery("SELECT * FROM cs_users WHERE cs_user_id = '$id' AND cs_user_role = '1' LIMIT 1");
+        $query = "SELECT * FROM cs_biddings WHERE cs_bidding_user_id = '$id'";
+        if($misc){
+            $query .= $misc;
+        }
         if(!empty($user)){
-            return $this->runQuery("SELECT * FROM cs_biddings WHERE cs_bidding_user_id = '$id'");
+            return $this->runQuery($query);
         } else {
             return false;
         }

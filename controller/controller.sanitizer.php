@@ -1,8 +1,8 @@
 <?php
 
-class DBSanitizer {
+class Sanitizer {
     
-    function filter($variable, $method, $type=null) {
+    public static function filter($variable, $method, $type=null) {
         switch($method) {
             case 'post':
                 $var = isset($_POST[$variable]) ? $_POST[$variable] : NULL;
@@ -16,13 +16,13 @@ class DBSanitizer {
         }
         
         if(!$var) { return NULL; }
-        return $this->sanitize($var, $type);
+        return self::sanitize($var, $type);
 
     }
     
-    function sanitize($variable, $type=null) {
+    public static function sanitize($variable, $type=null) {
 
-        $type = $this->type($type);
+        $type = self::type($type);
 
         $strip = strip_tags($variable);
         $trim = trim($strip);
@@ -31,7 +31,7 @@ class DBSanitizer {
         return $sanitized;
     }
 
-    function type($type=null) {
+    public static function type($type=null) {
         switch($type) {
             case 'int':
                 $type = FILTER_SANITIZE_NUMBER_INT;

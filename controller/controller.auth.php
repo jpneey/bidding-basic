@@ -21,7 +21,9 @@ class Auth {
     }
 
     function compareSession($var, $expected) {
-        
+        if(is_array($expected)){
+            return (in_array($var, $expected)) ? true : false;
+        }
         $ses = isset($_SESSION[$var]) && !empty($_SESSION[$var]) ? $_SESSION[$var] : false;
         return $ses === $expected ? true : false;
     }

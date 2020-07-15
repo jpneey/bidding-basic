@@ -1,3 +1,4 @@
+<?php defined('included') || die("Bad request"); ?>
 <li class="login valign">
     <ul>
         <form action="<?php echo $BASE_DIR ?>controller/controller.login.php?mode=login" class="login-form" method="POST" enctype="multipart/form-data" >

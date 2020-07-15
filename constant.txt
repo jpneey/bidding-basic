@@ -1,0 +1,7 @@
+user_role:
+1 = bidder
+
+bid_post_status:
+0 = expired
+1 = active
+2 = featured

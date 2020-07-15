@@ -8,7 +8,6 @@ html, body {
 }
 
 .container {
-  max-width: 655px !important;
   width: 90% !important;
 }
 
@@ -29,6 +28,9 @@ html, body {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
+.feed-card {
+  max-width: 655px !important;
+}
 .wrapper {
   padding-right: 50px;
   padding-left: 50px;
@@ -39,7 +41,6 @@ html, body {
 }
 .main, .footer {
   padding-left: 300px;
-  padding-right: 300px;
 }
 
 .banner-user-name > span::after,
@@ -86,28 +87,24 @@ html, body {
 .feed-head > p:nth-of-type(1),
 .feed-user-avatar {
   position: absolute;
-  top: 14px;
+  top: 20px;
 }
 .feed-user-avatar {
-  left: 15px;
-  background: #f9f9f9;
-  width: 40px;
-  height: 40px;
+  left: 20px;
+  width: 10px;
+  height: 10px;
+  top: 25px;
 }
 
-.feed-user-avatar > img {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
+.chip {
+  border-radius: 4px;
 }
 
 .feed-head > p { margin: 0; }
 
 .feed-footer p,
 .feed-head > p:nth-of-type(1){
-  left: 70px;
+  left: 40px;
   line-height: 20px;
   font-size: 14px;
 }
@@ -132,9 +129,11 @@ html, body {
   font-size: 14px;
   color: #424242 !important;
 }
+
 .feed-footer {
   padding-top: 25px;
 }
+
 .margin-auto {
   margin: 10px auto !important;
 }
@@ -157,7 +156,7 @@ html, body {
     padding-right: 0;
   }
   .container {
-    width: 100 !important;
+    width: 90% !important;
   }
 
 }

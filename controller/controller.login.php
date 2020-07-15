@@ -6,7 +6,6 @@ require_once 'controller.sanitizer.php';
 
 $auth = new Auth();
 $dbhandle = new DBController();
-$dbsanitizer = new DBSanitizer();
 
 $isLoggedIn = $auth->compareSession('auth', true);
 $mode = isset($_GET['mode']) ? $_GET['mode'] : 'none'; 
@@ -14,8 +13,8 @@ $mode = isset($_GET['mode']) ? $_GET['mode'] : 'none';
 switch($mode) {
 
     case 'login':
-        $userEmail = $dbsanitizer->filter('cs_ems', 'post', 'email');
-        $userPassword = $dbsanitizer->filter('cs_pas', 'post');
+        $userEmail = Sanitizer::filter('cs_ems', 'post', 'email');
+        $userPassword = Sanitizer::filter('cs_pas', 'post');
         $account = $dbhandle->runQuery("SELECT * FROM cs_users WHERE cs_user_email = '$userEmail' AND cs_user_password = '$userPassword' LIMIT 1");
         if(!empty($account)){
             $data = '0';

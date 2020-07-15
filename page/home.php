@@ -18,18 +18,38 @@
   <div class="main">
     <div class="wrapper wrapper-top-bottom">
       <div class="container row">
-        <div class="col s12 m12">
+        <div class="col s12 m8">
           <?php
-          error_reporting(E_ALL);
             require "view/view.feed.php";
           ?>
+        </div>
+        <div class="col s12 m4">
+     
+          <div class="chip z-depth-1 white">
+            The New Lorem
+            <i class="close material-icons">close</i>
+          </div>
+          <div class="chip z-depth-1 white">
+           Blue
+            <i class="close material-icons">close</i>
+          </div>
+          <div class="chip z-depth-1 white">
+           Sky
+            <i class="close material-icons">close</i>
+          </div>
+          <div class="chip z-depth-1 white">
+           Connectitur
+            <i class="close material-icons">close</i>
+          </div>
+          <div class="chip z-depth-1 white">
+            Elipsis Dotor
+            <i class="close material-icons">close</i>
+          </div>
+      
         </div>
       </div>
     </div>
   </div>
-    
-  <script src="<?php echo $BASE_DIR ?>static/js/services/services.login.js" type="text/javascript"></script>
   <?php
     require "./component/footer.php";
   ?>
-
