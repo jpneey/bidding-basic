@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 14, 2020 at 02:47 PM
+-- Generation Time: Jul 16, 2020 at 08:32 AM
 -- Server version: 10.4.6-MariaDB
--- PHP Version: 7.1.31
+-- PHP Version: 7.3.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -86,7 +86,7 @@ CREATE TABLE `cs_users` (
 --
 
 INSERT INTO `cs_users` (`cs_user_id`, `cs_user_name`, `cs_user_email`, `cs_user_password`, `cs_user_role`, `cs_user_avatar`) VALUES
-(1, 'jpneey', 'burato348@gmail.com', 'default', 'bidder', 'jp.jpg');
+(1, 'jpneey', 'burato348@gmail.com', '$2y$05$Dw8tZp0alICppTOuHoSpi.PiUn3f3V1hrdZRIg9158shWQmW8UxgO', '1', 'jp.jpg');
 
 --
 -- Indexes for dumped tables
