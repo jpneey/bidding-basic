@@ -1,14 +1,14 @@
 <?php
 
 require_once "controller/controller.auth.php";
-require_once "controller/controller.db.php";
+require_once "controller/controller.database.php";
 require_once "controller/controller.sanitizer.php";
 require_once "model/model.user.php";
 require_once "model/model.bidding.php";
 require_once "model/model.constant.php";
 
 $auth = new Auth();
-$dbhandle = new DBController();
+$dbhandler = new DBHandler();
 $user = new User();
 $bid = new Bids();
 

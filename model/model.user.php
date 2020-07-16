@@ -1,39 +1,52 @@
 <?php
 
-class User extends DBController {
+class User extends DBHandler {
 
+    
     public function getAllUsers(){
-        return $this->runQuery("SELECT * FROM cs_users");
+
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("SELECT * FROM cs_users");
+        $stmt->execute();
+    
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+    
+        return $this->$result;
     }
 
     public function getUser($id, $param = false){
-        $id = (int)$id;
-        $value = $this->runQuery("SELECT * FROM cs_users WHERE cs_user_id = '$id' LIMIT 1");
-        if($param && !empty($value)){
-            return $value[0][$param];
-        }
-        return (empty($value)) ? 'guest' : $value;
-    }
+        
+        $passedId = (int)$id;
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("SELECT * FROM cs_users WHERE cs_user_id = ? LIMIT 1");
 
-    public function getUserPicture($id){
-        $id = (int)$id;
-        $thisUser = $this->runQuery("SELECT * FROM cs_users WHERE cs_user_id = '$id' LIMIT 1");
-        return !empty($thisUser) ? $thisUser[0]["cs_user_name"] : 'guest';
+        $stmt->bind_param('i', $passedId);
+        $stmt->execute();
+
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+
+        if($param && !empty($result)){
+            return $result[0][$param];
+        }
+        return (empty($result)) ? 'guest' : $result;
     }
 
     public function getUserBids($id, $misc = false){
 
-        $id = (int)$id;
-        $user = $this->runQuery("SELECT * FROM cs_users WHERE cs_user_id = '$id' AND cs_user_role = '1' LIMIT 1");
-        $query = "SELECT * FROM cs_biddings WHERE cs_bidding_user_id = '$id'";
-        if($misc){
-            $query .= $misc;
-        }
-        if(!empty($user)){
-            return $this->runQuery($query);
-        } else {
-            return false;
-        }
+        $passedId = (int)$id;
+        $connection = $this->connectDB();
+        
+        $stmt = $connection->prepare("SELECT * FROM cs_biddings WHERE cs_bidding_user_id = ?");
+        $stmt->bind_param('i', $passedId);
+        $stmt->execute();
+
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+
+        $stmt->close();
+
+        return $result;
         
     }
 

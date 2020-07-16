@@ -2,7 +2,8 @@
 
 defined('included') || die("Bad request");
 
-$bidsInFeed = $dbhandle->runQuery("SELECT * FROM cs_biddings WHERE cs_bidding_status in('1', '2') ORDER BY cs_bidding_added DESC");
+$bidsInFeed = $bid->getBiddings();
+
 
 if(!empty($bidsInFeed)){
 

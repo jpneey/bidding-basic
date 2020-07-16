@@ -4,7 +4,7 @@ defined('included') || die("Bad request");
 
 $thisViewBidId = (int)$uri[1];
 
-$bidsInFeed = $dbhandle->runQuery("SELECT * FROM cs_biddings WHERE cs_bidding_id = '$thisViewBidId' LIMIT 1");
+$bidsInFeed = $bid->getBid($thisViewBidId);
 
 if(!empty($bidsInFeed)){
 

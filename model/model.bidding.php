@@ -1,42 +1,43 @@
 <?php
 
-class Bids extends DBController {
+class Bids extends DBHandler {
 
     public function getAllBids(){
-        return $this->runQuery("SELECT * FROM cs_biddings ORDER BY cs_bidding_expiration DESC");
+
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("SELECT * FROM cs_biddings ORDER BY cs_bidding_expiration DESC");
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+
+        return $result;
     }
 
-    public function getBid($id){
+    public function getBid($id, $param = false){
+        
         $id = (int)$id;
-        return $this->runQuery("SELECT * FROM cs_biddings WHERE cs_bidding_id = '$id'");
+
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("SELECT * FROM cs_biddings WHERE cs_bidding_id = ? ");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+
+        return $param ? $result[0][$param] : $result;
     }
 
-    public function getBiddingTitle($id){
-        $id = (int)$id;
-        $bid = $this->runQuery("SELECT * FROM cs_biddings WHERE cs_bidding_id = '$id' LIMIT 1");
-        return !empty($bid) ? $bid[0]["cs_bidding_title"] : 'Not Found';
-    }
-    public function getBiddingDate($id){
-        $id = (int)$id;
-        $bid = $this->runQuery("SELECT * FROM cs_biddings WHERE cs_bidding_id = '$id' LIMIT 1");
-        $date = !empty($bid) ? $bid[0]["cs_bidding_date_needed"] : 'Not Found';
+    
+    public function getBiddingDate($date){
         $date = date_create($date);
         return date_format($date, 'jS  \o\f\ F Y');
     }
-    public function getBiddingPicture($id){
-        $id = (int)$id;
-        $bid = $this->runQuery("SELECT * FROM cs_biddings WHERE cs_bidding_id = '$id' LIMIT 1");
-        return !empty($bid) ? $bid[0]["cs_bidding_picture"] : 'placholder.svg';
+
+    public function getBiddingPicture($picture){
+        return !empty($picture) ?: 'placholder.svg';
     }
-    public function getBiddingDetails($id){
-        $id = (int)$id;
-        $bid = $this->runQuery("SELECT * FROM cs_biddings WHERE cs_bidding_id = '$id' LIMIT 1");
-        return !empty($bid) ? $bid[0]["cs_bidding_details"] : 'Not Found';
-    }
-    public function getBiddingStatus($id){
-        $id = (int)$id;
-        $bid = $this->runQuery("SELECT * FROM cs_biddings WHERE cs_bidding_id = '$id' LIMIT 1");
-        $status = !empty($bid) ? $bid[0]["cs_bidding_status"] : '0';
+
+    public function getBiddingStatus($status){
         switch($status){
             case '1':
                 return 'Active';
@@ -47,17 +48,24 @@ class Bids extends DBController {
                 return 'Expired';
         }
     }
-    public function getBiddingProduct($id, $qty = false){
-        $id = (int)$id;
-        $bid = $this->runQuery("SELECT * FROM cs_biddings WHERE cs_bidding_id = '$id' LIMIT 1");
-        $data = !empty($bid) ? $bid[0]["cs_bidding_product"] : 'Not Found';
-        if($qty){
-            $data = 
-            !empty($bid) ? $bid[0]["cs_bidding_product_qty"]
-            .' '.$bid[0]["cs_bidding_product_unit"]
-            .' '.$bid[0]["cs_bidding_product"] : 'Not Found'; 
-        }
-        return $data;
+
+    public function getBiddings($status_array = array('1', '2')){
+
+        $clause = implode(',', array_fill(0, count($status_array), '?'));
+        $types = str_repeat('i', count($status_array));
+        
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("SELECT * FROM cs_biddings WHERE cs_bidding_status in($clause)  ORDER BY cs_bidding_added DESC");
+        
+        $stmt->bind_param($types, ...$status_array);
+
+        $stmt->execute();
+
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+
+        return $result;
+
     }
 
 }

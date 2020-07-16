@@ -24,35 +24,41 @@ function login(){
     window.onbeforeunload = function() {
       return "Are you sure you want to navigate away from this page?";
     };
+
     $.ajax({
-        url: action,
-        type: type,
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(data) {
-          window.onbeforeunload = null;
-          $(".login-form, body").css({
-            opacity: "1",
-            cursor: "auto"
-          });
-          
-          $inputs.val("");
-          $('button').text('Login');
-          $inputs.prop("disabled", false);
-          var parsedData = JSON.parse(data);
-          if(parsedData.code == '0') {
-            location.reload();
-            return;
-          }
-          $('.submit').val('Login');
-          M.toast({
-            html: parsedData.message,
-            classes: "red darken-2 white-text normal-text"
-          });
+
+      url: action,
+      type: type,
+      data: formData,
+      processData: false,
+      contentType: false,
+      success: function(data) {
+
+        window.onbeforeunload = null;
+        $(".login-form, body").css({
+          opacity: "1",
+          cursor: "auto"
+        });
+
+        $inputs.prop("disabled", false);
+
+        var parsedData = JSON.parse(data);
+
+        if(parsedData.code == '0') {
+
+          location.reload();
+          return;
 
         }
+
+        M.toast({
+          html: parsedData.message,
+          classes: "red darken-2 white-text normal-text"
+        });
+
+      }
     })
+    
 
   });
 
