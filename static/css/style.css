@@ -54,17 +54,23 @@ html, body {
   transform: translate(-50%, -50%);
 }
 .no-border { border: none; }
+
+input.browser-default,
 .sidenav input {
   display: block;
   margin: 10px auto;
   padding: 10px 20px;
   font-size: 14px;
 }
-.bio,
+input.browser-default,
+.bio,  
 .sidenav a.btn,
 .sidenav input {
   max-width: 200px;
 }
+
+
+input.browser-default,
 .sidenav input,
 .sidenav .text { 
   width: 200px; line-height: 18px; }

@@ -14,7 +14,7 @@
 
 <?php if($isLoggedIn && $isBidder) { ?>
 <li>
-    <a class="waves-effect" href="<?php echo $BASE_DIR ?>home/#!"><i class="material-icons right">add_circle_outline</i><b>Post new bid</b></a>
+    <a class="waves-effect" href="<?php echo $BASE_DIR ?>my/dashboard/?action=add"><i class="material-icons right">add_circle_outline</i><b>Post new bid</b></a>
 </li>  
 <li>
     <a class="waves-effect" href="<?php echo $BASE_DIR ?>my/dashboard/">Dashboard</a>
