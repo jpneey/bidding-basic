@@ -1,8 +1,9 @@
 <?php
 
 require_once "controller/controller.auth.php";
-require_once "controller/controller.database.php";
+require_once "controller/controller.filevalidator.php";
 require_once "controller/controller.sanitizer.php";
+require_once "controller/controller.database.php";
 require_once "model/model.user.php";
 require_once "model/model.bidding.php";
 require_once "model/model.constant.php";

@@ -1,6 +1,6 @@
 <?php
 
-class DBHandler {
+class DBHandler extends Sanitizer {
 	private $host = "localhost";
 	private $user = "root";
 	private $password = "";

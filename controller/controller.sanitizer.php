@@ -1,6 +1,6 @@
 <?php
 
-class Sanitizer {
+class Sanitizer extends FileValidator {
     
     public static function filter($variable, $method, $type=null) {
         switch($method) {
@@ -36,6 +36,11 @@ class Sanitizer {
             case 'int':
                 $type = FILTER_SANITIZE_NUMBER_INT;
                 break;
+
+            case 'float':
+                $type = FILTER_SANITIZE_NUMBER_FLOAT;
+                break;
+
             case 'email':
                 $type = FILTER_SANITIZE_EMAIL;
                 break;
