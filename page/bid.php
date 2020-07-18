@@ -29,7 +29,7 @@
             $viewBids = new viewBids($BASE_DIR);
             $selector = Sanitizer::filter($uri[1], 'var');
 
-            $viewBids->load($viewBids->viewBid($selector));
+            $viewBids->load($viewBids->viewBid($selector, $isSupplier));
           
           ?>
         </div>
@@ -38,7 +38,8 @@
 
           <ul class="section table-of-contents pushpin">
             <li><a href="#introduction">At a glance</a></li>
-            <li><a href="#bidding-details">Bidding Details</a></li>
+            <li><a href="#bidding-details">Bidding details</a></li>
+            <li><a href="#submit-offer">Submit offer</a></li>
           </ul>
 
         </div>

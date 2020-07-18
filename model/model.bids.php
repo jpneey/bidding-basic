@@ -59,6 +59,7 @@ class Bids extends DBHandler {
         $stmt = $connection->prepare(
             "SELECT 
             cs_bidding_title, 
+            cs_bidding_details, 
             cs_bidding_user_id, 
             cs_bidding_permalink, 
             cs_bidding_added, 

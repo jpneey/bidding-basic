@@ -23,6 +23,7 @@ class viewBids extends Bids {
 
             foreach($bidsInFeed as $key=>$value){
                 $bidInFeedTitle = $bidsInFeed[$key]["cs_bidding_title"];
+                $bidInFeedDetails = $bidsInFeed[$key]["cs_bidding_details"];
                 $bidInFeedLink = $bidsInFeed[$key]["cs_bidding_permalink"];
                 $datePosted = $bidsInFeed[$key]["cs_bidding_added"];
                 $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($bidsInFeed[0]['cs_owner_rating']));
@@ -62,6 +63,7 @@ class viewBids extends Bids {
                     </div>
                     <?= $bidInFeedPicture ?>
                     <div class="content">
+                        <span class="truncate"><?= $bidInFeedDetails ?></span>
                         <a href="<?= $this->BASE_DIR.'bid/'.$bidInFeedLink ?>" class="waves-effect waves-light btn-flat normal-text">Read More <i class="material-icons right">launch</i></a>
                         <span class="ratings"><?= $rating ?></span>
                     
@@ -72,13 +74,14 @@ class viewBids extends Bids {
         }
     }
 
-    public function viewBid($selector) {
+    public function viewBid($selector, $isSupplier = false) {
 
         $viewBid = $this->getBid($selector);
         if(!empty($viewBid)) {
             $title = $viewBid[0]['cs_bidding_title'];
             $details = $viewBid[0]['cs_bidding_details'];
             $item = $viewBid[0]['cs_bidding_product'];
+            $dateNeeded = $viewBid[0]['cs_bidding_date_needed'];
             $budget = $viewBid[0]['cs_bidding_product_price'];
             $qty = $viewBid[0]['cs_bidding_product_qty'] . ' ' . $viewBid[0]['cs_bidding_product_unit'];
             $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($viewBid[0]['cs_owner_rating']));
@@ -91,7 +94,7 @@ class viewBids extends Bids {
                 <div id="introduction" class="content scrollspy">
                     <label>Home > bid > <?= $title ?></label>
                     <h1><?= $title ?><span class="ratings"><?= $rating ?></span></h1>
-                    <div class="glance grey lighten-4">
+                    <div class="glance white">
                         <table class="responsive-table center-align">
                             <thead>
                                 <tr>
@@ -104,19 +107,40 @@ class viewBids extends Bids {
                                 <tr>
                                     <td><?= $item ?></td>
                                     <td><?= $qty ?></td>
-                                    <td><?= $budget ?></td>
+                                    <td>₱ <?= $budget ?></td>
                                 </tr>
                             </tbody>
                         </table>
                     </div>
+                    <br>
+                    <p>
+                        Bidding ends in:<br>
+                        <span id="days">00</span> <span>days</span>
+                        <span id="hours">00</span> <span>hours</span>
+                        <span id="minutes">00</span> <span>minutes</span>
+                        <span id="seconds">00</span> <span>seconds</span>  
+                    </p>
+                    <p><?= $details ?></p>
+                    
                 </div>
                 <?= $picture ?>
-                <div class="content">
-                    <p><?= $details ?></p>
-                </div>
             </div>
 
+            <link href="<?= $this->BASE_DIR ?>static/css/timer.css" type="text/css" rel="stylesheet"/>
+            <script> $(function(){ timer('<?= $dateNeeded ?>') }) </script>
             <?php
+            if($isSupplier) {
+
+            } else {
+                ?>
+                <div class="page white z-depth-1">
+                    <div id="submit-offer" class="content scrollspy">
+                        <p>You need to login on a supplier account inorder to participate in biddings.</p>
+                        <a href="#!" class="btn waves-effect orange white-text">Learn how</a>
+                    </div>
+                </div>
+                <?php
+            }
         }
     }
     

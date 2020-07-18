@@ -69,40 +69,6 @@
                     />
                 </div>
 
-                <div class="input-field no-margin col s12 m4">
-                    <p><label>Item Needed</label></p>
-                    <input 
-                        required 
-                        type="text" 
-                        name="cs_bidding_product" 
-                        class="custom-input validate"  
-                    />
-                </div>
-
-                <div class="input-field no-margin col s12 m2 tooltipped" data-position="bottom" data-tooltip="ie: kg, pcs, in">
-                    <p><label>Unit</label></p>
-                    <input 
-                        required 
-                        type="text" 
-                        name="cs_bidding_product_unit" 
-                        class="custom-input validate"  
-                    />
-                </div>
-
-                <div class="input-field no-margin col s12 m2 tooltipped" data-position="bottom" data-tooltip="* whole number only">
-                    <p><label>Qty</label></p>
-                    <input 
-                        required 
-                        type="number" 
-                        name="cs_bidding_product_qty" 
-                        class="custom-input validate" 
-                        min="0" 
-                        step="1" 
-                        oninput="validity.valid||(value='');" 
-                        pattern=" 0+\.[0-9]*[1-9][0-9]*$"  
-                    />
-                </div>
-
                 <div class="file-field input-field no-margin col s12 m8">
                     <p><label>Product Image (optional)</label></p>
                     <div class="btn">
@@ -118,7 +84,41 @@
                 </div>
 
                 <div class="input-field no-margin col s12 m4">
-                    <p><label>Expected Price in PHP</label></p>
+                    <p><label>Item Needed</label></p>
+                    <input 
+                        required 
+                        type="text" 
+                        name="cs_bidding_product" 
+                        class="custom-input validate"  
+                    />
+                </div>
+
+                <div class="input-field no-margin col s6 m2 tooltipped" data-position="bottom" data-tooltip="ie: kg, pcs, in">
+                    <p><label>Unit</label></p>
+                    <input 
+                        required 
+                        type="text" 
+                        name="cs_bidding_product_unit" 
+                        class="custom-input validate"  
+                    />
+                </div>
+
+                <div class="input-field no-margin col s6 m2 tooltipped" data-position="bottom" data-tooltip="* whole number only">
+                    <p><label>Qty</label></p>
+                    <input 
+                        required 
+                        type="number" 
+                        name="cs_bidding_product_qty" 
+                        class="custom-input validate" 
+                        min="0" 
+                        step="1" 
+                        oninput="validity.valid||(value='');" 
+                        pattern=" 0+\.[0-9]*[1-9][0-9]*$"  
+                    />
+                </div>
+
+                <div class="input-field no-margin col s12 m4">
+                    <p><label>Budget</label></p>
                     <input 
                         required 
                         type="number" 

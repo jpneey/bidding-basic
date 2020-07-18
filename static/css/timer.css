@@ -1,0 +1,22 @@
+.timer {
+
+    display: inline-block;
+    position: relative;
+    width: 60px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    margin-right: 5px;
+    margin-bottom: 0
+    
+}
+.timer > span {
+    display: inline-block;
+    background: white;
+    width: 60px;
+    height: 15px;
+    line-height: 15px;
+    font-size: 9px;
+    margin-right: 5px;
+    font-weight: bold;
+}

@@ -15,8 +15,9 @@ $loggedInUserRole = 'Guest';
 
 $isLoggedIn = $auth->compareSession('auth', true);
 $isBidder = false;
-$loggedInUserAvatar = $loggedInUserName = $loggedInUserEmail = '';
+$isSupplier = false;
 
+$loggedInUserAvatar = $loggedInUserName = $loggedInUserEmail = '';
 
 if($isLoggedIn){
     $__user_id   = (int)$auth->getSession('__user_id');
@@ -25,7 +26,9 @@ if($isLoggedIn){
     $loggedInUserEmail = $user->getUser($__user_id, "cs_user_email");
     $loggedInUserAvatar = $user->getUser($__user_id, "cs_user_avatar");
     $isBidder =($loggedInUserRole == '1') ? true : false;
+    $isSupplier =($loggedInUserRole == '2') ? true : false;
 }
+
 
 define('included', true);
 $uri = explode("/", $_SERVER["QUERY_STRING"]);

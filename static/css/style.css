@@ -132,7 +132,7 @@ input.browser-default,
 .materialboxed { width: 100%; }
 
 .feed-card .content {
-  padding: 15px 25px;
+  padding: 25px;
   margin-top: -20px;
 }
 
@@ -142,9 +142,9 @@ input.browser-default,
 }
 .page, .page p, .page h1,
 .feed-card .content,
-.feed-card .content * {
+.feed-card .content p {
   font-size: 14px;
-  color: #424242 !important;
+  color: #424242;
 }
 .page h1 { font-size: 30px ;}
 .page label{
@@ -156,7 +156,9 @@ input.browser-default,
   max-width: 900px;
   margin: auto;
 }
-
+.page ~ .page {
+  border-top: 1px solid #f1f1f1;
+}
 .page img {
   width: 100%;
   max-width: 100%;
@@ -195,8 +197,8 @@ input.browser-default,
 .ratings > i {
   font-size: 17px;
 }
-.content > .ratings {
-  padding: 0 15px;
+.content > span {
+  padding: 0 16px;
 }
 .content > .ratings > i {
   color: #ff9800 !important;
