@@ -46,14 +46,16 @@ function login(){
 
         if(parsedData.code == '0') {
 
-          location.reload();
+          location.href = root + 'home/';
           return;
 
         }
 
+        var action = '<button onclick="M.Toast.dismissAll();" class="btn-flat toast-action"><i class="close material-icons">close</i></button>';
+
         M.toast({
-          html: parsedData.message,
-          classes: "red darken-2 white-text normal-text"
+          html: parsedData.message + action,
+          classes: "orange white-text"
         });
 
       }

@@ -1,6 +1,6 @@
 <?php
 
-class Sanitizer extends FileValidator {
+class Sanitizer {
     
     public static function filter($variable, $method, $type=null) {
         switch($method) {
@@ -17,7 +17,6 @@ class Sanitizer extends FileValidator {
         
         if(!$var) { return NULL; }
         return self::sanitize($var, $type);
-
     }
     
     public static function sanitize($variable, $type=null) {
@@ -49,6 +48,19 @@ class Sanitizer extends FileValidator {
                 break;
         }
         return $type;
+    }
+
+    public static function url($str = '') {
+        
+        $friendlyURL = htmlentities($str, ENT_COMPAT, "UTF-8", false); 
+        $friendlyURL = preg_replace('/&([a-z]{1,2})(?:acute|circ|lig|grave|ring|tilde|uml|cedil|caron);/i','\1',$friendlyURL);
+        $friendlyURL = html_entity_decode($friendlyURL,ENT_COMPAT, "UTF-8"); 
+        $friendlyURL = preg_replace('/[^a-z0-9-]+/i', '-', $friendlyURL);
+        $friendlyURL = preg_replace('/-+/', '-', $friendlyURL);
+        $friendlyURL = trim($friendlyURL, '-');
+        $friendlyURL = strtolower($friendlyURL);
+        return $friendlyURL;
+    
     }
     	
 }

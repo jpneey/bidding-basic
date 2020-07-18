@@ -1,6 +1,6 @@
 <?php 
 
-$auth->redirect('auth', true, $BASE_DIR.'home/?unauth=true');
+$auth->redirect('auth', true, $BASE_DIR.'home/?unauth=1');
 $pageTitle = Sanitizer::filter($uri[1], 'variable') ?: '404';
 $myView = 'view/view.'.$pageTitle.'.php';
 
@@ -17,7 +17,7 @@ $myView = 'view/view.'.$pageTitle.'.php';
   ?>
 
 </head>
-<body>
+<body class="minimal">
 
   <?php
     require "component/navbar.php";

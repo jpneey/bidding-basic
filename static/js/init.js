@@ -13,6 +13,7 @@ $(function(){
     });
     $('.materialboxed').materialbox();
     $("time.timeago").timeago();
+    starRates();
 })
 
 
@@ -28,4 +29,10 @@ const cleanJSON = (s) => {
     s = s.replace(/[\u0000-\u0019]+/g,""); 
 
     return JSON.parse(s);
+}
+
+function starRates() {
+    var $el = $('.ratings');
+    var child = (5 - $el.children().length);
+    $el.append(new Array(++child).join('<i class="material-icons orange-text">star_outline</i>'));
 }

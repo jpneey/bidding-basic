@@ -10,22 +10,43 @@
   ?>
 
 </head>
-<body>
+<body class="minimal">
 
   <?php
     require "component/navbar.php";
   ?>
   <div class="main">
     <div class="wrapper wrapper-top-bottom">
-      <div class="container row">
-        <div class="col s12 m12">
+      <div class="row">
+        <div class="col s12 m9">
           <?php
-            require "view/view.bid.php";
+
+            require_once "model/model.bids.php";
+            require_once "view/view.bids.php";
+            require_once "controller/controller.sanitizer.php";
+
+            $bid = new Bids();
+            $viewBids = new viewBids($BASE_DIR);
+            $selector = Sanitizer::filter($uri[1], 'var');
+
+            $viewBids->load($viewBids->viewBid($selector));
+          
           ?>
+        </div>
+        
+        <div class="col s12 m3 hide-on-med-and-down">
+
+          <ul class="section table-of-contents pushpin">
+            <li><a href="#introduction">At a glance</a></li>
+            <li><a href="#bidding-details">Bidding Details</a></li>
+          </ul>
+
         </div>
       </div>
     </div>
   </div>
+
+  <script src="<?php echo $BASE_DIR ?>static/js/services/services.feed.js" type="text/javascript"></script>
   <?php
     require "./component/footer.php";
   ?>

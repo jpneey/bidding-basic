@@ -1,8 +1,8 @@
 <?php
 
 require_once 'controller.auth.php';
-require_once 'controller.database.php';
 require_once 'controller.sanitizer.php';
+require_once 'controller.database.php';
 
 $auth = new Auth();
 $dbhandle = new DBHandler();
