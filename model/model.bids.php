@@ -16,8 +16,8 @@ class Bids extends DBHandler {
     public function getBid($id, $param = false){
         
         $connection = $this->connectDB();
-        $stmt = $connection->prepare("SELECT * FROM cs_biddings WHERE cs_bidding_id = ? or cs_bidding_permalink = ? ");
-        $stmt->bind_param("is", $id, $id);
+        $stmt = $connection->prepare("SELECT * FROM cs_biddings WHERE cs_bidding_permalink = ? ");
+        $stmt->bind_param("s", $id);
         $stmt->execute();
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
@@ -100,7 +100,7 @@ class Bids extends DBHandler {
         $passedId = (int)$user_id;
         $connection = $this->connectDB();
         
-        $stmt = $connection->prepare("SELECT cs_bidding_id, cs_bidding_title, cs_bidding_status, cs_bidding_added FROM cs_biddings WHERE cs_bidding_user_id = ?");
+        $stmt = $connection->prepare("SELECT cs_bidding_id, cs_bidding_title, cs_bidding_permalink, cs_bidding_status, cs_bidding_added FROM cs_biddings WHERE cs_bidding_user_id = ?");
         $stmt->bind_param('i', $passedId);
         $stmt->execute();
 
@@ -110,6 +110,11 @@ class Bids extends DBHandler {
 
         return $result;
     }
+
+    /**
+     * Post related functions
+     * goes here
+     */
 
     public function postBidding($prepArray, $prodArray){
 
@@ -140,5 +145,22 @@ class Bids extends DBHandler {
 
     }
     
+    /**
+     * Put related functions
+     * goes here
+     */
+
+    public function biddingExpires(){
+    
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("UPDATE cs_biddings SET cs_bidding_status = '0' WHERE cs_bidding_date_needed < NOW()");
+        $stmt->execute();
+        $stmt->store_result();
+        $affected = $stmt->num_rows;
+        $stmt->close();
+        
+        return json_encode(array('code' => 1, 'message' => $affected .' bidding entry updated to expired.'));
+        
+    }
 
 }

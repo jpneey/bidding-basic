@@ -126,7 +126,7 @@ input.browser-default,
 
 .feed-image-wrapper {
   overflow: hidden;
-  max-height: 50vh;
+  max-height: 90vh;
   margin-bottom: 20px;
 }
 .materialboxed { width: 100%; }

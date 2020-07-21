@@ -152,6 +152,10 @@ switch ($action) {
 
     case 'get':
         $message = json_encode($bid->getBid($_GET['id']));
+        break;
+        
+    case 'expires':
+        $message = $bid->biddingExpires();
 }
 
 echo $message;

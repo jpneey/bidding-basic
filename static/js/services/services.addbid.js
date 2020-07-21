@@ -3,7 +3,6 @@
         addBid();
         formChips();
         datePicker();
-        $('.tooltipped').tooltip();
     })
 
     function formChips() {

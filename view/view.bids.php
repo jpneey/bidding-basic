@@ -164,7 +164,7 @@ class viewBids extends Bids {
         
         if(!empty($userBids)){
             foreach($userBids as $key=>$value){
-                $bidInFeedId = $userBids[$key]["cs_bidding_id"];
+                $bidInFeedLink = $userBids[$key]["cs_bidding_permalink"];
                 $bidInFeedTitle = $userBids[$key]["cs_bidding_title"];
                 switch($userBids[$key]["cs_bidding_status"]){
                     case '1':
@@ -178,7 +178,7 @@ class viewBids extends Bids {
                         break;
                 }
                 $datePosted = '<time>'.date_format(date_create($userBids[$key]["cs_bidding_added"]), 'D d M Y').'</time>'; ?>
-                <a href="<?= $this->BASE_DIR.'bid/'.$bidInFeedId ?>">
+                <a href="<?= $this->BASE_DIR.'bid/'.$bidInFeedLink ?>">
                     <div class="col s12 feed-card white z-depth-1">
                         <div class="feed-head">
                             <div class="feed-user-avatar <?= $statusStyle ?>">

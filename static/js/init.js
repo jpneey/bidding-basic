@@ -14,6 +14,7 @@ $(function(){
     $('.materialboxed').materialbox();
     $("time.timeago").timeago();
     starRates();
+    $('.tooltipped').tooltip();
 })
 
 
@@ -35,4 +36,25 @@ function starRates() {
     var $el = $('.ratings');
     var child = (5 - $el.children().length);
     $el.append(new Array(++child).join('<i class="material-icons orange-text">star_outline</i>'));
+}
+
+function updateExpiredBiddings(showToast = false){
+    
+    $.ajax({
+        url: root + 'controller/controller.bidding.php?action=expires',
+        type: 'GET',
+        processData: false,
+        contentType: false,
+        success: function(data) {
+            var parsedData = JSON.parse(data);
+            if(showToast) {
+                var action = '<button onclick="M.Toast.dismissAll();" class="btn-flat toast-action"><i class="close material-icons">close</i></button>';
+                M.toast({
+                    html: parsedData.message + action,
+                    classes: "orange white-text"
+                });
+            }
+
+        }   
+    })
 }
