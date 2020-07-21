@@ -2,7 +2,6 @@
 
 defined('included') || die("Bad request");
 
-
 class viewBids extends Bids {
 
     private $BASE_DIR;
@@ -80,10 +79,8 @@ class viewBids extends Bids {
         if(!empty($viewBid)) {
             $title = $viewBid[0]['cs_bidding_title'];
             $details = $viewBid[0]['cs_bidding_details'];
-            $item = $viewBid[0]['cs_bidding_product'];
+            $products = $viewBid[0]['cs_bidding_products'];
             $dateNeeded = $viewBid[0]['cs_bidding_date_needed'];
-            $budget = $viewBid[0]['cs_bidding_product_price'];
-            $qty = $viewBid[0]['cs_bidding_product_qty'] . ' ' . $viewBid[0]['cs_bidding_product_unit'];
             $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($viewBid[0]['cs_owner_rating']));
             $picture = 
                 ($viewBid[0]['cs_bidding_picture'] != '#!') ? 
@@ -104,11 +101,20 @@ class viewBids extends Bids {
                                 </tr>
                             </thead>
                             <tbody>
+                                <?php
+                                    foreach($products as $k=>$v) {                     
+                                        $item = $products[$k]['cs_product_name'];
+                                        $budget = number_format($products[$k]['cs_product_price'], '2', '.', ',');
+                                        $qty = $products[$k]['cs_product_qty'] . ' ' . $products[$k]['cs_product_unit'];
+                                ?>
                                 <tr>
                                     <td><?= $item ?></td>
                                     <td><?= $qty ?></td>
                                     <td>₱ <?= $budget ?></td>
                                 </tr>
+                                <?php
+                                    }
+                                ?>
                             </tbody>
                         </table>
                     </div>
@@ -140,6 +146,46 @@ class viewBids extends Bids {
                     </div>
                 </div>
                 <?php
+            }
+        }
+    }
+
+    public function viewUserBids($user_id){
+        
+        $userBids = $this->getUserBids($user_id);
+        
+        if(!empty($userBids)){
+            foreach($userBids as $key=>$value){
+                $bidInFeedId = $userBids[$key]["cs_bidding_id"];
+                $bidInFeedTitle = $userBids[$key]["cs_bidding_title"];
+                switch($userBids[$key]["cs_bidding_status"]){
+                    case '1':
+                        $statusStyle = 'green lighten-1';
+                        break;
+                    case '2':
+                        $statusStyle = 'orange lighten-2';
+                        break;
+                    case '0':
+                        $statusStyle = 'red lighten-2';
+                        break;
+                }
+                $datePosted = '<time>'.date_format(date_create($userBids[$key]["cs_bidding_added"]), 'D d M Y').'</time>'; ?>
+                <a href="<?= $this->BASE_DIR.'bid/'.$bidInFeedId ?>">
+                    <div class="col s12 feed-card white z-depth-1">
+                        <div class="feed-head">
+                            <div class="feed-user-avatar <?= $statusStyle ?>">
+                                
+                            </div>
+                            <p class="grey-text text-darken-3">
+                                <?= $bidInFeedTitle ?><br>
+                                <span class="grey-text lighten-2">
+                                <?= 'Posted @ '.$datePosted ?><br>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            <?php
             }
         }
     }

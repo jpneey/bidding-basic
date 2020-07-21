@@ -48,8 +48,8 @@ switch ($action) {
 
         $today = date("Y-m-d H:i:s");
         $expiration = date("Y-m-d H:i:s", strtotime("+7 day"));
-        $bind_param_type = $message = "";
-        $errors = $bind_param_variables = array();
+        $prod_bind_param_type = $bind_param_type = $message = "";
+        $errors = $prod_bind_param_variables = $bind_param_variables = array();
 
         $postArr = array(
             array("cs_bidding_category_id", "int", "i", "post"),
@@ -58,11 +58,7 @@ switch ($action) {
             array("cs_bidding_permalink", "str", "s", "post"),
             array("cs_bidding_picture", "str", "s", "post"),
             array("cs_bidding_details", "str", "s", "post"),
-            array("cs_bidding_date_needed", "str", "s", "post"),
-            array("cs_bidding_product",  "str", "s", "post"),
-            array("cs_bidding_product_qty",  "int", "i", "post"),
-            array("cs_bidding_product_unit",  "str", "s", "post"),
-            array("cs_bidding_product_price", "str", "s", "post")
+            array("cs_bidding_date_needed", "str", "s", "post")
         );
 
         $tableCol = "";
@@ -72,6 +68,29 @@ switch ($action) {
             if(!${$postArr[$key][0]}){
                 $errors[] = str_replace(array('cs', '_'), array('', ' '), $postArr[$key][0]) . ', ';
             }
+
+            $bind_param_type .= $postArr[$key][2];
+            $bind_param_variables[] = ${$postArr[$key][0]};
+        }
+
+        $productTableCol = '';
+        $productArray = array(
+            array("cs_product_name",  "str", "s", "post"),
+            array("cs_product_unit",  "str", "s", "post"),
+            array("cs_product_qty",  "int", "i", "post"),
+            array("cs_product_price", "str", "s", "post")
+        );
+
+        foreach($productArray as $key => $value){
+            
+            $productTableCol .= $productArray[$key][0] . ', ';
+            ${$productArray[$key][0]} = Sanitizer::filter($productArray[$key][0], $productArray[$key][3], $productArray[$key][1]);
+            if(!${$postArr[$key][0]}){
+                $errors[] = str_replace(array('cs', '_'), array('', ' '), $productArray[$key][0]) . ', ';
+            }
+                
+            $prod_bind_param_type .= $productArray[$key][2];
+            $prod_bind_param_variables[] = ${$productArray[$key][0]};
         }
 
         $cs_bidding_permalink = Sanitizer::url($cs_bidding_permalink);
@@ -118,14 +137,15 @@ switch ($action) {
         }
         
         $clause = implode(',', array_fill(0, count($postArr), '?'));
+        $prodClause = implode(',', array_fill(0, count($productArray), '?'));
+
         $prepTableCol = $tableCol . 'cs_bidding_added, cs_bidding_expiration, cs_bidding_status';
+        $prodTableCol = substr(trim($productTableCol), 0, -1);
 
-        foreach($postArr as $key=>$value){
-            $bind_param_type .= $postArr[$key][2];
-            $bind_param_variables[] = ${$postArr[$key][0]};
-        }
+        $bidArray  = array($prepTableCol, $clause, $bind_param_type, $bind_param_variables);
+        $prodArray = array($prodTableCol, $prodClause, $prod_bind_param_type, $prod_bind_param_variables);
 
-        $message = $bid->postBidding($prepTableCol, $clause, $bind_param_type, $bind_param_variables);
+        $message = $bid->postBidding($bidArray, $prodArray);
 
         break;
 

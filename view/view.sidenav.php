@@ -1,4 +1,6 @@
-<?php defined('included') || die("Bad request"); 
+<?php 
+
+defined('included') || die("Bad request"); 
 
 class sideNav {
 

@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 17, 2020 at 09:28 AM
+-- Generation Time: Jul 21, 2020 at 02:46 PM
 -- Server version: 10.4.6-MariaDB
--- PHP Version: 7.3.9
+-- PHP Version: 7.1.31
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -33,13 +33,10 @@ CREATE TABLE `cs_biddings` (
   `cs_bidding_category_id` int(11) NOT NULL,
   `cs_bidding_user_id` int(11) NOT NULL,
   `cs_bidding_title` varchar(64) NOT NULL,
+  `cs_bidding_permalink` varchar(255) NOT NULL,
   `cs_bidding_picture` varchar(255) NOT NULL,
   `cs_bidding_details` text NOT NULL,
   `cs_bidding_date_needed` datetime NOT NULL,
-  `cs_bidding_product` varchar(255) NOT NULL,
-  `cs_bidding_product_qty` int(11) NOT NULL,
-  `cs_bidding_product_unit` varchar(4) NOT NULL,
-  `cs_bidding_product_price` decimal(11,2) NOT NULL DEFAULT 0.00,
   `cs_bidding_added` datetime NOT NULL DEFAULT current_timestamp(),
   `cs_bidding_expiration` datetime NOT NULL,
   `cs_bidding_status` int(11) NOT NULL
@@ -49,11 +46,9 @@ CREATE TABLE `cs_biddings` (
 -- Dumping data for table `cs_biddings`
 --
 
-INSERT INTO `cs_biddings` (`cs_bidding_id`, `cs_bidding_category_id`, `cs_bidding_user_id`, `cs_bidding_title`, `cs_bidding_picture`, `cs_bidding_details`, `cs_bidding_date_needed`, `cs_bidding_product`, `cs_bidding_product_qty`, `cs_bidding_product_unit`, `cs_bidding_product_price`, `cs_bidding_added`, `cs_bidding_expiration`, `cs_bidding_status`) VALUES
-(1, 0, 1, 'Looking for cheap plastic bottles', 'placeholder.svg', 'I am a very simple card. I am good at containing small bits of information. I am convenient because I require little markup to use effectively. We hope you have enjoyed using Materialize and if you feel like it has helped you out and want to support the team you can help us by donating or backing us on Patreon. Any amount would help support and continue development on this project and is greatly appreciated.\r\n\r\n', '2020-07-26 00:00:00', 'Plastic bottles', 2, 'pc', '15.00', '2020-07-13 21:34:37', '2020-07-26 00:00:00', 1),
-(2, 0, 1, 'Tops For Women', '#!', 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Non officiis tenetur quam atque nisi quod excepturi, dolorem est et possimus delectus, eum, adipisci fugit aliquid aliquam. Vel enim reprehenderit doloremque!\r\n', '2020-07-23 00:00:00', 'White Tshirt', 15, 'pc', '50.00', '2020-07-14 05:42:45', '2020-07-21 00:00:00', 1),
-(3, 0, 1, 'Cloud Harvester in Tanay', 'b.jpg', 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.', '2020-07-21 00:00:00', 'Cloud harvester', 1, 'oz', '78999.00', '2020-07-14 11:35:46', '2020-07-21 00:00:00', 1),
-(4, 5, 1, 'Looking for lorems!', 'placeholder.svg', 'Lorem ipsum dotor sit amet', '2020-07-19 03:07:57', 'Product Lorem', 1, 'pc', '50055.00', '2020-07-17 15:17:45', '2020-07-24 15:17:45', 1);
+INSERT INTO `cs_biddings` (`cs_bidding_id`, `cs_bidding_category_id`, `cs_bidding_user_id`, `cs_bidding_title`, `cs_bidding_permalink`, `cs_bidding_picture`, `cs_bidding_details`, `cs_bidding_date_needed`, `cs_bidding_added`, `cs_bidding_expiration`, `cs_bidding_status`) VALUES
+(34, 1, 1, 'Graphic Artist(s)', 'looking-for-artists', 'jp-37793-13012020005024.jpg', 'W3Schools is optimized for learning, testing, and training. Examples might be simplified to improve reading and basic understanding. Tutorials, references, and examples are constantly reviewed to avoid errors, but we cannot warrant full correctness of all content. While using this site, you agree to have read and accepted our terms of use, cookie and privacy policy. Copyright 1999-2020 by Refsnes Data. All Rights Reserved.\r\nPowered by W3.CSS.', '2020-07-22 08:00:00', '2020-07-21 20:31:57', '2020-07-28 20:31:57', 1),
+(35, 1, 1, 'Fresh Tomatoes', 'fresh-tomatoes', 'jp-50481-1401202009443211012020192129.jpeg.jpeg', 'paparapakyaw', '2020-07-24 08:00:00', '2020-07-21 20:43:31', '2020-07-28 20:43:31', 1);
 
 -- --------------------------------------------------------
 
@@ -66,6 +61,36 @@ CREATE TABLE `cs_categories` (
   `cs_category_name` varchar(255) NOT NULL,
   `cs_category_desciption` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cs_categories`
+--
+
+INSERT INTO `cs_categories` (`cs_category_id`, `cs_category_name`, `cs_category_desciption`) VALUES
+(1, 'Manpower', '');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cs_products_in_biddings`
+--
+
+CREATE TABLE `cs_products_in_biddings` (
+  `cs_product_id` int(11) NOT NULL,
+  `cs_bidding_id` int(11) NOT NULL,
+  `cs_product_name` varchar(255) NOT NULL,
+  `cs_product_unit` varchar(5) NOT NULL,
+  `cs_product_qty` int(10) NOT NULL,
+  `cs_product_price` decimal(13,4) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cs_products_in_biddings`
+--
+
+INSERT INTO `cs_products_in_biddings` (`cs_product_id`, `cs_bidding_id`, `cs_product_name`, `cs_product_unit`, `cs_product_qty`, `cs_product_price`) VALUES
+(3, 34, 'Item #1', 'kg', 2, '500.8800'),
+(4, 35, 'Tomatoes', 'kg', 15, '6000.0000');
 
 -- --------------------------------------------------------
 
@@ -89,6 +114,41 @@ CREATE TABLE `cs_users` (
 INSERT INTO `cs_users` (`cs_user_id`, `cs_user_name`, `cs_user_email`, `cs_user_password`, `cs_user_role`, `cs_user_avatar`) VALUES
 (1, 'jpneey', 'burato348@gmail.com', '$2y$05$Dw8tZp0alICppTOuHoSpi.PiUn3f3V1hrdZRIg9158shWQmW8UxgO', '1', 'jp.jpg');
 
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cs_user_address`
+--
+
+CREATE TABLE `cs_user_address` (
+  `cs_address_id` int(11) NOT NULL,
+  `cs_user_id` int(11) NOT NULL,
+  `cs_address_province` varchar(255) NOT NULL,
+  `cs_address_city` varchar(255) NOT NULL,
+  `cs_address_line` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cs_user_address`
+--
+
+INSERT INTO `cs_user_address` (`cs_address_id`, `cs_user_id`, `cs_address_province`, `cs_address_city`, `cs_address_line`) VALUES
+(1, 1, 'Rizal', 'Cainta', 'Penny lane st. Valley Golf, brgy. San Juan');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cs_user_ratings`
+--
+
+CREATE TABLE `cs_user_ratings` (
+  `cs_rating_id` int(11) NOT NULL,
+  `cs_user_id` int(11) NOT NULL,
+  `cs_user_rated_id` int(11) NOT NULL,
+  `cs_rating` int(5) NOT NULL,
+  `cs_comment` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
 --
 -- Indexes for dumped tables
 --
@@ -106,10 +166,28 @@ ALTER TABLE `cs_categories`
   ADD PRIMARY KEY (`cs_category_id`);
 
 --
+-- Indexes for table `cs_products_in_biddings`
+--
+ALTER TABLE `cs_products_in_biddings`
+  ADD PRIMARY KEY (`cs_product_id`);
+
+--
 -- Indexes for table `cs_users`
 --
 ALTER TABLE `cs_users`
   ADD PRIMARY KEY (`cs_user_id`);
+
+--
+-- Indexes for table `cs_user_address`
+--
+ALTER TABLE `cs_user_address`
+  ADD PRIMARY KEY (`cs_address_id`);
+
+--
+-- Indexes for table `cs_user_ratings`
+--
+ALTER TABLE `cs_user_ratings`
+  ADD PRIMARY KEY (`cs_rating_id`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -119,19 +197,37 @@ ALTER TABLE `cs_users`
 -- AUTO_INCREMENT for table `cs_biddings`
 --
 ALTER TABLE `cs_biddings`
-  MODIFY `cs_bidding_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `cs_bidding_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `cs_categories`
 --
 ALTER TABLE `cs_categories`
-  MODIFY `cs_category_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cs_category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `cs_products_in_biddings`
+--
+ALTER TABLE `cs_products_in_biddings`
+  MODIFY `cs_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `cs_users`
 --
 ALTER TABLE `cs_users`
   MODIFY `cs_user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `cs_user_address`
+--
+ALTER TABLE `cs_user_address`
+  MODIFY `cs_address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `cs_user_ratings`
+--
+ALTER TABLE `cs_user_ratings`
+  MODIFY `cs_rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

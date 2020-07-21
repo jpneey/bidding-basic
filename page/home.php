@@ -44,26 +44,8 @@
         </div>
         <div class="col s12 m4">
      
-          <div class="chip z-depth-1 white">
-            The New Lorem
-            <i class="close material-icons">close</i>
-          </div>
-          <div class="chip z-depth-1 white">
-           Blue
-            <i class="close material-icons">close</i>
-          </div>
-          <div class="chip z-depth-1 white">
-           Sky
-            <i class="close material-icons">close</i>
-          </div>
-          <div class="chip z-depth-1 white">
-           Connectitur
-            <i class="close material-icons">close</i>
-          </div>
-          <div class="chip z-depth-1 white">
-            Elipsis Dotor
-            <i class="close material-icons">close</i>
-          </div>
+          
+          
       
         </div>
       </div>

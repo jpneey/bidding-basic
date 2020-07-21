@@ -88,7 +88,7 @@
                     <input 
                         required 
                         type="text" 
-                        name="cs_bidding_product" 
+                        name="cs_product_name" 
                         class="custom-input validate"  
                     />
                 </div>
@@ -98,7 +98,7 @@
                     <input 
                         required 
                         type="text" 
-                        name="cs_bidding_product_unit" 
+                        name="cs_product_unit" 
                         class="custom-input validate"  
                     />
                 </div>
@@ -108,7 +108,7 @@
                     <input 
                         required 
                         type="number" 
-                        name="cs_bidding_product_qty" 
+                        name="cs_product_qty" 
                         class="custom-input validate" 
                         min="0" 
                         step="1" 
@@ -122,7 +122,7 @@
                     <input 
                         required 
                         type="number" 
-                        name="cs_bidding_product_price" 
+                        name="cs_product_price" 
                         class="custom-input validate"  
                         min="0.00" 
                         max="10000.00" 
