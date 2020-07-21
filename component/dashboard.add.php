@@ -47,10 +47,15 @@
                     </p>
                     <div class="chips myChip custom-input">
                         <input 
-                            name="cs_bidding_tags" 
                             class="custom-input validate" 
                         />
                     </div>
+                    <input 
+                        required
+                        name="cs_bidding_tags"
+                        type="hidden"
+                        id="tags"
+                    />
                 </div>
 
                 <div class="col s12">

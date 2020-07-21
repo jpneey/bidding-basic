@@ -70,6 +70,9 @@ class viewBids extends Bids {
                 </div>
                 <?php
             }
+        } else {
+            $BASE_DIR = $this->BASE_DIR;
+            require 'component/empty.php';
         }
     }
 
@@ -81,6 +84,7 @@ class viewBids extends Bids {
             $details = $viewBid[0]['cs_bidding_details'];
             $products = $viewBid[0]['cs_bidding_products'];
             $dateNeeded = $viewBid[0]['cs_bidding_date_needed'];
+            $tags = preg_split('@,@', $viewBid[0]['cs_bidding_tags'], NULL, PREG_SPLIT_NO_EMPTY);
             $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($viewBid[0]['cs_owner_rating']));
             $picture = 
                 ($viewBid[0]['cs_bidding_picture'] != '#!') ? 
@@ -127,7 +131,11 @@ class viewBids extends Bids {
                         <span id="seconds">00</span> <span>seconds</span>  
                     </p>
                     <p><?= $details ?></p>
-                    
+                    <?php
+                        foreach($tags as $tag) {
+                            echo '<span class="chip grey lighten-4">'.$tag.'</span>';
+                        }
+                    ?>
                 </div>
                 <?= $picture ?>
             </div>
@@ -187,6 +195,10 @@ class viewBids extends Bids {
                 </a>
             <?php
             }
+        }
+        else {
+            $BASE_DIR = $this->BASE_DIR;
+            require 'component/empty.php';
         }
     }
     

@@ -1,29 +1,18 @@
 <div class="navbar-fixed">
     <nav>
         <div class="wrapper nav-wrapper">
-            
             <a href="<?php echo $BASE_DIR ?>" class="brand-logo left">
                 <img src="<?php echo $BASE_DIR ?>static/asset/logo.png" alt="Site Logo" />
             </a>
-            <ul class="right">
-                <li>
-                    <a>Home</a>   
-                </li>
-                <li>
-                    <a>Feed</a>   
-                </li>
-                <li>
-                    <a>The Lorem</a>   
-                </li>
+            <ul class="right hide-on-med-and-down">
+                
             </ul>
             <ul class="right hide-on-med-and-up show-on-medium-and-down">
                 <li>
                     <a href="#!" data-target="profile-nav" class="sidenav-trigger"><i class="material-icons">menu</i></a>
                 </li>
             </ul>
-            
         </div>
-        
     </nav>
 </div>
 

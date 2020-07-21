@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 21, 2020 at 02:46 PM
+-- Generation Time: Jul 21, 2020 at 04:26 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.1.31
 
@@ -36,6 +36,7 @@ CREATE TABLE `cs_biddings` (
   `cs_bidding_permalink` varchar(255) NOT NULL,
   `cs_bidding_picture` varchar(255) NOT NULL,
   `cs_bidding_details` text NOT NULL,
+  `cs_bidding_tags` text NOT NULL,
   `cs_bidding_date_needed` datetime NOT NULL,
   `cs_bidding_added` datetime NOT NULL DEFAULT current_timestamp(),
   `cs_bidding_expiration` datetime NOT NULL,
@@ -46,9 +47,8 @@ CREATE TABLE `cs_biddings` (
 -- Dumping data for table `cs_biddings`
 --
 
-INSERT INTO `cs_biddings` (`cs_bidding_id`, `cs_bidding_category_id`, `cs_bidding_user_id`, `cs_bidding_title`, `cs_bidding_permalink`, `cs_bidding_picture`, `cs_bidding_details`, `cs_bidding_date_needed`, `cs_bidding_added`, `cs_bidding_expiration`, `cs_bidding_status`) VALUES
-(34, 1, 1, 'Graphic Artist(s)', 'looking-for-artists', 'jp-37793-13012020005024.jpg', 'W3Schools is optimized for learning, testing, and training. Examples might be simplified to improve reading and basic understanding. Tutorials, references, and examples are constantly reviewed to avoid errors, but we cannot warrant full correctness of all content. While using this site, you agree to have read and accepted our terms of use, cookie and privacy policy. Copyright 1999-2020 by Refsnes Data. All Rights Reserved.\r\nPowered by W3.CSS.', '2020-07-22 08:00:00', '2020-07-21 20:31:57', '2020-07-28 20:31:57', 1),
-(35, 1, 1, 'Fresh Tomatoes', 'fresh-tomatoes', 'jp-50481-1401202009443211012020192129.jpeg.jpeg', 'paparapakyaw', '2020-07-24 08:00:00', '2020-07-21 20:43:31', '2020-07-28 20:43:31', 1);
+INSERT INTO `cs_biddings` (`cs_bidding_id`, `cs_bidding_category_id`, `cs_bidding_user_id`, `cs_bidding_title`, `cs_bidding_permalink`, `cs_bidding_picture`, `cs_bidding_details`, `cs_bidding_tags`, `cs_bidding_date_needed`, `cs_bidding_added`, `cs_bidding_expiration`, `cs_bidding_status`) VALUES
+(36, 1, 1, 'Looking for white plastic cups', 'white-plastic-cups', 'jp-19133-0f93d75b43a854efa4b9660acfbbbdf0.jpg', 'Plastic cups are often used for gatherings where it would be inconvenient to wash dishes afterward, due to factors such as location or number of guests. Plastic cups can be used for storing most liquids, but hot liquids may melt or warp the material.', 'plastic cups,minimalist,white,birthdays,,,', '2020-07-26 08:00:00', '2020-07-21 22:07:03', '2020-07-28 22:07:03', 1);
 
 -- --------------------------------------------------------
 
@@ -89,8 +89,7 @@ CREATE TABLE `cs_products_in_biddings` (
 --
 
 INSERT INTO `cs_products_in_biddings` (`cs_product_id`, `cs_bidding_id`, `cs_product_name`, `cs_product_unit`, `cs_product_qty`, `cs_product_price`) VALUES
-(3, 34, 'Item #1', 'kg', 2, '500.8800'),
-(4, 35, 'Tomatoes', 'kg', 15, '6000.0000');
+(5, 36, 'Plastic cups', 'pcs', 150, '9996.9900');
 
 -- --------------------------------------------------------
 
@@ -197,7 +196,7 @@ ALTER TABLE `cs_user_ratings`
 -- AUTO_INCREMENT for table `cs_biddings`
 --
 ALTER TABLE `cs_biddings`
-  MODIFY `cs_bidding_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
+  MODIFY `cs_bidding_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `cs_categories`
@@ -209,7 +208,7 @@ ALTER TABLE `cs_categories`
 -- AUTO_INCREMENT for table `cs_products_in_biddings`
 --
 ALTER TABLE `cs_products_in_biddings`
-  MODIFY `cs_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `cs_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT for table `cs_users`

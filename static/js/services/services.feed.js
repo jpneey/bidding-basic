@@ -28,7 +28,10 @@ function timer(time){
     
     if (distance < 0) {
       clearInterval(x);
-      document.getElementById("demo").innerHTML = "EXPIRED";
+      $('#days').text(00);
+      $('#hours').text(00);
+      $('#minutes').text(00);
+      $('#seconds').text(00);
     }
 
   }, 1000);

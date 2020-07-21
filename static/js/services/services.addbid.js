@@ -7,9 +7,26 @@
     })
 
     function formChips() {
+        var chipsData = $("#tags").val();
         $('.myChip').chips({
             placeholder: 'Enter tags',
             limit: 5,
+            data: chipsData,
+            onChipAdd: (event, chip) => {
+                var chipsData = M.Chips.getInstance($('.myChip')).chipsData;
+                var chipsDataJson = $.map(chipsData, function(e){
+                    return e.tag;
+                });
+                $("#tags").val(chipsDataJson);
+                console.log(chipsData);
+            },
+            onChipDelete: () => {
+                var chipsData = M.Chips.getInstance($('.myChip')).chipsData;
+                var chipsDataJson = $.map(chipsData, function(e){
+                    return e.tag;
+                });
+                $("#tags").val(chipsDataJson);
+            }
         })
     }
 
