@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 21, 2020 at 04:26 PM
+-- Generation Time: Jul 22, 2020 at 03:56 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.1.31
 
@@ -72,6 +72,19 @@ INSERT INTO `cs_categories` (`cs_category_id`, `cs_category_name`, `cs_category_
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cs_offers`
+--
+
+CREATE TABLE `cs_offers` (
+  `cs_offer_id` int(11) NOT NULL,
+  `cs_bidding_id` int(11) NOT NULL,
+  `cs_user_id` int(11) NOT NULL,
+  `cs_offer` text NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `cs_products_in_biddings`
 --
 
@@ -111,7 +124,8 @@ CREATE TABLE `cs_users` (
 --
 
 INSERT INTO `cs_users` (`cs_user_id`, `cs_user_name`, `cs_user_email`, `cs_user_password`, `cs_user_role`, `cs_user_avatar`) VALUES
-(1, 'jpneey', 'burato348@gmail.com', '$2y$05$Dw8tZp0alICppTOuHoSpi.PiUn3f3V1hrdZRIg9158shWQmW8UxgO', '1', 'jp.jpg');
+(1, 'jpneey', 'burato348@gmail.com', '$2y$05$Dw8tZp0alICppTOuHoSpi.PiUn3f3V1hrdZRIg9158shWQmW8UxgO', '1', 'jp.jpg'),
+(2, 'supplier', 'supplier@mail.com', '$2y$05$Dw8tZp0alICppTOuHoSpi.PiUn3f3V1hrdZRIg9158shWQmW8UxgO', '2', '#!');
 
 -- --------------------------------------------------------
 
@@ -165,6 +179,12 @@ ALTER TABLE `cs_categories`
   ADD PRIMARY KEY (`cs_category_id`);
 
 --
+-- Indexes for table `cs_offers`
+--
+ALTER TABLE `cs_offers`
+  ADD PRIMARY KEY (`cs_offer_id`);
+
+--
 -- Indexes for table `cs_products_in_biddings`
 --
 ALTER TABLE `cs_products_in_biddings`
@@ -205,6 +225,12 @@ ALTER TABLE `cs_categories`
   MODIFY `cs_category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
+-- AUTO_INCREMENT for table `cs_offers`
+--
+ALTER TABLE `cs_offers`
+  MODIFY `cs_offer_id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `cs_products_in_biddings`
 --
 ALTER TABLE `cs_products_in_biddings`
@@ -214,7 +240,7 @@ ALTER TABLE `cs_products_in_biddings`
 -- AUTO_INCREMENT for table `cs_users`
 --
 ALTER TABLE `cs_users`
-  MODIFY `cs_user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `cs_user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `cs_user_address`

@@ -76,7 +76,7 @@ class viewBids extends Bids {
         }
     }
 
-    public function viewBid($selector, $isSupplier = false) {
+    public function viewBid($selector) {
 
         $viewBid = $this->getBid($selector);
         if(!empty($viewBid)) {
@@ -143,18 +143,6 @@ class viewBids extends Bids {
             <link href="<?= $this->BASE_DIR ?>static/css/timer.css" type="text/css" rel="stylesheet"/>
             <script> $(function(){ timer('<?= $dateNeeded ?>') }) </script>
             <?php
-            if($isSupplier) {
-
-            } else {
-                ?>
-                <div class="page white z-depth-1">
-                    <div id="submit-offer" class="content scrollspy">
-                        <p>You need to login on a supplier account inorder to participate in biddings.</p>
-                        <a href="#!" class="btn waves-effect orange white-text">Learn how</a>
-                    </div>
-                </div>
-                <?php
-            }
         }
     }
 

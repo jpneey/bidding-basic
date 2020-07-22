@@ -23,13 +23,18 @@
 
             require_once "model/model.bids.php";
             require_once "view/view.bids.php";
+            require_once "model/model.offers.php";
+            require_once "view/view.offers.php";
             require_once "controller/controller.sanitizer.php";
 
             $bid = new Bids();
+            $offer = new Offers();
             $viewBids = new viewBids($BASE_DIR);
+            $viewOffers = new viewOffers($BASE_DIR);
             $selector = Sanitizer::filter($uri[1], 'var');
 
-            $viewBids->load($viewBids->viewBid($selector, $isSupplier));
+            $viewBids->load($viewBids->viewBid($selector));
+            $viewOffers->load($viewOffers->viewOfferForm($bid->getBid($selector, 'cs_bidding_id'), $isSupplier));
           
           ?>
         </div>
