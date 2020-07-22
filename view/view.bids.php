@@ -54,7 +54,7 @@ class viewBids extends Bids {
                     <div class="feed-head">
                         <div class="feed-user-avatar green lighten-2 <?= $statusStyle ?>"></div>
                         <p class="grey-text text-darken-3">
-                            <?= $bidInFeedTitle ?><br>
+                            <b><?= $bidInFeedTitle ?></b><br>
                             <span class="grey-text lighten-2">
                             <?= $province.' @ '.$datePosted ?><br>
                             </span>
@@ -85,16 +85,26 @@ class viewBids extends Bids {
             $products = $viewBid[0]['cs_bidding_products'];
             $dateNeeded = $viewBid[0]['cs_bidding_date_needed'];
             $tags = preg_split('@,@', $viewBid[0]['cs_bidding_tags'], NULL, PREG_SPLIT_NO_EMPTY);
+            $tagchip = '';
+            foreach($tags as $tag) {
+                $tagchip .= '<span class="chip grey lighten-4">'.$tag.'</span>';
+            }
             $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($viewBid[0]['cs_owner_rating']));
             $picture = 
                 ($viewBid[0]['cs_bidding_picture'] != '#!') ? 
                 '<img id="bidding-details" src="'.$this->BASE_DIR.'static/asset/bidding/'.$viewBid[0]['cs_bidding_picture'].'" class="margin-auto materialboxed scrollspy" />' :
                 '';
             ?>
+            
             <div class="page white z-depth-1">
                 <div id="introduction" class="content scrollspy">
                     <label>Home > bid > <?= $title ?></label>
-                    <h1><?= $title ?><span class="ratings"><?= $rating ?></span></h1>
+                    <h1>
+                        <b><?= $title ?></b>
+                        <span><br><?= $tagchip ?></span>
+                        <span class="ratings"><?= $rating ?></span>
+                    </h1>
+                    <br>
                     <div class="glance white">
                         <table class="responsive-table center-align">
                             <thead>
@@ -111,7 +121,7 @@ class viewBids extends Bids {
                                         $budget = number_format($products[$k]['cs_product_price'], '2', '.', ',');
                                         $qty = $products[$k]['cs_product_qty'] . ' ' . $products[$k]['cs_product_unit'];
                                 ?>
-                                <tr>
+                                <tr class="item" data-item="<?= $item ?>" data-qty="<?= $products[$k]['cs_product_qty'] ?>" data-unit="<?= $products[$k]['cs_product_unit'] ?>">
                                     <td><?= $item ?></td>
                                     <td><?= $qty ?></td>
                                     <td>₱ <?= $budget ?></td>
@@ -124,18 +134,18 @@ class viewBids extends Bids {
                     </div>
                     <br>
                     <p>
-                        Bidding ends in:<br>
+                        <b>Bidding ends in:</b><br>
                         <span id="days">00</span> <span>days</span>
                         <span id="hours">00</span> <span>hours</span>
                         <span id="minutes">00</span> <span>minutes</span>
                         <span id="seconds">00</span> <span>seconds</span>  
                     </p>
+                    <p>
+                        <b>Date Needed:</b><br>
+                        <?= date_format(date_create($dateNeeded), 'g:ia \o\n l jS F Y') ?>
+                    </p>
                     <p><?= $details ?></p>
-                    <?php
-                        foreach($tags as $tag) {
-                            echo '<span class="chip grey lighten-4">'.$tag.'</span>';
-                        }
-                    ?>
+                    
                 </div>
                 <?= $picture ?>
             </div>
