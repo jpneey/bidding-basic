@@ -23,7 +23,8 @@ switch ($action) {
             exit();
         }
 
-        $_POST['cs_bidding_user_id'] = $auth->getSession('__user_id');
+        $_POST['cs_user_id'] = $auth->getSession('__user_id');
+        $_POST['cs_bidding_id'] = Sanitizer::filter('bid', 'get', 'int');
         
         $postArr = array(
             array("cs_bidding_id", "int"),
@@ -31,6 +32,8 @@ switch ($action) {
             array("cs_offer_product", "str"),
             array("cs_offer_qty", "int"),
             array("cs_offer_price", "str"),
+            array("cs_offer_date", "str"),
+            array("cs_offer_notes", "str")
         );
 
         foreach($postArr as $key => $value){
@@ -41,11 +44,11 @@ switch ($action) {
         }
 
         if(!empty($errors)) {
+            $message = '';
             foreach($errors as $error){ $message .= $error; }
             echo json_encode(array('code' => 0, 'message' => $message . ' can\'t be empty'));
             exit();
         }
-
 
         $connection = $dbhandler->connectDB();
         $stmt = $connection->prepare("SELECT cs_offer_id FROM cs_offers WHERE cs_bidding_id = ? AND cs_user_id = ?");
@@ -59,6 +62,7 @@ switch ($action) {
             echo json_encode(array('code' => 0, 'message' => 'You have already submitted an offer on this bidding thread.'));
             exit();
         }
+
         
         $columns = 'cs_bidding_id, cs_user_id, cs_offer';
         $placeholder = '?,?,?';
@@ -66,12 +70,24 @@ switch ($action) {
         $cs_offer_array = array(
             'product' => $cs_offer_product, 
             'qty'     => $cs_offer_qty,
-            'price'   => $cs_offer_price
+            'price'   => $cs_offer_price,
+            'date'    => $cs_offer_date,
+            'notes'   => $cs_offer_notes
         );
+
+        
+        if(!is_array($cs_offer_array)) {
+            echo json_encode(array('code' => 0, 'message' => 'Something is not right. Please try reloading the page and try again.'));
+            exit();
+        }
+
+        
         $cs_offer_array = serialize($cs_offer_array);
+
         $values = array($cs_bidding_id, $cs_user_id, $cs_offer_array);
 
-        $offerArray = array($columns, $placeholder, $bindings, $cs_offer_array);
+        $offerArray = array($columns, $placeholder, $bindings, $values);
+
         $message = $offer->postOffer($offerArray);
 
         break;

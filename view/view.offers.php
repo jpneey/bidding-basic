@@ -8,6 +8,9 @@ class viewOffers extends Offers {
         $this->BASE_DIR = $BASE_DIR;
     }
     
+    public function viewOffers($biddingId, $userRole, $userId) {
+
+    }
     public function load($v){
         return $v;
     }
@@ -18,22 +21,77 @@ class viewOffers extends Offers {
             ?>
             <div class="page white z-depth-1">
                 <div id="submit-offer" class="content row scrollspy">
-                    <div class="col s12">
-                        <p><?= $this->postOfferTitle($this->getCountOffer($biddingId)) ?></p>
-                        <a class="waves-effect waves-light btn modal-trigger" href="#offerModal">Submit Offer</a>
-                    </div>
-                    
+            
+                    <form class="col s12 row" action="#!" data-action="<?= $this->BASE_DIR.'controller/controller.offer.php?action=add&bid='.$biddingId ?>" id="offer-form" method="POST">
 
-                    <div id="offerModal" class="modal">
-                        <div class="modal-content">
-                            <div class="row">
-                                <div class="col s12">
-                                    <h1><b>Submit Offer</b></h1>
-                                </div>
+                        <div class="fields orig">
+                            <div class="input-field no-margin col s12 m5">
+                                <p><label>Item Name</label></p>
+                                <input 
+                                    required
+                                    type="text" 
+                                    name="cs_offer_product" 
+                                    class="custom-input validate"  
+                                />
+                            </div>
+                            <div class="input-field no-margin col s12 m3">
+                                <p><label>Qty in <b><span class="qty">{qty}</span></b></label></p>
+                                <input 
+                                    required 
+                                    type="number" 
+                                    name="cs_offer_qty" 
+                                    class="custom-input validate" 
+                                    min="0" 
+                                    step="1" 
+                                    oninput="validity.valid||(value='');" 
+                                    pattern=" 0+\.[0-9]*[1-9][0-9]*$"  
+                                />
+                            </div>
+                            
+                            <div class="input-field no-margin col s12 m4">
+                                <p><label>Offer Pricing</label></p>
+                                <input 
+                                    required 
+                                    type="number" 
+                                    name="cs_offer_price" 
+                                    class="custom-input validate"  
+                                    min="0.00" 
+                                    max="10000.00" 
+                                    step="0.01"
+                                />
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+
+                        <div class="input-field no-margin col s12 m4">
+                            <p><label>Date Available</label></p>
+                            <input 
+                                required 
+                                type="text" 
+                                name="cs_offer_date" 
+                                class="custom-input datepicker validate"  
+                            />
+                        </div>
+
+                        <div class="input-field no-margin col s12 m8">
+                            <p><label>Notes</label></p>
+                            <input 
+                                required 
+                                type="text" 
+                                name="cs_offer_notes" 
+                                class="custom-input validate"  
+                            />
+                        </div>
+                            
+                        <div class="col s12">
+                            <p><?= $this->postOfferTitle($this->getCountOffer($biddingId)) ?></p>
+                            <input type="submit" value="Submit offer" class="btn white-text" />
+                        </div>
+
+                    </form>
+                    <div class="col s12 row">
+                        <div class="col s12" id="placeholder">
+                            <p><?= $this->postOfferTitle($this->getCountOffer($biddingId)) ?></p>
+                            <a class="waves-effect waves-light btn generate-form" href="#~">Submit Offer</a>
                         </div>
                     </div>
 

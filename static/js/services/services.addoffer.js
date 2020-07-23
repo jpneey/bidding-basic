@@ -1,7 +1,8 @@
 
     $(function(){
-        addBid();
+        addOffer();
         datePicker();
+        showForm();
     })
 
     function datePicker() {
@@ -17,22 +18,46 @@
         });
     }
 
-    function generateForm(){
-        
+    function showForm(){
+        $('#offer-form').fadeOut('100');
+        $('.generate-form').on('click', function(){
+            generateForm();
+        })
     }
 
-    function addBid(){
+    function generateForm(){
+        $item = $('.item');
+        $item.each(function(index){
+            var itemName = $(this).data('item');
+            var itemQty = $(this).data('qty');
+            var itemUnit = $(this).data('unit');
 
-        $(".add-form").on("submit", function(e) { 
+            var clone = $('.fields').clone().removeClass('orig');
+
+            clone.find("input[name='cs_offer_product']").val(itemName);
+            clone.find(".qty").text(itemUnit);
+            clone.find("input[name='cs_offer_qty']").val(itemQty);
+
+            $('.orig').remove();
+            $('#offer-form').prepend(clone);
+
+        });
+        $('#placeholder').fadeOut('500');
+        $('#offer-form').fadeIn('500');
+    }
+
+    function addOffer(){
+
+        $("#offer-form").on("submit", function(e) { 
   
             e.preventDefault();
-            $(".add-form, body").css({
+            $("#offer-form, body").css({
                 opacity: "0.5",
                 cursor: "wait"
             });
     
             var $inputs = $(this).find("input, select, button, textarea");
-            var action = $(this).attr("action");
+            var action = $(this).data("action");
             var type = $(this).attr("method");
             var formData = new FormData(this);
 
@@ -51,7 +76,7 @@
                 success: function(data) {
 
                     window.onbeforeunload = null;
-                    $(".add-form, body").css({
+                    $("#offer-form, body").css({
                         opacity: "1",
                         cursor: "auto"
                     });

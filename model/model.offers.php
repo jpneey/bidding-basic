@@ -28,7 +28,8 @@ class Offers extends DBHandler {
     public function postOffer($offerArray){
 
         $connection = $this->connectDB();
-        $stmt = $connection->prepare("INSERT INTO cs_biddings($offerArray[0]) VALUES($offerArray[1], NOW(), NOW() + INTERVAL 7 DAY, 1)");
+        $stmt = $connection->prepare("INSERT INTO cs_offers($offerArray[0]) VALUES($offerArray[1])");
+        
         $stmt->bind_param($offerArray[2], ...$offerArray[3]);
         $saved = $stmt->execute();
         $stmt->close();
