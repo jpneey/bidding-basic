@@ -8,8 +8,10 @@ class viewOffers extends Offers {
         $this->BASE_DIR = $BASE_DIR;
     }
     
-    public function viewOffers($biddingId, $userRole, $userId) {
-
+    public function viewOffers($biddingId) {
+        ?>
+        hi
+        <?php
     }
     public function load($v){
         return $v;
@@ -89,6 +91,8 @@ class viewOffers extends Offers {
 
                     </form>
                     <div class="col s12 row">
+                    
+                        <?php $this->viewOffers($biddingId); ?>
                         <div class="col s12" id="placeholder">
                             <p><?= $this->postOfferTitle($this->getCountOffer($biddingId)) ?></p>
                             <a class="waves-effect waves-light btn generate-form" href="#~">Submit Offer</a>
@@ -104,16 +108,20 @@ class viewOffers extends Offers {
         } else {
             ?>
             <div class="page white z-depth-1">
-                <div id="submit-offer" class="content scrollspy">
-                    <p>You need to login on a supplier account inorder to participate in biddings.</p>
-                    <a href="#!" class="btn waves-effect orange white-text">Learn how</a>
+                <div id="submit-offer" class="content row scrollspy">
+                    
+                    <?php $this->viewOffers($biddingId); ?>
+                    <div class="col s12">
+                        <p>You need to login on a supplier account inorder to participate in biddings.</p>
+                        <a href="#!" class="btn waves-effect orange white-text">Learn how</a>
+                    </div>
                 </div>
             </div>
             <?php
         }
     }
 
-    
+
 
     protected function postOfferTitle($count){
         switch($count) {

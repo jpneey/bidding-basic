@@ -46,7 +46,7 @@ function login(){
 
         if(parsedData.code == '0') {
 
-          location.href = root + 'home/';
+          location.reload();
           return;
 
         }
