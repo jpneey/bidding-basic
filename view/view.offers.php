@@ -9,8 +9,25 @@ class viewOffers extends Offers {
     }
     
     public function viewOffers($biddingId) {
+        $offers = $this->getLowestBidOffer($biddingId);
         ?>
-        hi
+        <div class="col s12">
+            <?php 
+                if(!empty($offers)) {
+                    echo '<p><b>Lowest Bid</b></p>';
+                    foreach($offers as $k=>$v) {
+                        $postedOn = $offers[$k]['cs_date_added'];
+                        $price = $offers[$k]['cs_offer_price'];
+                        $datePosted = '<time class="timeago" datetime="'.$postedOn.'">'.$postedOn.'</time>';
+                        echo '<div class="bid-offer orange-text">';
+                        echo '<p class="truncate"><b>₱</b> '.number_format($price, '2', '.', ',').'</p>';
+                        echo '<label>'.$datePosted.'</label>';
+                        echo '</div>';
+                    }
+                }
+            ?>
+            <br>
+        </div>
         <?php
     }
     public function load($v){
@@ -129,6 +146,42 @@ class viewOffers extends Offers {
                 return 'Be the first one to offer in this thread.';
             default:
                 return 'Join '.$count.' other supplier and submit your offer.';
+        }
+    }
+    
+
+
+    public function viewUserOffers($user_id){
+        
+        $userOffers = $this->getUserOffers($user_id);
+        
+        if(!empty($userOffers)){
+            foreach($userOffers as $key=>$value){
+                
+                $title = $userOffers[$key]["cs_bidding_title"];
+                $datePosted = date_format(date_create($userOffers[$key]["cs_date_added"]), 'D d M Y');
+                
+                $datePosted = '<time>'.$datePosted.'</time>'; ?>
+                <a href="<?= $this->BASE_DIR.'bid/' ?>">
+                    <div class="col s12 feed-card white z-depth-1">
+                        <div class="feed-head">
+                            <div class="feed-user-avatar">
+                            </div>
+                            <p class="grey-text text-darken-3">
+                                <?= $title ?><br>
+                                <span class="grey-text lighten-2">
+                                <?= 'Posted @ '.$datePosted ?><br>
+                                </span>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            <?php
+            }
+        }
+        else {
+            $BASE_DIR = $this->BASE_DIR;
+            require 'component/empty.php';
         }
     }
 

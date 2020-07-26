@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col s12">
                     <label>Home > My > Dashboard > Add</label>
-                    <h1>Add New Bidding</h1>
+                    <h1><b>Add New Bidding</b></h1>
                     <p>Post Details:</p>
                 </div>
             

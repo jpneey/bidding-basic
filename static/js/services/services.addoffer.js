@@ -91,6 +91,9 @@
                             html: parsedData.message,
                             classes: "orange white-text"
                         });
+                        $("#submit-offer").load(" #submit-offer > *", function(){
+                            $('#offer-form').fadeOut('100');
+                        });    
                         return;
                     }
 

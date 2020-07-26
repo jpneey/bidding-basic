@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 22, 2020 at 03:56 PM
+-- Generation Time: Jul 26, 2020 at 11:47 AM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.1.31
 
@@ -48,7 +48,8 @@ CREATE TABLE `cs_biddings` (
 --
 
 INSERT INTO `cs_biddings` (`cs_bidding_id`, `cs_bidding_category_id`, `cs_bidding_user_id`, `cs_bidding_title`, `cs_bidding_permalink`, `cs_bidding_picture`, `cs_bidding_details`, `cs_bidding_tags`, `cs_bidding_date_needed`, `cs_bidding_added`, `cs_bidding_expiration`, `cs_bidding_status`) VALUES
-(36, 1, 1, 'Looking for white plastic cups', 'white-plastic-cups', 'jp-19133-0f93d75b43a854efa4b9660acfbbbdf0.jpg', 'Plastic cups are often used for gatherings where it would be inconvenient to wash dishes afterward, due to factors such as location or number of guests. Plastic cups can be used for storing most liquids, but hot liquids may melt or warp the material.', 'plastic cups,minimalist,white,birthdays,,,', '2020-07-26 08:00:00', '2020-07-21 22:07:03', '2020-07-28 22:07:03', 1);
+(39, 1, 1, 'Looking For Plastic Cups', 'looking-for-plastic-cups', 'jp-69432-0f93d75b43a854efa4b9660acfbbbdf0.jpg', 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.', 'plastic,cups,events,cheap', '2020-07-28 08:00:00', '2020-07-26 15:21:01', '2020-08-02 15:21:01', 1),
+(40, 1, 1, 'Fresh Tomatoes', 'tomatoes', '#!', 'single word only. To add tags, just enter your tag text and press enter. You can delete them by clicking on the close icon or by using your delete button.', 'vegetables,tomatoes,cheap,asap,poppings', '2020-07-31 08:00:00', '2020-07-26 17:41:17', '2020-08-02 17:41:17', 1);
 
 -- --------------------------------------------------------
 
@@ -79,8 +80,18 @@ CREATE TABLE `cs_offers` (
   `cs_offer_id` int(11) NOT NULL,
   `cs_bidding_id` int(11) NOT NULL,
   `cs_user_id` int(11) NOT NULL,
-  `cs_offer` text NOT NULL
+  `cs_offer` text NOT NULL,
+  `cs_offer_price` decimal(13,4) NOT NULL,
+  `cs_date_added` timestamp NOT NULL DEFAULT current_timestamp(),
+  `cs_offer_status` int(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cs_offers`
+--
+
+INSERT INTO `cs_offers` (`cs_offer_id`, `cs_bidding_id`, `cs_user_id`, `cs_offer`, `cs_offer_price`, `cs_date_added`, `cs_offer_status`) VALUES
+(16, 39, 2, 'a:4:{s:7:\"product\";s:12:\"Plastic Cups\";s:3:\"qty\";s:3:\"500\";s:4:\"date\";s:17:\"2020-7-26 8:00:00\";s:5:\"notes\";s:45:\"I can do lower but you handle the shipping :P\";}', '6000.0000', '2020-07-26 07:37:07', 0);
 
 -- --------------------------------------------------------
 
@@ -102,7 +113,8 @@ CREATE TABLE `cs_products_in_biddings` (
 --
 
 INSERT INTO `cs_products_in_biddings` (`cs_product_id`, `cs_bidding_id`, `cs_product_name`, `cs_product_unit`, `cs_product_qty`, `cs_product_price`) VALUES
-(5, 36, 'Plastic cups', 'pcs', 150, '9996.9900');
+(8, 39, 'Plastic Cups', 'pcs', 500, '7500.0000'),
+(9, 40, 'Tomatoes', 'kg', 15, '5000.0000');
 
 -- --------------------------------------------------------
 
@@ -125,7 +137,8 @@ CREATE TABLE `cs_users` (
 
 INSERT INTO `cs_users` (`cs_user_id`, `cs_user_name`, `cs_user_email`, `cs_user_password`, `cs_user_role`, `cs_user_avatar`) VALUES
 (1, 'jpneey', 'burato348@gmail.com', '$2y$05$Dw8tZp0alICppTOuHoSpi.PiUn3f3V1hrdZRIg9158shWQmW8UxgO', '1', 'jp.jpg'),
-(2, 'supplier', 'supplier@mail.com', '$2y$05$Dw8tZp0alICppTOuHoSpi.PiUn3f3V1hrdZRIg9158shWQmW8UxgO', '2', '#!');
+(2, 'supplier', 'supplier@mail.com', '$2y$05$Dw8tZp0alICppTOuHoSpi.PiUn3f3V1hrdZRIg9158shWQmW8UxgO', '2', 'avatar.png'),
+(3, 'Test B', 'test@mail.com', '$2y$05$Dw8tZp0alICppTOuHoSpi.PiUn3f3V1hrdZRIg9158shWQmW8UxgO', '1', 'avatar.png');
 
 -- --------------------------------------------------------
 
@@ -146,7 +159,9 @@ CREATE TABLE `cs_user_address` (
 --
 
 INSERT INTO `cs_user_address` (`cs_address_id`, `cs_user_id`, `cs_address_province`, `cs_address_city`, `cs_address_line`) VALUES
-(1, 1, 'Rizal', 'Cainta', 'Penny lane st. Valley Golf, brgy. San Juan');
+(1, 1, 'Rizal', 'Cainta', 'Penny lane st. Valley Golf, brgy. San Juan'),
+(2, 2, 'Rizal', 'Cainta', 'Penny lane st. Valley Golf, brgy. San Juan'),
+(3, 3, 'Metro Manila', 'Manila', 'Penny lane st. Valley Golf, brgy. San Juan');
 
 -- --------------------------------------------------------
 
@@ -216,7 +231,7 @@ ALTER TABLE `cs_user_ratings`
 -- AUTO_INCREMENT for table `cs_biddings`
 --
 ALTER TABLE `cs_biddings`
-  MODIFY `cs_bidding_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `cs_bidding_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
 
 --
 -- AUTO_INCREMENT for table `cs_categories`
@@ -228,25 +243,25 @@ ALTER TABLE `cs_categories`
 -- AUTO_INCREMENT for table `cs_offers`
 --
 ALTER TABLE `cs_offers`
-  MODIFY `cs_offer_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `cs_offer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `cs_products_in_biddings`
 --
 ALTER TABLE `cs_products_in_biddings`
-  MODIFY `cs_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `cs_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `cs_users`
 --
 ALTER TABLE `cs_users`
-  MODIFY `cs_user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cs_user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `cs_user_address`
 --
 ALTER TABLE `cs_user_address`
-  MODIFY `cs_address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `cs_address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `cs_user_ratings`

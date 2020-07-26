@@ -31,7 +31,7 @@ class sideNav {
         ?>
         <li>
             <div class="user-view ">
-                <div class="background grey lighten-5">
+                <div class="background grey lighten-3">
                 </div>
                 <a href="#user">
                     <img class="circle" src="<?= $this->detailArray[5].'static/asset/user/'.$this->detailArray[2] ?>" alt="<?= $this->detailArray[3] ?>'s' avatar" />
@@ -46,15 +46,15 @@ class sideNav {
             <li>
                 <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/dashboard/?action=add"><i class="material-icons right">add_circle_outline</i><b>Post new bid</b></a>
             </li>  
-            <li>
-                <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/dashboard/">Dashboard</a>
-            </li>
             <?php
         }
         ?>
+        <li>
+            <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/dashboard/">Dashboard</a>
+        </li>
         <li><div class="divider"></div></li>
         <li>
-            <a class="waves-effect" href="<?= $this->detailArray[5] ?>logout/">My Account</a>
+            <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/">My Account</a>
         </li>
 
         <li>

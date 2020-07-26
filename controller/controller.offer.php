@@ -63,14 +63,23 @@ switch ($action) {
             exit();
         }
 
+        $stmt = $connection->prepare("SELECT cs_bidding_status FROM cs_biddings WHERE cs_bidding_id = ? AND cs_bidding_status != '0'");
+        $stmt->bind_param('i', $cs_bidding_id);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_row();
+        $stmt->close();
+
+        if(empty($result)){
+            echo json_encode(array('code' => 0, 'message' => 'This bidding already expired.'));
+            exit();
+        }
         
-        $columns = 'cs_bidding_id, cs_user_id, cs_offer';
-        $placeholder = '?,?,?';
-        $bindings = 'iis';
+        $columns = 'cs_bidding_id, cs_user_id, cs_offer, cs_offer_price';
+        $placeholder = '?,?,?,?';
+        $bindings = 'iisd';
         $cs_offer_array = array(
             'product' => $cs_offer_product, 
             'qty'     => $cs_offer_qty,
-            'price'   => $cs_offer_price,
             'date'    => $cs_offer_date,
             'notes'   => $cs_offer_notes
         );
@@ -84,7 +93,7 @@ switch ($action) {
         
         $cs_offer_array = serialize($cs_offer_array);
 
-        $values = array($cs_bidding_id, $cs_user_id, $cs_offer_array);
+        $values = array($cs_bidding_id, $cs_user_id, $cs_offer_array, $cs_offer_price);
 
         $offerArray = array($columns, $placeholder, $bindings, $values);
 

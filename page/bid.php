@@ -32,10 +32,12 @@
             $viewBids = new viewBids($BASE_DIR);
             $viewOffers = new viewOffers($BASE_DIR);
             $selector = Sanitizer::filter($uri[1], 'var');
-
-            $viewBids->load($viewBids->viewBid($selector));
-            $viewOffers->load($viewOffers->viewOfferForm($bid->getBid($selector, 'cs_bidding_id'), $isSupplier));
-          
+            if(!$selector){
+              require 'component/empty.php';
+            } else {
+              $viewBids->load($viewBids->viewBid($selector));
+              $viewOffers->load($viewOffers->viewOfferForm($bid->getBid($selector, 'cs_bidding_id'), $isSupplier));
+            }
           ?>
         </div>
         

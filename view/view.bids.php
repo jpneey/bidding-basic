@@ -25,8 +25,8 @@ class viewBids extends Bids {
                 $bidInFeedDetails = $bidsInFeed[$key]["cs_bidding_details"];
                 $bidInFeedLink = $bidsInFeed[$key]["cs_bidding_permalink"];
                 $datePosted = $bidsInFeed[$key]["cs_bidding_added"];
-                $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($bidsInFeed[0]['cs_owner_rating']));
-                $province = !empty($bidsInFeed[0]['cs_owner_location']) ? $bidsInFeed[0]['cs_owner_location'] : 'Philippines';
+                $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($bidsInFeed[$key]['cs_owner_rating']));
+                $province = !empty($bidsInFeed[$key]['cs_owner_location']) ? $bidsInFeed[$key]['cs_owner_location'] : 'Philippines';
                 $datePosted = '<time class="timeago" datetime="'.$bidsInFeed[$key]["cs_bidding_added"].'">'.$bidsInFeed[$key]["cs_bidding_added"].'</time>';
                 $bidInFeedPicture = '';
                 if($bidsInFeed[$key]["cs_bidding_picture"] !== '#!'){
@@ -39,7 +39,7 @@ class viewBids extends Bids {
 
                 switch($bidsInFeed[$key]["cs_bidding_status"]){
                     case '1':
-                        $statusStyle = 'green lighten-1';
+                        $statusStyle = 'green lighten-0';
                         break;
                     case '2':
                         $statusStyle = 'orange lighten-2';
@@ -81,6 +81,7 @@ class viewBids extends Bids {
         $viewBid = $this->getBid($selector);
         if(!empty($viewBid)) {
             $title = $viewBid[0]['cs_bidding_title'];
+            $status = $viewBid[0]['cs_bidding_status'];
             $details = $viewBid[0]['cs_bidding_details'];
             $products = $viewBid[0]['cs_bidding_products'];
             $dateNeeded = $viewBid[0]['cs_bidding_date_needed'];
@@ -133,13 +134,17 @@ class viewBids extends Bids {
                         </table>
                     </div>
                     <br>
-                    <p>
+                    <?php if($status) { ?>
+                    <p id="timer-wrapper">
                         <b>Bidding ends in:</b><br>
                         <span id="days">00</span> <span>days</span>
                         <span id="hours">00</span> <span>hours</span>
                         <span id="minutes">00</span> <span>minutes</span>
                         <span id="seconds">00</span> <span>seconds</span>  
                     </p>
+                    <?php } else {
+                        echo '<p><a class="waves-effect waves-light btn red" href="#~">Bidding Expired</a><br><br></p>';
+                    } ?>
                     <p>
                         <b>Date Needed:</b><br>
                         <?= date_format(date_create($dateNeeded), 'g:ia \o\n l jS F Y') ?>
@@ -151,22 +156,51 @@ class viewBids extends Bids {
             </div>
 
             <link href="<?= $this->BASE_DIR ?>static/css/timer.css" type="text/css" rel="stylesheet"/>
+            <?php if($status) { ?>
             <script> $(function(){ timer('<?= $dateNeeded ?>') }) </script>
             <?php
+            }
         }
+    }
+
+    public function viewUserOfferStatus($user_id){ 
+
+        $counts = $this->getDashboardCounts($user_id);
+
+        ?>
+            <div class="col s12 m4">
+                <div class="dashboard-panel green lighten-0 white-text z-depth-1">
+                    <h1><b><?= $counts[0] ?></b></h1>
+                    <p>Active Posts</p>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="dashboard-panel red lighten-0 white-text z-depth-1">
+                    <h1><b><?= $counts[2] ?></b></h1>
+                    <p>Expired Posts</p>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="dashboard-panel orange lighten-0 white-text z-depth-1">
+                    <h1><b><?= $counts[1] ?></b></h1>
+                    <p>Total Post</p>
+                </div>
+            </div>
+
+        <?php
     }
 
     public function viewUserBids($user_id){
         
         $userBids = $this->getUserBids($user_id);
-        
         if(!empty($userBids)){
             foreach($userBids as $key=>$value){
                 $bidInFeedLink = $userBids[$key]["cs_bidding_permalink"];
                 $bidInFeedTitle = $userBids[$key]["cs_bidding_title"];
+                $bidInFeedOfferCount = $userBids[$key]["cs_bidding_offer_count"];
                 switch($userBids[$key]["cs_bidding_status"]){
                     case '1':
-                        $statusStyle = 'green lighten-1';
+                        $statusStyle = 'green lighten-0';
                         break;
                     case '2':
                         $statusStyle = 'orange lighten-2';
@@ -175,9 +209,11 @@ class viewBids extends Bids {
                         $statusStyle = 'red lighten-2';
                         break;
                 }
+                echo '<div class="col s12">';
                 $datePosted = '<time>'.date_format(date_create($userBids[$key]["cs_bidding_added"]), 'D d M Y').'</time>'; ?>
+ 
                 <a href="<?= $this->BASE_DIR.'bid/'.$bidInFeedLink ?>">
-                    <div class="col s12 feed-card white z-depth-1">
+                    <div class="feed-card feed-card-full white z-depth-1">
                         <div class="feed-head">
                             <div class="feed-user-avatar <?= $statusStyle ?>">
                                 
@@ -188,10 +224,12 @@ class viewBids extends Bids {
                                 <?= 'Posted @ '.$datePosted ?><br>
                                 </span>
                             </p>
+                            <span class="card-counter orange white-text center-align pulse"><b><?= $bidInFeedOfferCount ?></b></span>
                         </div>
                     </div>
                 </a>
             <?php
+            echo '</div>';
             }
         }
         else {

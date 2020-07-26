@@ -24,27 +24,30 @@ class Bids extends DBHandler {
 
         if(!empty($result)){
             
-            $biddingId = (int)$result[0]["cs_bidding_id"];
+            foreach($result as $key=>$value) {
 
-            $stmt = $connection->prepare("SELECT * FROM cs_products_in_biddings WHERE cs_bidding_id = '$biddingId'");
-            $stmt->execute();
-            $result[0]["cs_bidding_products"] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-            $stmt->close();
+                $biddingId = (int)$result[$key]["cs_bidding_id"];
 
-            $userId = (int)$result[0]["cs_bidding_user_id"];
+                $stmt = $connection->prepare("SELECT * FROM cs_products_in_biddings WHERE cs_bidding_id = '$biddingId'");
+                $stmt->execute();
+                $result[$key]["cs_bidding_products"] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+                $stmt->close();
 
-            $stmt = $connection->prepare("SELECT cs_address_province FROM cs_user_address WHERE cs_user_id = '$userId'");
-            $stmt->execute();
-            $location = $stmt->get_result()->fetch_row();
-            $result[0]["cs_owner_location"] = $location[0];
-            $stmt->close();
+                $userId = (int)$result[$key]["cs_bidding_user_id"];
+
+                $stmt = $connection->prepare("SELECT cs_address_province FROM cs_user_address WHERE cs_user_id = '$userId'");
+                $stmt->execute();
+                $location = $stmt->get_result()->fetch_row();
+                $result[$key]["cs_owner_location"] = $location[0];
+                $stmt->close();
+                
+                $stmt = $connection->prepare("SELECT AVG(cs_rating) FROM cs_user_ratings WHERE cs_user_rated_id = '$userId'");
+                $stmt->execute();
+                $rating = $stmt->get_result()->fetch_row();
+                $result[$key]["cs_owner_rating"] = $rating[0];
+                $stmt->close();
             
-            $stmt = $connection->prepare("SELECT AVG(cs_rating) FROM cs_user_ratings WHERE cs_user_rated_id = '$userId'");
-            $stmt->execute();
-            $rating = $stmt->get_result()->fetch_row();
-            $result[0]["cs_owner_rating"] = $rating[0];
-            $stmt->close();
-
+            }
 
         }
 
@@ -79,18 +82,23 @@ class Bids extends DBHandler {
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
         if(!empty($result)){
-            $userId = (int)$result[0]["cs_bidding_user_id"];
-            $stmt = $connection->prepare("SELECT cs_address_province FROM cs_user_address WHERE cs_user_id = '$userId'");
-            $stmt->execute();
-            $rating = $stmt->get_result()->fetch_row();
-            $result[0]["cs_owner_location"] = $rating[0];
-            $stmt->close();
 
-            $stmt = $connection->prepare("SELECT AVG(cs_rating) FROM cs_user_ratings WHERE cs_user_rated_id = '$userId'");
-            $stmt->execute();
-            $rating = $stmt->get_result()->fetch_row();
-            $result[0]["cs_owner_rating"] = $rating[0];
-            $stmt->close();
+            foreach($result as $key=>$value) {
+
+                $userId = (int)$result[$key]["cs_bidding_user_id"];
+                $stmt = $connection->prepare("SELECT cs_address_province FROM cs_user_address WHERE cs_user_id = '$userId'");
+                $stmt->execute();
+                $rating = $stmt->get_result()->fetch_row();
+                $result[$key]["cs_owner_location"] = $rating[0];
+                $stmt->close();
+
+                $stmt = $connection->prepare("SELECT AVG(cs_rating) FROM cs_user_ratings WHERE cs_user_rated_id = '$userId'");
+                $stmt->execute();
+                $rating = $stmt->get_result()->fetch_row();
+                $result[$key]["cs_owner_rating"] = $rating[0];
+                $stmt->close();
+
+            }
         }
         return $result;
 
@@ -108,9 +116,46 @@ class Bids extends DBHandler {
 
         $stmt->close();
 
+        foreach($result as $key=>$value) {
+            $biddingId = $result[$key]['cs_bidding_id'];
+            $stmt = $connection->prepare("SELECT cs_user_id FROM cs_offers WHERE cs_bidding_id = '$biddingId'");
+            $stmt->execute();
+            $stmt->store_result();
+            $count = $stmt->num_rows;
+            $stmt->close();
+            $result[$key]["cs_bidding_offer_count"] = $count;
+        }
+
         return $result;
     }
 
+    public function getDashboardCounts($user_id) {
+        
+        $user_id = (int)$user_id;
+
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_biddings WHERE cs_bidding_status = 1 AND cs_bidding_user_id = '$user_id'");
+        $stmt->execute();
+        $stmt->store_result();
+        $activeCount = $stmt->num_rows;
+        $stmt->close();
+
+        $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_biddings WHERE cs_bidding_status = 0 AND cs_bidding_user_id = '$user_id'");
+        $stmt->execute();
+        $stmt->store_result();
+        $expiredCount = $stmt->num_rows;
+        $stmt->close();
+
+        $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_biddings WHERE  cs_bidding_user_id = '$user_id'");
+        $stmt->execute();
+        $stmt->store_result();
+        $total = $stmt->num_rows;
+        $stmt->close();
+
+
+        $result = array($activeCount, $total, $expiredCount);
+        return $result;
+    }
     /**
      * Post related functions
      * goes here

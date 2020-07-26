@@ -53,6 +53,8 @@ function updateExpiredBiddings(showToast = false){
                     html: parsedData.message + action,
                     classes: "orange white-text"
                 });
+                $('#offer-form').remove();
+                $('#timer-wrapper').html('<a class="waves-effect waves-light btn red" href="#~">Bidding Expired</a><br><br>');
             }
 
         }   
