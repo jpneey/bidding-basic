@@ -11,24 +11,13 @@
                     <p>Post Details:</p>
                 </div>
             
-                <div class="input-field no-margin col s12 m6">
+                <div class="input-field no-margin col s12">
                     <p><label>Enter Bidding Title</label></p>
                     <input 
                         required 
                         type="text" 
                         name="cs_bidding_title" 
                         class="custom-input validate"  
-                    />
-                </div>
-
-                <div class="input-field no-margin col s12 m6 tooltipped" data-position="bottom" data-tooltip="No spaces and must contain text and dashes(-) only.">
-                    <p><label>Enter Post Permalink</label></p>
-                    <input 
-                        required 
-                        type="text" 
-                        name="cs_bidding_permalink" 
-                        class="custom-input validate" 
-                        placeholder="sample-good-permalink" 
                     />
                 </div>
                 <div class="input-field col s12">

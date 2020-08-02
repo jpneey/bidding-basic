@@ -13,6 +13,7 @@ $dbhandler = new DBHandler();
 $user = new User();
 $bid = new Bids();
 
+$connection = $dbhandler->connectDB();
 $action = Sanitizer::filter('action', 'get');
 
 switch ($action) {
@@ -45,11 +46,28 @@ switch ($action) {
         $_POST['cs_bidding_picture'] = Sanitizer::sanitize($safeImage);
         $_POST['cs_bidding_user_id'] = $auth->getSession('__user_id');
         $_POST['cs_bidding_category_id'] = '1';
+        $cs_bidding_permalink = strtolower(str_replace(' ', '-', filter_var(trim($_POST['cs_bidding_title']), FILTER_SANITIZE_STRING)));
 
         $today = date("Y-m-d H:i:s");
         $expiration = date("Y-m-d H:i:s", strtotime("+7 day"));
         $prod_bind_param_type = $bind_param_type = $message = "";
         $errors = $prod_bind_param_variables = $bind_param_variables = array();
+
+        $cs_bidding_permalink_like = "%{$cs_bidding_permalink}%";
+        $stmt = $connection->prepare("SELECT * FROM cs_biddings WHERE cs_bidding_permalink LIKE ?");
+        $stmt->bind_param("s", $cs_bidding_permalink_like);
+        $stmt->execute();
+        $stmt->store_result();
+        $result = $stmt->num_rows;
+        $stmt->close();
+
+        if(!empty($result)){
+            if(!empty($_POST['cs_bidding_title'])) {
+                $cs_bidding_permalink .= '-'.($result + 1);
+            }
+        }
+
+        $_POST['cs_bidding_permalink'] = $cs_bidding_permalink;
 
         $postArr = array(
             array("cs_bidding_category_id", "int", "i", "post"),
@@ -110,7 +128,6 @@ switch ($action) {
             exit();
         }
 
-        $connection = $dbhandler->connectDB();
         $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_biddings WHERE cs_bidding_user_id = ? AND cs_bidding_status != '0'");
         $stmt->bind_param("i", $cs_bidding_user_id);
         $stmt->execute();
@@ -130,12 +147,6 @@ switch ($action) {
         $stmt->store_result();
         $result = $stmt->num_rows();
         $stmt->close();
-
-        if(!empty($result)){
-            if($uploaded){ unlink($directory.$cs_bidding_picture);}
-            echo json_encode(array('code' => 0, 'message' => 'Permalink already exists! Please choose another one.'));
-            exit();
-        }
         
         $clause = implode(',', array_fill(0, count($postArr), '?'));
         $prodClause = implode(',', array_fill(0, count($productArray), '?'));
