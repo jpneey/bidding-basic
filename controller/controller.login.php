@@ -14,6 +14,15 @@ $mode = isset($_GET['mode']) ? $_GET['mode'] : 'none';
 $code = '1';
 $message = 'Undefined Mode';
 
+$_SESSION['attempts'] = isset($_SESSION['attempts']) ? $_SESSION['attempts'] : 0;
+$_SESSION['attempts']++;
+
+if($_SESSION['attempts'] >= '10'){
+    $code = '1';
+    $message = 'You are doing this action way too often. Please try again later.';
+    $mode = 'default';
+}
+
 switch($mode) {
 
     case 'login':
@@ -43,6 +52,51 @@ switch($mode) {
             }
         }
 
+        break;
+
+    case 'register':
+        $userEmail = Sanitizer::filter('cs_ems', 'post', 'email');
+        $stmt = $connection->prepare("SELECT * FROM cs_users WHERE cs_user_email = ? LIMIT 1");
+        $stmt->bind_param('s', $userEmail);
+        $stmt->execute();
+        $account = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+
+        if(!empty($account)){
+            echo json_encode(array('code' => '1', 'message' => 'This email address is already used. Please try logging in or request a password reset if needed.'));
+            die();
+        }
+    
+        require 'mail/mail.php';
+        $temporaryPassword = password_hash('00'.$userEmail.'cpoint', PASSWORD_BCRYPT);
+        $mail->AddAddress($userEmail);
+        
+        $emailSubject = "Canvasspoint Registration";   //subject
+        $emailPreheader = "Verify your email address and maximize your canvasspoint experience."; //short message
+        $emailGreeting = "Hooray !";
+        $emailContent = "You are one click away on reaching the next step of Canvasspoint's registration process! Please click the button below to setup your account:";
+        $emailAction = "http://localhost/bidding-basic/verify/?e=".urlencode($userEmail)."&?token=".urlencode($temporaryPassword);    //link
+        $emailActionText = "Setup Account";
+        $emailFooterContent = "<i>* ignore this message if it is not you who registered this email.</i>";
+        $emailRegards = "- Canvasspoint Team";
+        
+        
+        ob_start();
+        require 'mail/template/basic.php';
+        $htmlMessage = ob_get_contents();
+        ob_end_clean(); 
+        
+        
+        $mail->Subject = $emailSubject;
+        $mail->Body = $htmlMessage;
+
+        $code = '1';
+        $message = 'An email confirmation was sent to: '.$userEmail. " :( ".$mail->ErrorInfo;   
+        
+        if(!$mail->Send()) {
+            $code = '1';
+            $message = 'We are unable to reach '.$userEmail. " :(";   
+        }
         break;
 
 }

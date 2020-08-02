@@ -23,7 +23,7 @@
           
             switch(Sanitizer::filter('unauth', 'get')) {
               case '1':
-                $messageClass = 'red lighten-3 white-text z-depth-1';
+                $messageClass = 'red darken-1 white-text z-depth-1';
                 $htmlMessage = 'Unauthorized';
                 require 'component/message.php';
                 break;
