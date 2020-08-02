@@ -36,7 +36,7 @@
               require 'component/empty.php';
             } else {
               $viewBids->load($viewBids->viewBid($selector));
-              $viewOffers->load($viewOffers->viewOfferForm($bid->getBid($selector, 'cs_bidding_id'), $isSupplier));
+              $viewOffers->load($viewOffers->viewOfferForm($bid->getBid($selector, 'cs_bidding_id'), $isSupplier, $__user_id));
             }
           ?>
         </div>

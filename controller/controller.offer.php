@@ -70,7 +70,7 @@ switch ($action) {
         $stmt->close();
 
         if(empty($result)){
-            echo json_encode(array('code' => 0, 'message' => 'This bidding already expired.'));
+            echo json_encode(array('code' => 0, 'message' => 'This bidding is already expired.'));
             exit();
         }
         

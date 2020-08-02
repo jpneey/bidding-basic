@@ -20,6 +20,7 @@
     <li class="navbar-fixed"></li>
     <?php
 
+        $mode = (isset($_GET['sidebar'])) ? $_GET['sidebar'] : '0';
         require 'view/view.sidenav.php';
         $detailArray = array(
             $isLoggedIn,
@@ -27,7 +28,8 @@
             $loggedInUserAvatar,
             $loggedInUserName,
             $loggedInUserEmail,
-            $BASE_DIR
+            $BASE_DIR,
+            $mode
         );
 
         $sideNav = new sideNav($detailArray);

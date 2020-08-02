@@ -46,7 +46,7 @@ switch ($action) {
         $_POST['cs_bidding_picture'] = Sanitizer::sanitize($safeImage);
         $_POST['cs_bidding_user_id'] = $auth->getSession('__user_id');
         $_POST['cs_bidding_category_id'] = '1';
-        $cs_bidding_permalink = strtolower(str_replace(' ', '-', filter_var(trim($_POST['cs_bidding_title']), FILTER_SANITIZE_STRING)));
+        $cs_bidding_permalink = strtolower(str_replace(' ', '-', filter_var(trim(preg_replace("/[^A-Za-z0-9 ]/", '', $_POST['cs_bidding_title'])), FILTER_SANITIZE_STRING)));
 
         $today = date("Y-m-d H:i:s");
         $expiration = date("Y-m-d H:i:s", strtotime("+7 day"));

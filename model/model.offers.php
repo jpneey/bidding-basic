@@ -17,6 +17,39 @@ class Offers extends DBHandler {
         return $result;
     }
 
+    public function getBidOffers($userId, $biddingId){
+
+        $result = array();
+
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_biddings WHERE cs_bidding_id = ? AND cs_bidding_user_id = ? ");
+        $stmt->bind_param('ii', $biddingId, $userId);
+        $stmt->execute();
+        $exists = $stmt->get_result()->num_rows;
+        $stmt->close();
+
+        if(!empty($exists)) {
+            $stmt = $connection->prepare("SELECT cs_user_id, cs_offer, cs_offer_price, cs_date_added, cs_offer_status FROM cs_offers WHERE cs_bidding_id = ? ORDER BY cs_offer_price ASC");
+            $stmt->bind_param('i', $biddingId);
+            $stmt->execute();
+            $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+            $stmt->close();
+
+
+            foreach($result as $key=>$value) {
+                $userId = $result[$key]['cs_user_id'];
+                $stmt = $connection->prepare("SELECT AVG(cs_rating) FROM cs_user_ratings WHERE cs_user_rated_id = '$userId'");
+                $stmt->execute();
+                $rating = $stmt->get_result()->fetch_row();
+                $result[$key]["cs_owner_rating"] = $rating[0];
+                $stmt->close();
+
+            }
+        }
+
+        return $result;
+    }
+
     public function getUserOffers($userId){
         $connection = $this->connectDB();
         $stmt = $connection->prepare("SELECT cs_bidding_id, cs_offer, cs_date_added FROM cs_offers WHERE cs_user_id = ?");
@@ -35,7 +68,6 @@ class Offers extends DBHandler {
                 $result[$key]["cs_bidding_title"] = $title[0];
             }
         }
-
 
         return $result;
     }

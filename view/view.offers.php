@@ -7,8 +7,45 @@ class viewOffers extends Offers {
     public function __construct($BASE_DIR) {
         $this->BASE_DIR = $BASE_DIR;
     }
-    
-    public function viewOffers($biddingId) {
+
+    public function load($v){
+        return $v;
+    }
+
+    public function viewMyOffers($userId, $biddingId) {
+        $offers = $this->getBidOffers($userId, $biddingId);
+        if(!empty($offers)) {
+        ?>
+        <div class="col s12">
+            <table class="center-align">
+                <thead>
+                    <tr>
+                        <th>Bidding Proposal</th>
+                        <th>Supplier Rating</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+            <?php 
+                    foreach($offers as $k=>$v) {
+                        $offered = unserialize($offers[$k]['cs_offer']);
+                        $price = $offers[$k]['cs_offer_price'];
+                        $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($offers[$k]['cs_owner_rating']));
+                        echo '<tr>';
+                        echo '<td><b>₱</b>'.number_format($price, '2', '.', ',').'<br><label>'.$offered['qty'].' <span class="qty">{qty}</span></label></td>';
+                        echo '<td><span class="ratings">'.$rating.'</span></td>';
+                        echo '<td><a href="?open=true&token='.$biddingId.'" class="btn-small waves-effect green white-text">Open</a></td>';
+                        echo '</tr>';
+                    }
+            ?>
+                </tbody>
+            </table>
+        </div>
+        <script>$(function(){$(".qty").text($('.item').data('unit'));})</script>
+        <?php
+    }
+}
+    public function viewLowestOffer($biddingId) {
         $offers = $this->getLowestBidOffer($biddingId);
         ?>
         <div class="col s12">
@@ -30,11 +67,8 @@ class viewOffers extends Offers {
         </div>
         <?php
     }
-    public function load($v){
-        return $v;
-    }
 
-    public  function viewOfferForm($biddingId, $isSupplier = false) {
+    public  function viewOfferForm($biddingId, $isSupplier, $userId) {
 
         if($isSupplier) {
             ?>
@@ -109,7 +143,7 @@ class viewOffers extends Offers {
                     </form>
                     <div class="col s12 row">
                     
-                        <?php $this->viewOffers($biddingId); ?>
+                        <?php $this->viewLowestOffer($biddingId); ?>
                         <div class="col s12" id="placeholder">
                             <p><?= $this->postOfferTitle($this->getCountOffer($biddingId)) ?></p>
                             <a class="waves-effect waves-light btn generate-form" href="#~">Submit Offer</a>
@@ -127,7 +161,8 @@ class viewOffers extends Offers {
             <div class="page white z-depth-1">
                 <div id="submit-offer" class="content row scrollspy">
                     
-                    <?php $this->viewOffers($biddingId); ?>
+                    <?php $this->viewLowestOffer($biddingId); ?>
+                    <?php $this->viewMyOffers($userId, $biddingId); ?>
                     <div class="col s12">
                         <p>You need to login on a supplier account inorder to participate in biddings.</p>
                         <a href="#!" class="btn waves-effect orange white-text">Learn how</a>
@@ -151,9 +186,9 @@ class viewOffers extends Offers {
     
 
 
-    public function viewUserOffers($user_id){
+    public function viewUserOffers($userId){
         
-        $userOffers = $this->getUserOffers($user_id);
+        $userOffers = $this->getUserOffers($userId);
         
         if(!empty($userOffers)){
             foreach($userOffers as $key=>$value){

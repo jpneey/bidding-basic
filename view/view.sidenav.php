@@ -24,7 +24,7 @@ class sideNav {
         if($this->detailArray[0]) {
             return $this->loadProfile();
         }
-        return $this->loadLoginForm();
+        return $this->loadLoginForm($this->detailArray[6]);
     }
 
     public function loadProfile(){
@@ -64,23 +64,57 @@ class sideNav {
 
     }
 
-    public function loadLoginForm(){
+    public function loadLoginForm($mode){
+
+        switch($mode){
+            case '1':
+                $action = 'forgot';
+                $h3 = 'Oh No!';
+                $p = 'Lost password?<br>Let\'s send you a password reset link!';
+                $buttonText = 'Send Reset link';
+                break;
+            case '2':
+                $action = 'register';
+                $h3 = 'Register';
+                $p = 'Enter a reachable<br>Email Address';
+                $buttonText = 'Confirm my Email';
+                break;
+                
+            default:
+                $action = 'login';
+                $h3 = 'Login';
+                $p = 'and maximize<br>your experience.';
+                $buttonText = 'Login';
+        }
+
         ?>
         <li class="login valign">
             <ul>
-                <form action="<?= $this->detailArray[5] ?>controller/controller.login.php?mode=login" class="login-form" method="POST" enctype="multipart/form-data" >
+                <form action="<?= $this->detailArray[5] ?>controller/controller.login.php?mode=<?= $action ?>" class="login-form" method="POST" enctype="multipart/form-data" >
                 <li class="text">
-                    <h3><b>Login</b></h3><p>and maximize<br>your experience.</p>
+                    <h3><b><?= $h3 ?></b></h3><p><?= $p ?></p>
                 </li>
                 <li>
                     <input required name="cs_ems" placeholder="email-address" type="email" class="custom-input browser-default no-border grey lighten-4">
                 </li>
+                <?php if(empty($mode)){ ?>
                 <li>
                     <input required name="cs_pas" placeholder="password" type="password" class="custom-input browser-default no-border grey lighten-4">
                 </li>
+                <?php } ?>
                 <li>
-                    <input name="submit" type="submit" value="Login" class="browser-default submit no-border orange white-text">
+                    <input name="submit" type="submit" value="<?= $buttonText ?>" class="browser-default submit no-border orange white-text">
                 </li>
+                <?php if(empty($mode)){ ?>
+                <li class="row">
+                    <label class="col s8 padding-0"><a href="<?= $this->detailArray[5] ?>/home/?sidebar=1" class="grey-text">Forgot password</a></label>
+                    <label class="col s4 padding-0 right-align"><a href="<?= $this->detailArray[5] ?>/home/?sidebar=2" class="grey-text">Register</a></label>
+                </li>
+                <?php } else { ?>
+                <li class="row">
+                    <label class="col s8 padding-0"><a href="<?= $this->detailArray[5] ?>/home/?sidebar=0" class="grey-text">&#8592; Back to login</a></label>
+                </li>
+                <?php } ?>
                 </form>
             </ul>
         </li>

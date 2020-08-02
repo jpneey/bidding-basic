@@ -16,6 +16,10 @@ html, body {
   height: 30px;
 }
 
+.padding-0 {
+  padding: 0 !important;
+}
+
 .normal-text { font-size: 14px; text-transform: none;}
 
 .feed-card .content, .page, .page-accent,

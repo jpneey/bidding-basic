@@ -149,7 +149,7 @@ class viewBids extends Bids {
                         <b>Date Needed:</b><br>
                         <?= date_format(date_create($dateNeeded), 'g:ia \o\n l jS F Y') ?>
                     </p>
-                    <p><?= $details ?></p>
+                    <p><?= nl2br($details); ?></p>
                     
                 </div>
                 <?= $picture ?>
