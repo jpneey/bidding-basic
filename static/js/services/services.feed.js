@@ -4,6 +4,7 @@ $(function(){
       top: 0,
       offset: 0,
     });
+    $('.fixed-action-btn').floatingActionButton();
 })
 
 

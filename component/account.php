@@ -1,8 +1,11 @@
 <?php 
 
 defined('included') || die("Bad request"); 
-$loggedInUserName = $user->getUser($__user_id, "cs_user_name");
-$loggedInEmailAddress = $user->getUser($__user_id, "cs_user_email");
+
+$message = Sanitizer::filter('p', 'get');
+
+$newUser = (empty($loggedInUserRole)) ? true : false;
+$loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
 
 ?>
 
@@ -14,33 +17,13 @@ $loggedInEmailAddress = $user->getUser($__user_id, "cs_user_email");
                 <div class="col s12">
                     <label>Home > My > Account</label>
                     <h1><b>My Account</b></h1>
+                    <?php if($newUser){ ?>
+                    <p>Please fill in the required fields inorder to finish the registration process.</p>
+                    <?php } ?>
                 </div>
             
-                <div class="input-field no-margin col s12 m6">
-                    <p><label>User Name</label></p>
-                    <input 
-                        required 
-                        type="text" 
-                        name="cs_user_name" 
-                        class="custom-input validate"
-                        placeholder="<?= $loggedInUserName ?>"  
-                        value="<?= $loggedInUserName ?>"
-                    />
-                </div>
-                <div class="input-field no-margin col s12 m6">
-                    <p><label>Email Address</label></p>
-                    <input 
-                        required 
-                        type="email" 
-                        name="cs_email_address" 
-                        class="custom-input validate"
-                        placeholder="<?= $loggedInEmailAddress ?>"  
-                        value="<?= $loggedInEmailAddress ?>"  
-                    />
-                </div>
-
                 <div class="file-field input-field no-margin col s12 m8">
-                    <p><label>Logo / Display Picture (optional)</label></p>
+                    <p><label>Logo / Display Picture </label></p>
                     <div class="btn">
                         <span>Image</span>
                         <input  
@@ -53,7 +36,59 @@ $loggedInEmailAddress = $user->getUser($__user_id, "cs_user_email");
                     </div>
                 </div>
 
+                <div class="input-field no-margin col s12 m8">
+                    <p><label>User Name *</label></p>
+                    <input 
+                        required 
+                        type="text" 
+                        name="cs_user_name" 
+                        class="custom-input validate"
+                        placeholder="<?= $loggedInUserName ?>"  
+                        value="<?= $loggedInUserName ?>"
+                    />
+                </div>
+                <div class="input-field no-margin col s12 m8">
+                    <p><label>Profile Intro *</label></p>
+                    <textarea required name="cs_user_detail" class="custom-input materialize-textarea"><?= $loggedInUserDetail ?></textarea>
+                </div>
+                <div class="input-field no-margin col s12 m8">
+                    <p><label>Current Password *</label></p>
+                    <input 
+                        required 
+                        type="text" 
+                        name="cs_user_password" 
+                        class="custom-input validate"
+                        placeholder="my-secret"  
+                    />
+                </div>
+
+                <?php if($newUser){ ?>
+                       
+                <div class="input-field no-margin col s12 m8">
+                    <p><label>New Password *</label></p>
+                    <input 
+                        required 
+                        type="text" 
+                        name="cs_new_password" 
+                        class="custom-input validate"
+                        min="5"
+                        placeholder="* please fill this field to secure your account"
+                    />
+                </div>           
+                <div class="input-field no-margin col s12 m8">
+                    <p><label>Account Type *</label></p>
+                    <select required name="account-type" class="custom-input validate browser-default">
+                        <option value="0" disabled selected>Choose your option</option>
+                        <option value="2">I would like to participate on biddings and promote my services</option>
+                        <option value="1">I would like to find suppliers and post biddings.</option>
+                    </select>
+                </div>
+
+                <?php } ?>
                 <div class="input-field no-margin col s12">
+                <br>
+                <br>
+
                     <input type="submit" class="btn z-depth-1 orange white-text" value="Update Profile" />
                 </div>
 

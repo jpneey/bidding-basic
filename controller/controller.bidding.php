@@ -164,6 +164,17 @@ switch ($action) {
     case 'get':
         $message = json_encode($bid->getBid($_GET['id']));
         break;
+
+    case 'delete':
+        
+        $selector = Sanitizer::filter('selector', 'get');
+        if(!$auth->compareSession('auth', true) && $auth->compareSession('__user_role', 1) || !$selector){
+            echo json_encode(array('code' => 0, 'message' => 'You are unauthorized to perform this action.'));
+            exit();
+        }
+        $userId = $auth->getSession('__user_id');
+        $message = $bid->deleteBid($selector, $userId);
+        break;
         
     case 'expires':
         $message = $bid->biddingExpires();

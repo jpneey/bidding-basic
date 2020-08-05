@@ -16,5 +16,5 @@ $mail->Port = 465;
 $mail->IsHTML(true);
 $mail->Username = "pmcmailchimp@gmail.com";
 $mail->Password = "1_pmcmailchimp@gmail.com";
-$mail->SetFrom("pmcmailchimp@gmail.com", "John Paul");
+$mail->SetFrom("pmcmailchimp@gmail.com", "Canvasspoint");
 $mail->isHTML(true);

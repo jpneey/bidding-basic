@@ -54,7 +54,7 @@ class sideNav {
         </li>
         <li><div class="divider"></div></li>
         <li>
-            <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/">My Account</a>
+            <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/account/">My Account</a>
         </li>
 
         <li>
@@ -107,12 +107,12 @@ class sideNav {
                 </li>
                 <?php if(empty($mode)){ ?>
                 <li class="row">
-                    <label class="col s8 padding-0"><a href="<?= $this->detailArray[5] ?>/home/?sidebar=1" class="grey-text">Forgot password</a></label>
-                    <label class="col s4 padding-0 right-align"><a href="<?= $this->detailArray[5] ?>/home/?sidebar=2" class="grey-text">Register</a></label>
+                    <label class="col s8 padding-0"><a href="<?= $this->detailArray[5] ?>home/?sidebar=1" class="grey-text">Forgot password</a></label>
+                    <label class="col s4 padding-0 right-align"><a href="<?= $this->detailArray[5] ?>home/?sidebar=2" class="grey-text">Register</a></label>
                 </li>
                 <?php } else { ?>
                 <li class="row">
-                    <label class="col s8 padding-0"><a href="<?= $this->detailArray[5] ?>/home/?sidebar=0" class="grey-text">&#8592; Back to login</a></label>
+                    <label class="col s8 padding-0"><a href="<?= $this->detailArray[5] ?>home/?sidebar=0" class="grey-text">&#8592; Back to login</a></label>
                 </li>
                 <?php } ?>
                 </form>

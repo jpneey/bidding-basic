@@ -50,4 +50,14 @@ class User extends DBHandler {
         
     }
 
+    public function updateUserCol($userId, $column, $binding, $value){
+        
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("UPDATE cs_users SET $column = ? WHERE cs_user_id = ?");
+        $stmt->bind_param($binding.'i', $value, $userId);
+        $execute = $stmt->execute();
+        $stmt->close();
+        return $execute;
+    }
+
 }

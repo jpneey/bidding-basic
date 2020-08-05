@@ -68,16 +68,19 @@ switch($mode) {
         }
     
         require 'mail/mail.php';
-        $temporaryPassword = password_hash('00'.$userEmail.'cpoint', PASSWORD_BCRYPT);
+
+        $password = Sanitizer::generatePassword();
+
+        $temporaryPassword = password_hash($password, PASSWORD_BCRYPT);
         $mail->AddAddress($userEmail);
         
         $emailSubject = "Canvasspoint Registration";   //subject
         $emailPreheader = "Verify your email address and maximize your canvasspoint experience."; //short message
         $emailGreeting = "Hooray !";
         $emailContent = "You are one click away on reaching the next step of Canvasspoint's registration process! Please click the button below to setup your account:";
-        $emailAction = "http://localhost/bidding-basic/verify/?e=".urlencode($userEmail)."&?token=".urlencode($temporaryPassword);    //link
+        $emailAction = Sanitizer::getUrl()."verify/?e=".urlencode($userEmail)."&token=".urlencode($temporaryPassword);    //link
         $emailActionText = "Setup Account";
-        $emailFooterContent = "<i>* ignore this message if it is not you who registered this email.</i>";
+        $emailFooterContent = "Your temporary password is: <b>$password</b>. You'll need this inorder to update your account after clicking the button above.";
         $emailRegards = "- Canvasspoint Team";
         
         
@@ -91,11 +94,11 @@ switch($mode) {
         $mail->Body = $htmlMessage;
 
         $code = '1';
-        $message = 'An email confirmation was sent to: '.$userEmail. " :( ".$mail->ErrorInfo;   
+        $message = 'An email confirmation was sent to: '.$userEmail. "";   
         
         if(!$mail->Send()) {
             $code = '1';
-            $message = 'We are unable to reach '.$userEmail. " :(";   
+            $message = 'We are unable to reach '.$userEmail. " :(".$mail->ErrorInfo;   
         }
         break;
 

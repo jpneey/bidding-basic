@@ -184,7 +184,32 @@ class viewOffers extends Offers {
         }
     }
     
+    public function viewUserOfferStatus($user_id){ 
 
+        $counts = $this->getDashboardCounts($user_id);
+
+        ?>
+            <div class="col s12 m4">
+                <div class="dashboard-panel green lighten-0 white-text z-depth-1">
+                    <h1><b><?= $counts[0] ?></b></h1>
+                    <p>Active Offers</p>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="dashboard-panel red lighten-0 white-text z-depth-1">
+                    <h1><b><?= $counts[2] ?></b></h1>
+                    <p>Rejected Offers</p>
+                </div>
+            </div>
+            <div class="col s12 m4">
+                <div class="dashboard-panel orange lighten-0 white-text z-depth-1">
+                    <h1><b><?= $counts[1] ?></b></h1>
+                    <p>Accepted Offers</p>
+                </div>
+            </div>
+
+        <?php
+    }
 
     public function viewUserOffers($userId){
         
@@ -194,29 +219,50 @@ class viewOffers extends Offers {
             foreach($userOffers as $key=>$value){
                 
                 $title = $userOffers[$key]["cs_bidding_title"];
+                $link = $userOffers[$key]["cs_bidding_permalink"];
+                $offerId = $userOffers[$key]["cs_offer_id"];
                 $datePosted = date_format(date_create($userOffers[$key]["cs_date_added"]), 'D d M Y');
                 
-                $datePosted = '<time>'.$datePosted.'</time>'; ?>
-                <a href="<?= $this->BASE_DIR.'bid/' ?>">
-                    <div class="col s12 feed-card white z-depth-1">
-                        <div class="feed-head">
-                            <div class="feed-user-avatar">
+                $datePosted = '<time>'.$datePosted.'</time>'; 
+                switch($userOffers[$key]["cs_offer_status"]){
+                    case '0':
+                        $statusStyle = 'feed-border green-text text-lighten-0';
+                        break;
+                    case '1':
+                        $statusStyle = 'feed-border orange-text text-lighten-2';
+                        break;
+                    case '2':
+                        $statusStyle = 'feed-border red-text text-lighten-2';
+                        break;
+                }
+            ?>
+                
+            <div class="col s12 block">
+                <a href="<?= $this->BASE_DIR.'bid/'.$link.'/' ?>">
+                    <div class="feed-card feed-card-full white z-depth-1 <?= $statusStyle ?>">
+                        <div class="feed-card white z-depth-1">
+                            <div class="feed-head">
+                                <div class="feed-user-avatar">
+                                </div>
+                                <p class="grey-text text-darken-3">
+                                    <?= $title ?><br>
+                                    <span class="grey-text lighten-2">
+                                    <?= 'Posted @ '.$datePosted ?><br>
+                                    </span>
+                                </p>
                             </div>
-                            <p class="grey-text text-darken-3">
-                                <?= $title ?><br>
-                                <span class="grey-text lighten-2">
-                                <?= 'Posted @ '.$datePosted ?><br>
-                                </span>
-                            </p>
                         </div>
                     </div>
                 </a>
+                
+                <span class="card-counter">
+                    <a href="#!" data-selector="<?= $offerId ?>" data-mode="offer" class="data-delete z-depth-1 red white-text center-align">delete</a>
+                    <a class="z-depth-1 green white-text center-align">edit</a>
+                </span>
+
+            </div>
             <?php
             }
-        }
-        else {
-            $BASE_DIR = $this->BASE_DIR;
-            require 'component/empty.php';
         }
     }
 

@@ -84,6 +84,21 @@ class Sanitizer {
 			$result.=$char;
 		}
 		return base64_encode($result);
-	}
+    }
+    
+    public static function getUrl(){
+        if(isset($_SERVER['HTTPS'])){
+            $protocol = ($_SERVER['HTTPS'] && $_SERVER['HTTPS'] != "off") ? "https" : "http";
+        }
+        else{
+            $protocol = 'http';
+        }
+        return $protocol . "://" . $_SERVER['HTTP_HOST'] . '/bidding-basic/';
+    }
+
+    public static function generatePassword($length = 5) {
+        $chars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        return substr(str_shuffle($chars),0,$length);
+    }
     	
 }

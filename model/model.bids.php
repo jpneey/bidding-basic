@@ -13,6 +13,16 @@ class Bids extends DBHandler {
         return $result;
     }
 
+    public function checkOwnership($selector, $userId){
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_biddings WHERE cs_bidding_user_id = ? AND cs_bidding_permalink = ?");
+        $stmt->bind_param('is', $userId, $selector);
+        $stmt->execute();
+        $result = $stmt->get_result()->num_rows;
+        $stmt->close();
+        return (empty($result)) ? false : true;
+    }
+
     public function getBid($id, $param = false){
         
         $connection = $this->connectDB();
@@ -38,13 +48,13 @@ class Bids extends DBHandler {
                 $stmt = $connection->prepare("SELECT cs_address_province FROM cs_user_address WHERE cs_user_id = '$userId'");
                 $stmt->execute();
                 $location = $stmt->get_result()->fetch_row();
-                $result[$key]["cs_owner_location"] = $location[0];
+                $result[$key]["cs_owner_location"] = (!empty($location)) ? $location[0] : 'Unknown location';
                 $stmt->close();
                 
                 $stmt = $connection->prepare("SELECT AVG(cs_rating) FROM cs_user_ratings WHERE cs_user_rated_id = '$userId'");
                 $stmt->execute();
                 $rating = $stmt->get_result()->fetch_row();
-                $result[$key]["cs_owner_rating"] = $rating[0];
+                $result[$key]["cs_owner_rating"] = (!empty($rating)) ? $rating[0] : 0;
                 $stmt->close();
             
             }
@@ -88,14 +98,14 @@ class Bids extends DBHandler {
                 $userId = (int)$result[$key]["cs_bidding_user_id"];
                 $stmt = $connection->prepare("SELECT cs_address_province FROM cs_user_address WHERE cs_user_id = '$userId'");
                 $stmt->execute();
-                $rating = $stmt->get_result()->fetch_row();
-                $result[$key]["cs_owner_location"] = $rating[0];
+                $location = $stmt->get_result()->fetch_row();
+                $result[$key]["cs_owner_location"] = (!empty($location)) ? $location[0] : 'Unknown location';
                 $stmt->close();
 
                 $stmt = $connection->prepare("SELECT AVG(cs_rating) FROM cs_user_ratings WHERE cs_user_rated_id = '$userId'");
                 $stmt->execute();
                 $rating = $stmt->get_result()->fetch_row();
-                $result[$key]["cs_owner_rating"] = $rating[0];
+                $result[$key]["cs_owner_rating"] = (!empty($rating)) ? $rating[0] : 0;
                 $stmt->close();
 
             }
@@ -206,6 +216,47 @@ class Bids extends DBHandler {
         
         return json_encode(array('code' => 1, 'message' => $affected .' bidding entry updated to expired.'));
         
+    }
+
+    /**
+     * Delete related functions
+     * goes here
+     */
+
+    public function deleteBid($selector, $userId){
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("SELECT cs_bidding_id, cs_bidding_picture FROM cs_biddings WHERE cs_bidding_user_id = ? AND cs_bidding_permalink = ?");
+        $stmt->bind_param('is', $userId, $selector);
+        $stmt->execute();
+        $exist = $stmt->get_result()->fetch_row();
+        $stmt->close();
+
+        if(empty($exist)){
+            return json_encode(array('code' => 0, 'message' => 'Unable to delete bidding. Bidding does not exists.'));
+        }
+
+        $image = '../static/asset/bidding/'.$exist[1];
+
+        if(file_exists($image)){
+            unlink($image);
+        }
+
+        $stmt = $connection->prepare("UPDATE cs_offers SET cs_offer_status = 2 WHERE cs_bidding_id = ?");
+        $stmt->bind_param('i', $exist[0]);
+        $stmt->execute();
+        $stmt->close();
+
+        $stmt = $connection->prepare("DELETE FROM cs_biddings WHERE cs_bidding_user_id = ? AND cs_bidding_permalink = ?");
+        $stmt->bind_param('is', $userId, $selector);
+        $stmt->execute();
+        $stmt->close();
+
+        $stmt = $connection->prepare("DELETE FROM cs_products_in_biddings WHERE cs_bidding_id = ?");
+        $stmt->bind_param('i', $exist[0]);
+        $stmt->execute();
+        $stmt->close();
+
+        return json_encode(array('code' => 1, 'message' => 'Bidding posting was deleted successfully.'));
     }
 
 }

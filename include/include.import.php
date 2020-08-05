@@ -32,4 +32,4 @@ if($isLoggedIn){
 
 define('included', true);
 $uri = explode("/", $_SERVER["QUERY_STRING"]);
-$BASE_DIR = '/bidding-basic/';
+$BASE_DIR = Sanitizer::getUrl();

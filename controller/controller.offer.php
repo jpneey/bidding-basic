@@ -100,6 +100,20 @@ switch ($action) {
         $message = $offer->postOffer($offerArray);
 
         break;
+
+    case 'delete':
+    
+        $selector = Sanitizer::filter('selector', 'get');
+        if(!$auth->compareSession('auth', true) && $auth->compareSession('__user_role', 2) || !$selector){
+            echo json_encode(array('code' => 0, 'message' => 'You are unauthorized to perform this action.'));
+            exit();
+        }
+        
+        $userId = $auth->getSession('__user_id');
+        $message = $offer->deleteOffer($selector, $userId);
+        break;
+        
+        break;
 }
 
 echo $message;

@@ -163,7 +163,7 @@ class viewBids extends Bids {
         }
     }
 
-    public function viewUserOfferStatus($user_id){ 
+    public function viewUserBidStatus($user_id){ 
 
         $counts = $this->getDashboardCounts($user_id);
 
@@ -200,41 +200,39 @@ class viewBids extends Bids {
                 $bidInFeedOfferCount = $userBids[$key]["cs_bidding_offer_count"];
                 switch($userBids[$key]["cs_bidding_status"]){
                     case '1':
-                        $statusStyle = 'green lighten-0';
+                        $statusStyle = 'feed-border green-text text-lighten-0';
                         break;
                     case '2':
-                        $statusStyle = 'orange lighten-2';
+                        $statusStyle = 'feed-border orange-text text-lighten-2';
                         break;
                     case '0':
-                        $statusStyle = 'red lighten-2';
+                        $statusStyle = 'feed-border red-text text-lighten-2';
                         break;
                 }
-                echo '<div class="col s12">';
+                echo '<div class="col s12 block">';
                 $datePosted = '<time>'.date_format(date_create($userBids[$key]["cs_bidding_added"]), 'D d M Y').'</time>'; ?>
  
                 <a href="<?= $this->BASE_DIR.'bid/'.$bidInFeedLink ?>">
-                    <div class="feed-card feed-card-full white z-depth-1">
+                    <div class="feed-card feed-card-full white z-depth-1 <?= $statusStyle ?>">
                         <div class="feed-head">
-                            <div class="feed-user-avatar <?= $statusStyle ?>">
-                                
-                            </div>
                             <p class="grey-text text-darken-3">
                                 <?= $bidInFeedTitle ?><br>
                                 <span class="grey-text lighten-2">
                                 <?= 'Posted @ '.$datePosted ?><br>
                                 </span>
                             </p>
-                            <span class="card-counter orange white-text center-align pulse"><b><?= $bidInFeedOfferCount ?></b></span>
                         </div>
                     </div>
                 </a>
+                
+                <span class="card-counter">
+                    <a class="z-depth-1 orange white-text center-align"><?= $bidInFeedOfferCount ?></a>
+                    <a href="#!" data-selector="<?= $bidInFeedLink ?>" data-mode="bid" class="data-delete z-depth-1 red white-text center-align">delete</a>
+                    <a class="z-depth-1 green white-text center-align">edit</a>
+                </span>
             <?php
             echo '</div>';
             }
-        }
-        else {
-            $BASE_DIR = $this->BASE_DIR;
-            require 'component/empty.php';
         }
     }
     

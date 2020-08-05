@@ -1,6 +1,8 @@
 
     $(function(){
         updateUser();
+        $('select').formSelect();
+        autoToast();
     })
     
 
@@ -44,11 +46,8 @@
                     var parsedData = JSON.parse(data);
 
                     if(parsedData.code == '1') {
-                    
-                        M.toast({
-                            html: parsedData.message,
-                            classes: "orange white-text"
-                        });
+                        var url = window.location.href;
+                        window.location.href = url += '?updated=1';
                         return;
                     }
 
@@ -56,10 +55,20 @@
 
                     M.toast({
                         html: parsedData.message + action,
-                        classes: "orange white-text"
+                        classes: "red white-text"
                     });
 
                 }   
             })
         })
+    }
+
+    function autoToast(){
+        var action = '<button onclick="M.Toast.dismissAll();" class="btn-flat toast-action"><i class="close material-icons">close</i></button>';        
+        if (window.location.href.indexOf("updated") > -1) {
+            M.toast({
+                html: "Profile Updated" + action,
+                classes: "orange white-text"
+            });
+        }
     }
