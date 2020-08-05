@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 02, 2020 at 12:55 PM
+-- Generation Time: Aug 05, 2020 at 02:37 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.1.31
 
@@ -43,15 +43,6 @@ CREATE TABLE `cs_biddings` (
   `cs_bidding_status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `cs_biddings`
---
-
-INSERT INTO `cs_biddings` (`cs_bidding_id`, `cs_bidding_category_id`, `cs_bidding_user_id`, `cs_bidding_title`, `cs_bidding_permalink`, `cs_bidding_picture`, `cs_bidding_details`, `cs_bidding_tags`, `cs_bidding_date_needed`, `cs_bidding_added`, `cs_bidding_expiration`, `cs_bidding_status`) VALUES
-(39, 1, 1, 'Looking For Plastic Cups', 'looking-for-plastic-cups', 'jp-69432-0f93d75b43a854efa4b9660acfbbbdf0.jpg', 'In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.', 'plastic,cups,events,cheap', '2020-07-28 08:00:00', '2020-07-26 15:21:01', '2020-08-02 15:21:01', 0),
-(40, 1, 1, 'Fresh Tomatoes', 'tomatoes', '#!', 'single word only. To add tags, just enter your tag text and press enter. You can delete them by clicking on the close icon or by using your delete button.', 'vegetables,tomatoes,cheap,asap,poppings', '2020-07-31 08:00:00', '2020-07-26 17:41:17', '2020-08-02 17:41:17', 0),
-(54, 1, 1, 'How to remove non-alphanumeric characters?', 'how-to-remove-nonalphanumeric-characters', 'jp-81517-13012020004623.jpg', 'Here&#39;s an example if you want to include the hyphen as an allowed character. I needed this because I needed to strip out disallowed characters from a Moodle username, based on email addresses: preg_replace(&#34;/[^a-z0-9_.@\\-]/&#34;, &#39;&#39;, $string);', 'regex,php,data-handling', '2020-08-07 08:00:00', '2020-08-02 14:19:38', '2020-08-09 14:19:38', 1);
-
 -- --------------------------------------------------------
 
 --
@@ -88,13 +79,6 @@ CREATE TABLE `cs_offers` (
   `cs_offer_status` int(1) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `cs_offers`
---
-
-INSERT INTO `cs_offers` (`cs_offer_id`, `cs_bidding_id`, `cs_user_id`, `cs_offer`, `cs_offer_price`, `cs_date_added`, `cs_offer_status`) VALUES
-(16, 39, 2, 'a:4:{s:7:\"product\";s:12:\"Plastic Cups\";s:3:\"qty\";s:3:\"500\";s:4:\"date\";s:17:\"2020-7-26 8:00:00\";s:5:\"notes\";s:45:\"I can do lower but you handle the shipping :P\";}', '6000.0000', '2020-07-26 07:37:07', 0);
-
 -- --------------------------------------------------------
 
 --
@@ -110,28 +94,6 @@ CREATE TABLE `cs_products_in_biddings` (
   `cs_product_price` decimal(13,4) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `cs_products_in_biddings`
---
-
-INSERT INTO `cs_products_in_biddings` (`cs_product_id`, `cs_bidding_id`, `cs_product_name`, `cs_product_unit`, `cs_product_qty`, `cs_product_price`) VALUES
-(8, 39, 'Plastic Cups', 'pcs', 500, '7500.0000'),
-(9, 40, 'Tomatoes', 'kg', 15, '5000.0000'),
-(10, 41, 'ww', 'kg', 2, '444.0000'),
-(11, 42, 'ww', 'kg', 3, '333.0000'),
-(12, 43, 'ww', 'ppl', 3, '333.0000'),
-(13, 44, 'ww', 'ppl', 3, '333.0000'),
-(14, 45, 'ww', 'ppl', 3, '333.0000'),
-(15, 46, 'ww', 'ppl', 3, '333.0000'),
-(16, 47, 'ww', 'ppl', 3, '333.0000'),
-(17, 48, 'ww', 'ppl', 3, '333.0000'),
-(18, 49, 'ww', 'ppl', 3, '333.0000'),
-(19, 50, 'ww', 'ppl', 3, '333.0000'),
-(20, 51, 'ww', 'ppl', 3, '333.0000'),
-(21, 52, 'ww', 'ppl', 3, '333.0000'),
-(22, 53, 'ww', 'ppl', 3, '333.0000'),
-(23, 54, 'PHP Regex', 'kb', 5, '100.0000');
-
 -- --------------------------------------------------------
 
 --
@@ -143,6 +105,7 @@ CREATE TABLE `cs_users` (
   `cs_user_name` varchar(64) NOT NULL,
   `cs_user_email` varchar(64) NOT NULL,
   `cs_contact_details` text DEFAULT NULL,
+  `cs_user_detail` varchar(255) DEFAULT NULL,
   `cs_user_password` varchar(255) NOT NULL,
   `cs_user_role` varchar(64) NOT NULL,
   `cs_user_avatar` varchar(255) NOT NULL
@@ -152,10 +115,9 @@ CREATE TABLE `cs_users` (
 -- Dumping data for table `cs_users`
 --
 
-INSERT INTO `cs_users` (`cs_user_id`, `cs_user_name`, `cs_user_email`, `cs_contact_details`, `cs_user_password`, `cs_user_role`, `cs_user_avatar`) VALUES
-(1, 'jpneey', 'burato348@gmail.coms', NULL, '$2y$05$Dw8tZp0alICppTOuHoSpi.PiUn3f3V1hrdZRIg9158shWQmW8UxgO', '1', 'jp.jpg'),
-(2, 'supplier', 'supplier@mail.com', NULL, '$2y$05$Dw8tZp0alICppTOuHoSpi.PiUn3f3V1hrdZRIg9158shWQmW8UxgO', '2', 'avatar.png'),
-(5, 'burato348', 'burato348@gmail.com', NULL, '$2y$10$X2t8MNNi/tbtEJp7PUagFORpR8ut/8rLfd.jQ3Mt2VwyeLQPknXUG', '0', 'avatar.png');
+INSERT INTO `cs_users` (`cs_user_id`, `cs_user_name`, `cs_user_email`, `cs_contact_details`, `cs_user_detail`, `cs_user_password`, `cs_user_role`, `cs_user_avatar`) VALUES
+(2, 'pexels', 'supplier@mail.com', NULL, 'advanced note: When dynamically changing the value of a textarea with methods like jQuery&#39;s .val(), you must trigger an autoresize on it afterwords because .val() does not automatically trigger the events we&#39;ve binded to the textarea.', '$2y$10$m9FtVWlOKuC2X/7LOfLmNeVVhv5RofyqW7kpz41F/BN7/m/obSNYi', '2', 'jp-20456-08012020010811.png'),
+(3, 'jpneey', 'burato348@gmail.com', NULL, 'Textareas allow larger expandable user input. The border should light up simply and clearly indicating which field the user is currently editing. You must have a .input-field div wrapping your input and label. This is only used in our Input and Textarea f', '$2y$10$GIkk9Xu3c0VIzBbhkABzFub37Bo2398lUWR91hSkGyi58aMCASrFu', '1', 'jp-81104-jp.jpg');
 
 -- --------------------------------------------------------
 
@@ -170,15 +132,6 @@ CREATE TABLE `cs_user_address` (
   `cs_address_city` varchar(255) NOT NULL,
   `cs_address_line` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `cs_user_address`
---
-
-INSERT INTO `cs_user_address` (`cs_address_id`, `cs_user_id`, `cs_address_province`, `cs_address_city`, `cs_address_line`) VALUES
-(1, 1, 'Rizal', 'Cainta', 'Penny lane st. Valley Golf, brgy. San Juan'),
-(2, 2, 'Rizal', 'Cainta', 'Penny lane st. Valley Golf, brgy. San Juan'),
-(3, 3, 'Metro Manila', 'Manila', 'Penny lane st. Valley Golf, brgy. San Juan');
 
 -- --------------------------------------------------------
 
@@ -248,7 +201,7 @@ ALTER TABLE `cs_user_ratings`
 -- AUTO_INCREMENT for table `cs_biddings`
 --
 ALTER TABLE `cs_biddings`
-  MODIFY `cs_bidding_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
+  MODIFY `cs_bidding_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `cs_categories`
@@ -260,31 +213,31 @@ ALTER TABLE `cs_categories`
 -- AUTO_INCREMENT for table `cs_offers`
 --
 ALTER TABLE `cs_offers`
-  MODIFY `cs_offer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `cs_offer_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `cs_products_in_biddings`
 --
 ALTER TABLE `cs_products_in_biddings`
-  MODIFY `cs_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `cs_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `cs_users`
 --
 ALTER TABLE `cs_users`
-  MODIFY `cs_user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `cs_user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `cs_user_address`
 --
 ALTER TABLE `cs_user_address`
-  MODIFY `cs_address_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `cs_address_id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT for table `cs_user_ratings`
 --
 ALTER TABLE `cs_user_ratings`
-  MODIFY `cs_rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cs_rating_id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
