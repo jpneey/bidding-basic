@@ -22,7 +22,7 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
                     <?php } ?>
                 </div>
             
-                <div class="file-field input-field no-margin col s12 m8">
+                <div class="file-field input-field no-margin col s12">
                     <p><label>Logo / Display Picture </label></p>
                     <div class="btn">
                         <span>Image</span>
@@ -36,7 +36,7 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
                     </div>
                 </div>
 
-                <div class="input-field no-margin col s12 m8">
+                <div class="input-field no-margin col s12">
                     <p><label>User Name *</label></p>
                     <input 
                         required 
@@ -47,11 +47,11 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
                         value="<?= $loggedInUserName ?>"
                     />
                 </div>
-                <div class="input-field no-margin col s12 m8">
+                <div class="input-field no-margin col s12">
                     <p><label>Profile Intro *</label></p>
                     <textarea required name="cs_user_detail" class="custom-input materialize-textarea"><?= $loggedInUserDetail ?></textarea>
                 </div>
-                <div class="input-field no-margin col s12 m8">
+                <div class="input-field no-margin col s12">
                     <p><label>Current Password *</label></p>
                     <input 
                         required 
@@ -64,7 +64,7 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
 
                 <?php if($newUser){ ?>
                        
-                <div class="input-field no-margin col s12 m8">
+                <div class="input-field no-margin col s12">
                     <p><label>New Password *</label></p>
                     <input 
                         required 
@@ -75,7 +75,7 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
                         placeholder="* please fill this field to secure your account"
                     />
                 </div>           
-                <div class="input-field no-margin col s12 m8">
+                <div class="input-field no-margin col s12">
                     <p><label>Account Type *</label></p>
                     <select required name="account-type" class="custom-input validate browser-default">
                         <option value="0" disabled selected>Choose your option</option>

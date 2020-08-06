@@ -274,6 +274,13 @@ input.browser-default,
   border-radius: 4px;
 }
 
+.url-checker {
+  position: absolute;
+  right: 0.75rem;
+  height: 45px;
+  line-height: 45px;
+}
+
 @media only screen and (max-width : 800px) {
   .sidenav .user-view {
     padding: 32px 32px 0;

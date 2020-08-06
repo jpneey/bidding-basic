@@ -2,7 +2,7 @@
 
 $auth->redirect('auth', true, $BASE_DIR.'home/?unauth=1');
 $pageTitle = Sanitizer::filter($uri[1], 'variable') ?: 'account';
-$myView = 'component/'.$pageTitle.'.php';
+$myView = 'component/my/'.$pageTitle.'.php';
 
 ?>
 <!DOCTYPE html>

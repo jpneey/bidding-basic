@@ -7,7 +7,7 @@ $dashboardAction = Sanitizer::filter('action', 'get');
 if($isBidder) {
     switch($dashboardAction){
         case 'add':
-            require 'component/dashboard.add.php';
+            require 'component/my/dashboard.add.php';
             break;
 
         default:

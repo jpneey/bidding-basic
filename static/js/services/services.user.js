@@ -3,6 +3,7 @@
         updateUser();
         $('select').formSelect();
         autoToast();
+        linkChecker();
     })
     
 
@@ -71,4 +72,12 @@
                 classes: "orange white-text"
             });
         }
+    }
+
+    function linkChecker(){
+        $trigger = $('.link-trigger');
+        $trigger.on('keyup', function(){
+            $closest = $(this).next('.url-checker');
+            $closest.attr('href', $(this).val());
+        })
     }

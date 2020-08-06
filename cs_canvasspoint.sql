@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 05, 2020 at 02:37 PM
+-- Generation Time: Aug 06, 2020 at 11:48 AM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.1.31
 
@@ -116,7 +116,7 @@ CREATE TABLE `cs_users` (
 --
 
 INSERT INTO `cs_users` (`cs_user_id`, `cs_user_name`, `cs_user_email`, `cs_contact_details`, `cs_user_detail`, `cs_user_password`, `cs_user_role`, `cs_user_avatar`) VALUES
-(2, 'pexels', 'supplier@mail.com', NULL, 'advanced note: When dynamically changing the value of a textarea with methods like jQuery&#39;s .val(), you must trigger an autoresize on it afterwords because .val() does not automatically trigger the events we&#39;ve binded to the textarea.', '$2y$10$m9FtVWlOKuC2X/7LOfLmNeVVhv5RofyqW7kpz41F/BN7/m/obSNYi', '2', 'jp-20456-08012020010811.png'),
+(2, 'pexelss', 'supplier@mail.com', NULL, 'advanced note: When dynamically changing the value of a textarea with methods like jQuery&#39;s .val(), you must trigger an autoresize on it afterwords because .val() does not automatically trigger the events we&#39;ve binded to the textarea.', '$2y$10$m9FtVWlOKuC2X/7LOfLmNeVVhv5RofyqW7kpz41F/BN7/m/obSNYi', '2', 'jp-20456-08012020010811.png'),
 (3, 'jpneey', 'burato348@gmail.com', NULL, 'Textareas allow larger expandable user input. The border should light up simply and clearly indicating which field the user is currently editing. You must have a .input-field div wrapping your input and label. This is only used in our Input and Textarea f', '$2y$10$GIkk9Xu3c0VIzBbhkABzFub37Bo2398lUWR91hSkGyi58aMCASrFu', '1', 'jp-81104-jp.jpg');
 
 -- --------------------------------------------------------
@@ -201,7 +201,7 @@ ALTER TABLE `cs_user_ratings`
 -- AUTO_INCREMENT for table `cs_biddings`
 --
 ALTER TABLE `cs_biddings`
-  MODIFY `cs_bidding_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `cs_bidding_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `cs_categories`
@@ -219,7 +219,7 @@ ALTER TABLE `cs_offers`
 -- AUTO_INCREMENT for table `cs_products_in_biddings`
 --
 ALTER TABLE `cs_products_in_biddings`
-  MODIFY `cs_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `cs_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `cs_users`

@@ -25,10 +25,7 @@ $__user_role = (int)$auth->getSession('__user_role');
 switch ($action) {
 
     case 'update':
-    
-
-        error_reporting(E_ALL);
-
+        
         $cs_user_name = Sanitizer::filter('cs_user_name', 'post');
         $cs_user_password = Sanitizer::filter('cs_user_password', 'post');
         $cs_new_password = Sanitizer::filter('cs_new_password', 'post');
@@ -109,6 +106,45 @@ switch ($action) {
 
         $message = json_encode(array('code' => 1, 'message' => 'Action Complete'));
         break;
+
+    case 'update-contact':
+
+        $posts = array(
+            'cs_facebook',
+            'cs_linkedin',
+            'cs_website',
+            'cs_telephone',
+            'cs_mobile'
+        );
+
+        $contactArray = array();
+
+        foreach($posts as $post){
+            ${$post} = (Sanitizer::filter($post, 'post')) ?: NULL;
+            $contactArray[$post] = ${$post};
+        }
+
+        $cs_user_password = (Sanitizer::filter('cs_user_password', 'post')) ?: NULL;
+
+        $stmt = $connection->prepare("SELECT cs_user_password FROM cs_users WHERE cs_user_id = '$__user_id'");
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_row();
+        $stmt->close();
+
+        if(!password_verify($cs_user_password, $result[0])){
+            echo json_encode(array('code' => 0, 'message' => 'Your password is incorrect. Failed to authenticate.'));
+            die();
+        }
+
+        $contactArrayToDB = serialize($contactArray);
+
+        if(!$user->updateUserCol($__user_id, 'cs_contact_details', 's', $contactArrayToDB)){
+            echo json_encode(array('code' => 0, 'message' => 'Failed to update your contact details.'));
+            die();
+        }
+
+
+        $message = json_encode(array('code' => 1, 'message' => 'Contact Details updated'));
 }
 
 echo $message;

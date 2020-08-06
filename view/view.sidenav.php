@@ -48,13 +48,23 @@ class sideNav {
             </li>  
             <?php
         }
+        if($this->detailArray[0] && !$this->detailArray[1]) {
+            ?>
+            <li>
+                <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/business/"><i class="material-icons right">folder_open</i><b>My business</b></a>
+            </li>  
+            <?php
+        }
         ?>
+        <li><div class="divider"></div></li>
         <li>
             <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/dashboard/">Dashboard</a>
         </li>
-        <li><div class="divider"></div></li>
         <li>
-            <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/account/">My Account</a>
+            <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/account/">Account Details</a>
+        </li>
+        <li>
+            <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/contact/">Contact Details</a>
         </li>
 
         <li>
