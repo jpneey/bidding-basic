@@ -19,6 +19,7 @@ function login(){
     var action = $(this).attr("action");
     var type = $(this).attr("method");
     var formData = new FormData(this);
+    $('#load-wrap').fadeIn(500);
 
     $inputs.prop("disabled", true);
     window.onbeforeunload = function() {
@@ -33,7 +34,7 @@ function login(){
       processData: false,
       contentType: false,
       success: function(data) {
-
+        $('#load-wrap').fadeOut(500);
         window.onbeforeunload = null;
         $(".login-form, body").css({
           opacity: "1",

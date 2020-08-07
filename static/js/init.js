@@ -13,9 +13,20 @@ $(function(){
     });
     $('.materialboxed').materialbox();
     $("time.timeago").timeago();
-    starRates();
     $('.tooltipped').tooltip();
 })
+
+$(window).on('load', function(){
+    pageFade();
+})
+
+$.fn.isInViewport = function() {
+    var elementTop = $(this).offset().top;
+    var elementBottom = elementTop + $(this).outerHeight();
+    var viewportTop = $(window).scrollTop();
+    var viewportBottom = viewportTop + $(window).height();
+    return elementBottom > viewportTop && elementTop < viewportBottom;
+};
 
 
 const cleanJSON = (s) => {
@@ -32,10 +43,8 @@ const cleanJSON = (s) => {
     return JSON.parse(s);
 }
 
-function starRates() {
-    var $el = $('.ratings');
-    var child = (5 - $el.children().length);
-    $el.append(new Array(++child).join('<i class="material-icons orange-text">star_outline</i>'));
+function pageFade(){
+    $('#load-wrap').fadeOut(500);
 }
 
 function updateExpiredBiddings(showToast = false){

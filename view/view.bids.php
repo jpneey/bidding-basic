@@ -14,65 +14,50 @@ class viewBids extends Bids {
         return $v;
     }
 
-    public function ViewFeed(){
-
-        $bidsInFeed = $this->getBiddings();
-
+    public function ViewFeed($filter = "ORDER BY cs_bidding_id DESC LIMIT 20", $type = '', $value = array()){
+        
+        $bidsInFeed = $this->getBiddings($filter, $type, $value);
+        $bidsInFeedCount = count($bidsInFeed);
+        $iteration = 0;
         if(!empty($bidsInFeed)){
 
             foreach($bidsInFeed as $key=>$value){
+                $iteration++;
+                $bidsInFeedId = $bidsInFeed[$key]["cs_bidding_id"];
                 $bidInFeedTitle = $bidsInFeed[$key]["cs_bidding_title"];
                 $bidInFeedDetails = $bidsInFeed[$key]["cs_bidding_details"];
                 $bidInFeedLink = $bidsInFeed[$key]["cs_bidding_permalink"];
                 $datePosted = $bidsInFeed[$key]["cs_bidding_added"];
                 $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($bidsInFeed[$key]['cs_owner_rating']));
-                $province = !empty($bidsInFeed[$key]['cs_owner_location']) ? $bidsInFeed[$key]['cs_owner_location'] : 'Philippines';
+                $province = $bidsInFeed[$key]["cs_bidding_location"];
                 $datePosted = '<time class="timeago" datetime="'.$bidsInFeed[$key]["cs_bidding_added"].'">'.$bidsInFeed[$key]["cs_bidding_added"].'</time>';
                 $bidInFeedPicture = '';
                 if($bidsInFeed[$key]["cs_bidding_picture"] !== '#!'){
                     $bidInFeedPicture = '
                     <div class="feed-image-wrapper">
-                        <img src="'.$this->BASE_DIR.'static/asset/bidding/'.$bidsInFeed[$key]["cs_bidding_picture"].'" class="materialboxed" />
+                        <img src="'.$this->BASE_DIR.'static/asset/bidding/'.$bidsInFeed[$key]["cs_bidding_picture"].'" alt="'.$bidInFeedTitle.'"/>
                     </div>
                     ';
                 }
-
-                switch($bidsInFeed[$key]["cs_bidding_status"]){
-                    case '1':
-                        $statusStyle = 'green lighten-0';
-                        break;
-                    case '2':
-                        $statusStyle = 'orange lighten-2';
-                        break;
-                    case '0':
-                        $statusStyle = 'red lighten-2';
-                        break;
-                }
                 
                 ?>
-                <div class="feed-card white z-depth-1">
-                    <div class="feed-head">
-                        <div class="feed-user-avatar green lighten-2 <?= $statusStyle ?>"></div>
-                        <p class="grey-text text-darken-3">
-                            <b><?= $bidInFeedTitle ?></b><br>
-                            <span class="grey-text lighten-2">
-                            <?= $province.' @ '.$datePosted ?><br>
-                            </span>
-                        </p>
+                <a href="<?= $this->BASE_DIR.'bid/'.$bidInFeedLink ?>">
+                    <div class="post-card white z-depth-1 hoverable">    
+                            <div class="title grey-text text-darken-3"><b class="truncate"><?= $bidInFeedTitle ?></b></div>
+                            <div class="sub-title grey-text"><?= $province.' @ '.$datePosted ?></div>
+                            <div class="preview grey-text text-darken-3"><span class="truncate"><?= $bidInFeedDetails ?></span></div>
+                            <span class="ratings"><?= $rating ?></span>
+                        
+                        <div class="image-wrapper grey lighten-4">
+                            <?= $bidInFeedPicture ?>
+                        </div>
                     </div>
-                    <?= $bidInFeedPicture ?>
-                    <div class="content">
-                        <span class="truncate"><?= $bidInFeedDetails ?></span>
-                        <a href="<?= $this->BASE_DIR.'bid/'.$bidInFeedLink ?>" class="waves-effect waves-light btn-flat normal-text">Read More <i class="material-icons right">launch</i></a>
-                        <span class="ratings"><?= $rating ?></span>
-                    
-                    </div>
-                </div>
+                </a>
                 <?php
+                if($bidsInFeedCount == $iteration){
+                    echo '<span id="bidFeedNext" data-base="'.$this->BASE_DIR.'"  data-id="'.$bidsInFeedId.'"><br></span>';
+                }
             }
-        } else {
-            $BASE_DIR = $this->BASE_DIR;
-            require 'component/empty.php';
         }
     }
 
@@ -85,6 +70,7 @@ class viewBids extends Bids {
             $details = $viewBid[0]['cs_bidding_details'];
             $products = $viewBid[0]['cs_bidding_products'];
             $dateNeeded = $viewBid[0]['cs_bidding_date_needed'];
+            $location = $viewBid[0]['cs_bidding_location'];
             $tags = preg_split('@,@', $viewBid[0]['cs_bidding_tags'], NULL, PREG_SPLIT_NO_EMPTY);
             $tagchip = '';
             foreach($tags as $tag) {
@@ -100,14 +86,15 @@ class viewBids extends Bids {
             <div class="page white z-depth-1">
                 <div id="introduction" class="content scrollspy">
                     <label>Home > bid > <?= $title ?></label>
-                    <h1>
+                    <br>
+                    <br>
+                    <h1 class="no-margin">
                         <b><?= $title ?></b>
-                        <span><br><?= $tagchip ?></span>
                         <span class="ratings"><?= $rating ?></span>
                     </h1>
                     <br>
                     <div class="glance white">
-                        <table class="responsive-table center-align">
+                        <table>
                             <thead>
                                 <tr>
                                     <th>Item</th>
@@ -149,7 +136,13 @@ class viewBids extends Bids {
                         <b>Date Needed:</b><br>
                         <?= date_format(date_create($dateNeeded), 'g:ia \o\n l jS F Y') ?>
                     </p>
+                    <p>
+                        <b>Location:</b><br>
+                        <?= $location ?>
+                    </p>
                     <p><?= nl2br($details); ?></p>
+                    
+                    <span><br><?= $tagchip ?></span>
                     
                 </div>
                 <?= $picture ?>

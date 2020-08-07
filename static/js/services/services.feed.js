@@ -5,8 +5,44 @@ $(function(){
       offset: 0,
     });
     $('.fixed-action-btn').floatingActionButton();
+    starRates();
 })
 
+
+$(window).on('resize scroll', function() {
+  loadNextBidding();
+});
+
+
+
+function starRates() {
+  $('.ratings').each(function() {
+    var child = (5 - $(this).children().length);
+    $(this).append('<i class="material-icons orange-text">star_outline</i>'.repeat(child));
+  });
+}
+
+function loadNextBidding(){
+  if(!$('#bidFeedNext').length){ return }
+  if($('#bidFeedNext').isInViewport()) {
+    $('#load-wrap').fadeIn(500);
+    $.ajax({
+      url: root + 'controller/controller.bidding.more.php?token='+$('#bidFeedNext').data('id')+"&base="+$('#bidFeedNext').data('base'),
+      type: 'GET',
+      processData: false,
+      contentType: false,
+      
+      success: function(data) {
+        $('#load-wrap').fadeOut(500);
+        $('#bidding-feed').append(data);
+        $("time.timeago").timeago();
+        starRates();
+      }
+    })
+
+    $('#bidFeedNext').remove();
+  }
+}
 
 function timer(time){
   

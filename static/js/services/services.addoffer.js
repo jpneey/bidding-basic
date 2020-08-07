@@ -55,7 +55,9 @@
                 opacity: "0.5",
                 cursor: "wait"
             });
-    
+            
+            $('#load-wrap').fadeIn(500);
+
             var $inputs = $(this).find("input, select, button, textarea");
             var action = $(this).data("action");
             var type = $(this).attr("method");
@@ -80,7 +82,7 @@
                         opacity: "1",
                         cursor: "auto"
                     });
-
+                    $('#load-wrap').fadeOut(500);
                     $inputs.prop("disabled", false);
 
                     var parsedData = JSON.parse(data);

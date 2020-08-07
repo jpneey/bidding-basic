@@ -22,6 +22,7 @@ function dataDelete(){
             opacity: "0.5",
             cursor: "wait"
         });
+        $('#load-wrap').fadeIn(500);
         window.onbeforeunload = function() { return "Reloading may not save your changes. Are you sure you want to leave the page?";};
         $.ajax({
             url: root + url,
@@ -29,6 +30,7 @@ function dataDelete(){
             processData: false,
             contentType: false,
             success: function(data) {
+                $('#load-wrap').fadeOut(500);
                 window.onbeforeunload = null;
                 $("body, html").css({
                     opacity: "1",

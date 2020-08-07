@@ -77,6 +77,7 @@ switch ($action) {
             array("cs_bidding_picture", "str", "s", "post"),
             array("cs_bidding_details", "str", "s", "post"),
             array("cs_bidding_tags", "str", "s", "post"),
+            array("cs_bidding_location", "str", "s", "post"),
             array("cs_bidding_date_needed", "str", "s", "post")
         );
 

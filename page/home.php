@@ -8,6 +8,7 @@
   <?php
     require "component/head.php";
   ?>
+  <link href="<?= $BASE_DIR ?>static/css/feed.css" type="text/css" rel="stylesheet"/>
 
 </head>
 <body>
@@ -18,7 +19,7 @@
   <div class="main">
     <div class="wrapper wrapper-top-bottom">
       <div class="container row">
-        <div class="col s12 m8">
+        <div class="col s12" id="bidding-feed">
           <?php
           
             switch(Sanitizer::filter('unauth', 'get')) {
@@ -42,15 +43,11 @@
             
           ?>
         </div>
-        <div class="col s12 m4">
-     
-          
-          
-      
-        </div>
+
       </div>
     </div>
   </div>
+  <script src="<?= $BASE_DIR ?>static/js/services/services.feed.js"></script>
   <?php
     require "./component/footer.php";
   ?>

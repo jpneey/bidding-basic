@@ -16,6 +16,7 @@
                 opacity: "0.5",
                 cursor: "wait"
             });
+            $('#load-wrap').fadeIn(500);
     
             var $inputs = $(this).find("input, select, button, textarea");
             var action = $(this).attr("action");
@@ -35,7 +36,7 @@
                 processData: false,
                 contentType: false,
                 success: function(data) {
-
+                    $('#load-wrap').fadeOut(500);
                     window.onbeforeunload = null;
                     $(".add-form, body").css({
                         opacity: "1",

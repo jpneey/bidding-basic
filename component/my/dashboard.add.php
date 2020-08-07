@@ -11,7 +11,7 @@
                     <p>Post Details:</p>
                 </div>
             
-                <div class="input-field no-margin col s12">
+                <div class="input-field no-margin col s12 m8">
                     <p><label>Enter Bidding Title</label></p>
                     <input 
                         required 
@@ -19,6 +19,24 @@
                         name="cs_bidding_title" 
                         class="custom-input validate"  
                     />
+                </div>
+                
+                <div class="input-field no-margin col s12 m4">
+                    <p><label>Location</label></p>
+                    <select 
+                        required 
+                        type="text" 
+                        name="cs_bidding_location" 
+                        class="custom-input validate browser-default"  
+                    >
+                    <?php 
+                    require_once "model/model.location.php";
+                    require_once "view/view.location.php";
+                    $location = new Location();
+                    $viewLocation = new viewLocation($BASE_DIR);
+                    $viewLocation->load($viewLocation->optionLocation());
+                    ?>
+                    </select>
                 </div>
                 <div class="input-field col s12">
                     <p>
