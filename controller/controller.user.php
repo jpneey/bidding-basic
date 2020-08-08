@@ -63,8 +63,8 @@ switch ($action) {
         }
 
         if(!empty($cs_user_name)){
-            if(!$user->updateUserCol($__user_id, 'cs_user_name', 's', $cs_user_name)){
-                echo json_encode(array('code' => 0, 'message' => 'Failed to update username.'));
+            if(!$user->updateUserCol($__user_id, 'cs_user_name', 's', $cs_user_name, true)){
+                echo json_encode(array('code' => 0, 'message' => 'Failed to update username. Username already exists'));
                 die();
             }
         }

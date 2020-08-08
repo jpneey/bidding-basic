@@ -109,7 +109,7 @@ class Bids extends DBHandler {
         $passedId = (int)$user_id;
         $connection = $this->connectDB();
         
-        $stmt = $connection->prepare("SELECT cs_bidding_id, cs_bidding_title, cs_bidding_permalink, cs_bidding_status, cs_bidding_added FROM cs_biddings WHERE cs_bidding_user_id = ?");
+        $stmt = $connection->prepare("SELECT cs_bidding_id, cs_bidding_title, cs_bidding_permalink, cs_bidding_status, cs_bidding_added FROM cs_biddings WHERE cs_bidding_user_id = ? ORDER BY cs_bidding_id DESC");
         $stmt->bind_param('i', $passedId);
         $stmt->execute();
 

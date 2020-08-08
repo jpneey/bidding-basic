@@ -50,9 +50,20 @@ class User extends DBHandler {
         
     }
 
-    public function updateUserCol($userId, $column, $binding, $value){
+    public function updateUserCol($userId, $column, $binding, $value, $uniq = false){
         
         $connection = $this->connectDB();
+
+        if($uniq){
+            $stmt = $connection->prepare("SELECT cs_user_id FROM cs_users WHERE $column = ? AND cs_user_id != ?");
+            $stmt->bind_param($binding.'i', $value, $userId);
+            $stmt->execute();
+            $exists = $stmt->get_result()->num_rows;
+            $stmt->close();
+            if(!empty($exists)){
+                return false;
+            }
+        }
         $stmt = $connection->prepare("UPDATE cs_users SET $column = ? WHERE cs_user_id = ?");
         $stmt->bind_param($binding.'i', $value, $userId);
         $execute = $stmt->execute();

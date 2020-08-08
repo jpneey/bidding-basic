@@ -17,8 +17,8 @@ class Search extends DBHandler {
     public function searchForm($filter = false){
         ?>
 
-        <form name="searchForm" action="<?= $this->BASE_DIR ?>search/" method="GET" class="white z-depth-1 search-bar hide-on-med-and-down" >
-            <i class="material-icons" onclick="searchForm.submit()">search</i>
+        <form name="searchForm" action="<?= $this->BASE_DIR ?>search/" method="GET" class="white z-depth-1 search-bar <?php if($filter){ echo 'filter'; } ?>" >
+            <button class="material-icons" type="submit">search</button>
             <input required name="queue" type="text" class="browser-default <?php if($filter){ echo 'filter'; } ?>" placeholder="Find what you need .." />
             <?php if($filter){ $this->filters(); } ?>
         </form>

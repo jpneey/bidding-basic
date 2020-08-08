@@ -86,7 +86,9 @@ input.browser-default,
 input.browser-default,
 .sidenav input,
 .sidenav .text { 
-  width: 200px; line-height: 18px; }
+  width: 200px; line-height: 18px; 
+  cursor: pointer;
+}
 .sidenav input:focus {
   outline: none;
 }
@@ -305,6 +307,7 @@ input.browser-default,
   height: 100%;
   background: rgba(255,255,255,0.5);
   z-index: 9999;
+  backdrop-filter: blur(4px);
 }
 #onload {
   position: absolute;
@@ -312,7 +315,25 @@ input.browser-default,
   left: 50%;
   transform: translate(-50%, -50%);
 }
-
+.chips input {
+  background: transparent !important;
+}
+.chips a.add {
+  display: inline-block;
+  height: 32px;
+  line-height: 32px;
+  color: #424242;
+  opacity: 0;
+  text-align: center;
+  transition: opacity 0.3s ease-out;
+  vertical-align: middle;
+  width: 32px; }
+  .chips a.add i {
+    line-height: 32px; }
+  .chips a.add:hover {
+    opacity: 1 !important; }
+  .chips.focus a.add {
+    opacity: 0.6; }
 @media only screen and (max-width : 800px) {
   .sidenav .user-view {
     padding: 32px 32px 0;

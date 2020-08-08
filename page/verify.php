@@ -11,7 +11,7 @@ if($auth->compareSession('auth', true)){
 
 $emailAddress = urldecode(Sanitizer::filter('e', 'get'));
 $temporaryPassword = urldecode(Sanitizer::filter('token', 'get'));
-$userName = strtok($emailAddress, '@');
+$userName = 'user-'.$emailAddress;
 
 $stmt = $connection->prepare("SELECT cs_user_id FROM cs_users WHERE cs_user_email = ? AND cs_user_password = ? AND cs_user_role = 0");
 $stmt->bind_param('ss', $emailAddress, $temporaryPassword);
@@ -61,9 +61,3 @@ die("<a href='$setup_link'>Please click here if you are not redirected automatic
 
 // EOF
 
-
-// http://localhost/bidding-basic/my/account/?p=t&t=%242y%2410%24X2t8MNNi%2FtbtEJp7PUagFORpR8ut%2F8rLfd.jQ3Mt2VwyeLQPknXUG&u=5
-
-// http://localhost/bidding-basic/verify/?e=burato348%40gmail.com&token=%242y%2410%24X2t8MNNi%2FtbtEJp7PUagFORpR8ut%2F8rLfd.jQ3Mt2VwyeLQPknXUG
-
-// http://localhost/bidding-basic/my/account/?p=t&t=%242y%2410%24X2t8MNNi%2FtbtEJp7PUagFORpR8ut%2F8rLfd.jQ3Mt2VwyeLQPknXUG&u=5&existed=true

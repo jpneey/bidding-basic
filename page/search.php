@@ -16,7 +16,7 @@ $s_mode = ($s_mode) ? $s_mode : 'bid';
   <?php
     require "component/head.php";
   ?>
-  <link href="<?= $BASE_DIR ?>static/css/feed.css" type="text/css" rel="stylesheet"/>
+  <link href="<?= $BASE_DIR ?>static/css/feed.css?v=beta-1" type="text/css" rel="stylesheet"/>
 
 </head>
 <body>
@@ -26,12 +26,14 @@ $s_mode = ($s_mode) ? $s_mode : 'bid';
   ?>
   <div class="main">
     <div class="wrapper wrapper-top-bottom">
-      <div class="container row">
+      <div class="container row">  
+        <div class="col s12">
             <?php
                 require_once "view/view.search.php";
                 $search = new Search($BASE_DIR, 'bid');
                 $search->load($search->searchForm(true));
             ?>
+        </div>
         <div class="col s12">
           <?php
           

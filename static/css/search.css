@@ -23,7 +23,7 @@
     font-size: 13px;
     max-width: 100%;
 }
-.search-bar i {
+.search-bar button {
     position: absolute;
     height: 36px !important;
     width: 36px;
@@ -31,8 +31,11 @@
     text-align: center;
     font-size: 18px !important;
     border-right: 1px solid #fff;
+    background: transparent;
     color: black;
     cursor: pointer;
+    border: none;
+    z-index: 2;
 }
 .search-bar *:focus {
     outline: none;
@@ -44,6 +47,7 @@
     width: 130px;
     height: 36px;
     padding: 0 15px;
+    border: none;
     border-right: 10px solid white;
 }
 .search-bar select.b{
@@ -61,11 +65,53 @@ nav .search-bar input {
     color: white;
 }
 
-nav .search-bar i {
+nav .search-bar button {
     border-color: #555;
     background: #555;
     color: white;
     left: auto;
     right: 0px;
     font-size: 15px !important;
+}
+
+#search-bottomsheet {
+    height: 56px;
+    overflow: hidden;
+    padding: 0 5% !important;
+}
+
+#search-bottomsheet form {
+    margin: 10px auto;
+    box-shadow: none;
+}
+#search-bottomsheet button { 
+    left: auto;
+    right: 0;
+}
+#search-bottomsheet input { 
+    font-size: 12px;
+    padding-left: 15px;
+    background: #f2f2f2; 
+}
+
+
+@media only screen and (max-width : 600px) { 
+    .search-bar button { 
+        right: 0;
+    }
+    .search-bar.filter {
+        height: auto;
+    }
+    .search-bar input,
+    .search-bar select {
+        padding: 0 15px !important;
+        width: 100%;
+        position: relative;
+        display: block;
+        right: auto !important;
+        margin: 0 auto;
+    }
+    .search-bar input {
+        padding-left: 18px !important;
+    }
 }

@@ -17,7 +17,9 @@ $(function(){
 })
 
 $(window).on('load', function(){
-    pageFade();
+    setTimeout(function(){
+        pageFade();
+    }, 500)
 })
 
 $.fn.isInViewport = function() {
@@ -44,7 +46,7 @@ const cleanJSON = (s) => {
 }
 
 function pageFade(){
-    $('#load-wrap').fadeOut(500);
+    $('#load-wrap').fadeOut(100);
 }
 
 function updateExpiredBiddings(showToast = false){

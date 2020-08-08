@@ -1,4 +1,16 @@
-<?php defined('included') || die("Bad request"); ?>
+<?php 
+
+defined('included') || die("Bad request");
+require_once "model/model.location.php";
+require_once "view/view.location.php";
+require_once "model/model.category.php";
+require_once "view/view.category.php";
+$category = new Category();
+$viewCategory = new viewCategory($BASE_DIR);
+$location = new Location();
+$viewLocation = new viewLocation($BASE_DIR); 
+
+?>
 
 <form action="<?= $BASE_DIR ?>controller/controller.bidding.php?action=add" class="add-form" method="POST" enctype="multipart/form-data" >
 <div class="col s12 white page z-depth-1">
@@ -30,11 +42,7 @@
                         class="custom-input validate browser-default"  
                     >
                     <?php 
-                    require_once "model/model.location.php";
-                    require_once "view/view.location.php";
-                    $location = new Location();
-                    $viewLocation = new viewLocation($BASE_DIR);
-                    $viewLocation->load($viewLocation->optionLocation());
+                        $viewLocation->load($viewLocation->optionLocation());
                     ?>
                     </select>
                 </div>
@@ -52,9 +60,23 @@
                         <label>Enter up to five(5) tags.<br></label>
                         <label>* single word only. To add tags, just enter your tag text and press enter. You can delete them by clicking on the close icon or by using your delete button.</label>
                     </p>
-                    <div class="chips myChip custom-input">
+                </div>
+                <div class="input-field no-margin col s12 m4">
+                    <select 
+                        required 
+                        type="text" 
+                        name="cs_bidding_category_id" 
+                        class="custom-input validate browser-default"  
+                    >
+                    <?php 
+                        $viewCategory->load($viewCategory->optionCategories());
+                    ?>
+                    </select>
+                </div>
+                <div class="input-field no-margin col s12 m8">
+                    <div class="chips myChip custom-input no-margin">
                         <input 
-                            class="custom-input validate" 
+                            class="custom-input validate"
                         />
                     </div>
                     <input 
@@ -158,4 +180,4 @@
     </div>
 </div>
 </form>
-<script src="<?php echo $BASE_DIR ?>static/js/services/services.addbid.js" type="text/javascript"></script>
+<script src="<?php echo $BASE_DIR ?>static/js/services/services.addbid.js?v=beta-1" type="text/javascript"></script>

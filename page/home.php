@@ -8,7 +8,7 @@
   <?php
     require "component/head.php";
   ?>
-  <link href="<?= $BASE_DIR ?>static/css/feed.css" type="text/css" rel="stylesheet"/>
+  <link href="<?= $BASE_DIR ?>static/css/feed.css?v=beta-1" type="text/css" rel="stylesheet"/>
 
 </head>
 <body>

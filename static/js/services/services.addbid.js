@@ -27,6 +27,18 @@
                 $("#tags").val(chipsDataJson);
             }
         })
+        $('.chips').each(function() {
+            var that=this;
+            $(this).find('input').after('<a href="#" class="add circle grey lighten-2 center-align"><i class="material-icons tiny">add</i></a>');
+            $(this).on('click', 'a.add', function(e) {
+                e.preventDefault();
+                var input=$(e.currentTarget).prev('input');
+                $(that).chips('addChip', {
+                    tag: input.val()
+                }); 
+                input.val('');
+            });
+        });
     }
 
     function datePicker() {

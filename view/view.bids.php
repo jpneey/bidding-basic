@@ -42,7 +42,7 @@ class viewBids extends Bids {
                 
                 ?>
                 <a href="<?= $this->BASE_DIR.'bid/'.$bidInFeedLink ?>">
-                    <div class="post-card white z-depth-1 hoverable">    
+                    <div class="post-card white z-depth-1 waves-effect">    
                             <div class="title grey-text text-darken-3"><b class="truncate"><?= $bidInFeedTitle ?></b></div>
                             <div class="sub-title grey-text"><?= $province.' @ '.$datePosted ?></div>
                             <div class="preview grey-text text-darken-3"><span class="truncate"><?= $bidInFeedDetails ?></span></div>
