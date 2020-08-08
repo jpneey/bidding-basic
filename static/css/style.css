@@ -222,12 +222,18 @@ input.browser-default,
 .bid-offer p {
   margin-bottom: -5px;
 }
+
+.main .wrapper.wrapper-top-bottom,
+.main { min-height: calc(100vh - 64px);}
 @media only screen and (max-width : 992px) {
   
   header, .main, footer {
     padding-left: 0;
     padding-right: 0;
   }
+  
+  .main .wrapper.wrapper-top-bottom,
+  .main { min-height: calc(100vh - 64px);}
   .brand-logo > img {
     margin: 12px;
   }

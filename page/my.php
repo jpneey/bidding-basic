@@ -31,7 +31,9 @@ $myView = 'component/my/'.$pageTitle.'.php';
             if(file_exists($myView)):
                 require $myView;
             else:
-                require 'component/404.php';
+                $emptyTitle = "Ah yes, 404";
+                $emptyMessage = "It seems like the page you are looking for was moved, deleted or didn't exist at all.";  
+                require 'component/empty.php';
             endif;
 
           ?>

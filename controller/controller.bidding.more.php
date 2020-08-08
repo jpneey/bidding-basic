@@ -1,5 +1,6 @@
 <?php
 
+die();
 define('included', true);
 require_once "./controller.sanitizer.php";
 require_once "./controller.database.php";
@@ -16,6 +17,6 @@ $BASE_DIR = Sanitizer::filter('base', 'get');
 
 $bid = new Bids();
 $viewBids = new viewBids($BASE_DIR);
-echo $viewBids->load($viewBids->viewFeed(" AND cs_bidding_id < ? ORDER BY cs_bidding_id DESC LIMIT 10", 'i', array($id)));  
+$viewBids->viewFeed(" AND cs_bidding_id < ? ORDER BY cs_bidding_id DESC LIMIT 10", 'i', array($id));  
 
 ?>

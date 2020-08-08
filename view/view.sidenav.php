@@ -31,7 +31,7 @@ class sideNav {
         ?>
         <li>
             <div class="user-view ">
-                <div class="background grey lighten-3">
+                <div class="background white">
                 </div>
                 <a href="#user">
                     <img class="circle" src="<?= $this->detailArray[5].'static/asset/user/'.$this->detailArray[2] ?>" alt="<?= $this->detailArray[3] ?>'s' avatar" />
@@ -40,6 +40,7 @@ class sideNav {
                 <a href="#email"><span class="grey-text email"><?= $this->detailArray[4] ?></span></a>
             </div>
         </li>
+        <li><div class="divider"></div></li>
         <?php
         if($this->detailArray[0] && $this->detailArray[1]) {
             ?>

@@ -88,7 +88,6 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
                 <div class="input-field no-margin col s12">
                 <br>
                 <br>
-
                     <input type="submit" class="btn z-depth-1 orange white-text" value="Update Profile" />
                 </div>
 

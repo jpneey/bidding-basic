@@ -42,7 +42,7 @@ $viewLocation = new viewLocation($BASE_DIR);
                         class="custom-input validate browser-default"  
                     >
                     <?php 
-                        $viewLocation->load($viewLocation->optionLocation());
+                        $viewLocation->optionLocation();
                     ?>
                     </select>
                 </div>
@@ -69,7 +69,7 @@ $viewLocation = new viewLocation($BASE_DIR);
                         class="custom-input validate browser-default"  
                     >
                     <?php 
-                        $viewCategory->load($viewCategory->optionCategories());
+                        $viewCategory->optionCategories();
                     ?>
                     </select>
                 </div>

@@ -39,7 +39,7 @@
             require_once "view/view.bids.php";
             $bid = new Bids();
             $viewBids = new viewBids($BASE_DIR);
-            $viewBids->load($viewBids->viewFeed());  
+            $viewBids->viewFeed();  
             
           ?>
         </div>

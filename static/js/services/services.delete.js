@@ -8,6 +8,9 @@ function dataDelete(){
     var url;
 
     $trigger.on('click', function(){
+
+        if(!confirm("Are you sure to delete this entry?")){ return}
+
         var selector = $(this).data('selector');
         var mode = $(this).data('mode');
         switch(mode){
@@ -50,6 +53,9 @@ function dataDelete(){
                     html: parsedData.message,
                     classes: classes + " white-text"
                 });
+
+                $('.main').load(" .main > *");
+                dataDelete();
             }
         })
 

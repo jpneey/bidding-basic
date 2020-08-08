@@ -12,7 +12,7 @@
             <?php
                 require_once "view/view.search.php";
                 $search = new Search($BASE_DIR, 'bid');
-                $search->load($search->searchForm());
+                $search->searchForm();
             ?>
             </ul>
         </div>
@@ -64,7 +64,7 @@
     ?>
 </ul>
 <div id="search-bottomsheet" class="modal bottom-sheet">
-    <?= $search->load($search->searchForm()) ?>
+    <?= $search->searchForm() ?>
 </div>
 <div id="load-wrap">
     <div id="onload">

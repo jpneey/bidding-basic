@@ -31,7 +31,7 @@ $s_mode = ($s_mode) ? $s_mode : 'bid';
             <?php
                 require_once "view/view.search.php";
                 $search = new Search($BASE_DIR, 'bid');
-                $search->load($search->searchForm(true));
+                $search->searchForm(true);
             ?>
         </div>
         <div class="col s12">
@@ -52,7 +52,7 @@ $s_mode = ($s_mode) ? $s_mode : 'bid';
                   $controllerSearch = new controllerSearch();
                   $filter = $controllerSearch->searchBid($s_queue, $s_location, $s_category);
                   $viewBids = new viewBids($BASE_DIR);
-                  $viewBids->load($viewBids->viewFeed($filter[0], $filter[1], $filter[2]));  
+                  $viewBids->viewFeed($filter[0], $filter[1], $filter[2]);  
                   break;
             }
 

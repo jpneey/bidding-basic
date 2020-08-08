@@ -48,7 +48,7 @@ class viewBids extends Bids {
                             <div class="preview grey-text text-darken-3"><span class="truncate"><?= $bidInFeedDetails ?></span></div>
                             <span class="ratings"><?= $rating ?></span>
                         
-                        <div class="image-wrapper grey lighten-4">
+                        <div class="image-wrapper">
                             <?= $bidInFeedPicture ?>
                         </div>
                     </div>
@@ -58,6 +58,11 @@ class viewBids extends Bids {
                     echo '<span id="bidFeedNext" data-base="'.$this->BASE_DIR.'"  data-id="'.$bidsInFeedId.'"><br></span>';
                 }
             }
+        } else { 
+            $BASE_DIR = $this->BASE_DIR;
+            $emptyTitle = "It's quiet in here..";
+            $emptyMessage = "Biddings will appear here, but ufortunately there are no active biddings right now.";
+            require_once "./component/empty.php";
         }
     }
 
@@ -74,18 +79,16 @@ class viewBids extends Bids {
             $tags = preg_split('@,@', $viewBid[0]['cs_bidding_tags'], NULL, PREG_SPLIT_NO_EMPTY);
             $tagchip = '';
             foreach($tags as $tag) {
-                $tagchip .= '<span class="chip grey lighten-4">'.$tag.'</span>';
+                $tagchip .= '<span class="chip grey lighten-3">'.$tag.'</span>';
             }
             $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($viewBid[0]['cs_owner_rating']));
-            $picture = 
-                ($viewBid[0]['cs_bidding_picture'] != '#!') ? 
-                '<img id="bidding-details" src="'.$this->BASE_DIR.'static/asset/bidding/'.$viewBid[0]['cs_bidding_picture'].'" class="margin-auto materialboxed scrollspy" />' :
-                '';
+            $picture = ($viewBid[0]['cs_bidding_picture'] != '#!') ? $viewBid[0]['cs_bidding_picture'] : 'placeholder.svg';
+                
             ?>
             
             <div class="page white z-depth-1">
                 <div id="introduction" class="content scrollspy">
-                    <label>Home > bid > <?= $title ?></label>
+                    <label><a href="<?= $this->BASE_DIR ?>" class="grey-text">Home</a> > bid > <?= $title ?></label>
                     <br>
                     <br>
                     <h1 class="no-margin">
@@ -93,34 +96,9 @@ class viewBids extends Bids {
                         <span class="ratings"><?= $rating ?></span>
                     </h1>
                     <br>
-                    <div class="glance white">
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>Item</th>
-                                    <th>Quantity</th>
-                                    <th>Budget</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-                                    foreach($products as $k=>$v) {                     
-                                        $item = $products[$k]['cs_product_name'];
-                                        $budget = number_format($products[$k]['cs_product_price'], '2', '.', ',');
-                                        $qty = $products[$k]['cs_product_qty'] . ' ' . $products[$k]['cs_product_unit'];
-                                ?>
-                                <tr class="item" data-item="<?= $item ?>" data-qty="<?= $products[$k]['cs_product_qty'] ?>" data-unit="<?= $products[$k]['cs_product_unit'] ?>">
-                                    <td><?= $item ?></td>
-                                    <td><?= $qty ?></td>
-                                    <td>₱ <?= $budget ?></td>
-                                </tr>
-                                <?php
-                                    }
-                                ?>
-                            </tbody>
-                        </table>
-                    </div>
-                    <br>
+                    
+                    <p><?= nl2br($details); ?> Lore</p>
+
                     <?php if($status) { ?>
                     <p id="timer-wrapper">
                         <b>Bidding ends in:</b><br>
@@ -136,23 +114,45 @@ class viewBids extends Bids {
                         <b>Date Needed:</b><br>
                         <?= date_format(date_create($dateNeeded), 'g:ia \o\n l jS F Y') ?>
                     </p>
-                    <p>
-                        <b>Location:</b><br>
-                        <?= $location ?>
-                    </p>
-                    <p><?= nl2br($details); ?></p>
+                    <div class="glance white">
+                        <?php
+                            foreach($products as $k=>$v) {                     
+                                $item = $products[$k]['cs_product_name'];
+                                $budget = number_format($products[$k]['cs_product_price'], '2', '.', ',');
+                                $qty = $products[$k]['cs_product_qty'] . ' ' . $products[$k]['cs_product_unit'];
+                        ?>
+                        <div class="product-card item" data-item="<?= $item ?>" data-qty="<?= $products[$k]['cs_product_qty'] ?>" data-unit="<?= $products[$k]['cs_product_unit'] ?>">
+                            <div class="thumbnail">
+                                <img id="bidding-details" src="<?= $this->BASE_DIR ?>static/asset/bidding/<?= $picture ?>" class="margin-auto materialboxed" />
+                            </div>
+                            <div class="content">
+                                <p class="truncate"><b><?= $location ?></b></p>
+                                <p><?= $item ?> <?= $qty ?></p>
+                                <p class="truncate grey-text">₱ <?= $budget ?></p>
+                            </div>
+                        </div>
+                        <?php
+                            }
+                        ?>
+                    </div>
                     
                     <span><br><?= $tagchip ?></span>
                     
                 </div>
-                <?= $picture ?>
             </div>
 
             <link href="<?= $this->BASE_DIR ?>static/css/timer.css" type="text/css" rel="stylesheet"/>
+            <link href="<?= $this->BASE_DIR ?>static/css/bid.css" type="text/css" rel="stylesheet"/>
             <?php if($status) { ?>
             <script> $(function(){ timer('<?= $dateNeeded ?>') }) </script>
             <?php
             }
+        } else {
+            
+            $BASE_DIR = $this->BASE_DIR;
+            $emptyTitle = "It's quiet in here..";
+            $emptyMessage = "Biddings will appear here, but ufortunately there are no active biddings right now.";
+            require_once "./component/empty.php";
         }
     }
 
