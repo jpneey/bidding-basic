@@ -12,8 +12,8 @@ class viewLocation extends Location {
         return $v;
     }
 
-    public function optionLocation() {
-        $locations = $this->getLocations();
+    public function optionLocation($type) {
+        $locations = $this->getLocations($type);
         if(!empty($locations)){
             foreach($locations as $key=>$value){
                 ?>

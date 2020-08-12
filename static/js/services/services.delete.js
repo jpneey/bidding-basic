@@ -17,6 +17,9 @@ function dataDelete(){
             case 'bid':
                 url = 'controller/controller.bidding.php?action=delete&selector='+selector;
                 break;
+            case 'featured':
+                url = 'controller/controller.business.php?action=delete';
+                break;
             case 'offer':
                 url = 'controller/controller.offer.php?action=delete&selector='+selector;
                 break;

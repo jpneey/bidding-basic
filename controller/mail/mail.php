@@ -8,6 +8,13 @@ require 'SMTP.php';
 
 $mail = new PHPMailer();
 $mail->IsSMTP();
+$mail->SMTPOptions = array(
+    'ssl' => array(
+        'verify_peer' => false,
+        'verify_peer_name' => false,
+        'allow_self_signed' => true
+    )
+);
 $mail->SMTPDebug = 0;
 $mail->SMTPAuth = true;
 $mail->SMTPSecure = 'ssl';

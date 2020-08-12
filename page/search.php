@@ -34,7 +34,7 @@ $s_mode = ($s_mode) ? $s_mode : 'bid';
                 $search->searchForm(true);
             ?>
         </div>
-        <div class="col s12">
+        <div class="col s12" id="bidding-feed">
           <?php
           
             switch($s_mode){

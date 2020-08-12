@@ -15,9 +15,12 @@
 .post-card .title {
     width: 100%;
 }
+
+.supplier-card .title,
 .post-card .title {
     font-size: 14px;
 }
+.supplier-card .sub-title,
 .post-card .preview,
 .post-card .sub-title {
     font-size: 12px;
@@ -61,3 +64,43 @@
         margin: 15px auto 0;    
     }
 }
+
+.supplier-card {
+    position: relative;
+    display: block;
+    height: 300px;
+    margin-bottom: 25px;
+    max-width: 240px;
+    margin: 0 auto 25px;
+}
+
+.supplier-card .logo {
+    position: absolute;
+    display: block;
+    width: 100px;
+    height: 100px;
+    top: 35%;
+    left: 50%;
+    overflow: hidden;
+    transform: translate(-50%, -50%);
+}
+
+.thumbnail h2,
+.supplier-card .logo > img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+}
+h2 span { font-size: 14px; }
+.supplier-card .content {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    padding: 15px 25px;
+}
+.supplier-card .content > span {
+    padding: 0;
+}
+a.chip { margin-right: auto; }

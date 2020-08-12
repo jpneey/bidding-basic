@@ -1,19 +1,20 @@
 <div class="navbar-fixed">
     <nav>
         <div class="wrapper nav-wrapper">
-            <a href="<?php echo $BASE_DIR ?>" class="brand-logo left">
-                <img src="<?php echo $BASE_DIR ?>static/asset/logo.png" alt="Site Logo" />
+            <a href="<?= $BASE_DIR ?>" class="brand-logo left">
+                <img src="<?= $BASE_DIR ?>static/asset/logo.png" alt="Site Logo" />
             </a>
-            
-            <ul class="right">
-                <li><a href="#!"><i class="material-icons">menu</i></a></li>
+            <ul class="right hide-on-med-and-down">
+                <?php
+                    require_once "view/view.search.php";
+                    $search = new Search($BASE_DIR, 'bid');
+                    $search->searchForm();
+                ?>
             </ul>
             <ul class="right hide-on-med-and-down">
-            <?php
-                require_once "view/view.search.php";
-                $search = new Search($BASE_DIR, 'bid');
-                $search->searchForm();
-            ?>
+                <li><a href="<?= $BASE_DIR ?>home/">Biddings</a></li>
+                <li><a href="<?= $BASE_DIR ?>home/">Faqs</a></li>
+                <li><a href="<?= $BASE_DIR ?>supplier/">Suppliers</a></li>
             </ul>
         </div>
     </nav>
@@ -26,12 +27,12 @@
         <p class="no-margin grey-text text-darken-1"><b>Account</b></p>
     </li>
     <li class="col s3">
-        <a href="<?php echo $BASE_DIR ?>home/" class="grey-text text-darken-1 block"><i class="material-icons">playlist_add</i></a>
+        <a href="<?= $BASE_DIR ?>home/" class="grey-text text-darken-1 block"><i class="material-icons">playlist_add</i></a>
         <p class="no-margin grey-text text-darken-1"><b>Biddings</b></p>
     </li>
     
     <li class="col s3">
-        <a href="<?php echo $BASE_DIR ?>supplier/" class="grey-text text-darken-1 block"><i class="material-icons">people_outline</i></a>
+        <a href="<?= $BASE_DIR ?>supplier/" class="grey-text text-darken-1 block"><i class="material-icons">people_outline</i></a>
         <p class="no-margin grey-text text-darken-1"><b>Suppliers</b></p>
     </li>
     
@@ -62,6 +63,10 @@
         $sideNav->loadSideNav();
 
     ?>
+</ul>
+<ul id="category-nav" class="sidenav">
+    <li class="navbar-fixed"></li>
+
 </ul>
 <div id="search-bottomsheet" class="modal bottom-sheet">
     <?= $search->searchForm() ?>

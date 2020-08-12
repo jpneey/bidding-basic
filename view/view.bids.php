@@ -221,7 +221,6 @@ class viewBids extends Bids {
                 <span class="card-counter">
                     <a class="z-depth-1 orange white-text center-align"><?= $bidInFeedOfferCount ?></a>
                     <a href="#!" data-selector="<?= $bidInFeedLink ?>" data-mode="bid" class="data-delete z-depth-1 red white-text center-align">delete</a>
-                    <a class="z-depth-1 green white-text center-align">edit</a>
                 </span>
             <?php
             echo '</div>';

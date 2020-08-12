@@ -2,10 +2,10 @@
 
 class Location extends DBHandler {
 
-    public function getLocations(){
-
+    public function getLocations($type = 2){
+        $type = (int)$type;
         $connection = $this->connectDB();
-        $stmt = $connection->prepare("SELECT * FROM cs_locations ORDER BY cs_location ASC");
+        $stmt = $connection->prepare("SELECT * FROM cs_locations WHERE cs_location_type = '$type' ORDER BY cs_location ASC");
         $stmt->execute();
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         $stmt->close();

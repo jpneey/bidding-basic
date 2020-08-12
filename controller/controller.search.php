@@ -26,7 +26,7 @@ class controllerSearch extends DBHandler {
             }
         }
 
-        $filter .= " ORDER BY cs_bidding_id DESC";
+        $filter .= " ORDER BY cs_bidding_id DESC LIMIT 20";
 
         return array($filter,$type,$value);
     }

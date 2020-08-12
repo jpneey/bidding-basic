@@ -11,7 +11,7 @@
   <link href="<?= $BASE_DIR ?>static/css/feed.css?v=beta-2" type="text/css" rel="stylesheet"/>
 
 </head>
-<body>
+<body class="minimal">
 
   <?php
     require "component/navbar.php";
@@ -21,25 +21,14 @@
       <div class="container row">
         <div class="col s12" id="bidding-feed">
           <?php
-          
-            switch(Sanitizer::filter('unauth', 'get')) {
-              case '1':
-                $messageClass = 'red darken-1 white-text z-depth-1';
-                $htmlMessage = 'Unauthorized';
-                require 'component/message.php';
-                break;
-              case '2':
-                $messageClass = 'orange white-text z-depth-1';
-                $htmlMessage = 'You are now logged out';
-                require 'component/message.php';
-                break;
-            }
 
-            require_once "model/model.bids.php";
-            require_once "view/view.bids.php";
-            $bid = new Bids();
-            $viewBids = new viewBids($BASE_DIR);
-            $viewBids->viewFeed();  
+            require_once "model/model.supplier.php";
+            require_once "view/view.supplier.php";
+
+            $supplier = new Supplier();
+            $viewSupplier = new viewSupplier($BASE_DIR);
+
+            (!empty($uri[1])) ? $viewSupplier->viewSupplier($uri[1]) : $viewSupplier->viewFeed();  
             
           ?>
         </div>

@@ -73,7 +73,7 @@ class viewOffers extends Offers {
         if($isSupplier) {
             ?>
             <div class="page white z-depth-1">
-                <div id="submit-offer" class="content row scrollspy">
+                <div id="submit-offer" class="content sm row scrollspy">
             
                     <form class="col s12 row" action="#!" data-action="<?= $this->BASE_DIR.'controller/controller.offer.php?action=add&bid='.$biddingId ?>" id="offer-form" method="POST">
 
@@ -138,6 +138,7 @@ class viewOffers extends Offers {
                         <div class="col s12">
                             <p><?= $this->postOfferTitle($this->getCountOffer($biddingId)) ?></p>
                             <input type="submit" value="Submit offer" class="btn white-text" />
+                            <a href="<?= $this->BASE_DIR ?>about/faqs/" class="btn waves-effect orange white-text">Faqs</a>
                         </div>
 
                     </form>
@@ -147,6 +148,7 @@ class viewOffers extends Offers {
                         <div class="col s12" id="placeholder">
                             <p><?= $this->postOfferTitle($this->getCountOffer($biddingId)) ?></p>
                             <a class="waves-effect waves-light btn generate-form" href="#~">Submit Offer</a>
+                            <a href="<?= $this->BASE_DIR ?>about/faqs/" class="btn waves-effect orange white-text">Faqs</a>
                         </div>
                     </div>
 
@@ -159,13 +161,13 @@ class viewOffers extends Offers {
         } else {
             ?>
             <div class="page white z-depth-1">
-                <div id="submit-offer" class="content row scrollspy">
+                <div id="submit-offer" class="content sm row scrollspy">
                     
                     <?php $this->viewLowestOffer($biddingId); ?>
                     <?php $this->viewMyOffers($userId, $biddingId); ?>
                     <div class="col s12">
-                        <p>You need to login on a supplier account inorder to participate in biddings.</p>
-                        <a href="#!" class="btn waves-effect orange white-text">Learn how</a>
+                        <p>You need to login on a supplier account inorder to participate in biddings. Bidders remain anonymous until it's offer is selected.</p>
+                        <a href="<?= $this->BASE_DIR ?>about/faqs/" class="btn waves-effect orange white-text">Learn how</a>
                     </div>
                 </div>
             </div>
@@ -178,9 +180,9 @@ class viewOffers extends Offers {
     protected function postOfferTitle($count){
         switch($count) {
             case '0':
-                return 'Be the first one to offer in this thread.';
+                return 'Be the first one to submit an offer in this thread. Bidders remain anonymous until it\'s offer is selected.';
             default:
-                return 'Join '.$count.' other supplier and submit your offer.';
+                return 'Join '.$count.' other supplier and submit your offer.Bidders remain anonymous until it\'s offer is selected.';
         }
     }
     

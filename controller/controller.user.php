@@ -27,6 +27,7 @@ switch ($action) {
     case 'update':
         
         $cs_user_name = Sanitizer::filter('cs_user_name', 'post');
+        $cs_user_name = Sanitizer::url($cs_user_name);
         $cs_user_password = Sanitizer::filter('cs_user_password', 'post');
         $cs_new_password = Sanitizer::filter('cs_new_password', 'post');
         $cs_user_detail = Sanitizer::filter('cs_user_detail', 'post');

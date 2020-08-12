@@ -42,7 +42,7 @@ $viewLocation = new viewLocation($BASE_DIR);
                         class="custom-input validate browser-default"  
                     >
                     <?php 
-                        $viewLocation->optionLocation();
+                        $viewLocation->optionLocation(2);
                     ?>
                     </select>
                 </div>
