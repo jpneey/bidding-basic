@@ -63,6 +63,7 @@
         max-height: 300px;
         margin: 15px auto 0;    
     }
+    .un-pad-stars .ratings { padding: 0; }
 }
 
 .supplier-card {

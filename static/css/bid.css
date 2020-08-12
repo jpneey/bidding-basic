@@ -27,3 +27,15 @@
 .product-card > .content {
     margin: 23px 15px 15px 130px;
 }
+
+
+@media only screen and (max-width : 600px) {
+    .product-card .thumbnail {
+        width: 90px;
+        height: 90px;
+        top: 25px;
+    } 
+    .product-card > .content {
+        margin: 23px 15px 15px 100px;
+    }
+}

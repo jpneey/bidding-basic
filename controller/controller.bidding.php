@@ -16,6 +16,8 @@ $bid = new Bids();
 $connection = $dbhandler->connectDB();
 $action = Sanitizer::filter('action', 'get');
 
+date_default_timezone_set('Asia/Manila');
+
 switch ($action) {
 
     case 'add':
@@ -115,6 +117,11 @@ switch ($action) {
         $cs_bidding_permalink = Sanitizer::url($cs_bidding_permalink);
         $cs_bidding_date_needed = date('Y-m-d H:i:s', strtotime($cs_bidding_date_needed));
 
+        if(strtotime($cs_bidding_date_needed) <= date('Y-m-d H:i:s')){
+            if($uploaded){ unlink($directory.$cs_bidding_picture);}
+            echo json_encode(array('code' => 0, 'message' => 'Please select a valid \'date needed\' time.'));
+            exit();
+        }
         if(strtotime($cs_bidding_date_needed) > strtotime($expiration)){
             if($uploaded){ unlink($directory.$cs_bidding_picture);}
             echo json_encode(array('code' => 0, 'message' => 'Your expected date exceeds your post\'s expiration!'));

@@ -8,10 +8,10 @@
   <?php
     require "component/head.php";
   ?>
-  <link href="<?= $BASE_DIR ?>static/css/feed.css?v=beta-2" type="text/css" rel="stylesheet"/>
+  <link href="<?= $BASE_DIR ?>static/css/feed.css?v=beta-2.1" type="text/css" rel="stylesheet"/>
 
 </head>
-<body class="minimal">
+<body class="minimal un-pad-stars">
 
   <?php
     require "component/navbar.php";

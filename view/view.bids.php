@@ -97,7 +97,7 @@ class viewBids extends Bids {
                     </h1>
                     <br>
                     
-                    <p><?= nl2br($details); ?> Lore</p>
+                    <p><?= nl2br($details); ?></p>
 
                     <?php if($status) { ?>
                     <p id="timer-wrapper">

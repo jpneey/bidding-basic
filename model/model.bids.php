@@ -164,8 +164,12 @@ class Bids extends DBHandler {
 
     public function postBidding($prepArray, $prodArray){
 
+        date_default_timezone_set('Asia/Manila');
+        $currentDateTime = date('Y-m-d H:i:s');
+        $nextweek = date('Y-m-d H:i:s', strtotime('+1 week'));
+        
         $connection = $this->connectDB();
-        $stmt = $connection->prepare("INSERT INTO cs_biddings($prepArray[0]) VALUES($prepArray[1], NOW(), NOW() + INTERVAL 7 DAY, 1)");
+        $stmt = $connection->prepare("INSERT INTO cs_biddings($prepArray[0]) VALUES($prepArray[1], '$currentDateTime', '$nextweek', 1)");
         $stmt->bind_param($prepArray[2], ...$prepArray[3]);
         $stmt->execute();
         $stmt->store_result();

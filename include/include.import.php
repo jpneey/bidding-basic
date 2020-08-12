@@ -1,5 +1,6 @@
 <?php
 
+date_default_timezone_set('Asia/Manila');
 require_once "controller/controller.auth.php";
 require_once "controller/controller.sanitizer.php";
 require_once "controller/controller.database.php";

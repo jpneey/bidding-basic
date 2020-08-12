@@ -1,3 +1,4 @@
 <?php
 
-var_dump((int)true);
+$currentDateTime = date('Y-m-d H:i:s');
+echo $currentDateTime;
