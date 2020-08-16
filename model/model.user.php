@@ -33,6 +33,29 @@ class User extends DBHandler {
         return (empty($result)) ? 'guest' : $result;
     }
 
+    public function getProfile($handle){
+        
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("SELECT * FROM cs_users WHERE cs_user_name = ? LIMIT 1");
+
+        $stmt->bind_param('s', $handle);
+        $stmt->execute();
+
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+
+        if(!empty($result)){
+            $userId = $result[0]['cs_user_id'];
+            $stmt = $connection->prepare("SELECT AVG(cs_rating) FROM cs_user_ratings WHERE cs_user_rated_id = '$userId'");
+            $stmt->execute();
+            $rating = $stmt->get_result()->fetch_row();
+            $result[0]["cs_user_rating"] = (!empty($rating)) ? $rating[0] : 0;
+            $stmt->close();
+        }
+
+        return $result;
+    }
+
     public function getUserBids($id, $misc = false){
 
         $passedId = (int)$id;

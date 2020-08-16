@@ -15,36 +15,74 @@ class viewOffers extends Offers {
     public function viewMyOffers($userId, $biddingId) {
         $offers = $this->getBidOffers($userId, $biddingId);
         if(!empty($offers)) {
-        ?>
-        <div class="col s12">
-            <table class="center-align">
-                <thead>
-                    <tr>
-                        <th>Bidding Proposal</th>
-                        <th>Supplier Rating</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-            <?php 
-                    foreach($offers as $k=>$v) {
-                        $offered = unserialize($offers[$k]['cs_offer']);
-                        $price = $offers[$k]['cs_offer_price'];
-                        $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($offers[$k]['cs_owner_rating']));
-                        echo '<tr>';
-                        echo '<td><b>₱</b>'.number_format($price, '2', '.', ',').'<br><label>'.$offered['qty'].' <span class="qty">{qty}</span></label></td>';
-                        echo '<td><span class="ratings">'.$rating.'</span></td>';
-                        echo '<td><a href="?open=true&token='.$biddingId.'" class="btn-small waves-effect green white-text">Open</a></td>';
-                        echo '</tr>';
-                    }
             ?>
-                </tbody>
-            </table>
-        </div>
-        <script>$(function(){$(".qty").text($('.item').data('unit'));})</script>
+            <div class="col s12">
+                <table class="center-align" id="offer-panel">
+                    <thead>
+                        <tr>
+                            <th>Proposal</th>
+                            <th>Rating</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php 
+                        $viewable = $this->getViewable($userId);
+                        $thisViewable = $viewable;
+                        foreach($offers as $k=>$v) {
+                            $offered = unserialize($offers[$k]['cs_offer']);
+                            $id = $offers[$k]['cs_offer_id'];
+                            $status = $offers[$k]['cs_offer_status'];
+                            $price = $offers[$k]['cs_offer_price'];
+                            $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($offers[$k]['cs_owner_rating']));
+                            echo '<tr>';
+                            echo '<td><b>₱</b>'.number_format($price, '2', '.', ',').'<br><label>'.$offered['qty'].' <span class="qty">{qty}</span></label></td>';
+                            echo '<td><span class="ratings">'.$rating.'</span></td>';
+                            switch($status){
+                                case '0':
+                                    echo '<td><a href="#offer-modal" data-offer="'.$id.'" class="modal-trigger offer-modal-trigger btn-small waves-effect green white-text">open</a></td>';
+                                    break;
+                                case '1':
+                                    $thisViewable--;
+                                    echo '<td><a href="#!" data-offer="'.$id.'" class="view-modal btn-small waves-effect orange white-text">view</a></td>';
+                                    break;
+                            }
+                            echo '</tr>';
+                        }
+                    ?>
+                    </tbody>
+                </table>
+                <div id="offer-modal" class="modal" style="max-width: 440px">
+                    <div class="modal-content">
+                        <p>Your account can only open <b><?= $viewable ?></b> proposal(s) per bidding.
+                        <?php
+                            if($thisViewable <= 0) { 
+                                echo '<br><br><a href="mailto:info@canvasspoint.com" class="btn-small orange">Upgrade to Pro</a>';
+                                echo ' <a href="#!" class="btn-small red modal-close">cancel</a>';
+                            }
+                        ?>
+                        <?php 
+                            if($thisViewable >= 1) { ?>
+                            Proceed to open this proposal?</p>
+                            <div>
+                                <a href="#!" data-offer="0" id="open-offer" class="btn-small green modal-close">open</a>
+                                <a href="#!" class="btn-small red modal-close">cancel</a>
+                            </div>
+                        <?php
+                            }
+                        ?>
+                    </div>
+                </div>
+                <div id="view-offer-modal" class="modal">
+                    <div class="modal-content">
+                        <div id="view-offer-content"></div>
+                    </div>
+                </div>
+            </div>
+            <script>$(function(){$(".qty").text($('.item').data('unit'));})</script>
         <?php
+        }
     }
-}
     public function viewLowestOffer($biddingId) {
         $offers = $this->getLowestBidOffer($biddingId);
         ?>
@@ -228,13 +266,13 @@ class viewOffers extends Offers {
                 $datePosted = '<time>'.$datePosted.'</time>'; 
                 switch($userOffers[$key]["cs_offer_status"]){
                     case '0':
-                        $statusStyle = 'feed-border green-text text-lighten-0';
+                        $statusStyle = 'feed-border green-text';
                         break;
                     case '1':
-                        $statusStyle = 'feed-border orange-text text-lighten-2';
+                        $statusStyle = 'feed-border orange-text';
                         break;
                     case '2':
-                        $statusStyle = 'feed-border red-text text-lighten-2';
+                        $statusStyle = 'feed-border red-text';
                         break;
                 }
             ?>
@@ -258,8 +296,7 @@ class viewOffers extends Offers {
                 </a>
                 
                 <span class="card-counter">
-                    <a href="#!" data-selector="<?= $offerId ?>" data-mode="offer" class="data-delete z-depth-1 red white-text center-align">delete</a>
-                    <a class="z-depth-1 green white-text center-align">edit</a>
+                    <a href="#!" data-selector="<?= $offerId ?>" data-mode="offer" class="right data-delete z-depth-1 red white-text center-align">DELETE</a>
                 </span>
 
             </div>

@@ -1,11 +1,14 @@
 $(function(){
-    $('.scrollspy').scrollSpy();
-    $('.pushpin').pushpin({
-      top: 0,
-      offset: 0,
-    });
-    $('.fixed-action-btn').floatingActionButton();
-    starRates();
+  $('.scrollspy').scrollSpy();
+  $('.pushpin').pushpin({
+    top: 0,
+    offset: 0,
+  });
+  $('.fixed-action-btn').floatingActionButton();
+  starRates();
+  offerModalTrigger();
+  prepareOffer();
+  viewModal();
 })
 
 
@@ -73,4 +76,106 @@ function timer(time){
     }
 
   }, 1000);
+}
+
+function offerModalTrigger(){
+  $('.offer-modal-trigger').on('click', function(){
+    var token = $(this).data('offer');
+    $('#open-offer').attr('data-offer', token);
+  })
+}
+
+function prepareOffer(){
+  $('#open-offer').on('click', function(){
+    var token = $(this).data('offer');
+    $("body, html").css({opacity: "0.5",cursor: "wait"});
+    $('#load-wrap').fadeIn(500);
+    window.onbeforeunload = function() { return "Reloading may not save your changes. Are you sure you want to leave the page?";};
+    $.ajax({
+      url: root + 'controller/controller.offer.php?action=open&selector='+token,
+      type: 'GET',
+      processData: false,
+      contentType: false,
+      success: function(data) {
+        $('#load-wrap').fadeOut(500);
+        window.onbeforeunload = null;
+        $("body, html").css({opacity: "1",cursor: "auto"});
+        var parsedData = JSON.parse(data);
+        if(parsedData.code == '0'){
+          var action = '<button onclick="M.Toast.dismissAll();" class="btn-flat toast-action"><i class="close material-icons">close</i></button>';
+          M.toast({
+            html: parsedData.message + action,
+            classes: "red white-text"
+          });  
+          return
+        }
+        window.location.search = '?view=' + parsedData.id;
+        return
+      }
+    })
+  })
+}
+
+function viewModal(){
+  $('.view-modal').on('click', function(){
+    var token = $(this).data('offer');
+    prepareModal(token);
+  })
+}
+
+function prepareModal(token){
+  $('#load-wrap').fadeIn(100);
+  $.ajax({
+    url: root + 'controller/controller.offer.php?action=view&selector='+token,
+    type: 'GET',
+    processData: false,
+    contentType: false,
+    success: function(data) {
+      $('#load-wrap').fadeOut(100);
+      var parsedData = JSON.parse(data);
+      if(parsedData.code == '0'){
+        var action = '<button onclick="M.Toast.dismissAll();" class="btn-flat toast-action"><i class="close material-icons">close</i></button>';
+        M.toast({
+          html: parsedData.message + action,
+          classes: "red white-text"
+        });  
+        return
+      }
+      viewOfferModal(data);
+    }
+  })
+
+}
+
+function viewOfferModal(data){
+  var parsedData = JSON.parse(data);
+  var link = '<br><br><a href="'+parsedData.connect+'"class="btn-small green">email</a>' + ' <a href="#!" data-view="'+parsedData.view+'"class="btn-small view-poster green lighten-1">profile</a>';
+  $('#view-offer-content').html(parsedData.offer + link);
+  $(".qty").text($('.item').data('unit'));
+  $('#view-offer-modal').modal();
+  $('#view-offer-modal').modal('open');
+  $('#view-offer-modal').css({'max-width':'440px'})
+  viewPoster();
+}
+
+function viewPoster() {
+  $('.view-poster').on('click', function(){
+    var token = $(this).data('view');
+
+    $.ajax({
+      url: root + 'controller/controller.user.php?action=view&selector='+token,
+      type: 'GET',
+      processData: false,
+      contentType: false,
+      success: function(data){
+        var data = JSON.parse(data);
+        if(data.code == '0'){
+          M.toast({ html: data.message, classes: "red white-text"});  
+          return
+        }
+        window.location.href = root + data.path + '/' + data.selector + '/';
+        return
+      }
+    })
+  })
 }

@@ -117,7 +117,7 @@ switch ($action) {
         $cs_bidding_permalink = Sanitizer::url($cs_bidding_permalink);
         $cs_bidding_date_needed = date('Y-m-d H:i:s', strtotime($cs_bidding_date_needed));
 
-        if(strtotime($cs_bidding_date_needed) <= date('Y-m-d H:i:s')){
+        if(strtotime($cs_bidding_date_needed) < strtotime($today)){
             if($uploaded){ unlink($directory.$cs_bidding_picture);}
             echo json_encode(array('code' => 0, 'message' => 'Please select a valid \'date needed\' time.'));
             exit();

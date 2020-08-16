@@ -97,11 +97,15 @@
                     var parsedData = JSON.parse(data);
 
                     if(parsedData.code == '1') {
-                    
                         M.toast({
                             html: parsedData.message,
                             classes: "orange white-text"
                         });
+                        return;
+                    }
+
+                    if(parsedData.code == '2'){
+                        window.location.href = root + '/bid/' + parsedData.link;
                         return;
                     }
 

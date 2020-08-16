@@ -152,7 +152,7 @@ $viewLocation = new viewLocation($BASE_DIR);
                 </div>
 
                 <div class="input-field no-margin col s12 m4">
-                    <p><label>Budget</label></p>
+                    <p><label>Total Budget</label></p>
                     <input 
                         required 
                         type="number" 
@@ -180,4 +180,4 @@ $viewLocation = new viewLocation($BASE_DIR);
     </div>
 </div>
 </form>
-<script src="<?php echo $BASE_DIR ?>static/js/services/services.addbid.js?v=beta-1" type="text/javascript"></script>
+<script src="<?php echo $BASE_DIR ?>static/js/services/services.addbid.js?v=beta-5" type="text/javascript"></script>
