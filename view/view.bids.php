@@ -193,13 +193,13 @@ class viewBids extends Bids {
                 $bidInFeedOfferCount = $userBids[$key]["cs_bidding_offer_count"];
                 switch($userBids[$key]["cs_bidding_status"]){
                     case '1':
-                        $statusStyle = 'feed-border green-text text-lighten-0';
+                        $statusStyle = 'feed-border green-text';
                         break;
                     case '2':
-                        $statusStyle = 'feed-border orange-text text-lighten-2';
+                        $statusStyle = 'feed-border orange-text';
                         break;
                     case '0':
-                        $statusStyle = 'feed-border red-text text-lighten-2';
+                        $statusStyle = 'feed-border red-text';
                         break;
                 }
                 echo '<div class="col s12 block">';
@@ -219,8 +219,8 @@ class viewBids extends Bids {
                 </a>
                 
                 <span class="card-counter">
-                    <a class="z-depth-1 orange white-text center-align"><?= $bidInFeedOfferCount ?></a>
-                    <a href="#!" data-selector="<?= $bidInFeedLink ?>" data-mode="bid" class="data-delete z-depth-1 red white-text center-align">delete</a>
+                    <a href="#!" data-selector="<?= $bidInFeedLink ?>" data-mode="bid" class="right data-delete z-depth-1 red white-text center-align">DELETE</a>
+                    <a class="z-depth-1 right orange white-text center-align"><?= $bidInFeedOfferCount ?></a>
                 </span>
             <?php
             echo '</div>';

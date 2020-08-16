@@ -146,6 +146,41 @@ switch ($action) {
 
 
         $message = json_encode(array('code' => 1, 'message' => 'Contact Details updated'));
+        break;
+
+    case 'view':
+
+        $selector = Sanitizer::filter('selector', 'get');
+        $stmt = $connection->prepare("SELECT cs_user_name, cs_user_role FROM cs_users WHERE cs_user_id = ? OR cs_user_name = ? LIMIT 1");
+        $stmt->bind_param('is', $selector, $selector);
+        $stmt->execute();
+        $role = $stmt->get_result()->fetch_row();
+        $stmt->close();
+
+        if(empty($role)) {
+            echo json_encode(array('code' => 0, 'message' => 'user not found'));
+            die();
+        }
+
+        switch($role[1]){
+            case '1':
+                $message = json_encode(array('code' => 1, 'path' => 'user', 'selector' => $role[0]));
+                break;
+            case '2':
+                $stmt = $connection->prepare("SELECT cs_business_link FROM cs_business WHERE cs_user_id = ?");
+                $stmt->bind_param('i', $selector);
+                $stmt->execute();
+                $link = $stmt->get_result()->fetch_row();
+                $stmt->close();
+
+                if(empty($link)){    
+                    $message = json_encode(array('code' => 1, 'path' => 'user', 'selector' => $role[0]));
+                } else {
+                    $message = json_encode(array('code' => 1, 'path' => 'supplier', 'selector' => $link[0]));
+                }
+        }
+    
+        break;
 }
 
 echo $message;

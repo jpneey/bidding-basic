@@ -36,7 +36,7 @@ class sideNav {
                 <a href="#user">
                     <img class="circle" src="<?= $this->detailArray[5].'static/asset/user/'.$this->detailArray[2] ?>" alt="<?= $this->detailArray[3] ?>'s' avatar" />
                 </a>
-                <a href="#name"><span class="grey-text name"><?= $this->detailArray[3] ?></span></a>
+                <a href="<?= $this->detailArray[5].'user/'.$this->detailArray[3] ?>"><span class="grey-text name"><?= $this->detailArray[3] ?></span></a>
                 <a href="#email"><span class="grey-text email"><?= $this->detailArray[4] ?></span></a>
             </div>
         </li>

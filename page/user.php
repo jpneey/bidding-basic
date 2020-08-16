@@ -1,6 +1,10 @@
 <?php 
 
 $selector = Sanitizer::filter($uri[1], 'var');
+if(!$selector){
+    require "404.php";
+    die();
+}
 
 ?>
 <!DOCTYPE html>
@@ -15,7 +19,7 @@ $selector = Sanitizer::filter($uri[1], 'var');
   ?>
 
 </head>
-<body class="minimal">
+<body class="minimal un-pad-star">
 
   <?php
     require "component/navbar.php";
@@ -25,25 +29,9 @@ $selector = Sanitizer::filter($uri[1], 'var');
       <div class="row">
         <div class="col s12">
           <?php
-
-            require_once "model/model.bids.php";
-            require_once "view/view.bids.php";
-            require_once "model/model.offers.php";
-            require_once "view/view.offers.php";
-            require_once "controller/controller.sanitizer.php";
-
-            $bid = new Bids();
-            $offer = new Offers();
-            $viewBids = new viewBids($BASE_DIR);
-            $viewOffers = new viewOffers($BASE_DIR);
-            if(!$selector){
-              $emptyTitle = "Ah yes, 404";
-              $emptyMessage = "It seems like the page you are looking for was moved, deleted or didn't exist at all.";
-              require_once "component/empty.php";
-            } else {
-              $viewBids->viewBid($selector);
-              $viewOffers->viewOfferForm($bid->getBid($selector, 'cs_bidding_id'), $isSupplier, $__user_id);
-            }
+            require_once "view/view.user.php";
+            $viewUser = new viewUser($BASE_DIR);
+            $viewUser->viewProfile($selector);
           ?>
         </div>
         

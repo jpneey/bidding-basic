@@ -176,11 +176,11 @@ class Bids extends DBHandler {
         $bidding_id = $stmt->insert_id;
         $stmt->close();
         
-        return $this->postProductInBidding($prodArray, $bidding_id);
+        return $this->postProductInBidding($prodArray, $bidding_id, $prepArray[3][3]);
 
     }
 
-    public function postProductInBidding($prodArray, $bidding_id){
+    public function postProductInBidding($prodArray, $bidding_id, $link){
         
         $connection = $this->connectDB();
         $stmt = $connection->prepare("INSERT INTO cs_products_in_biddings(cs_bidding_id, $prodArray[0]) VALUES($bidding_id, $prodArray[1])");
@@ -189,7 +189,7 @@ class Bids extends DBHandler {
         $stmt->close();
         
         if($result){
-            return json_encode(array('code' => 1, 'message' => 'Bidding Successfully posted'));
+            return json_encode(array('code' => 2, 'message' => 'Bidding Successfully posted.', 'link' => $link));
         }
         return json_encode(array('code' => 0, 'message' => 'Uh oh. Something went wrong :('));
 
@@ -202,14 +202,15 @@ class Bids extends DBHandler {
 
     public function biddingExpires(){
     
+        date_default_timezone_set('Asia/Manila');
+        $currentDateTime = date('Y-m-d');
+
         $connection = $this->connectDB();
-        $stmt = $connection->prepare("UPDATE cs_biddings SET cs_bidding_status = '0' WHERE cs_bidding_date_needed < NOW()");
+        $stmt = $connection->prepare("UPDATE cs_biddings SET cs_bidding_status = '0' WHERE DATE(cs_bidding_date_needed) <= '$currentDateTime'");
         $stmt->execute();
-        $stmt->store_result();
-        $affected = $stmt->num_rows;
         $stmt->close();
         
-        return json_encode(array('code' => 1, 'message' => $affected .' bidding entry updated to expired.'));
+        return json_encode(array('code' => 1, 'message' => 'Bidding ended.'));
         
     }
 

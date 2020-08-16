@@ -112,7 +112,26 @@ switch ($action) {
         $userId = $auth->getSession('__user_id');
         $message = $offer->deleteOffer($selector, $userId);
         break;
-        
+
+    case 'open':
+        $selector = Sanitizer::filter('selector', 'get');
+        if(!$auth->compareSession('auth', true) || !$auth->compareSession('__user_role', 1) || !$selector){
+            echo json_encode(array('code' => 0, 'message' => 'You are unauthorized to perform this action.'));
+            exit();
+        }
+
+        $userId = $auth->getSession('__user_id');
+        $message = $offer->viewOffer($selector, $userId);
+        break;
+
+    case 'view':
+        $selector = Sanitizer::filter('selector', 'get');
+        if(!$auth->compareSession('auth', true) || !$auth->compareSession('__user_role', 1) || !$selector){
+            echo json_encode(array('code' => 0, 'message' => 'You are unauthorized to perform this action.'));
+            exit();
+        }
+        $userId = $auth->getSession('__user_id');
+        $message = $offer->viewOffer($selector, $userId, true);
         break;
 }
 
