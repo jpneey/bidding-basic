@@ -47,6 +47,15 @@
     <li class="navbar-fixed"></li>
     <?php
 
+        $sideChip = '<span class="chip green white-text">Free</span>';
+        $sideChip .= ' <a href="'.$BASE_DIR.'faq/#upgrade-to-pro"><span class="chip orange white-text">Upgrade to pro</span></a>';
+
+        if($isLoggedIn){
+            if(!empty($loggedInAccountType)){
+                $sideChip = '<span class="chip orange white-text">Premium User</span>';
+            }
+        }
+
         $mode = (isset($_GET['sidebar'])) ? $_GET['sidebar'] : '0';
         require 'view/view.sidenav.php';
         $detailArray = array(
@@ -56,7 +65,8 @@
             $loggedInUserName,
             $loggedInUserEmail,
             $BASE_DIR,
-            $mode
+            $mode,
+            $sideChip
         );
 
         $sideNav = new sideNav($detailArray);

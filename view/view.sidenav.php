@@ -38,6 +38,7 @@ class sideNav {
                 </a>
                 <a href="<?= $this->detailArray[5].'user/'.$this->detailArray[3] ?>"><span class="grey-text name"><?= $this->detailArray[3] ?></span></a>
                 <a href="#email"><span class="grey-text email"><?= $this->detailArray[4] ?></span></a>
+                <?= $this->detailArray[7] ?>
             </div>
         </li>
         <li><div class="divider"></div></li>

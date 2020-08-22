@@ -26,6 +26,7 @@ if($isLoggedIn){
     $loggedInUserName = $user->getUser($__user_id, "cs_user_name");
     $loggedInUserEmail = $user->getUser($__user_id, "cs_user_email");
     $loggedInUserAvatar = $user->getUser($__user_id, "cs_user_avatar");
+    $loggedInAccountType = $user->getUser($__user_id, "cs_account_status");
     $isBidder =($loggedInUserRole == '1') ? true : false;
     $isSupplier =($loggedInUserRole == '2') ? true : false;
 }
