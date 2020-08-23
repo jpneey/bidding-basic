@@ -1,4 +1,5 @@
-var root = 'http://localhost/bidding-basic/';
+/* var root = 'http://localhost/bidding-basic/'; */
+var root = 'http://jpburato.epizy.com/';
 $(function(){
     $('.dropdown-trigger').dropdown();
     $('.modal').modal();
@@ -14,6 +15,7 @@ $(function(){
     $('.materialboxed').materialbox();
     $("time.timeago").timeago();
     $('.tooltipped').tooltip();
+    searchToggle();
 })
 
 $(window).on('load', function(){
@@ -69,5 +71,11 @@ function updateExpiredBiddings(showToast = false){
             }
 
         }   
+    })
+}
+
+function searchToggle() {
+    $('a.filter').on('click', function(){
+        $('.filter-panel').fadeToggle(0);
     })
 }

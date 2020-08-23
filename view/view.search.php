@@ -18,8 +18,9 @@ class Search extends DBHandler {
         ?>
 
         <form name="searchForm" action="<?= $this->BASE_DIR ?>search/" method="GET" class="white z-depth-1 search-bar <?php if($filter){ echo 'filter'; } ?>" >
-            <button class="material-icons" type="submit">search</button>
-            <input required name="queue" type="text" class="browser-default <?php if($filter){ echo 'filter'; } ?>" placeholder="Find what you need .." />
+        
+            <button class="material-icons submit orange white-text" type="submit">search</button>
+            <input required name="queue" type="text" class="browser-default <?php if($filter){ echo 'filter'; } ?>" placeholder="Find what you need .." value="<?= (isset($_GET['queue'])) ? $_GET['queue'] : ''  ?>"/>
             <?php if($filter){ $this->filters(); } ?>
         </form>
         <?php
@@ -27,22 +28,38 @@ class Search extends DBHandler {
 
     public function filters(){
         ?>
+        <a href="#!" class="filter grey-text">Filters</a>
+        <div class="filter-panel">
         <select required name="mode" class="browser-default c">
-            <option value="<?= $this->DEFAULT ?>" selected>Search: <?= $this->DEFAULT ?></option>
+            <option value="<?= $this->DEFAULT ?>" selected>Search in <?= $this->DEFAULT ?></option>
+            <?php 
+                switch($this->DEFAULT) {
+                    case 'bid':
+                        echo '<option value="blog">Search in Blog</option>';
+                        break;
+                    default:
+                        echo '<option value="bid">Search in Bid</option>';
+                        break;
+                }
+            ?>
         </select>
         <select required name="category" class="browser-default b">
             <option value="0" disabled selected>Category</option>
             <option value="0" >Miscelaneous</option>
         </select>
         <select required name="location" class="browser-default a">
-            <option value="0" disabled selected>Location</option>
-            <option value="0" >All</option>
+            
             <?= $this->getLocations() ?>
         </select>
+        </div>
         <?php
     }
 
     public function getLocations(){
+        if(isset($_GET['location']) && !empty($_GET['location'])) {
+            echo '<option value="'.$_GET['location'].'" selected>Search in '.$_GET['location'].'</option>';
+        }
+        echo '<option value="0">All Locations</option>';
         $connection = $this->connectDB();
         $stmt = $connection->prepare("SELECT * FROM cs_locations ORDER BY cs_location ASC");
         $stmt->execute();

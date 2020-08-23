@@ -8,7 +8,6 @@
                 <?php
                     require_once "view/view.search.php";
                     $search = new Search($BASE_DIR, 'bid');
-                    $search->searchForm();
                 ?>
             </ul>
             <ul class="right hide-on-med-and-down">

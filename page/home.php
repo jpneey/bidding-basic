@@ -21,6 +21,9 @@
       <div class="container row">
         <div class="col s12" id="bidding-feed">
           <?php
+          
+            $search->searchForm(true);
+      
 
             require_once "model/model.bids.php";
             require_once "view/view.bids.php";
