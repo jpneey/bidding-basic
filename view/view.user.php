@@ -32,12 +32,14 @@ class viewUser extends User {
                     <p><?= $user[0]['cs_user_detail'] ?></p>
                     <p><b>Contact Details</b></p>
                     <div>
-                        <?= $this->contactDetails(unserialize($user[0]['cs_contact_details'])) ?>
+                        <?= $this->contactDetails(unserialize($user[0]['cs_contact_details']), $user[0]['cs_user_business']) ?>
                         <a href="mailto:<?= $user[0]['cs_user_email'] ?>" class="chip teal white-text darken-1" ><?= $user[0]['cs_user_email'] ?></a>
                     </div>
+                    <?php $this->ratings($user[0]['cs_user_ratings']);  ?>
                 </div>
             </div>
             <link href="<?= $this->BASE_DIR ?>static/css/bid.css" type="text/css" rel="stylesheet"/>
+            <link href="<?= $this->BASE_DIR ?>static/css/feed.css" type="text/css" rel="stylesheet"/>
         <?php
         } else {
             $BASE_DIR = $this->BASE_DIR;
@@ -47,7 +49,7 @@ class viewUser extends User {
         }
     }
 
-    public function contactDetails($contacts = array()){ 
+    public function contactDetails($contacts = array(), $business){ 
         if(!empty($contacts)){
             $facebook = (isset($contacts['cs_facebook']) && !empty($contacts['cs_facebook'])) ? $contacts['cs_facebook'] : '#!';
             $linkedin = (isset($contacts['cs_linkedin']) && !empty($contacts['cs_linkedin'])) ? $contacts['cs_linkedin'] : '#!';
@@ -59,12 +61,32 @@ class viewUser extends User {
             ?>
             <a href="<?= $facebook ?>" class="chip blue white-text darken-3" >Facebook</a>
             <a href="<?= $linkedin ?>" class="chip blue white-text darken-1" >Linkedin</a>
-            <a href="<?= $website ?>" class="chip orange white-text darken-1" >Website</a><br>
+            <a href="<?= $website ?>" class="chip orange white-text darken-1" >Website</a>
             <?php if(!empty($telephone)){ ?>
             <a href="tel:<?= $telephone ?>" class="chip teal white-text" >+<?= $telephone ?></a>
             <? } if(!empty($mobile)) { ?>
             <a href="tel:<?= $mobile ?>" class="chip teal white-text darken-2" ><?= $mobile ?></a>
             <?php
+            }
+        }
+
+        if(!empty($business)) { ?>
+            <a href="../../supplier/<?= $business ?>" class="chip orange white-text" >Canvasspoint Business</a>
+        <?php
+        }
+    }
+
+    public function ratings($ratings){
+        if(!empty($ratings)) { 
+            echo '<p><b>What other people say</b></p>';
+            foreach($ratings as $key=>$value) {
+        ?>
+            <div class="content">
+                <p class="no-margin black-text">Anonymous</p>
+                <p class="no-margin grey-text text-darken-1"><?= $ratings[$key]['cs_comment']; ?></p>
+                <p class="ratings no-margin"><?= str_repeat('<i class="material-icons orange-text">star</i>', round($ratings[$key]['cs_rating'])) ?></p>
+            </div>
+        <?php
             }
         }
     }

@@ -21,25 +21,12 @@
       <div class="container row">
         <div class="col s12" id="bidding-feed">
           <?php
-          
-            switch(Sanitizer::filter('unauth', 'get')) {
-              case '1':
-                $messageClass = 'red darken-1 white-text z-depth-1';
-                $htmlMessage = 'Unauthorized';
-                require 'component/message.php';
-                break;
-              case '2':
-                $messageClass = 'orange white-text z-depth-1';
-                $htmlMessage = 'You are now logged out';
-                require 'component/message.php';
-                break;
-            }
 
             require_once "model/model.bids.php";
             require_once "view/view.bids.php";
             $bid = new Bids();
             $viewBids = new viewBids($BASE_DIR);
-            $viewBids->viewFeed();  
+            $viewBids->viewFeed();
             
           ?>
         </div>

@@ -28,7 +28,7 @@
             $supplier = new Supplier();
             $viewSupplier = new viewSupplier($BASE_DIR);
 
-            (!empty($uri[1])) ? $viewSupplier->viewSupplier($uri[1]) : $viewSupplier->viewFeed();  
+            (!empty($uri[1])) ? $viewSupplier->viewSupplier($uri[1], $__user_id) : $viewSupplier->viewFeed();  
             
           ?>
         </div>

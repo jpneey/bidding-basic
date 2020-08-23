@@ -50,6 +50,11 @@ function dataDelete(){
                         break;
                     default:
                         var classes = "red";
+                        M.toast({
+                            html: parsedData.message,
+                            classes: classes + " white-text"
+                        });
+                        return
                 }   
 
                 M.toast({

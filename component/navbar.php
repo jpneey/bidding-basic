@@ -13,7 +13,7 @@
             </ul>
             <ul class="right hide-on-med-and-down">
                 <li><a href="<?= $BASE_DIR ?>home/">Biddings</a></li>
-                <li><a href="<?= $BASE_DIR ?>home/">Faqs</a></li>
+                <li><a href="<?= $BASE_DIR ?>about/faqs">Faqs</a></li>
                 <li><a href="<?= $BASE_DIR ?>supplier/">Suppliers</a></li>
             </ul>
         </div>
@@ -47,8 +47,8 @@
     <li class="navbar-fixed"></li>
     <?php
 
-        $sideChip = '<span class="chip green white-text">Free</span>';
-        $sideChip .= ' <a href="'.$BASE_DIR.'faq/#upgrade-to-pro"><span class="chip orange white-text">Upgrade to pro</span></a>';
+        $sideChip = '<span class="chip chip white-text grey lighten-1">Free</span>';
+        $sideChip .= ' <a href="'.$BASE_DIR.'about/faqs/#upgrade-to-pro"><span class="chip chip white-text grey lighten-2">Upgrade to pro</span></a>';
 
         if($isLoggedIn){
             if(!empty($loggedInAccountType)){

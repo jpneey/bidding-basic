@@ -19,7 +19,7 @@ if(!$selector){
   ?>
 
 </head>
-<body class="minimal un-pad-star">
+<body class="minimal un-pad-stars">
 
   <?php
     require "component/navbar.php";

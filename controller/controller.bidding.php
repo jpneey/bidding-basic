@@ -180,6 +180,10 @@ switch ($action) {
             exit();
         }
         $userId = $auth->getSession('__user_id');
+        if(!$bid->isDeletable($selector)){
+            echo json_encode(array('code' => 0, 'message' => 'Please select atleast one offer before permanently deleting a bidding thread.'));
+            exit();
+        }
         $message = $bid->deleteBid($selector, $userId);
         break;
         

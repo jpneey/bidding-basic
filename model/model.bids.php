@@ -130,6 +130,34 @@ class Bids extends DBHandler {
         return $result;
     }
 
+    public function isDeletable($selector){
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_biddings WHERE cs_bidding_permalink = ? LIMIT 1");
+        $stmt->bind_param('s', $selector);
+        $stmt->execute();
+        $biddingId = $stmt->get_result()->fetch_row();
+        $stmt->close();
+
+        if(empty($biddingId)) { return false; }
+
+        $stmt = $connection->prepare("SELECT cs_offer_status FROM cs_offers WHERE cs_bidding_id = '$biddingId[0]'");
+        $stmt->execute();
+        $offers = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+
+        if(empty($offers)) { return true; }
+
+        foreach($offers as $key => $value) {
+            if($offers[$key]["cs_offer_status"] == 1) {
+                return true;
+            }
+        }
+
+        return false;
+
+
+    }
+
     public function getDashboardCounts($user_id) {
         
         $user_id = (int)$user_id;

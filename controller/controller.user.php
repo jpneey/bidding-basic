@@ -148,6 +148,32 @@ switch ($action) {
         $message = json_encode(array('code' => 1, 'message' => 'Contact Details updated'));
         break;
 
+    case 'rate':
+        $to = Sanitizer::filter('to', 'get');
+        $from = $__user_id;
+        $message = $user->getRating($from, $to);
+        break;
+
+    case 'rate-insert':
+        $to = Sanitizer::filter('to', 'get');
+        $rate = Sanitizer::filter('rate', 'post', 'int');
+        if($rate > 5) { $rate = 5; }
+        if($rate <= 0) { $rate = 0; }
+        $comment = Sanitizer::filter('comment', 'post');
+        $from = $__user_id;
+        $message = $user->postRating($from, $to, $rate, $comment);
+        break;
+
+    case 'rate-update':
+        $to = Sanitizer::filter('to', 'get');
+        $rate = Sanitizer::filter('rate', 'post', 'int');
+        if($rate > 5) { $rate = 5; }
+        if($rate <= 0) { $rate = 0; }
+        $comment = Sanitizer::filter('comment', 'post');
+        $from = $__user_id;
+        $message = $user->updateRating($from, $to, $rate, $comment);
+        break;
+
     case 'view':
 
         $selector = Sanitizer::filter('selector', 'get');

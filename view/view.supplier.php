@@ -23,7 +23,7 @@ class viewSupplier extends Supplier {
                 <a href="<?= $this->BASE_DIR ?>/supplier/<?= $supplier[$key]['cs_business_link'] ?>">
                     <div class="col s12 m4">
                         <div class="supplier-card white z-depth-1">
-                            <div class="logo z-depth-1">
+                            <div class="logo">
                                 <img src="<?= $this->BASE_DIR ?>static/asset/user/<?= $supplier[$key]['cs_business_logo'] ?>" />
                             </div>
                             <div class="content">
@@ -45,7 +45,7 @@ class viewSupplier extends Supplier {
         }
     }
 
-    public function viewSupplier($selector){
+    public function viewSupplier($selector, $loggedInId){
         $selector = Sanitizer::filter($selector, 'var');
         $supplier = $this->getSupplier($selector);
         if(!empty($supplier)){
@@ -67,11 +67,11 @@ class viewSupplier extends Supplier {
                         <b><?= $title ?></b>
                         <span class="ratings"><?= $rating ?></span>
                     </h1>
-                    <p><b>Products & Services</b></p>
-                    <p><?= $supplier[10] ?></p>
+                    <p><br><b>Products & Services</b></p>
+                    <div><span class="chip white-text grey lighten-1"><?= $supplier[13] ?></span><?= $tagchip ?></div>
+                    <p><br><?= $supplier[10] ?></p>
                     <?= $this->featuredProduct(unserialize($supplier[5])) ?>
-                    <div><span class="chip grey lighten-2"><?= $supplier[13] ?></span><?= $tagchip ?></div>
-                    <p><b>Contact Details</b></p>
+                    <p><br><b>Contact Details</b></p>
                     <div>
                         <?= $this->contactDetails($supplier[9]) ?>
                         <a href="mailto:<?= $supplier[8] ?>" class="chip teal white-text darken-1" ><?= $supplier[8] ?></a>
@@ -103,9 +103,8 @@ class viewSupplier extends Supplier {
                     <img id="bidding-details" src="<?= $this->BASE_DIR ?>static/asset/bidding/<?= $picture ?>" class="margin-auto materialboxed" />
                 </div>
                 <div class="content">
-                    <p><b>Featured Product</b></p>
-                    <p><?= $item ?> <?= $qty ?></p>
-                    <p class="truncate grey-text">₱ <?= $budget ?></p>
+                    <p class="truncate grey-text">₱ <?= $budget ?> - <?= $qty ?></p>
+                    <p><b><?= $item ?></b></p>
                 </div>
             </div>
         </div>
@@ -137,22 +136,14 @@ class viewSupplier extends Supplier {
 
     public function ratings($ratings){
         if(!empty($ratings)) { 
+            echo '<p><br><b>What other people say</b></p>';
             foreach($ratings as $key=>$value) {
         ?>
-        <div>
-            <div class="glance white">
-                <div class="product-card item">
-                    <div class="thumbnail center-align">
-                        <h2 class="black-text no-margin"><b><?= $ratings[$key]['cs_rating'] ?></b><span>/5</span></h2>
-                    </div>
-                    <div class="content">
-                        <p class="grey-text">Anonymous wrote:</p>
-                        <p class="truncate"><?= $ratings[$key]['cs_comment']; ?></p>
-                        <p class="ratings"><?= str_repeat('<i class="material-icons orange-text">star</i>', round($ratings[$key]['cs_rating'])) ?></p>
-                    </div>
-                </div>
+            <div class="content">
+                <p class="no-margin black-text">Anonymous</p>
+                <p class="no-margin grey-text text-darken-1"><?= $ratings[$key]['cs_comment']; ?></p>
+                <p class="ratings no-margin"><?= str_repeat('<i class="material-icons orange-text">star</i>', round($ratings[$key]['cs_rating'])) ?></p>
             </div>
-        </div>
         <?php
             }
         }

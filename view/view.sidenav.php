@@ -59,14 +59,30 @@ class sideNav {
         }
         ?>
         <li><div class="divider"></div></li>
-        <li>
-            <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/dashboard/">Dashboard</a>
+        <li class="no-padding">
+            <ul class="collapsible collapsible-accordion">
+                <li>
+                    <a class="collapsible-header" style="padding: 0 32px;">My Account</a>
+                    <div class="collapsible-body">
+                        <ul>
+                            <li>
+                                <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/account/">Account Details</a>
+                            </li>
+                            <li>
+                                <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/contact/">Contact Details</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
         </li>
+        
         <li>
-            <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/account/">Account Details</a>
+            <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/dashboard/">My Dashboard</a>
         </li>
+
         <li>
-            <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/contact/">Contact Details</a>
+            <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/transactions/">My Transactions</a>
         </li>
 
         <li>

@@ -97,7 +97,7 @@ input.browser-default,
 }
 
 .feed-card {
-  margin-bottom: 35px;
+  margin-bottom: 15px;
 }
 .feed-head {
   width: 100%;
@@ -116,7 +116,7 @@ input.browser-default,
   top: 25px;
 }
 .feed-border {
-  border-left: 10px solid;
+  border-left: 3px solid;
 }
 
 .feed-head > p { margin: 0; }
@@ -275,6 +275,7 @@ input.browser-default,
   width: 40px;
   font-size: 8px;
   line-height: 20px;
+  margin-left: 5px;
 }
 
 .url-checker {
@@ -369,4 +370,18 @@ input.browser-default,
     width: 40px;
   }
 
+}
+@media only screen and (max-width: 992px) {  
+  nav .brand-logo.left {
+    position: absolute;
+    left: 5%;
+  }
+}
+
+.banner {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 120px;
+  background: red;
 }

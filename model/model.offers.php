@@ -63,7 +63,7 @@ class Offers extends DBHandler {
             return json_encode(array('code' => 0, 'message' => 'It\'s not your fault, but something went wrong. :('));
         }
         
-        $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_biddings WHERE cs_bidding_id = ? AND cs_bidding_user_id = ? LIMIT 1");
+        $stmt = $connection->prepare("SELECT cs_bidding_id, cs_bidding_user_id, cs_bidding_title FROM cs_biddings WHERE cs_bidding_id = ? AND cs_bidding_user_id = ? LIMIT 1");
         $stmt->bind_param('ii', $offer[1], $userId);
         $stmt->execute();
         $exists = $stmt->get_result()->fetch_row();
@@ -73,10 +73,19 @@ class Offers extends DBHandler {
             return json_encode(array('code' => 0, 'message' => 'You are not authorized to open this offer. s:'.$selector.' u:'. $userId));
         }
 
-        if(!$view){ 
+        if(!$view){
+            
+            $cs_bidder_id = (int)$offer[2];
+            $cs_bid_owner_id = (int)$exists[1];
+            $cs_bidding_title = $this->filter($exists[2], 'var');
+
             $stmt = $connection->prepare("UPDATE cs_offers SET cs_offer_status = 1 WHERE cs_offer_id = ? LIMIT 1");
             $stmt->bind_param('i', $selector);
             $stmt->execute();
+            $stmt->close();
+
+            $connection->query("INSERT INTO cs_transactions(cs_bidder_id, cs_bid_owner_id, cs_bidding_title) VALUES('$cs_bidder_id', '$cs_bid_owner_id', '$cs_bidding_title')");
+
             return json_encode(array('code' => 1, 'id' => $selector)); 
         }
         

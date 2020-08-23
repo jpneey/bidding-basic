@@ -131,7 +131,7 @@ switch ($action) {
             }
         }
 
-        $productToStore = serialize(array('#!', '', '', '', ''));
+        $productToStore = serialize(array());
         $message = $business->postUserFeatured($__user_id, $productToStore) ;
         break;
 }
