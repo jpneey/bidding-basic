@@ -31,4 +31,7 @@ if($isSupplier) {
 
 }
 ?>
-<script src="<?php echo $BASE_DIR ?>static/js/services/services.delete.js" type="text/javascript"></script>
+
+
+<script src="<?= $BASE_DIR ?>static/js/services/services.feed.js" type="text/javascript"></script>
+<script src="<?= $BASE_DIR ?>static/js/services/services.delete.js" type="text/javascript"></script>

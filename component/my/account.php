@@ -15,7 +15,7 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
         <div class="col s12">
             <div class="row">
                 <div class="col s12">
-                    <label>Home > My > Account</label>
+                    <label><a class="grey-text" href="<?= $BASE_DIR ?>">Home</a> > My > Account</label>
                     <h1><b>My Account</b></h1>
                     <?php if($newUser){ ?>
                     <p>Please fill in the required fields inorder to finish the registration process.</p>

@@ -3,6 +3,7 @@
 require_once "./controller.auth.php";
 require_once "./controller.sanitizer.php";
 require_once "./controller.database.php";
+require_once "./controller.filevalidator.php";
 require_once "../model/model.user.php";
 require_once "../model/model.offers.php";
 require_once "../model/model.constant.php";
@@ -70,8 +71,24 @@ switch ($action) {
         $stmt->close();
 
         if(empty($result)){
-            echo json_encode(array('code' => 0, 'message' => 'This bidding is already expired.'));
+            echo json_encode(array('code' => 0, 'message' => 'This bidding already ended.'));
             exit();
+        }
+
+        $images = array('cs_offer_image_one', 'cs_offer_image_two');
+
+        $cs_offer_image_one = $cs_offer_image_two = '#!';
+
+        foreach($images as $image) {
+            if (FileValidator::isUploaded($image) && FileValidator::allowedSize($image, 3000000) && FileValidator::allowedType($image, array('jpg', 'png', 'jpeg', 'gif'))) {
+                $directory = '../static/asset/bidding/';
+                ${$image} = FileValidator::rename('jp', $image);
+                
+                if (!FileValidator::upload($directory, $image, ${$image})) {
+                    echo json_encode(array('code' => 0, 'message' => 'File Upload Failed'));
+                    die();
+                }
+            }
         }
         
         $columns = 'cs_bidding_id, cs_user_id, cs_offer, cs_offer_price';
@@ -81,7 +98,9 @@ switch ($action) {
             'product' => $cs_offer_product, 
             'qty'     => $cs_offer_qty,
             'date'    => $cs_offer_date,
-            'notes'   => $cs_offer_notes
+            'notes'   => $cs_offer_notes,
+            'img'     => $cs_offer_image_one,
+            'img-two' => $cs_offer_image_two,
         );
 
         
@@ -109,6 +128,13 @@ switch ($action) {
             exit();
         }
         
+        if(!$offer->isDeletable($selector)) {
+            echo json_encode(array('code' => 0, 'message' => '
+                Offers with biddings that expires in less than three(3) days can\'t be deleted until the bidding owner marks the bidding as completed
+            '));
+            exit();
+        }
+
         $userId = $auth->getSession('__user_id');
         $message = $offer->deleteOffer($selector, $userId);
         break;
@@ -126,7 +152,7 @@ switch ($action) {
 
     case 'view':
         $selector = Sanitizer::filter('selector', 'get');
-        if(!$auth->compareSession('auth', true) || !$auth->compareSession('__user_role', 1) || !$selector){
+        if(!$auth->compareSession('auth', true) || !$selector){
             echo json_encode(array('code' => 0, 'message' => 'You are unauthorized to perform this action.'));
             exit();
         }

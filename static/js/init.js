@@ -1,5 +1,4 @@
-/* var root = 'http://localhost/bidding-basic/'; */
-var root = 'http://jpburato.epizy.com/';
+var root = 'http://localhost/bidding-basic/';
 $(function(){
     $('.dropdown-trigger').dropdown();
     $('.modal').modal();

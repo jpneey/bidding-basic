@@ -15,7 +15,7 @@ $contact = unserialize($user->getUser($__user_id, "cs_contact_details"));
         <div class="col s12">
             <div class="row">
                 <div class="col s12">
-                    <label>Home > My > Contact</label>
+                    <label><a class="grey-text" href="<?= $BASE_DIR ?>">Home</a> > My > Contact</label>
                     <h1><b>Contact Details</b></h1>
                 </div>
 

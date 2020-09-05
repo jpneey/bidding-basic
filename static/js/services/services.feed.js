@@ -12,39 +12,11 @@ $(function(){
 })
 
 
-$(window).on('resize scroll', function() {
-  loadNextBidding();
-});
-
-
-
 function starRates() {
   $('.ratings').each(function() {
     var child = (5 - $(this).children().length);
     $(this).append('<i class="material-icons orange-text">star_outline</i>'.repeat(child));
   });
-}
-
-function loadNextBidding(){
-  if(!$('#bidFeedNext').length){ return }
-  if($('#bidFeedNext').isInViewport()) {
-    $('#load-wrap').fadeIn(500);
-    $.ajax({
-      url: root + 'controller/controller.bidding.more.php?token='+$('#bidFeedNext').data('id')+"&base="+$('#bidFeedNext').data('base'),
-      type: 'GET',
-      processData: false,
-      contentType: false,
-      
-      success: function(data) {
-        $('#load-wrap').fadeOut(500);
-        $('#bidding-feed').append(data);
-        $("time.timeago").timeago();
-        starRates();
-      }
-    })
-
-    $('#bidFeedNext').remove();
-  }
 }
 
 function timer(time){
@@ -149,12 +121,13 @@ function prepareModal(token){
 
 function viewOfferModal(data){
   var parsedData = JSON.parse(data);
+  var image = '<br><img src="'+ root + 'static/asset/bidding/' + parsedData.img+'" onError="this.onerror = \'\';this.style.display=\'none\';" />' + '<img src="'+ root + 'static/asset/bidding/' + parsedData.img_two+'"  onError="this.onerror = \'\';this.style.display=\'none\';" />';
   var link = '<br><br><a href="'+parsedData.connect+'"class="btn-small green">email</a>' + ' <a href="#!" data-view="'+parsedData.view+'"class="btn-small view-poster green lighten-1">profile</a>';
-  $('#view-offer-content').html(parsedData.offer + link);
+  $('#view-offer-content').html(parsedData.offer + image + link);
   $(".qty").text($('.item').data('unit'));
   $('#view-offer-modal').modal();
   $('#view-offer-modal').modal('open');
-  $('#view-offer-modal').css({'max-width':'440px'})
+  
   viewPoster();
 }
 

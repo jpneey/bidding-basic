@@ -165,13 +165,14 @@ switch ($action) {
         break;
 
     case 'rate-update':
-        $to = Sanitizer::filter('to', 'get');
+        /* $to = Sanitizer::filter('to', 'get');
         $rate = Sanitizer::filter('rate', 'post', 'int');
         if($rate > 5) { $rate = 5; }
         if($rate <= 0) { $rate = 0; }
         $comment = Sanitizer::filter('comment', 'post');
         $from = $__user_id;
-        $message = $user->updateRating($from, $to, $rate, $comment);
+        $message = $user->updateRating($from, $to, $rate, $comment); */
+        $message = json_encode(array('code' => 1, 'message' => 'Updating ratings are disabled'));
         break;
 
     case 'view':

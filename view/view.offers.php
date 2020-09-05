@@ -122,14 +122,13 @@ class viewOffers extends Offers {
                                     required
                                     type="text" 
                                     name="cs_offer_product" 
-                                    class="custom-input validate"  
+                                    class="custom-input validate"
+                                    readonly  
                                 />
                             </div>
-                            <div class="input-field no-margin col s12 m3">
-                                <p><label>Qty in <b><span class="qty">{qty}</span></b></label></p>
                                 <input 
                                     required 
-                                    type="number" 
+                                    type="hidden" 
                                     name="cs_offer_qty" 
                                     class="custom-input validate" 
                                     min="0" 
@@ -137,10 +136,11 @@ class viewOffers extends Offers {
                                     oninput="validity.valid||(value='');" 
                                     pattern=" 0+\.[0-9]*[1-9][0-9]*$"  
                                 />
-                            </div>
                             
-                            <div class="input-field no-margin col s12 m4">
-                                <p><label>Offer Pricing</label></p>
+                            <div class="input-field price-tooltip no-margin col s12 m7 tooltipped" 
+                                    data-position="bottom" 
+                                    data-tooltip="expected budget">
+                                <p><label>Total Pricing for <b><span class="qty-c">{qty}</span> <span class="qty">{qty}</span></b></label></p>
                                 <input 
                                     required 
                                     type="number" 
@@ -172,6 +172,26 @@ class viewOffers extends Offers {
                                 class="custom-input validate"  
                             />
                         </div>
+
+                        <div class="file-field input-field col s12">
+                            <div class="btn">
+                                <span>Add Photo (optional)</span>
+                                <input type="file" accept="image/*" name="cs_offer_image_one" />
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" placeholder=".jpg, with less than 3mb" type="text">
+                            </div>
+                        </div>
+
+                        <div class="file-field input-field col s12">
+                            <div class="btn">
+                                <span>Add Photo (optional)</span>
+                                <input type="file" accept="image/*" name="cs_offer_image_two" />
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input class="file-path validate" placeholder=".jpg, with less than 3mb" type="text">
+                            </div>
+                        </div>
                             
                         <div class="col s12">
                             <p><?= $this->postOfferTitle($this->getCountOffer($biddingId)) ?></p>
@@ -186,7 +206,7 @@ class viewOffers extends Offers {
                         <div class="col s12" id="placeholder">
                             <p><?= $this->postOfferTitle($this->getCountOffer($biddingId)) ?></p>
                             <a class="waves-effect waves-light btn generate-form" href="#~">Submit Offer</a>
-                            <a href="<?= $this->BASE_DIR ?>about/faqs/" class="btn waves-effect orange white-text">Faqs</a>
+                            <a href="#bid-faqs" class="btn modal-trigger waves-effect orange white-text">Faqs</a>
                         </div>
                     </div>
 
@@ -205,7 +225,21 @@ class viewOffers extends Offers {
                     <?php $this->viewMyOffers($userId, $biddingId); ?>
                     <div class="col s12">
                         <p>You need to login on a supplier account inorder to participate in biddings. Bidders remain anonymous until it's offer is selected.</p>
-                        <a href="<?= $this->BASE_DIR ?>about/faqs/" class="btn waves-effect orange white-text">Learn how</a>
+                        <?php if(!$userId) { ?>
+
+                        <div id="how-to-bid" class="modal modal-fixed-footer">
+                            <div class="modal-content">
+                                <h4>Canvasspoint Suppliers</h4>
+                                <p>Duis eget neque eget massa viverra dignissim. Ut nec eros sit amet purus finibus dictum ac quis nulla. Ut mollis odio at lobortis dignissim. Aliquam id orci odio. Donec ultrices lorem eget nunc condimentum, sit amet ornare diam consectetur. Quisque vel ligula a velit fringilla euismod. Nulla facilisi. Donec vehicula mollis arcu a consequat. Praesent rhoncus rhoncus velit at hendrerit. Praesent porttitor quam ut ante ullamcorper volutpat. In a convallis elit. Ut posuere blandit est, ut congue libero sagittis id. Nulla orci enim, varius sed pretium eleifend, laoreet congue orci. Etiam tempor urna a ex auctor, posuere pellentesque sem varius. Donec magna leo, maximus eu risus eget, sodales fringilla eros. Mauris hendrerit augue at turpis dapibus, nec condimentum lorem vestibulum.</p>
+                            </div>
+                            <div class="modal-footer">
+                                <a href="<?= $this->BASE_DIR ?>home/?sidebar=2" class="modal-close waves-effect waves-green btn">Register Now</a>
+                                <a href="#!" class="modal-close red white-text waves-effect btn-flat">Close</a>
+                            </div>
+                        </div>
+
+                        <a href="#how-to-bid" class="modal-trigger btn waves-effect orange white-text">Learn how</a>
+                        <?php } ?>
                     </div>
                 </div>
             </div>
@@ -297,8 +331,14 @@ class viewOffers extends Offers {
                 
                 <span class="card-counter">
                     <a href="#!" data-selector="<?= $offerId ?>" data-mode="offer" class="right data-delete z-depth-1 red white-text center-align">DELETE</a>
+                    <a href="#!" data-offer="<?= $offerId ?>" data-mode="offer" class="view-modal right z-depth-1 green white-text center-align">VIEW</a>
                 </span>
 
+                <div id="view-offer-modal" class="modal">
+                    <div class="modal-content">
+                        <div id="view-offer-content"></div>
+                    </div>
+                </div>
             </div>
             <?php
             }

@@ -8,13 +8,13 @@ class controllerSearch extends DBHandler {
         $options = array();
 
         if($category){
-            $options[] = array('cs_bidding_category_id = ?', 'i', $category);
+            $options[] = array('b.cs_bidding_category_id = ?', 'i', $category);
         }
         if($location){
-            $options[] = array('cs_bidding_location LIKE ?', 's', "%{$location}%");
+            $options[] = array('b.cs_bidding_location LIKE ?', 's', "%{$location}%");
         }
 
-        $filter = "AND (cs_bidding_title LIKE ? OR cs_bidding_details LIKE ? OR cs_bidding_tags LIKE ? OR cs_bidding_location LIKE ?)";
+        $filter = "AND (b.cs_bidding_title LIKE ? OR b.cs_bidding_details LIKE ? OR b.cs_bidding_tags LIKE ? OR b.cs_bidding_location LIKE ?)";
         $type = "ssss";
         $value = array("%{$queue}%", "%{$queue}%", "%{$queue}%", "%{$queue}%");
 
@@ -25,8 +25,6 @@ class controllerSearch extends DBHandler {
                 $value[] = $options[$key][2];
             }
         }
-
-        $filter .= " ORDER BY cs_bidding_id DESC LIMIT 20";
 
         return array($filter,$type,$value);
     }

@@ -26,34 +26,24 @@ class Bids extends DBHandler {
     public function getBid($id, $param = false){
         
         $connection = $this->connectDB();
-        $stmt = $connection->prepare("SELECT * FROM cs_biddings WHERE cs_bidding_permalink = ? ");
+        $stmt = $connection->prepare("
+            SELECT 
+            b.*, 
+            p.*,
+            c.cs_category_name,
+            AVG(r.cs_rating) AS cs_owner_rating
+            FROM cs_biddings b 
+            LEFT JOIN cs_products_in_biddings p ON
+            p.cs_bidding_id = b.cs_bidding_id
+            LEFT JOIN cs_categories c ON
+            c.cs_category_id = b.cs_bidding_category_id
+            LEFT JOIN cs_user_ratings r ON
+            r.cs_user_rated_id = b.cs_bidding_user_id
+            WHERE b.cs_bidding_permalink = ? ");
         $stmt->bind_param("s", $id);
         $stmt->execute();
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
-
-        if(!empty($result)){
-            
-            foreach($result as $key=>$value) {
-
-                $biddingId = (int)$result[$key]["cs_bidding_id"];
-
-                $stmt = $connection->prepare("SELECT * FROM cs_products_in_biddings WHERE cs_bidding_id = '$biddingId'");
-                $stmt->execute();
-                $result[$key]["cs_bidding_products"] = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
-                $stmt->close();
-
-                $userId = (int)$result[$key]["cs_bidding_user_id"];
-                
-                $stmt = $connection->prepare("SELECT AVG(cs_rating) FROM cs_user_ratings WHERE cs_user_rated_id = '$userId'");
-                $stmt->execute();
-                $rating = $stmt->get_result()->fetch_row();
-                $result[$key]["cs_owner_rating"] = (!empty($rating)) ? $rating[0] : 0;
-                $stmt->close();
-            
-            }
-
-        }
 
         return $param ? $result[0][$param] : $result;
     }
@@ -64,43 +54,23 @@ class Bids extends DBHandler {
         return date_format($date, 'jS  \o\f\ F Y');
     }
 
-    public function getBiddings($filter, $type = '', $value = array()){
+    public function getBiddings($filter = array()){
         
-        $status_array = array('1', '2');
-        $clause = implode(',', array_fill(0, count($status_array), '?'));
-        $types = str_repeat("i", count($status_array));
-        $types .= $type;
         $connection = $this->connectDB();
-        $query = "
-            SELECT
-            cs_bidding_id, 
-            cs_bidding_title, 
-            cs_bidding_details, 
-            cs_bidding_user_id, 
-            cs_bidding_permalink, 
-            cs_bidding_added, 
-            cs_bidding_picture, 
-            cs_bidding_status,
-            cs_bidding_location  FROM cs_biddings WHERE cs_bidding_status in($clause) $filter";
+        $query = "SELECT b.*, c.cs_category_name FROM cs_biddings b LEFT JOIN cs_categories c ON c.cs_category_id = b.cs_bidding_category_id WHERE cs_bidding_status = 1";
+        
+        if(!empty($filter)) { $query .= " ".$filter[0];}
+
+        $query .= " ORDER BY cs_bidding_id DESC";
 
         $stmt = $connection->prepare($query);
-
-        $stmt->bind_param($types, ...$status_array,...$value);
+        if(!empty($filter)) {
+            $stmt->bind_param($filter[1], ...$filter[2]);
+        }
         $stmt->execute();
 
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
-        if(!empty($result)){
-
-            foreach($result as $key=>$value) {
-                $userId = (int)$result[$key]["cs_bidding_user_id"];
-                $stmt = $connection->prepare("SELECT AVG(cs_rating) FROM cs_user_ratings WHERE cs_user_rated_id = '$userId'");
-                $stmt->execute();
-                $rating = $stmt->get_result()->fetch_row();
-                $result[$key]["cs_owner_rating"] = (!empty($rating)) ? $rating[0] : 0;
-                $stmt->close();
-            }
-        }
         return $result;
 
     }
@@ -132,15 +102,26 @@ class Bids extends DBHandler {
 
     public function isDeletable($selector){
         $connection = $this->connectDB();
-        $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_biddings WHERE cs_bidding_permalink = ? LIMIT 1");
+        $stmt = $connection->prepare("SELECT cs_bidding_id, cs_bidding_status FROM cs_biddings WHERE cs_bidding_permalink = ? LIMIT 1");
         $stmt->bind_param('s', $selector);
         $stmt->execute();
         $biddingId = $stmt->get_result()->fetch_row();
         $stmt->close();
 
+        if($biddingId[1] == 2) { return true; }
+
         if(empty($biddingId)) { return false; }
 
-        $stmt = $connection->prepare("SELECT cs_offer_status FROM cs_offers WHERE cs_bidding_id = '$biddingId[0]'");
+        if(!$this->hasOpenBid($biddingId[0])) { return false; }
+
+        return true;
+    }
+
+    public function hasOpenBid($biddingId) {
+        
+        $connection = $this->connectDB();
+
+        $stmt = $connection->prepare("SELECT cs_offer_status FROM cs_offers WHERE cs_bidding_id = '$biddingId'");
         $stmt->execute();
         $offers = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
@@ -154,8 +135,6 @@ class Bids extends DBHandler {
         }
 
         return false;
-
-
     }
 
     public function getDashboardCounts($user_id) {
@@ -234,12 +213,35 @@ class Bids extends DBHandler {
         $currentDateTime = date('Y-m-d');
 
         $connection = $this->connectDB();
-        $stmt = $connection->prepare("UPDATE cs_biddings SET cs_bidding_status = '0' WHERE DATE(cs_bidding_date_needed) <= '$currentDateTime'");
+        $stmt = $connection->prepare("UPDATE cs_biddings SET cs_bidding_status = '0' WHERE DATE(cs_bidding_date_needed) <= '$currentDateTime' AND cs_bidding_status != '2'");
         $stmt->execute();
         $stmt->close();
-        
+
         return json_encode(array('code' => 1, 'message' => 'Bidding ended.'));
+    }
+
+    
+    public function biddingFinish($userId, $selector){
+
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_biddings WHERE cs_bidding_user_id = ? AND cs_bidding_permalink = ?");
+        $stmt->bind_param("is", $userId, $selector);
+        $stmt->execute();
+        $bidding = $stmt->get_result()->fetch_row();
+        $stmt->close();
+
+        if(empty($bidding)) { return json_encode(array('code' => 0, 'message' => 'Bidding not found'));  }
+
+        $biddingId = $bidding[0];
+    
+        if(!$this->hasOpenBid($biddingId)) { return json_encode(array('code' => 0, 'message' => 'Please select atleast one proposal before marking this bidding as \'completed\'')); }
         
+        $stmt = $connection->prepare("UPDATE cs_biddings SET cs_bidding_status = '2' WHERE cs_bidding_user_id = ? AND cs_bidding_id = ?");
+        $stmt->bind_param("ii", $userId, $biddingId);
+        $stmt->execute();
+        $stmt->close();
+
+        return json_encode(array('code' => 1, 'message' => 'Bidding marked as \'completed\'.'));
     }
 
     /**
@@ -249,14 +251,14 @@ class Bids extends DBHandler {
 
     public function deleteBid($selector, $userId){
         $connection = $this->connectDB();
-        $stmt = $connection->prepare("SELECT cs_bidding_id, cs_bidding_picture FROM cs_biddings WHERE cs_bidding_user_id = ? AND cs_bidding_permalink = ?");
+        $stmt = $connection->prepare("SELECT cs_bidding_id, cs_bidding_picture FROM cs_biddings WHERE (cs_bidding_user_id = ? AND cs_bidding_permalink = ? AND cs_bidding_status = 2)");
         $stmt->bind_param('is', $userId, $selector);
         $stmt->execute();
         $exist = $stmt->get_result()->fetch_row();
         $stmt->close();
 
         if(empty($exist)){
-            return json_encode(array('code' => 0, 'message' => 'Unable to delete bidding. Bidding does not exists.'));
+            return json_encode(array('code' => 0, 'message' => 'Unable to delete bidding. Please mark it as \'complete\'.'));
         }
 
         $image = '../static/asset/bidding/'.$exist[1];

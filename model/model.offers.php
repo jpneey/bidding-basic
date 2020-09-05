@@ -48,11 +48,42 @@ class Offers extends DBHandler {
         return $result;
     }
 
+    public function isDeletable($selector) {
+
+        $connection = $this->connectDB();
+        date_default_timezone_set('Asia/Manila');
+        $currentDateTime = date('Y-m-d');
+    
+        $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_offers WHERE cs_offer_id = ?");
+        $stmt->bind_param('i', $selector);
+        $stmt->execute();
+        $id = $stmt->get_result()->fetch_row();
+        $stmt->close();
+
+        $stmt = $connection->prepare("SELECT cs_bidding_status, DATEDIFF(DATE(cs_bidding_date_needed), '$currentDateTime') AS days FROM cs_biddings WHERE cs_bidding_id = ?");
+        $stmt->bind_param('i', $id[0]);
+        $stmt->execute();
+        $bid = $stmt->get_result()->fetch_row();
+        $stmt->close();
+        
+        if(!empty($bid) && $bid[1] <= 3) {
+            if($bid[0] == 2) {
+                return true;
+            }
+            return false;
+        }
+
+        return true;
+    }
+
     public function viewOffer($selector, $userId, $view = false){
         $connection = $this->connectDB();
+        $supplier = false;
 
-        $initQuery = "SELECT * FROM cs_offers WHERE cs_offer_id = ?";
-        ($view) ? $initQuery .= " AND cs_offer_status = 1 LIMIT 1" : " LIMIT 1";
+        $initQuery = "SELECT * FROM cs_offers WHERE cs_offer_id = ? LIMIT 1";
+
+        // where and or fix ko dapat
+
         $stmt = $connection->prepare($initQuery);
         $stmt->bind_param('i', $selector);
         $stmt->execute();
@@ -60,7 +91,7 @@ class Offers extends DBHandler {
         $stmt->close();
 
         if(empty($offer)){
-            return json_encode(array('code' => 0, 'message' => 'It\'s not your fault, but something went wrong. :('));
+            return json_encode(array('code' => 0, 'message' => 'It\'s not your fault, but something went wrong. :(('));
         }
         
         $stmt = $connection->prepare("SELECT cs_bidding_id, cs_bidding_user_id, cs_bidding_title FROM cs_biddings WHERE cs_bidding_id = ? AND cs_bidding_user_id = ? LIMIT 1");
@@ -69,9 +100,11 @@ class Offers extends DBHandler {
         $exists = $stmt->get_result()->fetch_row();
         $stmt->close();
 
-        if(empty($exists)){
-            return json_encode(array('code' => 0, 'message' => 'You are not authorized to open this offer. s:'.$selector.' u:'. $userId));
+        if(empty($exists) && $userId != $offer[2]){
+            return json_encode(array('code' => 0, 'message' => 'You are not authorized to open this offer.'));
         }
+
+        if($userId == $offer[2]) { $supplier = true; }
 
         if(!$view){
             
@@ -89,22 +122,27 @@ class Offers extends DBHandler {
             return json_encode(array('code' => 1, 'id' => $selector)); 
         }
         
-        $stmt = $connection->prepare("SELECT cs_user_email FROM cs_users WHERE cs_user_id = ?");
+        $stmt = $connection->prepare("SELECT cs_user_name, cs_user_email FROM cs_users WHERE cs_user_id = ?");
         $stmt->bind_param("i", $offer[2]);
         $stmt->execute();
         $em = $stmt->get_result()->fetch_row();
         $stmt->close();
 
-        $email = (!empty($em)) ? $em[0] : 'info@canvasspoint.com';
+        $email = (!empty($em)) ? $em[1] : 'info@canvasspoint.com';
+        $username = (!empty($em)) ? $em[0] : 'Deleted User';
 
         $quickConnect = 'mailto:'.$email;
 
-        $modal = '';
+        $modal = (!$supplier) ? '<h1><b>'.$username.'</b></h1>' : '';
         $offers = unserialize($offer[3]);
-        $modal .= '₱ '.number_format($offer[4], '2', '.', ',').' - '.$offers["product"].' '.$offers["qty"].' <b><span class="qty">{qty}</span></b>';
-        $modal .= '<br>'.$offers["notes"].'';
+        $modal .= '<b>Offer:</b><br>₱ '.number_format($offer[4], '2', '.', ',').' - '.$offers["product"].' x '.$offers["qty"].' <b><span class="qty"></span></b>';
+        $modal .= '<br>'.date_format(date_create($offer[5]), '\A\v\a\i\l\a\b\l\e \o\n l jS F Y');
+        $modal .= '<br><br><b>Notes:</b><br>'.$offers["notes"].'';
 
-        return json_encode(array('code' => 1, 'offer' => $modal, 'email' => $email, 'connect' => $quickConnect, 'view' => $offer[2]));
+        $image = $offers['img'];
+        $image_two = $offers['img-two'];
+
+        return json_encode(array('code' => 1, 'offer' => $modal, 'email' => $email, 'connect' => $quickConnect, 'view' => $offer[2], 'img' => $image, 'img-two' => $image_two));
 
     }
 
@@ -116,6 +154,10 @@ class Offers extends DBHandler {
         $allowed = $stmt->get_result()->fetch_row();
         $stmt->close();
         return (!empty($allowed)) ? $allowed[0] : 1;
+    }
+
+    public function hasOffer($userId){
+        
     }
 
     public function getUserOffers($userId){
@@ -211,6 +253,21 @@ class Offers extends DBHandler {
 
     public function deleteOffer($selector, $userId){
         $connection = $this->connectDB();
+
+        $stmt = $connection->prepare("SELECT cs_offer FROM cs_offers WHERE cs_offer_id = ? AND cs_user_id = ?");
+        $stmt->bind_param('ii', $selector, $userId);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_row();
+        $stmt->close();
+
+        if(!empty($result)) {
+            $image = unserialize($result[0]);
+            $link = '../static/asset/bidding/'.$image['img'];
+            if(file_exists($link)){ unlink($link);}
+            $link = '../static/asset/bidding/'.$image['img-two'];
+            if(file_exists($link)){ unlink($link);}
+        }
+
         $stmt = $connection->prepare("DELETE FROM cs_offers WHERE cs_offer_id = ? AND cs_user_id = ?");
         $stmt->bind_param('ii', $selector, $userId);
         $stmt->execute();

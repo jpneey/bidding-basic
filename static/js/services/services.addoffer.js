@@ -36,6 +36,7 @@
 
             clone.find("input[name='cs_offer_product']").val(itemName);
             clone.find(".qty").text(itemUnit);
+            clone.find(".qty-c").text(itemQty);
             clone.find("input[name='cs_offer_qty']").val(itemQty);
 
             $('.orig').remove();
@@ -44,6 +45,8 @@
         });
         $('#placeholder').fadeOut('500');
         $('#offer-form').fadeIn('500');
+        $('.tooltipped').tooltip();
+
     }
 
     function addOffer(){

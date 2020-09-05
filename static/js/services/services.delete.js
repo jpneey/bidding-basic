@@ -9,13 +9,16 @@ function dataDelete(){
 
     $trigger.on('click', function(){
 
-        if(!confirm("Are you sure to delete this entry?")){ return}
+        if(!confirm("Are you sure to update/delete this entry?")){ return}
 
         var selector = $(this).data('selector');
         var mode = $(this).data('mode');
         switch(mode){
             case 'bid':
                 url = 'controller/controller.bidding.php?action=delete&selector='+selector;
+                break;
+            case 'bid-finish':
+                url = 'controller/controller.bidding.php?action=finish&selector='+selector;
                 break;
             case 'featured':
                 url = 'controller/controller.business.php?action=delete';

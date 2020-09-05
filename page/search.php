@@ -27,15 +27,12 @@ $s_mode = ($s_mode) ? $s_mode : 'bid';
   <div class="main">
     <div class="wrapper wrapper-top-bottom">
       <div class="container row">  
-        <div class="col s12">
-            <?php
-                require_once "view/view.search.php";
-                $search = new Search($BASE_DIR, 'bid');
-                $search->searchForm(true);
-            ?>
-        </div>
         <div class="col s12" id="bidding-feed">
           <?php
+          
+            require_once "view/view.search.php";
+            $search = new Search($BASE_DIR, 'bid');
+            $search->searchForm(true);
           
             switch($s_mode){
                 case 'blog':
@@ -52,7 +49,7 @@ $s_mode = ($s_mode) ? $s_mode : 'bid';
                   $controllerSearch = new controllerSearch();
                   $filter = $controllerSearch->searchBid($s_queue, $s_location, $s_category);
                   $viewBids = new viewBids($BASE_DIR);
-                  $viewBids->viewFeed($filter[0], $filter[1], $filter[2]);  
+                  $viewBids->viewFeed($filter, "There are no active biddings that matches your search criteria. How about viewing our suppliers ?");  
                   break;
             }
 

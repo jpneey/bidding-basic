@@ -172,6 +172,17 @@ switch ($action) {
         $message = json_encode($bid->getBid($_GET['id']));
         break;
 
+    case 'finish':
+        $selector = Sanitizer::filter('selector', 'get');
+        if(!$auth->compareSession('auth', true) && $auth->compareSession('__user_role', 1) || !$selector){
+            echo json_encode(array('code' => 0, 'message' => 'You are unauthorized to perform this action.'));
+            exit();
+        }
+        $userId = $auth->getSession('__user_id');
+        
+        $message = $bid->biddingFinish($userId, $selector);
+        break;
+
     case 'delete':
         
         $selector = Sanitizer::filter('selector', 'get');
@@ -181,7 +192,7 @@ switch ($action) {
         }
         $userId = $auth->getSession('__user_id');
         if(!$bid->isDeletable($selector)){
-            echo json_encode(array('code' => 0, 'message' => 'Please select atleast one offer before permanently deleting a bidding thread.'));
+            echo json_encode(array('code' => 0, 'message' => 'Please mark this as \'complete\' before deleting'));
             exit();
         }
         $message = $bid->deleteBid($selector, $userId);

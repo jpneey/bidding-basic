@@ -28,7 +28,7 @@ if(empty($product)){
         <div class="col s12">
             <div class="row">
                 <div class="col s12">
-                    <label>Home > My > Business</label>
+                    <label><a class="grey-text" href="<?= $BASE_DIR ?>">Home</a > My > Business</label>
                     <h1><b>My Business</b></h1>
                 </div>
             

@@ -51,6 +51,16 @@ $selector = Sanitizer::filter($uri[1], 'var');
     </div>
   </div>
 
+  <div id="bid-faqs" class="modal modal-fixed-footer">
+    <div class="modal-content">
+        <p><b>Faqs</b></p>
+        <p>Quisque vel ligula a velit fringilla euismod. Nulla facilisi. Donec vehicula mollis arcu a consequat. Praesent rhoncus rhoncus velit at hendrerit. Praesent porttitor quam ut ante ullamcorper volutpat. In a convallis elit. Ut posuere blandit est, ut congue libero sagittis id. Nulla orci enim, varius sed pretium eleifend, laoreet congue orci. Etiam tempor urna a ex auctor, posuere pellentesque sem varius. Donec magna leo, maximus eu risus eget, sodales fringilla eros. Mauris hendrerit augue at turpis dapibus, nec condimentum lorem vestibulum.</p>
+    </div>
+    <div class="modal-footer">
+        <a href="<?= $this->BASE_DIR ?>home/?sidebar=2" class="modal-close waves-effect waves-green btn">Contact Us</a>
+        <a href="#!" class="modal-close red white-text waves-effect btn-flat">Close</a>
+    </div>
+  </div>
   <script src="<?php echo $BASE_DIR ?>static/js/services/services.feed.js?v=beta_1.008" type="text/javascript"></script>
   <?php
     $viewOnLoad = Sanitizer::filter('view', 'get', 'int');

@@ -12,7 +12,6 @@
             </ul>
             <ul class="right hide-on-med-and-down">
                 <li><a href="<?= $BASE_DIR ?>home/">Biddings</a></li>
-                <li><a href="<?= $BASE_DIR ?>about/faqs">Faqs</a></li>
                 <li><a href="<?= $BASE_DIR ?>supplier/">Suppliers</a></li>
             </ul>
         </div>
@@ -36,8 +35,8 @@
     </li>
     
     <li class="col s3">
-        <a href="#search-bottomsheet" class="grey-text text-darken-1 block modal-trigger"><i class="material-icons">search</i></a>
-        <p class="no-margin grey-text text-darken-1"><b>Search</b></p>
+        <a href="#!" class="grey-text text-darken-1 block"><i class="material-icons">inbox</i></a>
+        <p class="no-margin grey-text text-darken-1"><b>Blog</b></p>
     </li>
 
 </ul>
@@ -47,7 +46,7 @@
     <?php
 
         $sideChip = '<span class="chip chip white-text grey lighten-1">Free</span>';
-        $sideChip .= ' <a href="'.$BASE_DIR.'about/faqs/#upgrade-to-pro"><span class="chip chip white-text grey lighten-2">Upgrade to pro</span></a>';
+        $sideChip .= ' <a href="#upgrade-to-pro" class="modal-trigger" ><span class="chip chip white-text grey lighten-2">Upgrade to pro</span></a>';
 
         if($isLoggedIn){
             if(!empty($loggedInAccountType)){
@@ -75,11 +74,7 @@
 </ul>
 <ul id="category-nav" class="sidenav">
     <li class="navbar-fixed"></li>
-
 </ul>
-<div id="search-bottomsheet" class="modal bottom-sheet">
-    <?= $search->searchForm() ?>
-</div>
 <div id="load-wrap">
     <div id="onload">
         <div class="preloader-wrapper small active abs">

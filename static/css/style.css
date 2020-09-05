@@ -385,3 +385,16 @@ input.browser-default,
   height: 120px;
   background: red;
 }
+
+.modal.modal-fixed-footer { max-height: 400px; }
+
+.modal-content p>b:nth-of-type(1) {
+  font-size: 26px;
+}
+
+.modal img {
+  display: inline-block;
+  height: 150px;
+  margin-top: 15px;
+  margin-right: 15px;
+}

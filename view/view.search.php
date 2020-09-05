@@ -44,8 +44,7 @@ class Search extends DBHandler {
             ?>
         </select>
         <select required name="category" class="browser-default b">
-            <option value="0" disabled selected>Category</option>
-            <option value="0" >Miscelaneous</option>
+            <?= $this->getCategories() ?>
         </select>
         <select required name="location" class="browser-default a">
             
@@ -69,6 +68,24 @@ class Search extends DBHandler {
             foreach($locations as $key=>$value){
                 ?>
                 <option value="<?= $locations[$key]['cs_location'] ?>" ><?= $locations[$key]['cs_location'] ?></option>
+                <?php
+            }
+        }
+    }
+    public function getCategories(){
+        if(isset($_GET['category']) && !empty($_GET['category'])) {
+            echo '<option value="'.$_GET['category'].'" selected>Category</option>';
+        }
+        echo '<option value="0">All Caregories</option>';
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("SELECT * FROM cs_categories ORDER BY cs_category_name ASC");
+        $stmt->execute();
+        $category = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        if(!empty($category)){
+            foreach($category as $key=>$value){
+                ?>
+                <option value="<?= $category[$key]['cs_category_id'] ?>" ><?= $category[$key]['cs_category_name'] ?></option>
                 <?php
             }
         }
