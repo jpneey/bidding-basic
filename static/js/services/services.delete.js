@@ -50,6 +50,8 @@ function dataDelete(){
                 switch(parsedData.code){
                     case 1:
                         var classes = "green";
+                        window.location.reload();
+                        return;
                         break;
                     default:
                         var classes = "red";

@@ -12,15 +12,15 @@ class viewOffers extends Offers {
         return $v;
     }
 
-    public function viewMyOffers($userId, $biddingId) {
-        $offers = $this->getBidOffers($userId, $biddingId);
+    public function viewMyOffers($userId, $biddingId, $supplier = false) {
+        $offers = $this->getBidOffers($userId, $biddingId, $supplier);
         if(!empty($offers)) {
             ?>
             <div class="col s12">
                 <table class="center-align" id="offer-panel">
                     <thead>
                         <tr>
-                            <th>Proposal</th>
+                            <th><?php if($supplier){ echo 'My '; } ?>Proposal</th>
                             <th>Rating</th>
                             <th>Action</th>
                         </tr>
@@ -38,32 +38,83 @@ class viewOffers extends Offers {
                             echo '<tr>';
                             echo '<td><b>₱</b>'.number_format($price, '2', '.', ',').'<br><label>'.$offered['qty'].' <span class="qty">{qty}</span></label></td>';
                             echo '<td><span class="ratings">'.$rating.'</span></td>';
-                            switch($status){
-                                case '0':
-                                    echo '<td><a href="#offer-modal" data-offer="'.$id.'" class="modal-trigger offer-modal-trigger btn-small waves-effect green white-text">open</a></td>';
-                                    break;
-                                case '1':
-                                    $thisViewable--;
-                                    echo '<td><a href="#!" data-offer="'.$id.'" class="view-modal btn-small waves-effect orange white-text">view</a></td>';
-                                    break;
+                            if(!$supplier){
+                                switch( $offers[$k]['cs_offer_success']){
+                                    case '2':
+                                        $successAction = '<a href="#!" class="btn-small waves-effect red white-text">Bad Transaction</a> ';
+                                        break;
+                                    case '1':
+                                        $successAction = '<a href="#!" class="btn-small waves-effect green white-text">Success</a> ';
+                                        break;
+                                    case '0':
+                                    default:
+                                        $successAction = '<a href="#!" data-name="'.$id.'" data-to="'.$offers[$k]["cs_user_id"].'" class="btn-small rate-modal-trigger waves-effect orange darken-2 white-text">Finalize Proposal</a> ';
+                                        break;
+                                }
+                                switch($status){
+                                    case '0':
+                                        echo '<td><a href="#offer-modal" data-offer="'.$id.'" class="modal-trigger offer-modal-trigger btn-small waves-effect green white-text">open</a></td>';
+                                        break;
+                                    case '1':
+                                        $thisViewable--;
+                                        echo '<td><a href="#!" data-offer="'.$id.'" class="view-modal btn-small waves-effect orange white-text">view</a> ';
+                                        echo $successAction;
+                                        echo '</td>';
+                                        break;
+                                    case '0':
+                                    default:
+                                        echo '<td><a href="#!" data-offer="'.$id.'" class="btn-small waves-effect red white-text">rejected</a></td>';
+                                        break;
+                                }
+                            } else {
+                                
+                                echo '<td>';
+                                switch($status){
+                                    case '1':
+                                        echo '<a href="#winner-offer" class="modal-trigger btn-small waves-effect orange white-text">winner</a> ';
+                                        echo '<a href="'.$this->BASE_DIR.'user/'.$offers[$k]['cs_purchaser'].'" class="btn-small waves-effect orange darken-2 white-text">contact purchaser</a>';
+                                        break;
+                                    case '2':
+                                        echo '<a href="#!" class="btn-small waves-effect red lighten-1 white-text">rejected</a> ';
+                                        echo '<a href="#!" data-mode="offer" data-selector="'.$id.'" class="data-delete btn-small waves-effect red white-text">cancel</a> ';
+                                        break;
+                                    default:
+                                        echo '<a href="#active-offers" class="modal-trigger btn-small waves-effect green white-text">active</a> ';
+                                        echo '<a href="#!" data-mode="offer" data-selector="'.$id.'" class="data-delete btn-small waves-effect red white-text">cancel</a> ';
+                                }
+                                echo '</td>';
                             }
                             echo '</tr>';
                         }
                     ?>
                     </tbody>
                 </table>
+                <div id="active-offers" class="modal modal-sm">
+                    <div class="modal-content">
+                        <p><b>Active</b></p>
+                        <p>This proposal's status is still active. This means that the purchaser has already chosen a winner but is still open to consider other bidding proposals.</p>
+                    </div>
+                </div>
+                <div id="winner-offer" class="modal modal-sm">
+                    <div class="modal-content">
+                        <p><b>Congratulations!</b></p>
+                        <p>This proposal won this bidding. Both purchaser and supplier can now view each other's profile.</p>
+                    </div>
+                </div>
                 <div id="offer-modal" class="modal" style="max-width: 440px">
                     <div class="modal-content">
                         <p>Your account can only open <b><?= $viewable ?></b> proposal(s) per bidding.
                         <?php
                             if($thisViewable <= 0) { 
-                                echo '<br><br><a href="mailto:info@canvasspoint.com" class="btn-small orange">Upgrade to Pro</a>';
+                                echo '</p><br><br><a href="mailto:info@canvasspoint.com" class="btn-small orange">Upgrade to Pro</a>';
                                 echo ' <a href="#!" class="btn-small red modal-close">cancel</a>';
                             }
                         ?>
                         <?php 
                             if($thisViewable >= 1) { ?>
-                            Proceed to open this proposal?</p>
+                            Proceed to open this proposal?<br><br>
+                            <span class="grey-text text-darken-2 small-text">* the first offer that you'll view will automatically be this bidding's winner.</span>
+                            </p>
                             <div>
                                 <a href="#!" data-offer="0" id="open-offer" class="btn-small green modal-close">open</a>
                                 <a href="#!" class="btn-small red modal-close">cancel</a>
@@ -73,15 +124,20 @@ class viewOffers extends Offers {
                         ?>
                     </div>
                 </div>
-                <div id="view-offer-modal" class="modal">
+                <div id="view-offer-modal" class="modal modal-sm">
                     <div class="modal-content">
                         <div id="view-offer-content"></div>
                     </div>
                 </div>
             </div>
             <script>$(function(){$(".qty").text($('.item').data('unit'));})</script>
+            
         <?php
-        }
+        } ?>
+        <div class="col s12">
+        <?php $offers = $this->getBidControl($userId, $biddingId); ?>
+        </div>
+        <?php
     }
     public function viewLowestOffer($biddingId) {
         $offers = $this->getLowestBidOffer($biddingId);
@@ -107,144 +163,157 @@ class viewOffers extends Offers {
     }
 
     public  function viewOfferForm($biddingId, $isSupplier, $userId) {
+        if($biddingId){
+            $hasOffer = $this->hasOffer($biddingId, $userId);
+            if($isSupplier && !$hasOffer) {
+                ?>
+                <div class="page white z-depth-1">
+                    <div id="submit-offer" class="content sm row scrollspy">
+                
+                        <form class="col s12 row" action="#!" data-action="<?= $this->BASE_DIR.'controller/controller.offer.php?action=add&bid='.$biddingId ?>" id="offer-form" method="POST">
 
-        if($isSupplier) {
-            ?>
-            <div class="page white z-depth-1">
-                <div id="submit-offer" class="content sm row scrollspy">
-            
-                    <form class="col s12 row" action="#!" data-action="<?= $this->BASE_DIR.'controller/controller.offer.php?action=add&bid='.$biddingId ?>" id="offer-form" method="POST">
+                            <div class="fields orig">
+                                <div class="input-field no-margin col s12 m5">
+                                    <p><label>Item Name</label></p>
+                                    <input 
+                                        required
+                                        type="text" 
+                                        name="cs_offer_product" 
+                                        class="custom-input validate"
+                                        readonly  
+                                    />
+                                </div>
+                                    <input 
+                                        required 
+                                        type="hidden" 
+                                        name="cs_offer_qty" 
+                                        class="custom-input validate" 
+                                        min="0" 
+                                        step="1" 
+                                        oninput="validity.valid||(value='');" 
+                                        pattern=" 0+\.[0-9]*[1-9][0-9]*$"  
+                                    />
+                                
+                                <div class="input-field price-tooltip no-margin col s12 m7 tooltipped" 
+                                        data-position="bottom" 
+                                        data-tooltip="expected budget">
+                                    <p><label>Total Pricing for <b><span class="qty-c">{qty}</span> <span class="qty">{qty}</span></b></label></p>
+                                    <input 
+                                        required 
+                                        type="number" 
+                                        name="cs_offer_price" 
+                                        class="custom-input validate"  
+                                        min="0.00" 
+                                        max="10000.00" 
+                                        step="0.01"
+                                    />
+                                </div>
+                            </div>
 
-                        <div class="fields orig">
-                            <div class="input-field no-margin col s12 m5">
-                                <p><label>Item Name</label></p>
+                            <div class="input-field no-margin col s12 m4">
+                                <p><label>Date Available</label></p>
                                 <input 
-                                    required
+                                    required 
                                     type="text" 
-                                    name="cs_offer_product" 
-                                    class="custom-input validate"
-                                    readonly  
+                                    name="cs_offer_date" 
+                                    class="custom-input datepicker validate"  
                                 />
                             </div>
+
+                            <div class="input-field no-margin col s12 m8">
+                                <p><label>Notes</label></p>
                                 <input 
                                     required 
-                                    type="hidden" 
-                                    name="cs_offer_qty" 
-                                    class="custom-input validate" 
-                                    min="0" 
-                                    step="1" 
-                                    oninput="validity.valid||(value='');" 
-                                    pattern=" 0+\.[0-9]*[1-9][0-9]*$"  
-                                />
-                            
-                            <div class="input-field price-tooltip no-margin col s12 m7 tooltipped" 
-                                    data-position="bottom" 
-                                    data-tooltip="expected budget">
-                                <p><label>Total Pricing for <b><span class="qty-c">{qty}</span> <span class="qty">{qty}</span></b></label></p>
-                                <input 
-                                    required 
-                                    type="number" 
-                                    name="cs_offer_price" 
+                                    type="text" 
+                                    name="cs_offer_notes" 
                                     class="custom-input validate"  
-                                    min="0.00" 
-                                    max="10000.00" 
-                                    step="0.01"
                                 />
                             </div>
-                        </div>
 
-                        <div class="input-field no-margin col s12 m4">
-                            <p><label>Date Available</label></p>
-                            <input 
-                                required 
-                                type="text" 
-                                name="cs_offer_date" 
-                                class="custom-input datepicker validate"  
-                            />
-                        </div>
-
-                        <div class="input-field no-margin col s12 m8">
-                            <p><label>Notes</label></p>
-                            <input 
-                                required 
-                                type="text" 
-                                name="cs_offer_notes" 
-                                class="custom-input validate"  
-                            />
-                        </div>
-
-                        <div class="file-field input-field col s12">
-                            <div class="btn">
-                                <span>Add Photo (optional)</span>
-                                <input type="file" accept="image/*" name="cs_offer_image_one" />
+                            <div class="file-field input-field col s12">
+                                <div class="btn">
+                                    <span>Add Photo (optional)</span>
+                                    <input type="file" accept="image/*" name="cs_offer_image_one" />
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" placeholder=".jpg, with less than 3mb" type="text">
+                                </div>
                             </div>
-                            <div class="file-path-wrapper">
-                                <input class="file-path validate" placeholder=".jpg, with less than 3mb" type="text">
-                            </div>
-                        </div>
 
-                        <div class="file-field input-field col s12">
-                            <div class="btn">
-                                <span>Add Photo (optional)</span>
-                                <input type="file" accept="image/*" name="cs_offer_image_two" />
+                            <div class="file-field input-field col s12">
+                                <div class="btn">
+                                    <span>Add Photo (optional)</span>
+                                    <input type="file" accept="image/*" name="cs_offer_image_two" />
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <input class="file-path validate" placeholder=".jpg, with less than 3mb" type="text">
+                                </div>
                             </div>
-                            <div class="file-path-wrapper">
-                                <input class="file-path validate" placeholder=".jpg, with less than 3mb" type="text">
+                                
+                            <div class="col s12">
+                                <p><?= $this->postOfferTitle($this->getCountOffer($biddingId)) ?></p>
+                                <input type="submit" value="Submit offer" class="btn white-text" />
+                                <a href="#bid-faqs" class="btn modal-trigger waves-effect orange white-text">Faqs</a>
+                            </div>
+
+                        </form>
+                        <div class="col s12 row">
+                            <?php $this->viewLowestOffer($biddingId); ?>
+                            <div class="col s12" id="placeholder">
+                                <p><?= $this->postOfferTitle($this->getCountOffer($biddingId)) ?></p>
+                                <a class="waves-effect waves-light btn generate-form" href="#~">Submit Offer</a>
+                                <a href="#bid-faqs" class="btn modal-trigger waves-effect orange white-text">Faqs</a>
                             </div>
                         </div>
-                            
-                        <div class="col s12">
-                            <p><?= $this->postOfferTitle($this->getCountOffer($biddingId)) ?></p>
-                            <input type="submit" value="Submit offer" class="btn white-text" />
-                            <a href="<?= $this->BASE_DIR ?>about/faqs/" class="btn waves-effect orange white-text">Faqs</a>
-                        </div>
 
-                    </form>
-                    <div class="col s12 row">
-                    
+                    </div>
+                </div>
+                
+                <script src="<?= $this->BASE_DIR ?>static/js/services/services.addoffer.js?v=beta-199" type="text/javascript"></script>
+
+                <?php
+            } else {
+                ?>
+                <div class="page white z-depth-1">
+                    <div id="submit-offer" class="content sm row scrollspy">
+                        
                         <?php $this->viewLowestOffer($biddingId); ?>
-                        <div class="col s12" id="placeholder">
-                            <p><?= $this->postOfferTitle($this->getCountOffer($biddingId)) ?></p>
-                            <a class="waves-effect waves-light btn generate-form" href="#~">Submit Offer</a>
-                            <a href="#bid-faqs" class="btn modal-trigger waves-effect orange white-text">Faqs</a>
-                        </div>
-                    </div>
+                        <?php $this->viewMyOffers($userId, $biddingId); ?>
+                        <?php if(!$isSupplier){ ?>
+                        <div class="col s12">
+                            <p>You need to login on a supplier account inorder to participate in biddings. Bidders remain anonymous until it's offer is selected.</p>
+                            <?php if(!$userId) { ?>
 
-                </div>
-            </div>
-            
-            <script src="<?= $this->BASE_DIR ?>static/js/services/services.addoffer.js" type="text/javascript"></script>
-
-            <?php
-        } else {
-            ?>
-            <div class="page white z-depth-1">
-                <div id="submit-offer" class="content sm row scrollspy">
-                    
-                    <?php $this->viewLowestOffer($biddingId); ?>
-                    <?php $this->viewMyOffers($userId, $biddingId); ?>
-                    <div class="col s12">
-                        <p>You need to login on a supplier account inorder to participate in biddings. Bidders remain anonymous until it's offer is selected.</p>
-                        <?php if(!$userId) { ?>
-
-                        <div id="how-to-bid" class="modal modal-fixed-footer">
-                            <div class="modal-content">
-                                <h4>Canvasspoint Suppliers</h4>
-                                <p>Duis eget neque eget massa viverra dignissim. Ut nec eros sit amet purus finibus dictum ac quis nulla. Ut mollis odio at lobortis dignissim. Aliquam id orci odio. Donec ultrices lorem eget nunc condimentum, sit amet ornare diam consectetur. Quisque vel ligula a velit fringilla euismod. Nulla facilisi. Donec vehicula mollis arcu a consequat. Praesent rhoncus rhoncus velit at hendrerit. Praesent porttitor quam ut ante ullamcorper volutpat. In a convallis elit. Ut posuere blandit est, ut congue libero sagittis id. Nulla orci enim, varius sed pretium eleifend, laoreet congue orci. Etiam tempor urna a ex auctor, posuere pellentesque sem varius. Donec magna leo, maximus eu risus eget, sodales fringilla eros. Mauris hendrerit augue at turpis dapibus, nec condimentum lorem vestibulum.</p>
+                            <div id="how-to-bid" class="modal modal-sm">
+                                <div class="modal-content">
+                                    <p><b>Canvasspoint Suppliers</b></p>
+                                    <p>Duis eget neque eget massa viverra dignissim.</p>
+                                    
+                                    <a href="<?= $this->BASE_DIR ?>home/?sidebar=2" class="modal-close waves-effect waves-green btn">Register Now</a>
+                                    <a href="#!" class="modal-close red white-text waves-effect btn-flat">Close</a>
+                                </div>
                             </div>
-                            <div class="modal-footer">
-                                <a href="<?= $this->BASE_DIR ?>home/?sidebar=2" class="modal-close waves-effect waves-green btn">Register Now</a>
-                                <a href="#!" class="modal-close red white-text waves-effect btn-flat">Close</a>
-                            </div>
-                        </div>
 
-                        <a href="#how-to-bid" class="modal-trigger btn waves-effect orange white-text">Learn how</a>
-                        <?php } ?>
+                            <a href="#how-to-bid" class="modal-trigger btn waves-effect orange white-text">Learn how</a>
+                            <?php } ?>
+                        </div>
+                        <?php } else { ?>
+                        <?php $this->viewMyOffers($userId, $biddingId, true); ?>
+                        <div class="col s12">
+                            <br>
+                            <p>Your Offer was submitted successfully and only one offer per supplier is allowed per bidding. Offers can't be canceled once the bidding reaches three (3) days before expiration.</p>
+                            <a href="#!" class="btn waves-effect orange white-text">Offer Submitted</a>
+                            <a href="<?= $this->BASE_DIR ?>my/dashboard/" class="btn waves-effect red white-text">Dashboard</a>
+                        </div>
+                        <script src="<?= $this->BASE_DIR ?>static/js/services/services.delete.js" type="text/javascript"></script>
+                        <?php
+                        } ?>
                     </div>
                 </div>
-            </div>
-            <?php
+                <?php
+            }
         }
+    
     }
 
 
@@ -254,7 +323,7 @@ class viewOffers extends Offers {
             case '0':
                 return 'Be the first one to submit an offer in this thread. Bidders remain anonymous until it\'s offer is selected.';
             default:
-                return 'Join '.$count.' other supplier and submit your offer.Bidders remain anonymous until it\'s offer is selected.';
+                return 'Join '.$count.' other supplier and submit your offer. Bidders remain anonymous until it\'s offer is selected.';
         }
     }
     
@@ -345,4 +414,26 @@ class viewOffers extends Offers {
         }
     }
 
+    public function getBidControl($userId, $biddingId) {
+        $status = $this->bidStatus($userId, $biddingId);
+        if($status){ ?>
+            <script src="<?= $this->BASE_DIR ?>static/js/services/services.delete.js?v=beta-199" type="text/javascript"></script>
+            <?php
+            switch($status[0]) {
+                case '0':
+                case 0:
+                case '1':
+                case 1:
+                    echo "<br><a href=\"#!\" data-selector=\"$status[1]\" data-mode=\"bid-finish\" class=\"data-delete btn waves-effect orange white-text\">Mark this bidding as 'Complete'</a>";
+                    echo "<p>* Suppliers with unopened proposals on this bidding thread will be notified that their proposals were rejeted.</p>";
+                    break;
+                case '2':
+                case 2:
+
+                    echo "<br><a href=\"#!\" class=\"btn waves-effect green white-text\">Bidding Marked as Complete</a> ";
+                    echo "<a href=\"#!\" data-selector=\"$status[1]\" data-mode=\"bid\" class=\"data-delete btn waves-effect red white-text\">Delete</a>";
+                    break;
+            }
+        }
+    }
 }

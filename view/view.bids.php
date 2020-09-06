@@ -70,8 +70,7 @@ class viewBids extends Bids {
     public function viewBid($selector) {
 
         $viewBid = $this->getBid($selector);
-
-        if(!empty($viewBid)) {
+        if(is_array($viewBid) && !empty($viewBid[0]['cs_bidding_id'])) {
 
             $title = $viewBid[0]['cs_bidding_title'];
             $status = $viewBid[0]['cs_bidding_status'];
@@ -112,9 +111,13 @@ class viewBids extends Bids {
                         <span id="minutes">00</span> <span>minutes</span>
                         <span id="seconds">00</span> <span>seconds</span>  
                     </p>
-                    <?php } else {
-                        echo '<p><a class="waves-effect waves-light btn orange" href="#~">Bidding Ended</a><br><br></p>';
-                    } ?>
+                    <?php } else { ?>
+                        <p>
+                            <a class="waves-effect waves-light btn orange" href="#~">Bidding Ended</a>
+                            <?= $this->getBidWinner($viewBid[0]['cs_bidding_id']); ?>
+                            <br><br>
+                        </p>
+                    <?php } ?>
                     <p>
                         <b>Date Needed:</b><br>
                         <?= date_format(date_create($dateNeeded), 'g:ia \o\n l jS F Y') ?>
@@ -143,6 +146,33 @@ class viewBids extends Bids {
             <script> $(function(){ timer('<?= $dateNeeded ?>') }) </script>
             <?php
             }
+        }
+    }
+
+    public function getBidWinner($biddingId){ 
+        $winner = $this->hasWinner($biddingId);
+        if(!$winner) {
+        ?> 
+        <a class="waves-effect waves-light btn orange darken-3" href="#!">Pending Winner </a><br><br>
+        * Purchaser is still choosing for a winner.
+        <?php } else {   
+        $product = unserialize($winner[1]);
+        ?>
+        <a href="<?= $this->BASE_DIR ?>user/<?= $winner[2][0] ?>/" class="waves-effect waves-light btn orange darken-3">@<?= $winner[2][0] ?> won</a><br>
+        <div class="glance white">
+            <div class="product-card">
+                <div class="thumbnail">
+                    <img id="bidding-details" src="<?= $this->BASE_DIR ?>static/asset/user/<?= $winner[2][1] ?>" class="margin-auto materialboxed" />
+                </div>
+                <div class="content">
+                    <p class="truncate"><b>Bid Winner:</b></p>
+                    <p><?= $winner[2][0] ?></p>
+                    <p class="truncate grey-text">₱ <?= number_format($product["price"][0], 2,'.',',') ?></p>
+                </div>
+            </div>
+        </div>
+
+        <?php
         }
     }
 
@@ -209,9 +239,7 @@ class viewBids extends Bids {
                 </a>
                 
                 <span class="card-counter">
-                    <?php if($userBids[$key]["cs_bidding_status"] != 2){ ?>
-                    <a href="#!" data-selector="<?= $bidInFeedLink ?>" data-mode="bid-finish" class="z-depth-1 right data-delete green white-text center-align">FINISH</a>
-                    <?php } ?>
+                    
                     <a href="#!" data-selector="<?= $bidInFeedLink ?>" data-mode="bid" class="right data-delete z-depth-1 red white-text center-align">DELETE</a>
                     <a class="z-depth-1 right orange white-text center-align"><?= $bidInFeedOfferCount ?></a>
                 </span>

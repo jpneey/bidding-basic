@@ -1,13 +1,18 @@
 var root = 'http://localhost/bidding-basic/';
+/* var root = 'http://jpburato.epizy.com/'; */
 $(function(){
     $('.dropdown-trigger').dropdown();
-    $('.modal').modal();
+    $('.modal').modal({
+        inDuration : '500',
+        outDuration : '500',
+        preventScrolling: false
+    });
     $('.fixed-action-btn').floatingActionButton({
         hoverEnabled: false
     });
     $('.collapsible').collapsible();
     $('#profile-nav').sidenav();
-    $('#category-nav').sidenav({
+    $('#notification-nav').sidenav({
         menuWidth: '200',
         edge: 'right'
     });
@@ -15,6 +20,7 @@ $(function(){
     $("time.timeago").timeago();
     $('.tooltipped').tooltip();
     searchToggle();
+    markAsRead();
 })
 
 $(window).on('load', function(){
@@ -77,4 +83,26 @@ function searchToggle() {
     $('a.filter').on('click', function(){
         $('.filter-panel').fadeToggle(0);
     })
+}
+
+function markAsRead(){
+    $('.mark-as-read').on('click', function(){
+        $('.unread').fadeOut(500);
+        $('.notif-panel').addClass('read');
+        $.ajax({
+            url: root + 'controller/controller.user.php?action=read',
+            type: 'GET',
+            processData: false,
+            contentType: false,
+            success: function(data) {
+                
+            }   
+        })
+    })
+
+    $(".notif-panel a" ).each(function( index ) {
+        var link = $(this).data('to');
+        var src = root + link;
+        $(this).attr('href', src);
+    });
 }

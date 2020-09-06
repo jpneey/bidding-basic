@@ -161,7 +161,19 @@ switch ($action) {
         if($rate <= 0) { $rate = 0; }
         $comment = Sanitizer::filter('comment', 'post');
         $from = $__user_id;
+        
+        $tosuccess = Sanitizer::filter('offer_id', 'post', 'int');
+        $success = Sanitizer::filter('success', 'post', 'int');
+
+        if($tosuccess && $success){
+            $user->successTransaction($tosuccess, $success);
+        }
+
         $message = $user->postRating($from, $to, $rate, $comment);
+        break;
+
+    case 'read':
+        $user->readNotifs($__user_id);
         break;
 
     case 'rate-update':
@@ -172,7 +184,15 @@ switch ($action) {
         $comment = Sanitizer::filter('comment', 'post');
         $from = $__user_id;
         $message = $user->updateRating($from, $to, $rate, $comment); */
-        $message = json_encode(array('code' => 1, 'message' => 'Updating ratings are disabled'));
+        
+        $tosuccess = Sanitizer::filter('offer_id', 'post', 'int');
+        $success = Sanitizer::filter('success', 'post', 'int');
+
+        if($tosuccess && $success){
+            $user->successTransaction($tosuccess, $success);
+        }
+
+        $message = json_encode(array('code' => 0, 'message' => 'Updating ratings are disabled'));
         break;
 
     case 'view':

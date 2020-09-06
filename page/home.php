@@ -37,7 +37,7 @@
       </div>
     </div>
   </div>
-  <script src="<?= $BASE_DIR ?>static/js/services/services.feed.js"></script>
+  <script src="<?= $BASE_DIR ?>static/js/services/services.feed.js?v=beta-199"></script>
   <?php
     require "./component/footer.php";
   ?>

@@ -121,20 +121,58 @@ class Bids extends DBHandler {
         
         $connection = $this->connectDB();
 
-        $stmt = $connection->prepare("SELECT cs_offer_status FROM cs_offers WHERE cs_bidding_id = '$biddingId'");
+        $stmt = $connection->prepare("SELECT cs_offer_status, cs_offer_success FROM cs_offers WHERE cs_bidding_id = '$biddingId'");
         $stmt->execute();
         $offers = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         $stmt->close();
 
-        if(empty($offers)) { return true; }
+        if(empty($offers)) { return false; }
 
         foreach($offers as $key => $value) {
-            if($offers[$key]["cs_offer_status"] == 1) {
+            if($offers[$key]["cs_offer_status"] == 1 && $offers[$key]["cs_offer_success"] == 0) {
                 return true;
             }
         }
 
         return false;
+    }
+
+    public function hasOnlyClosedBid($biddingId) {
+        
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("SELECT cs_offer_status, cs_user_id FROM cs_offers WHERE cs_bidding_id = '$biddingId'");
+        $stmt->execute();
+        $offers = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+
+        if(empty($offers)) { return false; }
+
+        foreach($offers as $key => $value) {
+            if($offers[$key]["cs_offer_status"] == 1) {
+                return false;
+            }
+        }
+        return $offers;
+    }
+
+    public function hasWinner($biddingId){
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("SELECT cs_offer_owner_id, cs_offer FROM cs_bidding_winners WHERE cs_bidding_id = ?");
+        $stmt->bind_param('i', $biddingId);
+        $stmt->execute();
+        $hasWinner = ($stmt->get_result()->fetch_row()) ?: false;
+        $stmt->close();
+        
+        if(!$hasWinner) { return false; }
+
+        $stmt = $connection->prepare("SELECT cs_user_name, cs_user_avatar FROM cs_users WHERE cs_user_id = ?");
+        $stmt->bind_param('i', $hasWinner[0]);
+        $stmt->execute();
+        $hasWinner[] = $stmt->get_result()->fetch_row();
+        $stmt->close();
+
+        return $hasWinner;
+
     }
 
     public function getDashboardCounts($user_id) {
@@ -211,11 +249,34 @@ class Bids extends DBHandler {
     
         date_default_timezone_set('Asia/Manila');
         $currentDateTime = date('Y-m-d');
+        $currentDateTimeStamp = date('Y-m-d H:i:s');
 
         $connection = $this->connectDB();
-        $stmt = $connection->prepare("UPDATE cs_biddings SET cs_bidding_status = '0' WHERE DATE(cs_bidding_date_needed) <= '$currentDateTime' AND cs_bidding_status != '2'");
+        $stmt = $connection->prepare("UPDATE cs_biddings SET cs_bidding_status = '0' WHERE DATE(cs_bidding_date_needed) <= '$currentDateTime' AND cs_bidding_status = '1'");
         $stmt->execute();
         $stmt->close();
+
+        $stmt = $connection->prepare("SELECT cs_bidding_user_id, cs_bidding_title, cs_bidding_permalink FROM cs_biddings WHERE cs_bidding_status = 0 AND cs_expired_notif = 0");
+        $stmt->execute();
+        $toNotif = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+
+        if(!empty($toNotif)){
+            $list = array();
+            foreach($toNotif as $key=>$value){
+                $id = $toNotif[$key]["cs_bidding_user_id"];
+                $list[] = $id;
+                $link = $toNotif[$key]['cs_bidding_permalink'];
+                $notification = "Bidding: <a data-to\"bid/$link\"><b>".$toNotif[$key]["cs_bidding_title"] . "</b></a> has expired.";
+                $stmt = $connection->prepare("INSERT INTO cs_notifications(cs_notif, cs_user_id, cs_added) VALUES('$notification', '$id', '$currentDateTimeStamp')");
+                $stmt->execute();
+                $stmt->close();
+            }
+
+            $stmt = $connection->prepare("UPDATE cs_biddings SET cs_expired_notif = 1 WHERE cs_bidding_user_id IN (".implode(',', $list).")");
+            $stmt->execute();
+            $stmt->close();
+        }
 
         return json_encode(array('code' => 1, 'message' => 'Bidding ended.'));
     }
@@ -224,7 +285,7 @@ class Bids extends DBHandler {
     public function biddingFinish($userId, $selector){
 
         $connection = $this->connectDB();
-        $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_biddings WHERE cs_bidding_user_id = ? AND cs_bidding_permalink = ?");
+        $stmt = $connection->prepare("SELECT cs_bidding_id, cs_bidding_title, cs_bidding_permalink FROM cs_biddings WHERE cs_bidding_user_id = ? AND cs_bidding_permalink = ?");
         $stmt->bind_param("is", $userId, $selector);
         $stmt->execute();
         $bidding = $stmt->get_result()->fetch_row();
@@ -234,10 +295,34 @@ class Bids extends DBHandler {
 
         $biddingId = $bidding[0];
     
-        if(!$this->hasOpenBid($biddingId)) { return json_encode(array('code' => 0, 'message' => 'Please select atleast one proposal before marking this bidding as \'completed\'')); }
+        if($this->hasOpenBid($biddingId)) { 
+            return json_encode(array('code' => 0, 'message' => 'Please finalize opened proposals first.')); 
+        }
         
-        $stmt = $connection->prepare("UPDATE cs_biddings SET cs_bidding_status = '2' WHERE cs_bidding_user_id = ? AND cs_bidding_id = ?");
+        $offers = $this->hasOnlyClosedBid($biddingId);
+        
+        if($offers) {
+
+            date_default_timezone_set('Asia/Manila');
+            $currentDateTimeStamp = date('Y-m-d H:i:s');
+
+            foreach($offers as $key=>$value){
+                $id = $offers[$key]["cs_user_id"];
+                $notification = "Bidding: <a data-to=\"bid/$bidding[2]\"><b>".$bidding[1] . "</b></a> has ended - No Supplier has won the bidding. Client rejected all proposals";
+                $stmt = $connection->prepare("INSERT INTO cs_notifications(cs_notif, cs_user_id, cs_added) VALUES('$notification', '$id', '$currentDateTimeStamp')");
+                $stmt->execute();
+                $stmt->close();
+
+            }
+        }
+        
+        $stmt = $connection->prepare("UPDATE cs_biddings SET cs_bidding_status = 2 WHERE cs_bidding_user_id = ? AND cs_bidding_id = ?");
         $stmt->bind_param("ii", $userId, $biddingId);
+        $stmt->execute();
+        $stmt->close();
+
+        $stmt = $connection->prepare("UPDATE cs_offers SET cs_offer_status = 2 WHERE cs_bidding_id = ? AND cs_offer_status = 0");
+        $stmt->bind_param("i", $biddingId);
         $stmt->execute();
         $stmt->close();
 
@@ -267,7 +352,7 @@ class Bids extends DBHandler {
             unlink($image);
         }
 
-        $stmt = $connection->prepare("UPDATE cs_offers SET cs_offer_status = 2 WHERE cs_bidding_id = ?");
+        $stmt = $connection->prepare("UPDATE cs_offers SET cs_offer_status = 2 WHERE cs_bidding_id = ? AND cs_offer_status = 0");
         $stmt->bind_param('i', $exist[0]);
         $stmt->execute();
         $stmt->close();

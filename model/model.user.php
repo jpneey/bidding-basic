@@ -170,6 +170,13 @@ class User extends DBHandler {
         return json_encode(array('code' => 0, 'message' => 'Uh oh. Something went wrong :('));
     }
 
+    public function successTransaction($transactionId, $value){
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("UPDATE cs_offers SET cs_offer_success = ? WHERE cs_offer_id = ?");
+        $stmt->bind_param('ii', $value, $transactionId);
+        $stmt->execute();
+    }
+
     public function updateRating($from, $to, $rate, $comment){
         $connection = $this->connectDB();
         $stmt = $connection->prepare("UPDATE cs_user_ratings SET cs_rating = ?, cs_comment = ? WHERE cs_user_id = ? AND cs_user_rated_id = ?");
@@ -179,6 +186,14 @@ class User extends DBHandler {
         }
         $stmt->close();
         return json_encode(array('code' => 0, 'message' => 'Uh oh. Something went wrong :('));
+    }
+
+    public function readNotifs($id){
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("UPDATE cs_notifications SET cs_notif_read = 1 WHERE cs_user_id = ? AND cs_notif_read != 1");
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+        return true;
     }
 
 }

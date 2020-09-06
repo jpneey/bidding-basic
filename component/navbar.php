@@ -1,18 +1,31 @@
+<?php
+
+require_once "model/model.notification.php";
+require_once "view/view.search.php";
+$search = new Search($BASE_DIR, 'bid');
+if($isLoggedIn) {
+    $notification = new Notification($__user_id);
+    $unread = $notification->getUnread();
+}
+
+
+?>
 <div class="navbar-fixed">
     <nav>
         <div class="wrapper nav-wrapper">
             <a href="<?= $BASE_DIR ?>" class="brand-logo left">
                 <img src="<?= $BASE_DIR ?>static/asset/logo.png" alt="Site Logo" />
             </a>
-            <ul class="right hide-on-med-and-down">
-                <?php
-                    require_once "view/view.search.php";
-                    $search = new Search($BASE_DIR, 'bid');
-                ?>
-            </ul>
-            <ul class="right hide-on-med-and-down">
-                <li><a href="<?= $BASE_DIR ?>home/">Biddings</a></li>
-                <li><a href="<?= $BASE_DIR ?>supplier/">Suppliers</a></li>
+            <ul class="right">
+                <li><a href="<?= $BASE_DIR ?>home/" class="hide-on-med-and-down">Biddings</a></li>
+                <li><a href="<?= $BASE_DIR ?>supplier/" class="hide-on-med-and-down">Suppliers</a></li>
+                <?php if($isLoggedIn) { ?>
+                <li><a href="#!" data-target="notification-nav" class="sidenav-trigger show-on-large no-margin"><i class="material-icons">notifications_none</i></a> 
+                    <?php if($unread) { ?>
+                        <span class="unread"><?= $unread ?></span>
+                    <?php } ?>
+                </li>
+                <?php } ?>
             </ul>
         </div>
     </nav>
@@ -38,9 +51,37 @@
         <a href="#!" class="grey-text text-darken-1 block"><i class="material-icons">inbox</i></a>
         <p class="no-margin grey-text text-darken-1"><b>Blog</b></p>
     </li>
-
 </ul>
-
+<?php if($isLoggedIn) { ?>
+    <ul id="notification-nav" class="sidenav grey lighten-3">
+        <li class="navbar-fixed"></li>
+        <li class="white">
+            <a class="waves-effect mark-as-read"><i class="material-icons left">notes</i><b>Mark All as read</b></a>
+        </li>
+        <li class="notif-panel">
+        <?php 
+        $unreadNotifs = $notification->getUnread(false);
+        if(!empty($unreadNotifs)) {
+            foreach($unreadNotifs as $key=>$value){ ?>
+            <span><?= $unreadNotifs[$key]['cs_notif'] ?><br>
+                <time class="timeago" datetime="<?= $unreadNotifs[$key]['cs_added'] ?>" title="<?= $unreadNotifs[$key]['cs_added'] ?>"><?= $unreadNotifs[$key]['cs_added'] ?></time>
+            </span>
+        <?php }
+        } ?>
+        </li>
+        <li class="notif-panel read">
+        <?php 
+        $readNotifs = $notification->getRead(false);
+        if(!empty($readNotifs)) {
+            foreach($readNotifs as $key=>$value){ ?>
+            <span><?= $readNotifs[$key]['cs_notif'] ?><br>
+                <time class="timeago" datetime="<?= $readNotifs[$key]['cs_added'] ?>" title="<?= $readNotifs[$key]['cs_added'] ?>"><?= $readNotifs[$key]['cs_added'] ?></time>
+            </span>
+        <?php }
+        } ?>
+        </li>
+    </ul>
+<?php } ?>
 <ul id="profile-nav" class="sidenav sidenav-fixed">
     <li class="navbar-fixed"></li>
     <?php

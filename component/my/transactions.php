@@ -55,117 +55,12 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
                         </tbody>
                     </table>
 
-                    <div id="rate-modal" class="modal">
-                        <div class="modal-content">
-                            <h4 id="to-name">Modal Header</h4>
-                            <p>How would you describe your transaction with this user ?</p>
-                            <form id="rate-form" action="" method="POST" class="row">
-                            <div class="col s12">
-                                <p>
-                                    <label>
-                                        <input name="rate" required value="5" type="radio"/>
-                                        <span>Great</span>
-                                    </label>
-                                    <label>
-                                        <input name="rate" value="4" type="radio"/>
-                                        <span>Good</span>
-                                    </label>
-                                    <label>
-                                        <input name="rate" value="3" type="radio"/>
-                                        <span>Decent</span>
-                                    </label>
-                                    <label>
-                                        <input name="rate" value="2" type="radio"/>
-                                        <span>Poor</span>
-                                    </label>
-                                    <label>
-                                        <input name="rate" value="1" type="radio"/>
-                                        <span>Very poor</span>
-                                    </label>
-                                </p>
-                                <textarea id="comments" name="comment" required class="materialize-textarea"></textarea>
-                                <label for="comments">Comments</label><br><br>
-                                <button type="submit" class="waves-effect waves-green btn white-text">Submit</button>
-                            </div>
-                        </div>
-                        </form>
-                    </div>
+                    <?php
+                        require_once "./include/include.rate.php";
+                    ?>
 
                 </div>    
             </div>
         </div>
     </div>
 </div>
-
-<script>
-
-    $(function(){
-        rateModal();
-        submitRate();
-    })
-
-    function rateModal() {
-        $trigger = $('.rate-modal-trigger');
-        $trigger.on('click', function(){
-            var to = $(this).data('to');
-            var name = $(this).data('name');
-            $('#to-name').text(name);
-            $('#rate-modal').modal();
-            $('#rate-modal').modal('open');
-            
-            $.ajax({
-                url: root + 'controller/controller.user.php?action=rate&to=' + to,
-                type: 'GET',
-                processData: false,
-                contentType: false,
-                success: function(data){
-                    var parsedData = JSON.parse(data);
-                    var formMode = parsedData.mode
-                    
-                    $('#rate-form').attr('action', root + 'controller/controller.user.php?action=rate-'+formMode+'&to='+to);
-                    $("input[name=rate][value=" + parsedData.rate + "]").prop('checked', true);
-                    $('#comments').val(parsedData.comment);
-                    M.textareaAutoResize($('#comments'));
-                    
-                }
-            })
-            
-        })
-    }
-
-    function submitRate() {
-        $('#rate-form').on('submit', function(e){
-            e.preventDefault();
-            var $inputs = $(this).find("input, select, button, textarea");
-            var action = $(this).attr("action");
-            var type = $(this).attr("method");
-            var formData = new FormData(this);
-
-            $inputs.prop("disabled", true);
-            window.onbeforeunload = function() {
-                return "Are you sure you want to navigate away from this page?";
-            };
-            $.ajax({
-                url: action,
-                type: type,
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(data) {
-                    window.onbeforeunload = null;
-                    $inputs.prop("disabled", false);
-                    var parsedData = JSON.parse(data);
-                    if(parsedData.code == '1') {
-                        $('#rate-modal').modal();
-                        $('#rate-modal').modal('close');
-                    }
-                    M.toast({
-                        html: parsedData.message,
-                        classes: "orange white-text"
-                    });
-                }
-            })
-        })
-    }
-
-</script>

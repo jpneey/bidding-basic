@@ -135,7 +135,7 @@ switch ($action) {
             exit();
         }
 
-        $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_biddings WHERE cs_bidding_user_id = ? AND cs_bidding_status != '0'");
+        $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_biddings WHERE cs_bidding_user_id = ? AND cs_bidding_status = '1'");
         $stmt->bind_param("i", $cs_bidding_user_id);
         $stmt->execute();
         $stmt->store_result();

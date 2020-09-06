@@ -96,14 +96,14 @@ function viewModal(){
 }
 
 function prepareModal(token){
-  $('#load-wrap').fadeIn(100);
+  /* $('#load-wrap').fadeIn(100); */
   $.ajax({
     url: root + 'controller/controller.offer.php?action=view&selector='+token,
     type: 'GET',
     processData: false,
     contentType: false,
     success: function(data) {
-      $('#load-wrap').fadeOut(100);
+      /* $('#load-wrap').fadeOut(100); */
       var parsedData = JSON.parse(data);
       if(parsedData.code == '0'){
         var action = '<button onclick="M.Toast.dismissAll();" class="btn-flat toast-action"><i class="close material-icons">close</i></button>';
@@ -125,7 +125,11 @@ function viewOfferModal(data){
   var link = '<br><br><a href="'+parsedData.connect+'"class="btn-small green">email</a>' + ' <a href="#!" data-view="'+parsedData.view+'"class="btn-small view-poster green lighten-1">profile</a>';
   $('#view-offer-content').html(parsedData.offer + image + link);
   $(".qty").text($('.item').data('unit'));
-  $('#view-offer-modal').modal();
+  $('#view-offer-modal').modal({
+    inDuration : '500',
+    outDuration : '500',
+    preventScrolling: false
+  });
   $('#view-offer-modal').modal('open');
   
   viewPoster();
