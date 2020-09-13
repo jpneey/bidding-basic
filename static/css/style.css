@@ -374,8 +374,11 @@ input.browser-default,
 @media only screen and (max-width: 992px) {  
   nav .brand-logo.left {
     position: absolute;
-    left: 5%;
+    left: 50%;
+    transform: translateX(-50%);
   }
+  nav .unread { right: 3px !important; }
+  nav { padding: 0 5%; }
 }
 
 .banner {
@@ -403,6 +406,7 @@ input.browser-default,
 .btn, .btn-large, .btn-small, .btn-floating, .btn-large, .btn-small, .btn-flat {
   font-size: 12px;
   border-radius: 0;
+  margin-bottom: 5px;
 }
 
 .modal {
@@ -476,4 +480,10 @@ nav .unread {
 .notif-panel.read * {
   color: #9c9c9c;
   background-color: transparent;
+}
+
+.rating-comments {
+  border-bottom: 1px solid #dbdbdb;
+  padding-bottom: 10px;
+  margin-bottom: 15px;
 }

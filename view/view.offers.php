@@ -22,7 +22,7 @@ class viewOffers extends Offers {
                         <tr>
                             <th><?php if($supplier){ echo 'My '; } ?>Proposal</th>
                             <th>Rating</th>
-                            <th>Action</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -71,16 +71,16 @@ class viewOffers extends Offers {
                                 echo '<td>';
                                 switch($status){
                                     case '1':
-                                        echo '<a href="#winner-offer" class="modal-trigger btn-small waves-effect orange white-text">winner</a> ';
-                                        echo '<a href="'.$this->BASE_DIR.'user/'.$offers[$k]['cs_purchaser'].'" class="btn-small waves-effect orange darken-2 white-text">contact purchaser</a>';
+                                        echo '<a href="#winner-offer" class="modal-trigger btn-small waves-effect orange white-text">Winner</a> ';
+                                        echo '<a href="'.$this->BASE_DIR.'user/'.$offers[$k]['cs_purchaser'].'" class="btn-small waves-effect orange darken-2 white-text">Contact Purchaser</a>';
                                         break;
                                     case '2':
-                                        echo '<a href="#!" class="btn-small waves-effect red lighten-1 white-text">rejected</a> ';
-                                        echo '<a href="#!" data-mode="offer" data-selector="'.$id.'" class="data-delete btn-small waves-effect red white-text">cancel</a> ';
+                                        echo '<a href="#!" class="btn-small waves-effect red lighten-1 white-text">Rejected</a> ';
+                                        echo '<a href="#!" data-mode="offer" data-selector="'.$id.'" class="data-delete btn-small waves-effect red white-text">Delete</a> ';
                                         break;
                                     default:
-                                        echo '<a href="#active-offers" class="modal-trigger btn-small waves-effect green white-text">active</a> ';
-                                        echo '<a href="#!" data-mode="offer" data-selector="'.$id.'" class="data-delete btn-small waves-effect red white-text">cancel</a> ';
+                                        echo '<a href="#active-offers" class="modal-trigger btn-small waves-effect green white-text">Active</a> ';
+                                        echo '<a href="#!" data-mode="offer" data-selector="'.$id.'" class="data-delete btn-small waves-effect red white-text">Cancel</a> ';
                                 }
                                 echo '</td>';
                             }
@@ -97,7 +97,7 @@ class viewOffers extends Offers {
                 </div>
                 <div id="winner-offer" class="modal modal-sm">
                     <div class="modal-content">
-                        <p><b>Congratulations!</b></p>
+                        <p><b>Hooray!</b></p>
                         <p>This proposal won this bidding. Both purchaser and supplier can now view each other's profile.</p>
                     </div>
                 </div>
@@ -302,8 +302,8 @@ class viewOffers extends Offers {
                         <div class="col s12">
                             <br>
                             <p>Your Offer was submitted successfully and only one offer per supplier is allowed per bidding. Offers can't be canceled once the bidding reaches three (3) days before expiration.</p>
-                            <a href="#!" class="btn waves-effect orange white-text">Offer Submitted</a>
-                            <a href="<?= $this->BASE_DIR ?>my/dashboard/" class="btn waves-effect red white-text">Dashboard</a>
+                            <a href="#!" class="btn waves-effect grey lighten-1 white-text">Offer Submitted</a>
+                            <a href="<?= $this->BASE_DIR ?>my/dashboard/" class="btn waves-effect green white-text">Dashboard</a>
                         </div>
                         <script src="<?= $this->BASE_DIR ?>static/js/services/services.delete.js" type="text/javascript"></script>
                         <?php
@@ -335,52 +335,61 @@ class viewOffers extends Offers {
             <div class="col s12 m4">
                 <div class="dashboard-panel green lighten-0 white-text z-depth-1">
                     <h1><b><?= $counts[0] ?></b></h1>
-                    <p>Active Offers</p>
+                    <p>Active Proposal</p>
                 </div>
             </div>
             <div class="col s12 m4">
                 <div class="dashboard-panel red lighten-0 white-text z-depth-1">
                     <h1><b><?= $counts[2] ?></b></h1>
-                    <p>Rejected Offers</p>
+                    <p>Rejected Proposal</p>
                 </div>
             </div>
             <div class="col s12 m4">
                 <div class="dashboard-panel orange lighten-0 white-text z-depth-1">
                     <h1><b><?= $counts[1] ?></b></h1>
-                    <p>Accepted Offers</p>
+                    <p>Accepted Proposal</p>
                 </div>
             </div>
 
         <?php
     }
 
-    public function viewUserOffers($userId){
+    public function viewUserOffers($userId, $status){
         
-        $userOffers = $this->getUserOffers($userId);
+        $userOffers = $this->getUserOffers($userId, $status);
+        switch($status){
+            case '0':
+                $titled = "Active Proposals";
+                $tip = "This proposal is still active. This means that the bidding is yet to end and your proposal can still be chosen.";
+                $statusStyle = 'feed-border green-text';
+                break;
+            case '1':
+                $titled = "Accepted Proposals";
+                $tip = "Congratulations! Your proposal won this bidding.";
+                $statusStyle = 'feed-border orange-text';
+                break;
+            case '2':
+                $titled = "Rejected Proposals";
+                $tip = "The bidding has ended and your proposal was rejected.";
+                $statusStyle = 'feed-border red-text';
+                break;
+        }
         
         if(!empty($userOffers)){
+            ?>
+            <div class="col s12 block">
+                <p><b><?= $titled ?></b></p>
+            </div>
+            <?php
             foreach($userOffers as $key=>$value){
                 
                 $title = $userOffers[$key]["cs_bidding_title"];
                 $link = $userOffers[$key]["cs_bidding_permalink"];
                 $offerId = $userOffers[$key]["cs_offer_id"];
                 $datePosted = date_format(date_create($userOffers[$key]["cs_date_added"]), 'D d M Y');
-                
                 $datePosted = '<time>'.$datePosted.'</time>'; 
-                switch($userOffers[$key]["cs_offer_status"]){
-                    case '0':
-                        $statusStyle = 'feed-border green-text';
-                        break;
-                    case '1':
-                        $statusStyle = 'feed-border orange-text';
-                        break;
-                    case '2':
-                        $statusStyle = 'feed-border red-text';
-                        break;
-                }
             ?>
-                
-            <div class="col s12 block">
+            <div class="col s12 block tooltipped" data-position="bottom" data-tooltip="<?= $tip ?>">
                 <a href="<?= $this->BASE_DIR.'bid/'.$link.'/' ?>">
                     <div class="feed-card feed-card-full white z-depth-1 <?= $statusStyle ?>">
                         <div class="feed-card white z-depth-1">

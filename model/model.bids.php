@@ -75,11 +75,11 @@ class Bids extends DBHandler {
 
     }
 
-    public function getUserBids($user_id){
+    public function getUserBids($user_id, $status = 0){
         $passedId = (int)$user_id;
         $connection = $this->connectDB();
         
-        $stmt = $connection->prepare("SELECT cs_bidding_id, cs_bidding_title, cs_bidding_permalink, cs_bidding_status, cs_bidding_added FROM cs_biddings WHERE cs_bidding_user_id = ? ORDER BY cs_bidding_id DESC");
+        $stmt = $connection->prepare("SELECT cs_bidding_id, cs_bidding_title, cs_bidding_permalink, cs_bidding_status, cs_bidding_added FROM cs_biddings WHERE cs_bidding_user_id = ? AND cs_bidding_status = $status ORDER BY cs_bidding_id DESC");
         $stmt->bind_param('i', $passedId);
         $stmt->execute();
 
@@ -192,7 +192,7 @@ class Bids extends DBHandler {
         $expiredCount = $stmt->num_rows;
         $stmt->close();
 
-        $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_biddings WHERE  cs_bidding_user_id = '$user_id'");
+        $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_biddings WHERE  cs_bidding_status = 2 AND cs_bidding_user_id = '$user_id'");
         $stmt->execute();
         $stmt->store_result();
         $total = $stmt->num_rows;

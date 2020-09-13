@@ -11,23 +11,27 @@ if($isBidder) {
             break;
 
         default:
-            echo '<div class="col s12"><p><b>My Posts</b></p></div>';
+            echo '<div class="col s12"><p><b>My Biddings</b></p></div>';
             require_once "model/model.bids.php";
             require_once "view/view.bids.php";
             $viewBids = new viewBids($BASE_DIR);
             $viewBids->viewUserBidStatus($__user_id);
-            $viewBids->viewUserBids($__user_id);
+            $viewBids->viewUserBids($__user_id, 0);
+            $viewBids->viewUserBids($__user_id, 1);
+            $viewBids->viewUserBids($__user_id, 2);
             break;
     }
 }
 
 if($isSupplier) {
-    echo '<div class="col s12"><p><b>My Offers</b></p></div>';
+    echo '<div class="col s12"><p><b>My Proposals</b></p></div>';
     require_once "model/model.offers.php";
     require_once "view/view.offers.php";
     $viewOffers = new viewOffers($BASE_DIR);
     $viewOffers->viewUserOfferStatus($__user_id);
-    $viewOffers->viewUserOffers($__user_id);
+    $viewOffers->viewUserOffers($__user_id, 0);
+    $viewOffers->viewUserOffers($__user_id, 1);
+    $viewOffers->viewUserOffers($__user_id, 2);
 
 }
 ?>

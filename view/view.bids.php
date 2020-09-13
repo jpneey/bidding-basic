@@ -184,45 +184,57 @@ class viewBids extends Bids {
             <div class="col s12 m4">
                 <div class="dashboard-panel green lighten-0 white-text z-depth-1">
                     <h1><b><?= $counts[0] ?></b></h1>
-                    <p>Active Posts</p>
+                    <p>Active Bidding</p>
                 </div>
             </div>
             <div class="col s12 m4">
                 <div class="dashboard-panel red lighten-0 white-text z-depth-1">
                     <h1><b><?= $counts[2] ?></b></h1>
-                    <p>Expired Posts</p>
+                    <p>Expired Bidding</p>
                 </div>
             </div>
             <div class="col s12 m4">
                 <div class="dashboard-panel orange lighten-0 white-text z-depth-1">
                     <h1><b><?= $counts[1] ?></b></h1>
-                    <p>Total Post</p>
+                    <p>Finished Bidding</p>
                 </div>
             </div>
 
         <?php
     }
 
-    public function viewUserBids($user_id){
-        
-        $userBids = $this->getUserBids($user_id);
+    public function viewUserBids($user_id, $status){
+
+        switch($status){
+            case '1':
+                $title = "Active Bidding";
+                $tip = "This post is still active and suppliers can submit their bidding proposals.";
+                $statusStyle = 'feed-border green-text';
+                break;
+            case '2':
+                $title = "Finished Bidding";
+                $statusStyle = 'feed-border orange-text';
+                $tip = "This bidding is finalized and can be safely deleted.";
+                break;
+            case '0':
+                $title = "Expired Bidding";
+                $tip = "An expired post. Suppliers are now waiting for you to choose a winner or finalize this post";
+                $statusStyle = 'feed-border red-text';
+                break;
+        }
+        $userBids = $this->getUserBids($user_id, $status);
         if(!empty($userBids)){
+            ?>
+                <div class="col s12 block">
+                    <p><b><?= $title ?></b></p>
+                </div>
+            <?php
             foreach($userBids as $key=>$value){
                 $bidInFeedLink = $userBids[$key]["cs_bidding_permalink"];
                 $bidInFeedTitle = $userBids[$key]["cs_bidding_title"];
                 $bidInFeedOfferCount = $userBids[$key]["cs_bidding_offer_count"];
-                switch($userBids[$key]["cs_bidding_status"]){
-                    case '1':
-                        $statusStyle = 'feed-border green-text';
-                        break;
-                    case '2':
-                        $statusStyle = 'feed-border orange-text';
-                        break;
-                    case '0':
-                        $statusStyle = 'feed-border red-text';
-                        break;
-                }
-                echo '<div class="col s12 block">';
+                
+                echo '<div class="col s12 block tooltipped"  data-position="bottom" data-tooltip="'.$tip.'">';
                 $datePosted = '<time>'.date_format(date_create($userBids[$key]["cs_bidding_added"]), 'D d M Y').'</time>'; ?>
  
                 <a href="<?= $this->BASE_DIR.'bid/'.$bidInFeedLink ?>">
@@ -239,9 +251,8 @@ class viewBids extends Bids {
                 </a>
                 
                 <span class="card-counter">
-                    
                     <a href="#!" data-selector="<?= $bidInFeedLink ?>" data-mode="bid" class="right data-delete z-depth-1 red white-text center-align">DELETE</a>
-                    <a class="z-depth-1 right orange white-text center-align"><?= $bidInFeedOfferCount ?></a>
+                    <a class="z-depth-1 right orange white-text center-align tooltipped" data-position="bottom" data-tooltip="total bids"><?= $bidInFeedOfferCount ?></a>
                 </span>
             <?php
             echo '</div>';

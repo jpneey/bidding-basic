@@ -139,7 +139,7 @@ class viewSupplier extends Supplier {
             echo '<p><br><b>What other people say</b></p>';
             foreach($ratings as $key=>$value) {
         ?>
-            <div class="content">
+            <div class="content rating-comments">
                 <p class="no-margin black-text">Anonymous</p>
                 <p class="no-margin grey-text text-darken-1"><?= $ratings[$key]['cs_comment']; ?></p>
                 <p class="ratings no-margin"><?= str_repeat('<i class="material-icons orange-text">star</i>', round($ratings[$key]['cs_rating'])) ?></p>

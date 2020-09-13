@@ -250,9 +250,9 @@ class Offers extends DBHandler {
         return $hasOffer;
     }
 
-    public function getUserOffers($userId){
+    public function getUserOffers($userId, $status){
         $connection = $this->connectDB();
-        $stmt = $connection->prepare("SELECT cs_offer_id, cs_bidding_id, cs_offer, cs_date_added, cs_offer_status FROM cs_offers WHERE cs_user_id = ?");
+        $stmt = $connection->prepare("SELECT cs_offer_id, cs_bidding_id, cs_offer, cs_date_added, cs_offer_status FROM cs_offers WHERE cs_user_id = ? AND cs_offer_status = '$status'");
         $stmt->bind_param('i', $userId);
         $stmt->execute();
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);

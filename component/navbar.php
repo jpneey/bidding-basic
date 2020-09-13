@@ -17,6 +17,7 @@ if($isLoggedIn) {
                 <img src="<?= $BASE_DIR ?>static/asset/logo.png" alt="Site Logo" />
             </a>
             <ul class="right">
+                <li><a href="<?= $BASE_DIR ?>home/" class="hide-on-med-and-down">Blog</a></li>
                 <li><a href="<?= $BASE_DIR ?>home/" class="hide-on-med-and-down">Biddings</a></li>
                 <li><a href="<?= $BASE_DIR ?>supplier/" class="hide-on-med-and-down">Suppliers</a></li>
                 <?php if($isLoggedIn) { ?>
@@ -87,7 +88,7 @@ if($isLoggedIn) {
     <?php
 
         $sideChip = '<span class="chip chip white-text grey lighten-1">Free</span>';
-        $sideChip .= ' <a href="#upgrade-to-pro" class="modal-trigger" ><span class="chip chip white-text grey lighten-2">Upgrade to pro</span></a>';
+        $sideChip .= ' <a href="#upgrade-to-pro" class="modal-trigger" ><span class="chip chip white-text orange darken-2">Upgrade to pro</span></a>';
 
         if($isLoggedIn){
             if(!empty($loggedInAccountType)){
