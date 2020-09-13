@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 06, 2020 at 11:57 AM
+-- Generation Time: Sep 13, 2020 at 10:57 AM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.1.31
 
@@ -21,6 +21,27 @@ SET time_zone = "+00:00";
 --
 -- Database: `cs_canvasspoint`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cs_admin`
+--
+
+CREATE TABLE `cs_admin` (
+  `cs_admin_id` int(11) NOT NULL,
+  `cs_admin_user` varchar(64) NOT NULL,
+  `cs_admin_password` varchar(255) NOT NULL,
+  `cs_admin_role` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cs_admin`
+--
+
+INSERT INTO `cs_admin` (`cs_admin_id`, `cs_admin_user`, `cs_admin_password`, `cs_admin_role`) VALUES
+(1, 'jpneey', '$2y$10$k4AYoKWROtb//0wZRqtnC.fq0Jdeh3xlNkgNPLF5193tB6bwOdUlS', 5),
+(2, 'admin', '$2y$10$k4AYoKWROtb//0wZRqtnC.fq0Jdeh3xlNkgNPLF5193tB6bwOdUlS', 5);
 
 -- --------------------------------------------------------
 
@@ -111,7 +132,7 @@ CREATE TABLE `cs_business` (
 --
 
 INSERT INTO `cs_business` (`cs_business_id`, `cs_user_id`, `cs_business_name`, `cs_business_link`, `cs_business_tags`, `cs_business_featured`, `cs_business_status`, `cs_business_category`) VALUES
-(1, 2, 'Dine-In Furnishing Corporation', 'dinein-furnishing-corporation', 'plastic chairs,tables,cooking utensils,plates,spoons and fork', 'a:5:{i:0;s:55:\"featured-product-65345-Plastic-Dining-Chairs-Panton.jpg\";i:1;s:33:\"Contemporary Plastic Dining Chair\";i:2;s:3:\"pcs\";i:3;s:1:\"1\";i:4;s:7:\"2499.99\";}', 1, 2),
+(1, 2, 'Dine-In Furnishing Corporation', 'dinein-furnishing-corporation', 'plastic chairs,tables,cooking utensils,plates,spoons and fork', 'a:0:{}', 1, 2),
 (2, 3, 'Unsplash Corporation', 'unsplash-corporation', 'unsplash,poppins,roboto,sans,serif', '', 1, 2);
 
 -- --------------------------------------------------------
@@ -132,7 +153,8 @@ CREATE TABLE `cs_categories` (
 
 INSERT INTO `cs_categories` (`cs_category_id`, `cs_category_name`, `cs_category_desciption`) VALUES
 (1, 'Miscelaneous', ''),
-(2, 'Front-end', '');
+(2, 'Front-end', ''),
+(12, 'Back End', 'Lorem Ipsum Dotor sit amet');
 
 -- --------------------------------------------------------
 
@@ -249,6 +271,19 @@ INSERT INTO `cs_products_in_biddings` (`cs_product_id`, `cs_bidding_id`, `cs_pro
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `cs_tags`
+--
+
+CREATE TABLE `cs_tags` (
+  `cs_tag_id` int(11) NOT NULL,
+  `cs_category_id` int(11) NOT NULL,
+  `cs_tag` varchar(255) NOT NULL,
+  `sort_order` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `cs_transactions`
 --
 
@@ -338,6 +373,12 @@ INSERT INTO `cs_user_ratings` (`cs_rating_id`, `cs_user_id`, `cs_user_rated_id`,
 --
 
 --
+-- Indexes for table `cs_admin`
+--
+ALTER TABLE `cs_admin`
+  ADD PRIMARY KEY (`cs_admin_id`);
+
+--
 -- Indexes for table `cs_bidder_options`
 --
 ALTER TABLE `cs_bidder_options`
@@ -392,6 +433,12 @@ ALTER TABLE `cs_products_in_biddings`
   ADD PRIMARY KEY (`cs_product_id`);
 
 --
+-- Indexes for table `cs_tags`
+--
+ALTER TABLE `cs_tags`
+  ADD PRIMARY KEY (`cs_tag_id`);
+
+--
 -- Indexes for table `cs_transactions`
 --
 ALTER TABLE `cs_transactions`
@@ -420,6 +467,12 @@ ALTER TABLE `cs_user_ratings`
 --
 
 --
+-- AUTO_INCREMENT for table `cs_admin`
+--
+ALTER TABLE `cs_admin`
+  MODIFY `cs_admin_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
 -- AUTO_INCREMENT for table `cs_bidder_options`
 --
 ALTER TABLE `cs_bidder_options`
@@ -429,7 +482,7 @@ ALTER TABLE `cs_bidder_options`
 -- AUTO_INCREMENT for table `cs_biddings`
 --
 ALTER TABLE `cs_biddings`
-  MODIFY `cs_bidding_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `cs_bidding_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `cs_bidding_winners`
@@ -447,13 +500,13 @@ ALTER TABLE `cs_business`
 -- AUTO_INCREMENT for table `cs_categories`
 --
 ALTER TABLE `cs_categories`
-  MODIFY `cs_category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `cs_category_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `cs_locations`
 --
 ALTER TABLE `cs_locations`
-  MODIFY `cs_location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `cs_location_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `cs_notifications`
@@ -471,7 +524,13 @@ ALTER TABLE `cs_offers`
 -- AUTO_INCREMENT for table `cs_products_in_biddings`
 --
 ALTER TABLE `cs_products_in_biddings`
-  MODIFY `cs_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `cs_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+
+--
+-- AUTO_INCREMENT for table `cs_tags`
+--
+ALTER TABLE `cs_tags`
+  MODIFY `cs_tag_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `cs_transactions`
