@@ -17,10 +17,37 @@ class Search extends DBHandler {
     public function searchForm($filter = false){
         ?>
 
-        <form name="searchForm" action="<?= $this->BASE_DIR ?>search/" method="GET" class="white z-depth-1 search-bar <?php if($filter){ echo 'filter'; } ?>" >
+        <form name="searchForm" action="<?= $this->BASE_DIR ?>search/" method="GET" class="input-field white z-depth-1 search-bar <?php if($filter){ echo 'filter'; } ?>" >
         
             <button class="material-icons submit orange white-text" type="submit">search</button>
-            <input required name="queue" type="text" class="browser-default <?php if($filter){ echo 'filter'; } ?>" placeholder="Find what you need .." value="<?= (isset($_GET['queue'])) ? $_GET['queue'] : ''  ?>"/>
+            <input autocomplete="off" required name="queue" type="text" class="browser-default <?php if($filter){ echo 'filter'; } ?> autocomplete" placeholder="Find what you need .." value="<?= (isset($_GET['queue'])) ? $_GET['queue'] : ''  ?>"/>
+            <script>
+                getSuggestion();
+                $(function(){
+                    $('input[name=queue]').on('keyup', function(){
+                        $('input.autocomplete').autocomplete('open')
+                    })
+                })
+                function suggest(s) {
+                    var s = JSON.parse(s);
+                    $('input.autocomplete').autocomplete({
+                        data: s,
+                        minLength: 2
+                    })
+                }
+
+                function getSuggestion() {
+                    $.ajax({
+                        url: root + 'controller/controller.autocomplete.php?mode=generic',
+                        type: 'GET',
+                        processData: false,
+                        contentType: false,
+                        success: function(data){
+                            suggest(data);
+                        }
+                    })
+                }
+            </script>
             <?php if($filter){ $this->filters(); } ?>
         </form>
         <?php

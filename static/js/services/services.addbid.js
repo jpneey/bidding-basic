@@ -1,23 +1,64 @@
 
+    
+    
     $(function(){
+        
+        
+        dynamicSuggestions();
+        getSuggestion();
+
         addBid();
-        formChips();
         datePicker();
     })
 
-    function formChips() {
+
+    function dynamicSuggestions() {
+        $('select[name=cs_bidding_category_id]').on('change', function(){
+            $.ajax({
+                url: root + 'controller/controller.autocomplete.php?mode=tag&id='+$(this).val(),
+                type: 'GET',
+                processData: false,
+                contentType: false,
+                success: function(data){
+                    $('.myChip').find('input').autocomplete('updateData', JSON.parse(data));
+                }
+            })
+        })
+    }
+
+    function getSuggestion(id = 0) {
+        $.ajax({
+            url: root + 'controller/controller.autocomplete.php?mode=tag&id='+id,
+            type: 'GET',
+            processData: false,
+            contentType: false,
+            success: function(data){
+                formChips(JSON.parse(data));
+            }
+        })
+    }
+
+    function formChips(autoTag) {
+        $('.myChip').on('keyup', function(){        
+            $(this).find('input').autocomplete('open');
+        })
+
         var chipsData = $("#tags").val();
         $('.myChip').chips({
             placeholder: 'Enter tags',
             limit: 5,
             data: chipsData,
+            autocompleteOptions: {
+                data: autoTag,
+                minLength: 0,
+                limit: 5
+            },
             onChipAdd: (event, chip) => {
                 var chipsData = M.Chips.getInstance($('.myChip')).chipsData;
                 var chipsDataJson = $.map(chipsData, function(e){
                     return e.tag;
                 });
                 $("#tags").val(chipsDataJson);
-                console.log(chipsData);
             },
             onChipDelete: () => {
                 var chipsData = M.Chips.getInstance($('.myChip')).chipsData;
@@ -29,7 +70,7 @@
         })
         $('.chips').each(function() {
             var that=this;
-            $(this).find('input').after('<a href="#" class="add circle grey lighten-2 center-align"><i class="material-icons tiny">add</i></a>');
+            $(this).find('input').after('<a href="#" class="add orange darken-2 white-text center-align"><i class="material-icons tiny">add</i></a>');
             $(this).on('click', 'a.add', function(e) {
                 e.preventDefault();
                 var input=$(e.currentTarget).prev('input');

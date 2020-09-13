@@ -61,7 +61,7 @@ $viewLocation = new viewLocation($BASE_DIR);
                         <label>* single word only. To add tags, just enter your tag text and press enter. You can delete them by clicking on the close icon or by using your delete button.</label>
                     </p>
                 </div>
-                <div class="input-field no-margin col s12 m4">
+                <div class="input-field no-margin col s12">
                     <select 
                         required 
                         type="text" 
@@ -73,12 +73,9 @@ $viewLocation = new viewLocation($BASE_DIR);
                     ?>
                     </select>
                 </div>
-                <div class="input-field no-margin col s12 m8">
-                    <div class="chips myChip custom-input no-margin">
-                        <input 
-                            class="custom-input validate"
-                        />
-                    </div>
+                <div class="input-field no-margin col s12">
+                    <br>
+                    <div class="chips myChip chips-autocomplete custom-input no-margin"></div>
                     <input 
                         required
                         name="cs_bidding_tags"
@@ -150,6 +147,14 @@ $viewLocation = new viewLocation($BASE_DIR);
                         pattern=" 0+\.[0-9]*[1-9][0-9]*$"  
                     />
                 </div>
+                
+                <style>
+                    .chips .autocomplete-content,
+                    .chips input {
+                        width: 100% !important;
+                    }
+                </style>
+
 
                 <div class="input-field no-margin col s12 m4">
                     <p><label>Total Budget</label></p>
@@ -180,4 +185,4 @@ $viewLocation = new viewLocation($BASE_DIR);
     </div>
 </div>
 </form>
-<script src="<?php echo $BASE_DIR ?>static/js/services/services.addbid.js?v=beta-5" type="text/javascript"></script>
+<script src="<?php echo $BASE_DIR ?>static/js/services/services.addbid.js?v=beta-69ers" type="text/javascript"></script>
