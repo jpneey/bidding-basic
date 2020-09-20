@@ -173,7 +173,8 @@ switch ($action) {
         break;
 
     case 'read':
-        $user->readNotifs($__user_id);
+        $s = Sanitizer::filter('t', 'get');
+        $user->readNotifs($__user_id, $s);
         break;
 
     case 'rate-update':
@@ -192,7 +193,7 @@ switch ($action) {
             $user->successTransaction($tosuccess, $success);
         }
 
-        $message = json_encode(array('code' => 0, 'message' => 'Updating ratings are disabled'));
+        $message = json_encode(array('code' => 0, 'message' => 'Rating Submitted'));
         break;
 
     case 'view':

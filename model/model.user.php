@@ -188,9 +188,14 @@ class User extends DBHandler {
         return json_encode(array('code' => 0, 'message' => 'Uh oh. Something went wrong :('));
     }
 
-    public function readNotifs($id){
+    public function readNotifs($id, $t){
+        $query = "UPDATE cs_notifications SET cs_notif_read = 1 WHERE cs_user_id = ? AND cs_notif_read != 1";
+        if($t) {
+            $t = (int)$t;
+            $query .= " AND cs_notif_id = '$t'";
+        }
         $connection = $this->connectDB();
-        $stmt = $connection->prepare("UPDATE cs_notifications SET cs_notif_read = 1 WHERE cs_user_id = ? AND cs_notif_read != 1");
+        $stmt = $connection->prepare($query);
         $stmt->bind_param('i', $id);
         $stmt->execute();
         return true;

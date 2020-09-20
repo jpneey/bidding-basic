@@ -31,7 +31,7 @@ class sideNav {
         ?>
         <li>
             <div class="user-view ">
-                <div class="background white">
+                <div class="background">
                 </div>
                 <a href="#user">
                     <img class="circle" src="<?= $this->detailArray[5].'static/asset/user/'.$this->detailArray[2] ?>" alt="<?= $this->detailArray[3] ?>'s' avatar" />
@@ -41,7 +41,6 @@ class sideNav {
                 <?= $this->detailArray[7] ?>
             </div>
         </li>
-        <li><div class="divider"></div></li>
         <?php
         if($this->detailArray[0] && $this->detailArray[1]) {
             ?>
@@ -58,7 +57,6 @@ class sideNav {
             <?php
         }
         ?>
-        <li><div class="divider"></div></li>
         <li class="no-padding">
             <ul class="collapsible collapsible-accordion">
                 <li>

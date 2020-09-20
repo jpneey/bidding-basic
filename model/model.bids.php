@@ -31,7 +31,8 @@ class Bids extends DBHandler {
             b.*, 
             p.*,
             c.cs_category_name,
-            AVG(r.cs_rating) AS cs_owner_rating
+            AVG(r.cs_rating) AS cs_owner_rating,
+            COUNT(r.cs_rating) AS cs_rated
             FROM cs_biddings b 
             LEFT JOIN cs_products_in_biddings p ON
             p.cs_bidding_id = b.cs_bidding_id
@@ -57,7 +58,13 @@ class Bids extends DBHandler {
     public function getBiddings($filter = array()){
         
         $connection = $this->connectDB();
-        $query = "SELECT b.*, c.cs_category_name FROM cs_biddings b LEFT JOIN cs_categories c ON c.cs_category_id = b.cs_bidding_category_id WHERE cs_bidding_status = 1";
+        $query = "SELECT  
+        b.cs_bidding_title, b.cs_bidding_permalink, 
+        b.cs_bidding_added, b.cs_bidding_location,
+        b.cs_bidding_details, b.cs_bidding_picture,
+        AVG(r.cs_rating) AS cs_owner_rating, 
+        COUNT(r.cs_rating) AS cs_rated  
+        FROM cs_biddings b LEFT JOIN cs_user_ratings r ON b.cs_bidding_user_id = r.cs_user_rated_id WHERE b.cs_bidding_status = 1 GROUP BY cs_bidding_id";
         
         if(!empty($filter)) { $query .= " ".$filter[0];}
 

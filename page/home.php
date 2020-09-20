@@ -8,7 +8,7 @@
   <?php
     require "component/head.php";
   ?>
-  <link href="<?= $BASE_DIR ?>static/css/feed.css?v=beta-2" type="text/css" rel="stylesheet"/>
+  <link href="<?= $BASE_DIR ?>static/css/feed.css?v=beta-sxx2" type="text/css" rel="stylesheet"/>
 
 </head>
 <body>
@@ -19,19 +19,38 @@
   <div class="main">
     <div class="wrapper wrapper-top-bottom">
       <div class="container row">
-        <div class="col s12" id="bidding-feed">
-          <?php
-          
+        <div class="col s12 m9" id="bidding-feed">
+            <?php 
             $search->searchForm(true);
-      
-
+            if($isBidder) { ?>
+  
+            <div class="post-card white z-depth-0 waves-effect">    
+              <div class="title grey-text text-darken-3"><b>Canvasspoint</b></div>
+              <div class="sub-title grey-text">Post your requirement And suppliers will make a bid/offer for it.</div>
+              <div class="sub-title">
+                  <p>
+                    <a href="<?= $BASE_DIR ?>my/dashboard/?action=add" class="btn btn-small orange white-text z-depth-0">Post <i class="material-icons right">add</i></a>
+                    <a href="<?= $BASE_DIR ?>my/dashboard/" class="btn btn-small orange darken-2 white-text z-depth-0">Dashboard</a>
+                  </p>
+              </div>
+              
+              <div class="image-wrapper"></div>
+            </div>
+            <?php }          
             require_once "model/model.bids.php";
             require_once "view/view.bids.php";
             $bid = new Bids();
             $viewBids = new viewBids($BASE_DIR);
-            $viewBids->viewFeed();
+            $viewBids->viewFeed(array(), "Active Biddings will go here but unfortunately there are no active biddings as of the moment. How about viewing our suppliers ?", $loggedInUserRole);
             
           ?>
+        </div>
+        <div class="col s12 m3 feed-sidebar hide-on-med-and-down">
+          <div class="search-bar">
+            <?php  
+            $viewBids->viewSideBar($loggedInUserRole);
+            ?>
+          </div>
         </div>
 
       </div>

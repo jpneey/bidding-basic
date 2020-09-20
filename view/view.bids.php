@@ -14,9 +14,9 @@ class viewBids extends Bids {
         return $v;
     }
 
-    public function ViewFeed($filter = array(), $emptyMessage = "Welcome to canvasspoint! Unfortunately there are no active biddings as of the moment. How about viewing our suppliers ?"){
-        
+    public function ViewFeed($filter = array(), $emptyMessage = "Active Biddings will go here but unfortunately there are no active biddings as of the moment. How about viewing our suppliers ?", $loggedInUserRole = 0){
         $bidsInFeed = $this->getBiddings($filter);
+  
         if(!empty($bidsInFeed)){
     
             foreach($bidsInFeed as $key=>$value){
@@ -24,15 +24,10 @@ class viewBids extends Bids {
                 $bidInFeedDetails = $bidsInFeed[$key]["cs_bidding_details"];
                 $bidInFeedLink = $bidsInFeed[$key]["cs_bidding_permalink"];
                 $datePosted = $bidsInFeed[$key]["cs_bidding_added"];
-                $tagchip = '<span class="chip grey lighten-2 white-text">'.$bidsInFeed[$key]["cs_category_name"].'</span>';
-                $tags = preg_split('@,@', $bidsInFeed[$key]['cs_bidding_tags'], NULL, PREG_SPLIT_NO_EMPTY);
-                foreach($tags as $tag) {
-                    $tagchip .= '<span class="chip grey lighten-3">'.$tag.'</span>';
-                }
-               /*  $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($bidsInFeed[$key]['cs_owner_rating'])); */
                 $province = $bidsInFeed[$key]["cs_bidding_location"];
                 $datePosted = '<time class="timeago" datetime="'.$bidsInFeed[$key]["cs_bidding_added"].'">'.$bidsInFeed[$key]["cs_bidding_added"].'</time>';
                 $bidInFeedPicture = '';
+                $rated = $bidsInFeed[$key]["cs_rated"];
                 if($bidsInFeed[$key]["cs_bidding_picture"] !== '#!'){
                     $bidInFeedPicture = '
                     <div class="feed-image-wrapper">
@@ -40,15 +35,21 @@ class viewBids extends Bids {
                     </div>
                     ';
                 }
+                $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($bidsInFeed[$key]['cs_owner_rating']));
                 
                 ?>
                 <a href="<?= $this->BASE_DIR.'bid/'.$bidInFeedLink ?>">
-                    <div class="post-card white z-depth-1 waves-effect">    
-                            <div class="title grey-text text-darken-3"><b class="truncate"><?= $bidInFeedTitle ?></b></div>
-                            <div class="sub-title grey-text"><?= $province.' @ '.$datePosted ?></div>
-                            <div class="preview grey-text text-darken-3"><span class="truncate"><?= $bidInFeedDetails ?></span></div>
-                            <!-- <span class="ratings"></span> -->
+                    <div class="post-card white z-depth-0 waves-effect">    
+                        <div class="title grey-text text-darken-3"><b class="truncate"><?= $bidInFeedTitle ?></b></div>
+                        <div class="sub-title grey-text"><?= $province.' @ '.$datePosted ?></div>
+                        <div class="preview grey-text text-darken-3"><span class="truncate"><?= $bidInFeedDetails ?></span></div>
                         
+                        <div class="sub-title grey-text">
+                        <?php if(!empty($rated)) { ?>
+                        <?= number_format($bidsInFeed[$key]['cs_owner_rating'], 1, '.', ',') ?> out of <?= $rated ?> review(s)
+                        <?php } else { echo "No reviews yet"; } ?>
+                        </div>
+                        <div class="ratings"><?= $rating ?></div>
                         <div class="image-wrapper">
                             <?= $bidInFeedPicture ?>
                         </div>
@@ -57,11 +58,26 @@ class viewBids extends Bids {
                 <?php
             }
         } else {
+            switch($loggedInUserRole) { 
+                
+                case(2):
+                    $emptyMessage = "Active Biddings will go here but unfortunately there are no active biddings as of the moment. How about updating your Canvasspoint business profile ?";
+                    $buttonLink = "my/business/";
+                    $button = "My Business";
+                    break;
+
+                default:
+                    $buttonLink = "supplier/";
+                    $button = "View Suppliers";
+                    break;
+            }
             ?>
-            <div class="post-card white z-depth-1 waves-effect" style="padding: 45px !important;">    
-                <p><b>Oh, Hello there!</b></p>
-                <p><?= $emptyMessage ?></p>
-                <a href="<?= $this->BASE_DIR.'supplier/' ?>" class="btn orange white-text">view suppliers</a>
+            
+            <div class="post-card white z-depth- waves-effect">    
+                <div class="title"><b>There's nothing here.</b></div>
+                <div class="sub-title grey-text"><?= $emptyMessage ?></div>
+                <p class="sub-title grey-text"><a href="<?= $this->BASE_DIR.$buttonLink ?>" class="btn orange white-text"><?= $button ?></a></p>
+                <div class="image-wrapper"></div>
             </div>
             <?php
         }
@@ -85,12 +101,13 @@ class viewBids extends Bids {
             foreach($tags as $tag) {
                 $tagchip .= '<span class="chip grey lighten-3">'.$tag.'</span>';
             }
+            $rated = $viewBid[0]["cs_rated"];
             $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($viewBid[0]['cs_owner_rating']));
             $picture = ($viewBid[0]['cs_bidding_picture'] != '#!') ? $viewBid[0]['cs_bidding_picture'] : 'placeholder.svg';
                 
             ?>
             
-            <div class="page white z-depth-1">
+            <div class="page white z-depth-0">
                 <div id="introduction" class="content scrollspy">
                     <label><a href="<?= $this->BASE_DIR ?>" class="grey-text">Home</a> > bid > <?= $title ?></label>
                     <br>
@@ -99,6 +116,9 @@ class viewBids extends Bids {
                         <b><?= $title ?></b>
                         <span class="ratings"><?= $rating ?></span>
                     </h1>
+                    <?php if(!empty($rated)){ ?>
+                    <p><?=  number_format($viewBid[0]['cs_owner_rating'], 1,'.',',') . ' out of ' . $rated ?> review(s)</p>
+                    <?php } ?>
                     <br>
                     
                     <p><?= nl2br($details); ?></p>
@@ -122,18 +142,27 @@ class viewBids extends Bids {
                         <b>Date Needed:</b><br>
                         <?= date_format(date_create($dateNeeded), 'g:ia \o\n l jS F Y') ?>
                     </p>
+                    <p>
+                        <b>Location:</b><br>
+                        <?= $location ?>
+                    </p>
                     <div class="glance white">
                         <div class="product-card item" data-budget="₱ <?= $budget ?>" data-item="<?= $item ?>" data-qty="<?= $viewBid[0]['cs_product_qty'] ?>" data-unit="<?= $viewBid[0]['cs_product_unit'] ?>">
                             <div class="thumbnail">
                                 <img id="bidding-details" src="<?= $this->BASE_DIR ?>static/asset/bidding/<?= $picture ?>" class="margin-auto materialboxed" />
                             </div>
                             <div class="content">
-                                <p class="truncate"><b><?= $location ?></b></p>
-                                <p><?= $item ?> <?= $qty ?></p>
-                                <p class="truncate grey-text">₱ <?= $budget ?></p>
+                                <p><b><?= $item ?> </b></p>
+                                <p><?= $qty ?></p>
+                                <p class="grey-text"></p>
                             </div>
                         </div>
                     </div>
+                    <br>
+                    <p>
+                        <b>Budget:</b><br>
+                        ₱ <?= $budget ?>
+                    </p>
                     
                     <span><br><?= $tagchip ?></span>
                     
@@ -182,19 +211,19 @@ class viewBids extends Bids {
 
         ?>
             <div class="col s12 m4">
-                <div class="dashboard-panel green lighten-0 white-text z-depth-1">
+                <div class="dashboard-panel green lighten-0 white-text z-depth-0">
                     <h1><b><?= $counts[0] ?></b></h1>
                     <p>Active Bidding</p>
                 </div>
             </div>
             <div class="col s12 m4">
-                <div class="dashboard-panel red lighten-0 white-text z-depth-1">
+                <div class="dashboard-panel red lighten-0 white-text z-depth-0">
                     <h1><b><?= $counts[2] ?></b></h1>
                     <p>Expired Bidding</p>
                 </div>
             </div>
             <div class="col s12 m4">
-                <div class="dashboard-panel orange lighten-0 white-text z-depth-1">
+                <div class="dashboard-panel orange lighten-0 white-text z-depth-0">
                     <h1><b><?= $counts[1] ?></b></h1>
                     <p>Finished Bidding</p>
                 </div>
@@ -208,17 +237,17 @@ class viewBids extends Bids {
         switch($status){
             case '1':
                 $title = "Active Bidding";
-                $tip = "This post is still active and suppliers can submit their bidding proposals.";
+                $tip = "Active Biddings means that the post is yet to expire and still accepting bid proposals from our suppliers.";
                 $statusStyle = 'feed-border green-text';
                 break;
             case '2':
                 $title = "Finished Bidding";
                 $statusStyle = 'feed-border orange-text';
-                $tip = "This bidding is finalized and can be safely deleted.";
+                $tip = "This bidding is finalized and can now be safely deleted.";
                 break;
             case '0':
                 $title = "Expired Bidding";
-                $tip = "An expired post. Suppliers are now waiting for you to choose a winner or finalize this post";
+                $tip = "This bidding has expired and will not receive future proposals anymore. Suppliers are now waiting for you to choose a winner or finalize this post";
                 $statusStyle = 'feed-border red-text';
                 break;
         }
@@ -226,7 +255,7 @@ class viewBids extends Bids {
         if(!empty($userBids)){
             ?>
                 <div class="col s12 block">
-                    <p><b><?= $title ?></b></p>
+                    <p><b><?= $title ?></b><br><span class="grey-text" style="font-size: 12px;"><?= $tip ?></span></p>
                 </div>
             <?php
             foreach($userBids as $key=>$value){
@@ -234,11 +263,11 @@ class viewBids extends Bids {
                 $bidInFeedTitle = $userBids[$key]["cs_bidding_title"];
                 $bidInFeedOfferCount = $userBids[$key]["cs_bidding_offer_count"];
                 
-                echo '<div class="col s12 block tooltipped"  data-position="bottom" data-tooltip="'.$tip.'">';
+                echo '<div class="col s12 block">';
                 $datePosted = '<time>'.date_format(date_create($userBids[$key]["cs_bidding_added"]), 'D d M Y').'</time>'; ?>
  
                 <a href="<?= $this->BASE_DIR.'bid/'.$bidInFeedLink ?>">
-                    <div class="feed-card feed-card-full white z-depth-1 <?= $statusStyle ?>">
+                    <div class="feed-card feed-card-full white z-depth-0 <?= $statusStyle ?>">
                         <div class="feed-head">
                             <p class="grey-text text-darken-3">
                                 <?= $bidInFeedTitle ?><br>
@@ -251,13 +280,28 @@ class viewBids extends Bids {
                 </a>
                 
                 <span class="card-counter">
-                    <a href="#!" data-selector="<?= $bidInFeedLink ?>" data-mode="bid" class="right data-delete z-depth-1 red white-text center-align">DELETE</a>
-                    <a class="z-depth-1 right orange white-text center-align tooltipped" data-position="bottom" data-tooltip="total bids"><?= $bidInFeedOfferCount ?></a>
+                    <a href="#!" data-selector="<?= $bidInFeedLink ?>" data-mode="bid" class="right data-delete z-depth-0 red white-text center-align">DELETE</a>
+                    <a class="z-depth-0 right orange white-text center-align tooltipped" data-position="bottom" data-tooltip="total bids"><?= $bidInFeedOfferCount ?></a>
                 </span>
             <?php
             echo '</div>';
             }
         }
+    }
+
+    public function viewSideBar($loggedInUserRole) { 
+        ?>
+        
+        <div class="post-card white z-depth-0 waves-effect">    
+            <div class="title grey-text text-darken-3"><b>What's New?</b></div>
+            <div class="sub-title grey-text">Lorem Ipsum dotor sit amte, connectiture de` elipsis.</div>
+            <div class="sub-title">
+                <p><a href="<?= $this->BASE_DIR ?>my/dashboard/?action=add" class="btn btn-small orange white-text z-depth-0">Blog <i class="material-icons right">trending_up</i></a></p>
+            </div>
+            
+            <div class="image-wrapper"></div>
+        </div>
+        <?php
     }
     
 }

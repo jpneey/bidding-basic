@@ -100,6 +100,21 @@ function markAsRead(){
         })
     })
 
+    $('.mark-this-read a').on('click', function(e){
+        e.preventDefault();
+        var t = $(this).parent('.mark-this-read').data('del');
+        var u = $(this).data('to');
+        $.ajax({
+            url: root + 'controller/controller.user.php?action=read&t='+t,
+            type: 'GET',
+            processData: false,
+            contentType: false,
+            success: function() {
+                window.location.href = root + u;
+            }   
+        })
+    })
+
     $(".notif-panel a" ).each(function( index ) {
         var link = $(this).data('to');
         var src = root + link;

@@ -20,13 +20,14 @@ class viewOffers extends Offers {
                 <table class="center-align" id="offer-panel">
                     <thead>
                         <tr>
-                            <th><?php if($supplier){ echo 'My '; } ?>Proposal</th>
+                            <th>Proposal</th>
                             <th>Rating</th>
                             <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
                     <?php 
+                        $linkToOwner = '#!';
                         $viewable = $this->getViewable($userId);
                         $thisViewable = $viewable;
                         foreach($offers as $k=>$v) {
@@ -34,10 +35,11 @@ class viewOffers extends Offers {
                             $id = $offers[$k]['cs_offer_id'];
                             $status = $offers[$k]['cs_offer_status'];
                             $price = $offers[$k]['cs_offer_price'];
-                            $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($offers[$k]['cs_owner_rating']));
+                            $rated = ($offers[$k]['cs_rated']) ? 'out of ' . $offers[$k]['cs_rated'] . ' review(s)' : 'No ratings yet.';
+                            $rating = ($offers[$k]['cs_rated']) ? number_format($offers[$k]['cs_owner_rating'],1,'.',',') : '';
                             echo '<tr>';
                             echo '<td><b>₱</b>'.number_format($price, '2', '.', ',').'<br><label>'.$offered['qty'].' <span class="qty">{qty}</span></label></td>';
-                            echo '<td><span class="ratings">'.$rating.'</span></td>';
+                            echo '<td><b>'.$rating.'</b> '.$rated.'</td>';
                             if(!$supplier){
                                 switch( $offers[$k]['cs_offer_success']){
                                     case '2':
@@ -71,8 +73,18 @@ class viewOffers extends Offers {
                                 echo '<td>';
                                 switch($status){
                                     case '1':
-                                        echo '<a href="#winner-offer" class="modal-trigger btn-small waves-effect orange white-text">Winner</a> ';
-                                        echo '<a href="'.$this->BASE_DIR.'user/'.$offers[$k]['cs_purchaser'].'" class="btn-small waves-effect orange darken-2 white-text">Contact Purchaser</a>';
+                                        echo '<a href="#winner-offer" id="wtrg" class="modal-trigger btn-small waves-effect orange white-text">Winner</a> ';
+                                        $linkToOwner = $this->BASE_DIR.'user/'.$offers[$k]['cs_purchaser'];
+                                        ?>
+                                        <script>
+                                        $(function(){
+                                            setTimeout(function(){
+                                                $('#winner-offer').modal('open')
+                                            }, 1000)
+                                        })
+                                        </script>
+                                        <?php
+                                        echo '<a href="'.$linkToOwner.'" class="btn-small waves-effect orange darken-2 white-text">Contact Purchaser</a>';
                                         break;
                                     case '2':
                                         echo '<a href="#!" class="btn-small waves-effect red lighten-1 white-text">Rejected</a> ';
@@ -92,13 +104,13 @@ class viewOffers extends Offers {
                 <div id="active-offers" class="modal modal-sm">
                     <div class="modal-content">
                         <p><b>Active</b></p>
-                        <p>This proposal's status is still active. This means that the purchaser has already chosen a winner but is still open to consider other bidding proposals.</p>
+                        <p>This proposal's status is still active. This means that the purchaser is still open to consider other bidding proposals.</p>
                     </div>
                 </div>
                 <div id="winner-offer" class="modal modal-sm">
                     <div class="modal-content">
                         <p><b>Hooray!</b></p>
-                        <p>This proposal won this bidding. Both purchaser and supplier can now view each other's profile.</p>
+                        <p>Your proposal won this bidding. Both purchaser and supplier can now view each other's profile.<br><br><a href="<?= $linkToOwner ?>" class="btn orange" >View Purchaser</a></p>
                     </div>
                 </div>
                 <div id="offer-modal" class="modal" style="max-width: 440px">
@@ -112,7 +124,7 @@ class viewOffers extends Offers {
                         ?>
                         <?php 
                             if($thisViewable >= 1) { ?>
-                            Proceed to open this proposal?<br><br>
+                            Open this proposal?<br><br>
                             <span class="grey-text text-darken-2 small-text">* the first offer that you'll view will automatically be this bidding's winner.</span>
                             </p>
                             <div>
@@ -167,10 +179,10 @@ class viewOffers extends Offers {
             $hasOffer = $this->hasOffer($biddingId, $userId);
             if($isSupplier && !$hasOffer) {
                 ?>
-                <div class="page white z-depth-1">
+                <div class="page white z-depth-0">
                     <div id="submit-offer" class="content sm row scrollspy">
                 
-                        <form class="col s12 row" action="#!" data-action="<?= $this->BASE_DIR.'controller/controller.offer.php?action=add&bid='.$biddingId ?>" id="offer-form" method="POST">
+                        <form action="#!" data-action="<?= $this->BASE_DIR.'controller/controller.offer.php?action=add&bid='.$biddingId ?>" id="offer-form" method="POST">
 
                             <div class="fields orig">
                                 <div class="input-field no-margin col s12 m5">
@@ -197,7 +209,7 @@ class viewOffers extends Offers {
                                 <div class="input-field price-tooltip no-margin col s12 m7 tooltipped" 
                                         data-position="bottom" 
                                         data-tooltip="expected budget">
-                                    <p><label>Total Pricing for <b><span class="qty-c">{qty}</span> <span class="qty">{qty}</span></b></label></p>
+                                    <p><label>Your offer for <b><span class="qty-c">{qty}</span> <span class="qty">{qty}</span></b></label></p>
                                     <input 
                                         required 
                                         type="number" 
@@ -229,37 +241,40 @@ class viewOffers extends Offers {
                                     class="custom-input validate"  
                                 />
                             </div>
+                            <div id="imagesForm" style="display: none;">
+                                <div id="im_1" class="file-field input-field col s12">
+                                    <div class="btn">
+                                        <span>Add Photo (optional)</span>
+                                        <input type="file" accept="image/*" name="cs_offer_image_one" />
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path validate" placeholder=".jpg, with less than 3mb" type="text">
+                                    </div>
+                                </div>
 
-                            <div class="file-field input-field col s12">
-                                <div class="btn">
-                                    <span>Add Photo (optional)</span>
-                                    <input type="file" accept="image/*" name="cs_offer_image_one" />
-                                </div>
-                                <div class="file-path-wrapper">
-                                    <input class="file-path validate" placeholder=".jpg, with less than 3mb" type="text">
-                                </div>
-                            </div>
-
-                            <div class="file-field input-field col s12">
-                                <div class="btn">
-                                    <span>Add Photo (optional)</span>
-                                    <input type="file" accept="image/*" name="cs_offer_image_two" />
-                                </div>
-                                <div class="file-path-wrapper">
-                                    <input class="file-path validate" placeholder=".jpg, with less than 3mb" type="text">
+                                <div id="im_2" class="file-field input-field col s12">
+                                    <div class="btn">
+                                        <span>Add Photo (optional)</span>
+                                        <input type="file" accept="image/*" name="cs_offer_image_two" />
+                                    </div>
+                                    <div class="file-path-wrapper">
+                                        <input class="file-path validate" placeholder=".jpg, with less than 3mb" type="text">
+                                    </div>
                                 </div>
                             </div>
                                 
                             <div class="col s12">
+                                <br>
+                                <a href="#!" class="btn addImage waves-effect orange white-text">Attach Image</a>
                                 <p><?= $this->postOfferTitle($this->getCountOffer($biddingId)) ?></p>
                                 <input type="submit" value="Submit offer" class="btn white-text" />
                                 <a href="#bid-faqs" class="btn modal-trigger waves-effect orange white-text">Faqs</a>
                             </div>
 
                         </form>
-                        <div class="col s12 row">
+                        <div class="col s12">
                             <?php $this->viewLowestOffer($biddingId); ?>
-                            <div class="col s12" id="placeholder">
+                            <div id="placeholder">
                                 <p><?= $this->postOfferTitle($this->getCountOffer($biddingId)) ?></p>
                                 <a class="waves-effect waves-light btn generate-form" href="#~">Submit Offer</a>
                                 <a href="#bid-faqs" class="btn modal-trigger waves-effect orange white-text">Faqs</a>
@@ -269,12 +284,12 @@ class viewOffers extends Offers {
                     </div>
                 </div>
                 
-                <script src="<?= $this->BASE_DIR ?>static/js/services/services.addoffer.js?v=beta-199" type="text/javascript"></script>
+                <script src="<?= $this->BASE_DIR ?>static/js/services/services.addoffer.js?v=beta-s20sasd56sss0" type="text/javascript"></script>
 
                 <?php
             } else {
                 ?>
-                <div class="page white z-depth-1">
+                <div class="page white z-depth-0">
                     <div id="submit-offer" class="content sm row scrollspy">
                         
                         <?php $this->viewLowestOffer($biddingId); ?>
@@ -333,19 +348,19 @@ class viewOffers extends Offers {
 
         ?>
             <div class="col s12 m4">
-                <div class="dashboard-panel green lighten-0 white-text z-depth-1">
+                <div class="dashboard-panel green lighten-0 white-text z-depth-0">
                     <h1><b><?= $counts[0] ?></b></h1>
                     <p>Active Proposal</p>
                 </div>
             </div>
             <div class="col s12 m4">
-                <div class="dashboard-panel red lighten-0 white-text z-depth-1">
+                <div class="dashboard-panel red lighten-0 white-text z-depth-0">
                     <h1><b><?= $counts[2] ?></b></h1>
                     <p>Rejected Proposal</p>
                 </div>
             </div>
             <div class="col s12 m4">
-                <div class="dashboard-panel orange lighten-0 white-text z-depth-1">
+                <div class="dashboard-panel orange lighten-0 white-text z-depth-0">
                     <h1><b><?= $counts[1] ?></b></h1>
                     <p>Accepted Proposal</p>
                 </div>
@@ -360,17 +375,17 @@ class viewOffers extends Offers {
         switch($status){
             case '0':
                 $titled = "Active Proposals";
-                $tip = "This proposal is still active. This means that the bidding is yet to end and your proposal can still be chosen.";
+                $tip = "This means the bidding is yet to end and your proposal can still be chosen.";
                 $statusStyle = 'feed-border green-text';
                 break;
             case '1':
                 $titled = "Accepted Proposals";
-                $tip = "Congratulations! Your proposal won this bidding.";
+                $tip = "Propsals that won the bidding and proposals openned by the purchaser goes here.";
                 $statusStyle = 'feed-border orange-text';
                 break;
             case '2':
                 $titled = "Rejected Proposals";
-                $tip = "The bidding has ended and your proposal was rejected.";
+                $tip = "Rejected proposals goes here. Rejected proposals can be safely deleted.";
                 $statusStyle = 'feed-border red-text';
                 break;
         }
@@ -378,7 +393,7 @@ class viewOffers extends Offers {
         if(!empty($userOffers)){
             ?>
             <div class="col s12 block">
-                <p><b><?= $titled ?></b></p>
+                <p><b><?= $titled ?></b><br><span class="grey-text" style="font-size: 12px;"><?= $tip ?></span></p>
             </div>
             <?php
             foreach($userOffers as $key=>$value){
@@ -389,10 +404,10 @@ class viewOffers extends Offers {
                 $datePosted = date_format(date_create($userOffers[$key]["cs_date_added"]), 'D d M Y');
                 $datePosted = '<time>'.$datePosted.'</time>'; 
             ?>
-            <div class="col s12 block tooltipped" data-position="bottom" data-tooltip="<?= $tip ?>">
+            <div class="col s12 block">
                 <a href="<?= $this->BASE_DIR.'bid/'.$link.'/' ?>">
-                    <div class="feed-card feed-card-full white z-depth-1 <?= $statusStyle ?>">
-                        <div class="feed-card white z-depth-1">
+                    <div class="feed-card feed-card-full white z-depth-0 <?= $statusStyle ?>">
+                        <div class="feed-card white z-depth-0">
                             <div class="feed-head">
                                 <div class="feed-user-avatar">
                                 </div>
@@ -408,8 +423,8 @@ class viewOffers extends Offers {
                 </a>
                 
                 <span class="card-counter">
-                    <a href="#!" data-selector="<?= $offerId ?>" data-mode="offer" class="right data-delete z-depth-1 red white-text center-align">DELETE</a>
-                    <a href="#!" data-offer="<?= $offerId ?>" data-mode="offer" class="view-modal right z-depth-1 green white-text center-align">VIEW</a>
+                    <a href="#!" data-selector="<?= $offerId ?>" data-mode="offer" class="right data-delete z-depth-0 red white-text center-align">DELETE</a>
+                    <a href="#!" data-offer="<?= $offerId ?>" data-mode="offer" class="view-modal right z-depth-0 green white-text center-align">VIEW</a>
                 </span>
 
                 <div id="view-offer-modal" class="modal">

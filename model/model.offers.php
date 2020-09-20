@@ -59,10 +59,11 @@ class Offers extends DBHandler {
 
             foreach($result as $key=>$value) {
                 $userId = $result[$key]['cs_user_id'];
-                $stmt = $connection->prepare("SELECT AVG(cs_rating) FROM cs_user_ratings WHERE cs_user_rated_id = '$userId'");
+                $stmt = $connection->prepare("SELECT AVG(cs_rating), COUNT(cs_rating) FROM cs_user_ratings WHERE cs_user_rated_id = '$userId'");
                 $stmt->execute();
                 $rating = $stmt->get_result()->fetch_row();
                 $result[$key]["cs_owner_rating"] = (!empty($rating)) ? $rating[0] : 0;
+                $result[$key]["cs_rated"] = (!empty($rating)) ? $rating[1] : 0;
                 $result[$key]["cs_purchaser"] = $username;
                 $stmt->close();
             }
@@ -333,7 +334,7 @@ class Offers extends DBHandler {
         $notifDetails = $stmt->get_result()->fetch_row();
         $stmt->close();
 
-        $notificationMessage = "Bidding: <a data-to='bid/$notifDetails[1]/'><b>$notifDetails[0]</b></a> - New proposal was created";
+        $notificationMessage = "Bidding: <a data-to='bid/$notifDetails[1]/'><b>$notifDetails[0]</b></a> - Someone has submitted a bid.";
 
         $stmt = $connection->prepare("INSERT INTO cs_notifications(cs_notif, cs_user_id, cs_added) VALUES(?,?,?)");
         $stmt->bind_param("sis", $notificationMessage,$notifDetails[2], $currentDateTimeStamp);

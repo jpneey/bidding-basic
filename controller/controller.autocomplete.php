@@ -15,11 +15,11 @@ switch($mode) {
 
     case 'generic':
         $resp = array();
-        $query = "SELECT cs_category_name FROM cs_categories";
+        /* $query = "SELECT cs_category_name FROM cs_categories";
         $cats = $connection->query($query)->fetch_all();
         foreach($cats as $k=>$v) {
             $resp[$cats[$k][0]] = null;
-        }
+        } */
         
         $query = "SELECT cs_tag FROM cs_tags";
         $tags = $connection->query($query)->fetch_all();

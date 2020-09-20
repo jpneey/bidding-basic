@@ -3,6 +3,7 @@
         addOffer();
         datePicker();
         showForm();
+        imageOffer();
     })
 
     function datePicker() {
@@ -109,5 +110,19 @@
 
                 }   
             })
+        })
+    }
+
+    function imageOffer() {
+        $('body').on('click', '.addImage', function(){
+            $('#imagesForm').fadeToggle()
+            $('#imagesForm').find('input[type=file]').attr('disabled', false);
+            $(this).removeClass('addImage').removeClass('orange').addClass('removeImage').addClass('red').text('Remove Image');
+        })
+
+        $('body').on('click', '.removeImage', function(){
+            $('#imagesForm').fadeToggle()
+            $('#imagesForm').find('input[type=file]').attr('disabled', true);
+            $(this).removeClass('removeImage').addClass('red').addClass('addImage').addClass('orange').text('Attach Image');
         })
     }

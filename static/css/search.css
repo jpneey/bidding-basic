@@ -14,7 +14,7 @@
     height: 50px;
     padding-left: 25px;
     padding-right: 100px;
-    border: none;
+    border: 1px solid #e0e0e0;
 }
 
 .search-bar button.submit {
@@ -52,7 +52,8 @@
 
 .filter-panel {
     padding: 30px;
-    border-top: 1px solid rgba(221, 221, 221, 0.4);
+    border: 1px solid #e0e0e0;
+    border-top: none;
     margin-top: -10px;
     display: none;
 }

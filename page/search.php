@@ -16,7 +16,7 @@ $s_mode = ($s_mode) ? $s_mode : 'bid';
   <?php
     require "component/head.php";
   ?>
-  <link href="<?= $BASE_DIR ?>static/css/feed.css?v=beta-1" type="text/css" rel="stylesheet"/>
+  <link href="<?= $BASE_DIR ?>static/css/feed.css?v=beta-1ads" type="text/css" rel="stylesheet"/>
 
 </head>
 <body>
@@ -27,7 +27,7 @@ $s_mode = ($s_mode) ? $s_mode : 'bid';
   <div class="main">
     <div class="wrapper wrapper-top-bottom">
       <div class="container row">  
-        <div class="col s12" id="bidding-feed">
+        <div class="col s12 m9" id="bidding-feed">
           <?php
           
             require_once "view/view.search.php";
@@ -49,11 +49,19 @@ $s_mode = ($s_mode) ? $s_mode : 'bid';
                   $controllerSearch = new controllerSearch();
                   $filter = $controllerSearch->searchBid($s_queue, $s_location, $s_category);
                   $viewBids = new viewBids($BASE_DIR);
-                  $viewBids->viewFeed($filter, "There are no active biddings that matches your search criteria. How about viewing our suppliers ?");  
+                  $viewBids->viewFeed($filter, "There are no active biddings that matches your search criteria.<br>How about viewing our suppliers ?");  
                   break;
             }
 
           ?>
+        </div>
+
+        <div class="col s12 m3 feed-sidebar hide-on-med-and-down">
+          <div class="search-bar">
+            <?php  
+            $viewBids->viewSideBar($loggedInUserRole);
+            ?>
+          </div>
         </div>
 
       </div>

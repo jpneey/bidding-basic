@@ -5,8 +5,8 @@ $addSuccess = (isset($successToRate)) ?: false;
 ?>
 <div id="rate-modal" class="modal modal-sm">
     <div class="modal-content">
-        <p>How would you describe your transaction with this user ?</p>
         <form id="rate-form" action="" method="POST" class="row">
+            <p>How would you describe your transaction with this user ?</p>
             <?php if($addSuccess) { ?>
             <p><label>Is the transaction successful?</label></p>
             <input type="hidden" id="to-success" name="offer_id" required readonly >
@@ -111,9 +111,10 @@ $addSuccess = (isset($successToRate)) ?: false;
                     window.onbeforeunload = null;
                     $inputs.prop("disabled", false);
                     var parsedData = JSON.parse(data);
+                    
+                    $('#rate-modal').modal();
+                    $('#rate-modal').modal('close');
                     if(parsedData.code == '1') {
-                        $('#rate-modal').modal();
-                        $('#rate-modal').modal('close');
                         window.location.reload();
                     }
                     M.toast({

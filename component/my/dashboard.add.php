@@ -114,7 +114,7 @@ $viewLocation = new viewLocation($BASE_DIR);
                     </div>
                 </div>
 
-                <div class="input-field no-margin col s12 m4">
+                <div class="input-field no-margin col s12 m6">
                     <p><label>Item Needed</label></p>
                     <input 
                         required 
@@ -124,17 +124,38 @@ $viewLocation = new viewLocation($BASE_DIR);
                     />
                 </div>
 
-                <div class="input-field no-margin col s6 m2 tooltipped" data-position="bottom" data-tooltip="ie: kg, pcs, in">
+                <div class="no-margin col s6 m3 tooltipped" data-position="bottom" data-tooltip="ie: kg, pcs, in">
                     <p><label>Unit</label></p>
                     <input 
                         required 
+                        autocomplete="off"
                         type="text" 
                         name="cs_product_unit" 
-                        class="custom-input validate"  
+                        class="custom-input validate autocomplete input-field"
+                        id="cs_product_unit"  
                     />
+                    <script>
+                        $(document).ready(function(){
+                            $('#cs_product_unit').autocomplete({
+                                    minLength: 1,
+                                    limit: 3,
+                                    data: {
+                                        "pcs": null,
+                                        "kg": null,
+                                        "cm": null,
+                                        "oz": null,
+                                        "ft": null,
+                                        
+                                    },
+                                });
+                            $('#cs_product_unit').on('keyup', function(){
+                                $(this).autocomplete('open');
+                            })
+                        });
+                    </script>
                 </div>
 
-                <div class="input-field no-margin col s6 m2 tooltipped" data-position="bottom" data-tooltip="* whole number only">
+                <div class="input-field no-margin col s6 m3 tooltipped" data-position="bottom" data-tooltip="* whole number only">
                     <p><label>Qty</label></p>
                     <input 
                         required 
@@ -149,14 +170,13 @@ $viewLocation = new viewLocation($BASE_DIR);
                 </div>
                 
                 <style>
-                    .chips .autocomplete-content,
                     .chips input {
-                        width: 100% !important;
+                        width: 70% !important;
                     }
                 </style>
 
 
-                <div class="input-field no-margin col s12 m4">
+                <div class="input-field no-margin col s12 m6">
                     <p><label>Total Budget</label></p>
                     <input 
                         required 

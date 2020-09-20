@@ -51,13 +51,10 @@ $selector = Sanitizer::filter($uri[1], 'var');
     </div>
   </div>
 
-  <div id="bid-faqs" class="modal modal-sm modal-fixed-footer">
+  <div id="bid-faqs" class="modal modal-sm">
     <div class="modal-content">
         <p><b>Faqs</b></p>
         <p>Only one offer per supplier is allowed per bidding. Offers can't be canceled once the bidding reaches three (3) days before expiration.</p>
-    </div>
-    <div class="modal-footer">
-        <a href="<?= $this->BASE_DIR ?>home/?sidebar=2" class="modal-close waves-effect waves-green btn">Contact Us</a>
         <a href="#!" class="modal-close red white-text waves-effect btn-flat">Close</a>
     </div>
   </div>

@@ -11,7 +11,6 @@ if($isBidder) {
             break;
 
         default:
-            echo '<div class="col s12"><p><b>My Biddings</b></p></div>';
             require_once "model/model.bids.php";
             require_once "view/view.bids.php";
             $viewBids = new viewBids($BASE_DIR);
@@ -24,7 +23,6 @@ if($isBidder) {
 }
 
 if($isSupplier) {
-    echo '<div class="col s12"><p><b>My Proposals</b></p></div>';
     require_once "model/model.offers.php";
     require_once "view/view.offers.php";
     $viewOffers = new viewOffers($BASE_DIR);

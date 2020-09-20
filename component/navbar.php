@@ -11,7 +11,7 @@ if($isLoggedIn) {
 
 ?>
 <div class="navbar-fixed">
-    <nav>
+    <nav class="z-depth-0">
         <div class="wrapper nav-wrapper">
             <a href="<?= $BASE_DIR ?>" class="brand-logo left">
                 <img src="<?= $BASE_DIR ?>static/asset/logo.png" alt="Site Logo" />
@@ -59,12 +59,13 @@ if($isLoggedIn) {
         <li class="white">
             <a class="waves-effect mark-as-read"><i class="material-icons left">notes</i><b>Mark All as read</b></a>
         </li>
+        
         <li class="notif-panel">
         <?php 
         $unreadNotifs = $notification->getUnread(false);
         if(!empty($unreadNotifs)) {
             foreach($unreadNotifs as $key=>$value){ ?>
-            <span><?= $unreadNotifs[$key]['cs_notif'] ?><br>
+            <span class="mark-this-read" data-del="<?= $unreadNotifs[$key]['cs_notif_id'] ?>" ><?= $unreadNotifs[$key]['cs_notif'] ?><br>
                 <time class="timeago" datetime="<?= $unreadNotifs[$key]['cs_added'] ?>" title="<?= $unreadNotifs[$key]['cs_added'] ?>"><?= $unreadNotifs[$key]['cs_added'] ?></time>
             </span>
         <?php }
@@ -83,7 +84,7 @@ if($isLoggedIn) {
         </li>
     </ul>
 <?php } ?>
-<ul id="profile-nav" class="sidenav sidenav-fixed">
+<ul id="profile-nav" class="sidenav sidenav-fixed z-depth-0">
     <li class="navbar-fixed"></li>
     <?php
 
@@ -114,9 +115,7 @@ if($isLoggedIn) {
 
     ?>
 </ul>
-<ul id="category-nav" class="sidenav">
-    <li class="navbar-fixed"></li>
-</ul>
+
 <div id="load-wrap">
     <div id="onload">
         <div class="preloader-wrapper small active abs">

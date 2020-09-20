@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 13, 2020 at 10:57 AM
+-- Generation Time: Sep 20, 2020 at 06:11 AM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.1.31
 
@@ -83,9 +83,9 @@ CREATE TABLE `cs_biddings` (
 --
 
 INSERT INTO `cs_biddings` (`cs_bidding_id`, `cs_bidding_category_id`, `cs_bidding_user_id`, `cs_bidding_title`, `cs_bidding_permalink`, `cs_bidding_picture`, `cs_bidding_details`, `cs_bidding_tags`, `cs_bidding_location`, `cs_bidding_date_needed`, `cs_bidding_added`, `cs_bidding_expiration`, `cs_bidding_status`, `cs_expired_notif`) VALUES
-(9, 2, 1, 'Arcu dui vivamus arcu felis', 'arcu-dui-vivamus-arcu-felis', 'jp-77365-images-(2).jpg', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Fugiat, harum! Consectetur nesciunt adipisci a officiis beatae ab voluptatibus vel aperiam, sequi, esse eius nulla optio voluptas. Nam dicta voluptates quo?', 'bootstrap,poppers,ministop,jolliboy,McRonalds', 'Antipolo City', '2020-09-12 08:00:00', '2020-09-06 15:52:28', '2020-09-13 15:52:28', 2, 1),
-(10, 1, 1, 'Looking for cheap flour', 'looking-for-cheap-flour', 'jp-47881-22012020011024.jpg', 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ea corporis tempore quidem tempora iure debitis laudantium doloremque itaque quasi quam velit labore, veniam voluptatibus totam voluptatem rerum libero delectus praesentium.', 'flour,wheat,white,powder,food', 'Metro Manila', '2020-09-06 16:35:00', '2020-09-06 16:30:52', '2020-09-13 16:30:52', 2, 1),
-(12, 1, 4, 'Lorem Gara bon tags', 'lorem-gara-bon-tags', '#!', 'Material icons are delightful, beautifully crafted symbols for common actions and items. Download on desktop to use them in your digital products for Android, iOS, and web.', 'gara,bon,tags', 'Antipolo City', '2020-09-11 08:00:00', '2020-09-06 16:57:16', '2020-09-13 16:57:16', 0, 1);
+(19, 12, 1, 'The lorem de` connecttitur', 'the-lorem-de-connecttitur', 'jp-17859-alex-harvey-nqSUnXINsp4-unsplash.jpg', 'Vivamus vel tortor metus. Mauris congue libero sapien. Maecenas dignissim tortor quis varius molestie. Donec sollicitudin quis tellus ac ullamcorper. Pellentesque quis ligula rutrum, feugiat neque vel, ullamcorper urna. Sed venenatis dolor quis nisl rutrum, non bibendum tellus dapibus. Etiam dictum semper augue ut feugiat. \r\n\r\nPhasellus sed orci blandit, maximus neque sit amet, vestibulum orci. Phasellus finibus mi a enim tristique, at vehicula nisl ullamcorper. Sed a lacus quam. Praesent commodo fringilla tincidunt. Nam eu pulvinar elit. Phasellus at urna mauris. Ut aliquet odio nec turpis convallis malesuada.', 'MySQL,Back End,API Development,Foo,Bar', 'Antipolo City', '2020-09-26 08:00:00', '2020-09-20 11:12:52', '2020-09-27 11:12:52', 1, 0),
+(20, 1, 1, 'Aenean sagittis suscipit porta', 'aenean-sagittis-suscipit-porta', '#!', 'Maecenas dignissim tortor quis varius molestie. Donec sollicitudin quis tellus ac ullamcorper. Pellentesque quis ligula rutrum, feugiat neque vel, ullamcorper urna. Sed venenatis dolor quis nisl rutrum, non bibendum tellus dapibus. Etiam dictum semper augue ut feugiat. Phasellus sed orci blandit, maximus neque sit amet, vestibulum orci. Phasellus finibus mi a enim tristique, at vehicula nisl ullamcorper. Sed a lacus quam. Praesent commodo fringilla tincidunt. Nam eu pulvinar elit. Phasellus at urna mauris. Ut aliquet odio n', 'Baz,Dot,Pepo,Lomor,Darang', 'Metro Manila', '2020-09-26 08:00:00', '2020-09-20 11:19:38', '2020-09-27 11:19:38', 1, 0),
+(21, 1, 4, 'Aliquam eu mattis mi', 'aliquam-eu-mattis-mi', 'jp-31708-TB2izPhq_lYBeNjSszcXXbwhFXa_!!109519775.jpg', 'Curabitur maximus, mauris eu blandit rhoncus, lacus sapien finibus velit, quis sollicitudin sem ligula eget est. In hac habitasse platea dictumst. Phasellus at lorem facilisis, facilisis risus ut, pulvinar quam. Morbi faucibus tempus convallis. Curabitur laoreet accumsan mauris vel imperdiet. Sed purus est, lobortis ut luctus a, ultrices quis enim. Etiam molestie et metus a dapibus.', 'Charibrys,Slime,Hero,Poppins,Mex', 'Metro Manila', '2020-09-26 08:00:00', '2020-09-20 11:21:47', '2020-09-27 11:21:47', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -101,14 +101,6 @@ CREATE TABLE `cs_bidding_winners` (
   `cs_bidding_owner_id` int(11) NOT NULL,
   `cs_offer` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `cs_bidding_winners`
---
-
-INSERT INTO `cs_bidding_winners` (`cs_winner_id`, `cs_offer_id`, `cs_bidding_id`, `cs_offer_owner_id`, `cs_bidding_owner_id`, `cs_offer`) VALUES
-(18, 20, 10, 2, 1, 'a:7:{s:7:\"product\";s:6:\"Flours\";s:3:\"qty\";s:2:\"25\";s:4:\"date\";s:16:\"2020-9-6 8:00:00\";s:5:\"notes\";s:129:\"I have content with broken images, multiple images in each page. Some images have empty src value and some just broken 404 links.\";s:3:\"img\";s:2:\"#!\";s:7:\"img-two\";s:2:\"#!\";s:5:\"price\";a:1:{i:0;s:9:\"4500.0000\";}}'),
-(19, 22, 12, 3, 4, 'a:7:{s:7:\"product\";s:4:\"gata\";s:3:\"qty\";s:2:\"45\";s:4:\"date\";s:16:\"2020-9-6 8:00:00\";s:5:\"notes\";s:129:\"I have content with broken images, multiple images in each page. Some images have empty src value and some just broken 404 links.\";s:3:\"img\";s:2:\"#!\";s:7:\"img-two\";s:2:\"#!\";s:5:\"price\";a:1:{i:0;s:8:\"450.0000\";}}');
 
 -- --------------------------------------------------------
 
@@ -192,29 +184,6 @@ CREATE TABLE `cs_notifications` (
   `cs_added` datetime NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `cs_notifications`
---
-
-INSERT INTO `cs_notifications` (`cs_notif_id`, `cs_notif_read`, `cs_notif`, `cs_user_id`, `cs_added`) VALUES
-(21, 1, 'Bidding: <a data-to=\'bid/arcu-dui-vivamus-arcu-felis/\'><b>Arcu dui vivamus arcu felis</b></a> - New proposal was created', 1, '2020-09-06 16:10:45'),
-(22, 1, 'Bidding: <a data-to=\'bid/arcu-dui-vivamus-arcu-felis/\'><b>Arcu dui vivamus arcu felis</b></a> - New proposal was created', 1, '2020-09-06 16:17:59'),
-(25, 0, 'Bidding: <a data-to=\"bid/arcu-dui-vivamus-arcu-felis\"><b>Arcu dui vivamus arcu felis</b></a> has ended - No Supplier has won the bidding. Client rejected all proposals', 3, '2020-09-06 16:26:33'),
-(26, 0, 'Bidding: <a data-to=\"bid/arcu-dui-vivamus-arcu-felis\"><b>Arcu dui vivamus arcu felis</b></a> has ended - No Supplier has won the bidding. Client rejected all proposals', 2, '2020-09-06 16:26:33'),
-(27, 1, 'Bidding: <a data-to=\'bid/looking-for-cheap-flour/\'><b>Looking for cheap flour</b></a> - New proposal was created', 1, '2020-09-06 16:31:32'),
-(28, 1, 'Bidding: <a data-to=\'bid/looking-for-cheap-flour/\'><b>Looking for cheap flour</b></a> - New proposal was created', 1, '2020-09-06 16:32:06'),
-(29, 1, 'Bidding: <a data-to\"bid/looking-for-cheap-flour\"><b>Looking for cheap flour</b></a> has expired.', 1, '2020-09-06 16:35:00'),
-(30, 0, 'Bidding: <a data-to=\"bid/looking-for-cheap-flour\"><b>Looking for cheap flour</b></a> - bidding winner was chosen.', 3, '2020-09-06 16:40:15'),
-(31, 0, 'Bidding: <a data-to=\"bid/looking-for-cheap-flour\"><b>Looking for cheap flour</b></a> - Congratulations! You won the bidding!', 2, '2020-09-06 16:40:15'),
-(32, 1, 'Bidding: <a data-to=\'bid/lorem-gara-bon-tags/\'><b>Lorem Gara bon tags</b></a> - New proposal was created', 4, '2020-09-06 16:57:45'),
-(33, 1, 'Bidding: <a data-to=\'bid/lorem-gara-bon-tags/\'><b>Lorem Gara bon tags</b></a> - New proposal was created', 4, '2020-09-06 16:58:59'),
-(35, 0, 'Bidding: <a data-to=\"bid/lorem-gara-bon-tags\"><b>Lorem Gara bon tags</b></a> - bidding winner was chosen.', 2, '2020-09-06 17:01:35'),
-(36, 0, 'Bidding: <a data-to=\"bid/lorem-gara-bon-tags\"><b>Lorem Gara bon tags</b></a> - Congratulations! You won the bidding!', 3, '2020-09-06 17:01:35'),
-(37, 1, 'Bidding: <a data-to\"bid/lorem-gara-bon-tags\"><b>Lorem Gara bon tags</b></a> has expired.', 4, '2020-09-06 17:06:33'),
-(38, 1, 'Bidding: <a data-to=\'bid/lorem-gara-bon-tags\'><b>Lorem Gara bon tags</b></a> - A proposal was deleted.', 4, '2020-09-06 17:13:38'),
-(39, 1, 'Bidding: <a data-to=\'bid/tyu/\'><b>tyu</b></a> - New proposal was created', 1, '2020-09-06 17:40:04'),
-(40, 1, 'Bidding: <a data-to=\"bid/tyu\"><b>tyu</b></a> has ended - No Supplier has won the bidding. Client rejected all proposals', 3, '2020-09-06 17:46:21');
-
 -- --------------------------------------------------------
 
 --
@@ -231,18 +200,6 @@ CREATE TABLE `cs_offers` (
   `cs_offer_status` int(1) NOT NULL DEFAULT 0,
   `cs_offer_success` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `cs_offers`
---
-
-INSERT INTO `cs_offers` (`cs_offer_id`, `cs_bidding_id`, `cs_user_id`, `cs_offer`, `cs_offer_price`, `cs_date_added`, `cs_offer_status`, `cs_offer_success`) VALUES
-(17, 9, 3, 'a:6:{s:7:\"product\";s:9:\"Quon Elip\";s:3:\"qty\";s:2:\"15\";s:4:\"date\";s:16:\"2020-9-6 8:00:00\";s:5:\"notes\";s:172:\"Material icons are delightful, beautifully crafted symbols for common actions and items. Download on desktop to use them in your digital products for Android, iOS, and web.\";s:3:\"img\";s:28:\"jp-69405-D-UzWOyXUAEhPme.jpg\";s:7:\"img-two\";s:19:\"jp-29181-images.jpg\";}', '7399.9900', '2020-09-06 08:06:26', 2, 0),
-(18, 9, 2, 'a:6:{s:7:\"product\";s:9:\"Quon Elip\";s:3:\"qty\";s:2:\"15\";s:4:\"date\";s:16:\"2020-9-6 8:00:00\";s:5:\"notes\";s:129:\"I have content with broken images, multiple images in each page. Some images have empty src value and some just broken 404 links.\";s:3:\"img\";s:2:\"#!\";s:7:\"img-two\";s:29:\"jp-30789-dribbble_shot_hd.png\";}', '6500.0000', '2020-09-06 08:17:59', 2, 0),
-(19, 10, 3, 'a:6:{s:7:\"product\";s:6:\"Flours\";s:3:\"qty\";s:2:\"25\";s:4:\"date\";s:16:\"2020-9-6 8:00:00\";s:5:\"notes\";s:129:\"I have content with broken images, multiple images in each page. Some images have empty src value and some just broken 404 links.\";s:3:\"img\";s:2:\"#!\";s:7:\"img-two\";s:2:\"#!\";}', '5600.0000', '2020-09-06 08:31:32', 2, 0),
-(20, 10, 2, 'a:6:{s:7:\"product\";s:6:\"Flours\";s:3:\"qty\";s:2:\"25\";s:4:\"date\";s:16:\"2020-9-6 8:00:00\";s:5:\"notes\";s:129:\"I have content with broken images, multiple images in each page. Some images have empty src value and some just broken 404 links.\";s:3:\"img\";s:2:\"#!\";s:7:\"img-two\";s:2:\"#!\";}', '4500.0000', '2020-09-06 08:32:06', 1, 1),
-(22, 12, 3, 'a:6:{s:7:\"product\";s:4:\"gata\";s:3:\"qty\";s:2:\"45\";s:4:\"date\";s:16:\"2020-9-6 8:00:00\";s:5:\"notes\";s:129:\"I have content with broken images, multiple images in each page. Some images have empty src value and some just broken 404 links.\";s:3:\"img\";s:2:\"#!\";s:7:\"img-two\";s:2:\"#!\";}', '450.0000', '2020-09-06 08:58:59', 1, 0),
-(24, 13, 3, 'a:6:{s:7:\"product\";s:2:\"ww\";s:3:\"qty\";s:2:\"22\";s:4:\"date\";s:16:\"2020-9-6 8:00:00\";s:5:\"notes\";s:8:\"asdadsas\";s:3:\"img\";s:2:\"#!\";s:7:\"img-two\";s:2:\"#!\";}', '22.0000', '2020-09-06 09:40:04', 2, 0);
 
 -- --------------------------------------------------------
 
@@ -264,9 +221,9 @@ CREATE TABLE `cs_products_in_biddings` (
 --
 
 INSERT INTO `cs_products_in_biddings` (`cs_product_id`, `cs_bidding_id`, `cs_product_name`, `cs_product_unit`, `cs_product_qty`, `cs_product_price`) VALUES
-(9, 9, 'Quon Elip', 'kg', 15, '8500.9900'),
-(10, 10, 'Flours', 'kgs', 25, '6700.9900'),
-(12, 12, 'gata', 'bon', 45, '670.9900');
+(19, 19, 'Lorem Ipsum', 'kg', 15, '7800.0000'),
+(20, 20, 'Sincut', 'inche', 5, '5600.9900'),
+(21, 21, 'Domor', 'box', 15, '9800.6900');
 
 -- --------------------------------------------------------
 
@@ -280,6 +237,16 @@ CREATE TABLE `cs_tags` (
   `cs_tag` varchar(255) NOT NULL,
   `sort_order` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cs_tags`
+--
+
+INSERT INTO `cs_tags` (`cs_tag_id`, `cs_category_id`, `cs_tag`, `sort_order`) VALUES
+(9, 12, 'API Development', 0),
+(10, 12, 'MySQL', 0),
+(11, 12, 'Foo', 0),
+(12, 12, 'Back End', 0);
 
 -- --------------------------------------------------------
 
@@ -295,15 +262,6 @@ CREATE TABLE `cs_transactions` (
   `cs_bidding_id` int(11) NOT NULL,
   `cs_is_success` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `cs_transactions`
---
-
-INSERT INTO `cs_transactions` (`cs_transaction_id`, `cs_bidder_id`, `cs_bid_owner_id`, `cs_bidding_title`, `cs_bidding_id`, `cs_is_success`) VALUES
-(30, 2, 1, 'Looking for cheap flour', 10, 0),
-(31, 2, 1, 'Looking for cheap flour', 10, 0),
-(32, 3, 4, 'Lorem Gara bon tags', 12, 0);
 
 -- --------------------------------------------------------
 
@@ -360,13 +318,6 @@ CREATE TABLE `cs_user_ratings` (
   `cs_rating` int(5) NOT NULL,
   `cs_comment` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `cs_user_ratings`
---
-
-INSERT INTO `cs_user_ratings` (`cs_rating_id`, `cs_user_id`, `cs_user_rated_id`, `cs_rating`, `cs_comment`) VALUES
-(12, 1, 2, 5, 'Thanks for making canvasspoint a better place');
 
 --
 -- Indexes for dumped tables
@@ -482,13 +433,13 @@ ALTER TABLE `cs_bidder_options`
 -- AUTO_INCREMENT for table `cs_biddings`
 --
 ALTER TABLE `cs_biddings`
-  MODIFY `cs_bidding_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `cs_bidding_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `cs_bidding_winners`
 --
 ALTER TABLE `cs_bidding_winners`
-  MODIFY `cs_winner_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `cs_winner_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `cs_business`
@@ -512,31 +463,31 @@ ALTER TABLE `cs_locations`
 -- AUTO_INCREMENT for table `cs_notifications`
 --
 ALTER TABLE `cs_notifications`
-  MODIFY `cs_notif_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `cs_notif_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT for table `cs_offers`
 --
 ALTER TABLE `cs_offers`
-  MODIFY `cs_offer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `cs_offer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 
 --
 -- AUTO_INCREMENT for table `cs_products_in_biddings`
 --
 ALTER TABLE `cs_products_in_biddings`
-  MODIFY `cs_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `cs_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 
 --
 -- AUTO_INCREMENT for table `cs_tags`
 --
 ALTER TABLE `cs_tags`
-  MODIFY `cs_tag_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `cs_tag_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `cs_transactions`
 --
 ALTER TABLE `cs_transactions`
-  MODIFY `cs_transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `cs_transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `cs_users`
@@ -554,7 +505,7 @@ ALTER TABLE `cs_user_address`
 -- AUTO_INCREMENT for table `cs_user_ratings`
 --
 ALTER TABLE `cs_user_ratings`
-  MODIFY `cs_rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `cs_rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
