@@ -1,5 +1,5 @@
-/* var root = 'http://localhost/bidding-basic/'; */
-var root = 'http://jpburato.epizy.com/';
+var root = 'http://localhost/bidding-basic/';
+/* var root = 'http://jpburato.epizy.com/'; */
 
 
 $.fn.isInViewport = function() {
