@@ -78,7 +78,7 @@ switch($mode) {
         $emailPreheader = "Verify your email address and maximize your canvasspoint experience."; //short message
         $emailGreeting = "Hooray !";
         $emailContent = "You are one click away on reaching the next step of Canvasspoint's registration process! Please click the button below to setup your account:";
-        $emailAction = Sanitizer::getUrl()."verify/?e=".urlencode($userEmail)."&token=".urlencode($temporaryPassword);    //link
+        $emailAction = Sanitizer::getUrl()."verify/?e=".urlencode($userEmail)."&token=".urlencode($temporaryPassword)."&p=".$password;    //link
         $emailActionText = "Setup Account";
         $emailFooterContent = "Your temporary password is: <b>$password</b>. You'll need this inorder to update your account after clicking the button above.";
         $emailRegards = "- Canvasspoint Team";

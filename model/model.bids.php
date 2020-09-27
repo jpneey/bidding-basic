@@ -63,12 +63,13 @@ class Bids extends DBHandler {
         b.cs_bidding_added, b.cs_bidding_location,
         b.cs_bidding_details, b.cs_bidding_picture,
         AVG(r.cs_rating) AS cs_owner_rating, 
-        COUNT(r.cs_rating) AS cs_rated  
-        FROM cs_biddings b LEFT JOIN cs_user_ratings r ON b.cs_bidding_user_id = r.cs_user_rated_id WHERE b.cs_bidding_status = 1 GROUP BY cs_bidding_id";
+        COUNT(r.cs_rating) AS cs_rated,
+        c.cs_category_name  
+        FROM cs_biddings b LEFT JOIN cs_user_ratings r ON b.cs_bidding_user_id = r.cs_user_rated_id LEFT JOIN cs_categories c ON b.cs_bidding_category_id = c.cs_category_id WHERE b.cs_bidding_status = 1";
         
         if(!empty($filter)) { $query .= " ".$filter[0];}
 
-        $query .= " ORDER BY cs_bidding_id DESC";
+        $query .= " GROUP BY cs_bidding_id ORDER BY cs_bidding_id DESC";
 
         $stmt = $connection->prepare($query);
         if(!empty($filter)) {

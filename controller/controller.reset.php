@@ -43,4 +43,4 @@ $stmt->bind_param("si", $newPassword, $result[0]);
 $stmt->execute();
 $stmt->close();
 
-echo json_encode(array('code' => 0, 'message' => 'Password updated. You can now login.'));
+echo json_encode(array('code' => 7, 'message' => 'Password updated. You can now login.'));

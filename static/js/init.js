@@ -1,5 +1,15 @@
-var root = 'http://localhost/bidding-basic/';
-/* var root = 'http://jpburato.epizy.com/'; */
+/* var root = 'http://localhost/bidding-basic/'; */
+var root = 'http://jpburato.epizy.com/';
+
+
+$.fn.isInViewport = function() {
+    var elementTop = $(this).offset().top;
+    var elementBottom = elementTop + $(this).outerHeight();
+    var viewportTop = $(window).scrollTop();
+    var viewportBottom = viewportTop + $(window).height();
+    return elementBottom > viewportTop && elementTop < viewportBottom;
+};
+
 $(function(){
     $('.dropdown-trigger').dropdown();
     $('.modal').modal({
@@ -21,6 +31,7 @@ $(function(){
     $('.tooltipped').tooltip();
     searchToggle();
     markAsRead();
+    sidebars();
 })
 
 $(window).on('load', function(){
@@ -29,13 +40,16 @@ $(window).on('load', function(){
     }, 500)
 })
 
-$.fn.isInViewport = function() {
-    var elementTop = $(this).offset().top;
-    var elementBottom = elementTop + $(this).outerHeight();
-    var viewportTop = $(window).scrollTop();
-    var viewportBottom = viewportTop + $(window).height();
-    return elementBottom > viewportTop && elementTop < viewportBottom;
-};
+function sidebars(){
+    var urlParams = new URLSearchParams(window.location.search); //get all parameters
+    var foo = urlParams.get('sidebar');
+    if(foo !== null){
+        $('#profile-nav').sidenav('open');
+        var clean_uri = location.protocol + "//" + location.host + location.pathname;
+        window.history.replaceState({}, document.title, clean_uri);
+
+    }
+}
 
 
 const cleanJSON = (s) => {

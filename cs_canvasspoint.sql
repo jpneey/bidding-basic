@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Sep 20, 2020 at 06:11 AM
+-- Generation Time: Sep 23, 2020 at 04:29 PM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.1.31
 
@@ -101,6 +101,32 @@ CREATE TABLE `cs_bidding_winners` (
   `cs_bidding_owner_id` int(11) NOT NULL,
   `cs_offer` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cs_blogs`
+--
+
+CREATE TABLE `cs_blogs` (
+  `cs_blog_id` int(11) NOT NULL,
+  `cs_blog_title` varchar(255) NOT NULL,
+  `cs_blog_permalink` varchar(300) NOT NULL,
+  `cs_blog_featured_image` varchar(255) NOT NULL,
+  `cs_blog_category_id` int(11) NOT NULL,
+  `cs_blog_content` text NOT NULL,
+  `cs_blog_description` varchar(500) NOT NULL,
+  `cs_blog_keywords` varchar(500) NOT NULL,
+  `cs_blog_added` date NOT NULL,
+  `cs_blog_status` int(11) NOT NULL DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cs_blogs`
+--
+
+INSERT INTO `cs_blogs` (`cs_blog_id`, `cs_blog_title`, `cs_blog_permalink`, `cs_blog_featured_image`, `cs_blog_category_id`, `cs_blog_content`, `cs_blog_description`, `cs_blog_keywords`, `cs_blog_added`, `cs_blog_status`) VALUES
+(2, 'Lorem De` Connectitur', 'lorem-de-connectitur21482', 'http://localhost/admin/app/static/upload/jpg-91463-alex-harvey-nqSUnXINsp4-unsplash.jpg', 2, '<div class=\"browser-default\"><div style=\"text-align:center;\"><img src=\"http://localhost/admin/app/static/upload/jpg-91463-alex-harvey-nqSUnXINsp4-unsplash.jpg\"></div><br class=\"browser-default\"></div>', 'Add radio buttons to a group by adding the name attribute along with the same corresponding value for each of the radio buttons in the group. Create disabled radio buttons by adding the disabled attribute as shown below.', 'boop,beep', '2020-09-23', 0);
 
 -- --------------------------------------------------------
 
@@ -348,6 +374,12 @@ ALTER TABLE `cs_bidding_winners`
   ADD PRIMARY KEY (`cs_winner_id`);
 
 --
+-- Indexes for table `cs_blogs`
+--
+ALTER TABLE `cs_blogs`
+  ADD PRIMARY KEY (`cs_blog_id`);
+
+--
 -- Indexes for table `cs_business`
 --
 ALTER TABLE `cs_business`
@@ -440,6 +472,12 @@ ALTER TABLE `cs_biddings`
 --
 ALTER TABLE `cs_bidding_winners`
   MODIFY `cs_winner_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+
+--
+-- AUTO_INCREMENT for table `cs_blogs`
+--
+ALTER TABLE `cs_blogs`
+  MODIFY `cs_blog_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `cs_business`

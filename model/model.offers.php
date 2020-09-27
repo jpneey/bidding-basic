@@ -216,8 +216,9 @@ class Offers extends DBHandler {
 
         $image = $offers['img'];
         $image_two = $offers['img-two'];
+        $image_three = $offers['img-three'];
 
-        return json_encode(array('code' => 1, 'offer' => $modal, 'email' => $email, 'connect' => $quickConnect, 'view' => $offer[2], 'img' => $image, 'img_two' => $image_two));
+        return json_encode(array('code' => 1, 'offer' => $modal, 'email' => $email, 'connect' => $quickConnect, 'view' => $offer[2], 'img' => $image, 'img_two' => $image_two, 'img_three' => $image_three));
 
     }
 
@@ -373,6 +374,8 @@ class Offers extends DBHandler {
             $link = '../static/asset/bidding/'.$image['img'];
             if(file_exists($link)){ unlink($link);}
             $link = '../static/asset/bidding/'.$image['img-two'];
+            if(file_exists($link)){ unlink($link);}
+            $link = '../static/asset/bidding/'.$image['img-three'];
             if(file_exists($link)){ unlink($link);}
         }
 

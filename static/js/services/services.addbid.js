@@ -4,15 +4,15 @@
     $(function(){
         
         
-        dynamicSuggestions();
-        getSuggestion();
+        /* dynamicSuggestions();
+        getSuggestion(); */
 
         addBid();
         datePicker();
     })
 
 
-    function dynamicSuggestions() {
+    /* function dynamicSuggestions() {
         $('select[name=cs_bidding_category_id]').on('change', function(){
             $.ajax({
                 url: root + 'controller/controller.autocomplete.php?mode=tag&id='+$(this).val(),
@@ -24,9 +24,9 @@
                 }
             })
         })
-    }
+    } */
 
-    function getSuggestion(id = 0) {
+    /* function getSuggestion(id = 0) {
         $.ajax({
             url: root + 'controller/controller.autocomplete.php?mode=tag&id='+id,
             type: 'GET',
@@ -36,9 +36,9 @@
                 formChips(JSON.parse(data));
             }
         })
-    }
+    } */
 
-    function formChips(autoTag) {
+    /* function formChips(autoTag) {
         $('.myChip').on('keyup', function(){        
             $(this).find('input').autocomplete('open');
         })
@@ -80,7 +80,7 @@
                 input.val('');
             });
         });
-    }
+    } */
 
     function datePicker() {
         var mindate = new Date();

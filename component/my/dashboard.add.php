@@ -20,11 +20,10 @@ $viewLocation = new viewLocation($BASE_DIR);
                 <div class="col s12">
                     <label>Home > My > Dashboard > Add</label>
                     <h1><b>Add New Bidding</b></h1>
-                    <p>Post Details:</p>
                 </div>
             
                 <div class="input-field no-margin col s12 m8">
-                    <p><label>Enter Bidding Title</label></p>
+                    <p><label>Item Needed</label></p>
                     <input 
                         required 
                         type="text" 
@@ -46,7 +45,7 @@ $viewLocation = new viewLocation($BASE_DIR);
                     ?>
                     </select>
                 </div>
-                <div class="input-field col s12">
+                <div class="input-field col s12 no-margin">
                     <p>
                         <label>Post Details</label>
                     </p>
@@ -55,13 +54,11 @@ $viewLocation = new viewLocation($BASE_DIR);
                         name="cs_bidding_details"
                         class="materialize-textarea custom-input"></textarea>
                 </div>
-                <div class="input-field no-margin col s12">
+                
+                <div class="input-field col s12 m6 no-margin">
                     <p>
-                        <label>Enter up to five(5) tags.<br></label>
-                        <label>* single word only. To add tags, just enter your tag text and press enter. You can delete them by clicking on the close icon or by using your delete button.</label>
+                        <label>Category<br></label>
                     </p>
-                </div>
-                <div class="input-field no-margin col s12">
                     <select 
                         required 
                         type="text" 
@@ -72,35 +69,18 @@ $viewLocation = new viewLocation($BASE_DIR);
                         $viewCategory->optionCategories();
                     ?>
                     </select>
-                </div>
-                <div class="input-field no-margin col s12">
-                    <br>
-                    <div class="chips myChip chips-autocomplete custom-input no-margin"></div>
+                    
                     <input 
                         required
                         name="cs_bidding_tags"
                         type="hidden"
-                        id="tags"
+                        value="1"
                     />
                 </div>
 
-                <div class="col s12">
-                    <p>Product Details:</p>
-                </div>
+                
 
-                <div class="input-field no-margin col s12 m4 tooltipped" data-position="bottom" data-tooltip="* each post expires after seven(7) days.">
-                    <p>
-                        <label>Date Needed</label>
-                    </p>
-                    <input 
-                        required 
-                        type="text" 
-                        name="cs_bidding_date_needed" 
-                        class="custom-input datepicker validate"  
-                    />
-                </div>
-
-                <div class="file-field input-field no-margin col s12 m8">
+                <div class="file-field input-field col s12 m6 no-margin">
                     <p><label>Product Image (optional)</label></p>
                     <div class="btn">
                         <span>Image</span>
@@ -113,19 +93,38 @@ $viewLocation = new viewLocation($BASE_DIR);
                         <input class="file-path validate custom-input" type="text" placeholder="*.png, *.jpg and less then 1mb.">
                     </div>
                 </div>
+                
+                <!-- <div class="input-field no-margin col s12">
+                    <br>
+                    <div class="chips myChip chips-autocomplete custom-input no-margin"></div>
+                    <input 
+                        required
+                        name="cs_bidding_tags"
+                        type="hidden"
+                        id="tags"
+                    />
+                </div> -->
 
-                <div class="input-field no-margin col s12 m6">
-                    <p><label>Item Needed</label></p>
+                <div class="input-field col s12 m7 no-margin">
+                    <p>
+                        <label>Date Needed<br>* each post expires after seven(7) days</label>
+                    </p>
                     <input 
                         required 
                         type="text" 
-                        name="cs_product_name" 
-                        class="custom-input validate"  
+                        name="cs_bidding_date_needed" 
+                        class="custom-input datepicker validate"  
                     />
                 </div>
 
-                <div class="no-margin col s6 m3 tooltipped" data-position="bottom" data-tooltip="ie: kg, pcs, in">
-                    <p><label>Unit</label></p>
+                <div class="input-field col s12 m5 tooltipped no-margin" data-position="bottom" data-tooltip="ie: kg, pcs, in">
+                    <p><label>&nbsp;<br>Unit of Measure</label></p>
+                    <input 
+                        required 
+                        type="hidden" 
+                        name="cs_product_name"  
+                        value="1"
+                    />
                     <input 
                         required 
                         autocomplete="off"
@@ -155,8 +154,8 @@ $viewLocation = new viewLocation($BASE_DIR);
                     </script>
                 </div>
 
-                <div class="input-field no-margin col s6 m3 tooltipped" data-position="bottom" data-tooltip="* whole number only">
-                    <p><label>Qty</label></p>
+                <div class="input-field no-margin col s12 m4 tooltipped" data-position="bottom" data-tooltip="* whole number only">
+                    <p><label>Quantity</label></p>
                     <input 
                         required 
                         type="number" 
@@ -176,7 +175,7 @@ $viewLocation = new viewLocation($BASE_DIR);
                 </style>
 
 
-                <div class="input-field no-margin col s12 m6">
+                <div class="input-field no-margin col s12 m8">
                     <p><label>Total Budget</label></p>
                     <input 
                         required 
@@ -184,7 +183,7 @@ $viewLocation = new viewLocation($BASE_DIR);
                         name="cs_product_price" 
                         class="custom-input validate"  
                         min="0.00" 
-                        max="10000.00" 
+                        max="50000.00" 
                         step="0.01"
                     />
                 </div>
@@ -192,11 +191,11 @@ $viewLocation = new viewLocation($BASE_DIR);
                 <div class="input-field no-margin col s12">
                     <p>
                         <label>
-                            <input required type="checkbox" />
+                            <input required type="checkbox" class="filled" />
                             <span>Terms and Conditions</span>
                         </label>
                     </p>
-                    <input type="submit" class="btn z-depth-1 orange white-text" value="Add New Posting" />
+                    <button type="submit" class="btn z-depth-1 orange white-text">Post Bidding</button>
                 </div>
 
                 

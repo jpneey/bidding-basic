@@ -9,7 +9,7 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
 
 ?>
 
-<form action="<?= $BASE_DIR ?>controller/controller.user.php?action=update" class="user-form" method="POST" enctype="multipart/form-data" >
+<form action="<?= $BASE_DIR ?>controller/controller.user.php?action=update<?php if($newUser) { echo "&redir=1"; } ?>" class="user-form" method="POST" enctype="multipart/form-data" >
 <div class="col s12 white page z-depth-1">
     <div class="row content">
         <div class="col s12">
@@ -17,9 +17,15 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
                 <div class="col s12">
                     <label><a class="grey-text" href="<?= $BASE_DIR ?>">Home</a> > My > Account</label>
                     <h1><b>My Account</b></h1>
-                    <?php if($newUser){ ?>
+                    <?php if($newUser){ 
+                        $pw = Sanitizer::filter('pw', 'get');
+                    ?>
                     <p>Please fill in the required fields inorder to finish the registration process.</p>
                     <?php } ?>
+                </div>
+                
+                <div class="file-field input-field no-margin col s12">
+                    <img src="<?= $BASE_DIR . "static/asset/user/" .$loggedInUserAvatar ?>" alt="dp" id="profile_pic" />
                 </div>
             
                 <div class="file-field input-field no-margin col s12">
@@ -29,6 +35,7 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
                         <input  
                             name ="cs_user_avatar"
                             type="file" 
+                            id="loglog"
                             accept="image/*">
                     </div>
                     <div class="file-path-wrapper">
@@ -59,6 +66,11 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
                         name="cs_user_password" 
                         class="custom-input validate"
                         placeholder="my-secret"  
+                        <?php if($newUser){ ?>
+                        value="<?= $pw ?>"
+                        readonly
+                        <?php } ?>
+
                     />
                 </div>
 
@@ -97,4 +109,4 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
     </div>
 </div>
 </form>
-<script src="<?php echo $BASE_DIR ?>static/js/services/services.user.js" type="text/javascript"></script>
+<script src="<?php echo $BASE_DIR ?>static/js/services/services.user.js?v=5sss" type="text/javascript"></script>

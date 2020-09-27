@@ -307,6 +307,7 @@ input.browser-default,
   position: fixed;
   bottom: 0;
   height: 56px;
+  border-top: 1px solid #e2dfdf;
   z-index: 50;
 }
 .bottom-bar > li {
@@ -521,3 +522,14 @@ nav .unread {
 }
 
 .sidenav .divider { margin: 0 !important; }
+
+.modal .material-placeholder {
+  display: inline-block;
+}
+
+#profile_pic {
+  display: block;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}

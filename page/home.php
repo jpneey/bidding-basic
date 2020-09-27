@@ -26,7 +26,7 @@
   
             <div class="post-card white z-depth-0 waves-effect">    
               <div class="title grey-text text-darken-3"><b>Canvasspoint</b></div>
-              <div class="sub-title grey-text">Post your requirement And suppliers will make a bid/offer for it.</div>
+              <div class="sub-title grey-text">Post your requirement and suppliers will make a bid/offer for it.</div>
               <div class="sub-title">
                   <p>
                     <a href="<?= $BASE_DIR ?>my/dashboard/?action=add" class="btn btn-small orange white-text z-depth-0">Post <i class="material-icons right">add</i></a>

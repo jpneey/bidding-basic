@@ -16,7 +16,7 @@ $auth->sessionDie();
   <link href="<?= $BASE_DIR ?>static/css/feed.css?v=beta-2" type="text/css" rel="stylesheet"/>
 
 </head>
-<body>
+<body class="minimal">
 
   <?php
     require "component/navbar.php";
@@ -75,7 +75,7 @@ $auth->sessionDie();
     </div>
 </div>
 </form>
-<script src="<?php echo $BASE_DIR ?>static/js/services/services.user.js" type="text/javascript"></script>
+<script src="<?php echo $BASE_DIR ?>static/js/services/services.user.js?v=098" type="text/javascript"></script>
        
         
         </div>

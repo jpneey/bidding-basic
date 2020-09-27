@@ -75,18 +75,23 @@ switch ($action) {
             exit();
         }
 
-        $images = array('cs_offer_image_one', 'cs_offer_image_two');
+        $images = array('cs_offer_image_one', 'cs_offer_image_two', 'cs_offer_image_three');
 
-        $cs_offer_image_one = $cs_offer_image_two = '#!';
+        $cs_offer_image_one = $cs_offer_image_two = $cs_offer_image_three = '#!';
 
-        foreach($images as $image) {
-            if (FileValidator::isUploaded($image) && FileValidator::allowedSize($image, 3000000) && FileValidator::allowedType($image, array('jpg', 'png', 'jpeg', 'gif'))) {
-                $directory = '../static/asset/bidding/';
-                ${$image} = FileValidator::rename('jp', $image);
-                
-                if (!FileValidator::upload($directory, $image, ${$image})) {
-                    echo json_encode(array('code' => 0, 'message' => 'File Upload Failed'));
-                    die();
+
+        if(isset($_FILES['cs_offer_image']) && !empty($_FILES['cs_offer_image'])) {
+
+            $totalImages = count($_FILES['cs_offer_image']['name']);
+            if($totalImages > 3) {
+                echo json_encode(array('code' => 0, 'message' => 'Only 3 attachments are allowed.'));
+                die(); 
+            }
+            for( $i=0 ; $i < $totalImages ; $i++ ) {
+                ${$images[$i]} = FileValidator::validateFile('cs_offer_image', 3000000, array('jpg', 'png', 'jpeg', 'gif'), 'img', '../static/asset/bidding/', true, $i);
+                if(!${$images[$i]}) { 
+                    echo json_encode(array('code' => 0, 'message' => 'Image Upload Failed. Images must be less than 3mb.'));
+                    die(); 
                 }
             }
         }
@@ -101,6 +106,7 @@ switch ($action) {
             'notes'   => $cs_offer_notes,
             'img'     => $cs_offer_image_one,
             'img-two' => $cs_offer_image_two,
+            'img-three' => $cs_offer_image_three,
         );
 
         

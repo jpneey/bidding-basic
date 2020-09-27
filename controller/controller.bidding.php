@@ -102,10 +102,12 @@ switch ($action) {
             array("cs_product_price", "str", "s", "post")
         );
 
+
         foreach($productArray as $key => $value){
             
             $productTableCol .= $productArray[$key][0] . ', ';
             ${$productArray[$key][0]} = Sanitizer::filter($productArray[$key][0], $productArray[$key][3], $productArray[$key][1]);
+            $cs_product_name = $cs_bidding_title;
             if(!${$postArr[$key][0]}){
                 $errors[] = str_replace(array('cs', '_'), array('', ' '), $productArray[$key][0]) . ', ';
             }

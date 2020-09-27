@@ -104,8 +104,8 @@ switch ($action) {
             }
             $auth->setSession('__user_role', (int)$cs_user_role);    
         }
-
-        $message = json_encode(array('code' => 1, 'message' => 'Action Complete'));
+        $code = (Sanitizer::filter('redir', 'get')) ? 8 : 1 ;
+        $message = json_encode(array('code' => $code, 'message' => 'Action Complete'));
         break;
 
     case 'update-contact':

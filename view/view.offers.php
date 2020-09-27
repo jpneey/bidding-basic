@@ -110,7 +110,7 @@ class viewOffers extends Offers {
                 <div id="winner-offer" class="modal modal-sm">
                     <div class="modal-content">
                         <p><b>Hooray!</b></p>
-                        <p>Your proposal won this bidding. Both purchaser and supplier can now view each other's profile.<br><br><a href="<?= $linkToOwner ?>" class="btn orange" >View Purchaser</a></p>
+                        <p>Your proposal won this bidding. Both client and supplier can now view each other's profile.<br><br><a href="<?= $linkToOwner ?>" class="btn orange" >View Purchaser</a></p>
                     </div>
                 </div>
                 <div id="offer-modal" class="modal" style="max-width: 440px">
@@ -222,8 +222,8 @@ class viewOffers extends Offers {
                                 </div>
                             </div>
 
-                            <div class="input-field no-margin col s12 m4">
-                                <p><label>Date Available</label></p>
+                            <div class="input-field no-margin col s12">
+                                <p><label>Item / Service Availability</label></p>
                                 <input 
                                     required 
                                     type="text" 
@@ -232,7 +232,7 @@ class viewOffers extends Offers {
                                 />
                             </div>
 
-                            <div class="input-field no-margin col s12 m8">
+                            <div class="input-field no-margin col s12">
                                 <p><label>Notes</label></p>
                                 <input 
                                     required 
@@ -242,20 +242,14 @@ class viewOffers extends Offers {
                                 />
                             </div>
                             <div id="imagesForm" style="display: none;">
+                            
+                                <div class="col s12">
+                                    <Label><br>Maximum of three(3)</Label>
+                                </div>
                                 <div id="im_1" class="file-field input-field col s12">
                                     <div class="btn">
-                                        <span>Add Photo (optional)</span>
-                                        <input type="file" accept="image/*" name="cs_offer_image_one" />
-                                    </div>
-                                    <div class="file-path-wrapper">
-                                        <input class="file-path validate" placeholder=".jpg, with less than 3mb" type="text">
-                                    </div>
-                                </div>
-
-                                <div id="im_2" class="file-field input-field col s12">
-                                    <div class="btn">
-                                        <span>Add Photo (optional)</span>
-                                        <input type="file" accept="image/*" name="cs_offer_image_two" />
+                                        <span>Add Images</span>
+                                        <input type="file" accept="image/*" name="cs_offer_image[]" multiple="true" />
                                     </div>
                                     <div class="file-path-wrapper">
                                         <input class="file-path validate" placeholder=".jpg, with less than 3mb" type="text">
@@ -267,8 +261,8 @@ class viewOffers extends Offers {
                                 <br>
                                 <a href="#!" class="btn addImage waves-effect orange white-text">Attach Image</a>
                                 <p><?= $this->postOfferTitle($this->getCountOffer($biddingId)) ?></p>
-                                <input type="submit" value="Submit offer" class="btn white-text" />
-                                <a href="#bid-faqs" class="btn modal-trigger waves-effect orange white-text">Faqs</a>
+                                <button type="submit" class="btn white-text">Submit Offer</button>
+                                <a href="#bid-faqs" class="btn modal-trigger waves-effect grey white-text">Faqs</a>
                             </div>
 
                         </form>
@@ -277,7 +271,7 @@ class viewOffers extends Offers {
                             <div id="placeholder">
                                 <p><?= $this->postOfferTitle($this->getCountOffer($biddingId)) ?></p>
                                 <a class="waves-effect waves-light btn generate-form" href="#~">Submit Offer</a>
-                                <a href="#bid-faqs" class="btn modal-trigger waves-effect orange white-text">Faqs</a>
+                                <a href="#bid-faqs" class="btn modal-trigger waves-effect grey white-text">Faqs</a>
                             </div>
                         </div>
 
@@ -296,9 +290,8 @@ class viewOffers extends Offers {
                         <?php $this->viewMyOffers($userId, $biddingId); ?>
                         <?php if(!$isSupplier){ ?>
                         <div class="col s12">
-                            <p>You need to login on a supplier account inorder to participate in biddings. Bidders remain anonymous until it's offer is selected.</p>
                             <?php if(!$userId) { ?>
-
+                            <p>You need to login on a supplier account inorder to participate in biddings. Bidders remain anonymous until it's offer is selected by the client and won the bidding.</p>
                             <div id="how-to-bid" class="modal modal-sm">
                                 <div class="modal-content">
                                     <p><b>Canvasspoint Suppliers</b></p>
@@ -336,9 +329,9 @@ class viewOffers extends Offers {
     protected function postOfferTitle($count){
         switch($count) {
             case '0':
-                return 'Be the first one to submit an offer in this thread. Bidders remain anonymous until it\'s offer is selected.';
+                return 'Be the first one to submit an offer in this thread. Bidders remain anonymous until it\'s offer is selected by the client and won the bidding.';
             default:
-                return 'Join '.$count.' other supplier and submit your offer. Bidders remain anonymous until it\'s offer is selected.';
+                return 'Join '.$count.' other supplier and submit your offer. Bidders remain anonymous until it\'s offer is selected by the client and won the bidding.';
         }
     }
     
@@ -448,8 +441,7 @@ class viewOffers extends Offers {
                 case 0:
                 case '1':
                 case 1:
-                    echo "<br><a href=\"#!\" data-selector=\"$status[1]\" data-mode=\"bid-finish\" class=\"data-delete btn waves-effect orange white-text\">Mark this bidding as 'Complete'</a>";
-                    echo "<p>* Suppliers with unopened proposals on this bidding thread will be notified that their proposals were rejeted.</p>";
+                    echo "<br><a href=\"#!\" data-selector=\"$status[1]\" data-mode=\"bid-finish\" class=\"data-delete btn waves-effect orange white-text\">Mark as <b>Complete</b></a>";
                     break;
                 case '2':
                 case 2:

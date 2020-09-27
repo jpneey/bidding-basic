@@ -4,6 +4,7 @@
         $('select').formSelect();
         autoToast();
         linkChecker();
+        imageprev();
     })
     
 
@@ -53,6 +54,18 @@
                         return;
                     }
 
+                    if(parsedData.code == '7') {
+                        var url = window.location.href;
+                        window.location.href = root += 'home/?sidebar=0';
+                        return;
+                    }
+
+                    if(parsedData.code == '8') {
+                        var url = window.location.href;
+                        window.location.href = root;
+                        return;
+                    }
+
                     var action = '<button onclick="M.Toast.dismissAll();" class="btn-flat toast-action"><i class="close material-icons">close</i></button>';
 
                     M.toast({
@@ -68,10 +81,13 @@
     function autoToast(){
         var action = '<button onclick="M.Toast.dismissAll();" class="btn-flat toast-action"><i class="close material-icons">close</i></button>';        
         if (window.location.href.indexOf("updated") > -1) {
+            var clean_uri = location.protocol + "//" + location.host + location.pathname;
+            window.history.replaceState({}, document.title, clean_uri);
             M.toast({
                 html: "Profile Updated" + action,
                 classes: "orange white-text"
             });
+
         }
     }
 
@@ -81,4 +97,21 @@
             $closest = $(this).next('.url-checker');
             $closest.attr('href', $(this).val());
         })
+    }
+
+    function imageprev(){
+        $('#loglog').on('change', function(){
+            var input = this;
+            var url = $(this).val();
+            var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+            if (input.files && input.files[0]&& (ext == "gif" || ext == "png" || ext == "jpeg" || ext == "jpg")) 
+             {
+                var reader = new FileReader();
+        
+                reader.onload = function (e) {
+                   $('#profile_pic').attr('src', e.target.result);
+                }
+               reader.readAsDataURL(input.files[0]);
+            }
+        });
     }

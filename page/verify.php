@@ -11,6 +11,7 @@ if($auth->compareSession('auth', true)){
 
 $emailAddress = urldecode(Sanitizer::filter('e', 'get'));
 $temporaryPassword = urldecode(Sanitizer::filter('token', 'get'));
+$p = urldecode(Sanitizer::filter('p', 'get'));
 $userName = 'user-'.$emailAddress;
 
 $stmt = $connection->prepare("SELECT cs_user_id FROM cs_users WHERE cs_user_email = ? AND cs_user_password = ? AND cs_user_role = 0");
@@ -25,7 +26,7 @@ if(!empty($result)){
     $auth->setSession('__user_id', $result[0]);
     $auth->setSession('__user_role', 0);
 
-    $setup_link = $BASE_DIR."my/account/?p=t&u=".$result[0]."&existed=true";
+    $setup_link = $BASE_DIR."my/account/?p=t&u=".$result[0]."&existed=true&pw=".$p;
     header("location: ".$setup_link);
     die("<a href='$setup_link'>Please click here if you are not redirected automatically.</a>");
 
@@ -54,7 +55,7 @@ $auth->setSession('auth', true);
 $auth->setSession('__user_id', $created_id);
 $auth->setSession('__user_role', 0);
 
-$setup_link = $BASE_DIR."my/account/?p=t&u=".$created_id;
+$setup_link = $BASE_DIR."my/account/?p=t&u=".$created_id."&pw=".$p;
 
 header("location: ".$setup_link);
 die("<a href='$setup_link'>Please click here if you are not redirected automatically.</a>");

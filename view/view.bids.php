@@ -36,6 +36,9 @@ class viewBids extends Bids {
                     ';
                 }
                 $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($bidsInFeed[$key]['cs_owner_rating']));
+                if(empty($rated)){
+                    $rating = str_repeat('<i class="material-icons orange-text">star</i>', 3);    
+                }
                 
                 ?>
                 <a href="<?= $this->BASE_DIR.'bid/'.$bidInFeedLink ?>">
@@ -47,7 +50,7 @@ class viewBids extends Bids {
                         <div class="sub-title grey-text">
                         <?php if(!empty($rated)) { ?>
                         <?= number_format($bidsInFeed[$key]['cs_owner_rating'], 1, '.', ',') ?> out of <?= $rated ?> review(s)
-                        <?php } else { echo "No reviews yet"; } ?>
+                        <?php } ?>
                         </div>
                         <div class="ratings"><?= $rating ?></div>
                         <div class="image-wrapper">
@@ -93,17 +96,22 @@ class viewBids extends Bids {
             $details = $viewBid[0]['cs_bidding_details'];
             $dateNeeded = $viewBid[0]['cs_bidding_date_needed'];
             $location = $viewBid[0]['cs_bidding_location'];
-            $tags = preg_split('@,@', $viewBid[0]['cs_bidding_tags'], NULL, PREG_SPLIT_NO_EMPTY);
-            $tagchip = '<span class="chip grey lighten-1 white-text">'.$viewBid[0]["cs_category_name"].'</span>';
+            /* $tags = preg_split('@,@', $viewBid[0]['cs_bidding_tags'], NULL, PREG_SPLIT_NO_EMPTY); */
+            $tagchip = '<a href="'.$this->BASE_DIR.'search/?queue='.$viewBid[0]["cs_category_name"].'"><span class="chip grey lighten-1 white-text"><i class="material-icons close">search</i>'.$viewBid[0]["cs_category_name"].'</span><a>';
+            $tagchip .= '<a href="'.$this->BASE_DIR.'search/?queue='.$location.'"><span class="chip grey lighten-3">'.$location.'</span></a>';
             $item = $viewBid[0]['cs_product_name'];
             $budget = number_format($viewBid[0]['cs_product_price'], '2', '.', ',');
             $qty = $viewBid[0]['cs_product_qty'] . ' ' . $viewBid[0]['cs_product_unit'];
-            foreach($tags as $tag) {
+            /* foreach($tags as $tag) {
                 $tagchip .= '<span class="chip grey lighten-3">'.$tag.'</span>';
-            }
+            } */
             $rated = $viewBid[0]["cs_rated"];
             $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($viewBid[0]['cs_owner_rating']));
             $picture = ($viewBid[0]['cs_bidding_picture'] != '#!') ? $viewBid[0]['cs_bidding_picture'] : 'placeholder.svg';
+
+            if(empty($rated)) { 
+                $rating = str_repeat('<i class="material-icons orange-text">star</i>', 3);
+            }
                 
             ?>
             
@@ -114,18 +122,22 @@ class viewBids extends Bids {
                     <br>
                     <h1 class="no-margin">
                         <b><?= $title ?></b>
-                        <span class="ratings"><?= $rating ?></span>
                     </h1>
+                    <br>
+                    <p class="no-margin"><b>Client's Rating</b></p>    
+                    <span class="ratings no-padding"><?= $rating ?></span>
                     <?php if(!empty($rated)){ ?>
-                    <p><?=  number_format($viewBid[0]['cs_owner_rating'], 1,'.',',') . ' out of ' . $rated ?> review(s)</p>
+                    <p class="no-margin"><?=  number_format($viewBid[0]['cs_owner_rating'], 1,'.',',') . ' out of ' . $rated ?> review(s)</p>
                     <?php } ?>
                     <br>
+                    <div class="divider" ></div>
+                    <br>
                     
-                    <p><?= nl2br($details); ?></p>
+                    <p><b>Details</b><br><?= nl2br($details); ?></p>
 
                     <?php if($status == 1) { ?>
                     <p id="timer-wrapper">
-                        <b>Bidding ends in:</b><br>
+                        <b>Bidding ends in</b><br>
                         <span id="days">00</span> <span>days</span>
                         <span id="hours">00</span> <span>hours</span>
                         <span id="minutes">00</span> <span>minutes</span>
@@ -139,20 +151,21 @@ class viewBids extends Bids {
                         </p>
                     <?php } ?>
                     <p>
-                        <b>Date Needed:</b><br>
+                        <b>Date Needed</b><br>
                         <?= date_format(date_create($dateNeeded), 'g:ia \o\n l jS F Y') ?>
                     </p>
                     <p>
-                        <b>Location:</b><br>
+                        <b>Location</b><br>
                         <?= $location ?>
                     </p>
+                    <br>
                     <div class="glance white">
                         <div class="product-card item" data-budget="₱ <?= $budget ?>" data-item="<?= $item ?>" data-qty="<?= $viewBid[0]['cs_product_qty'] ?>" data-unit="<?= $viewBid[0]['cs_product_unit'] ?>">
                             <div class="thumbnail">
                                 <img id="bidding-details" src="<?= $this->BASE_DIR ?>static/asset/bidding/<?= $picture ?>" class="margin-auto materialboxed" />
                             </div>
                             <div class="content">
-                                <p><b><?= $item ?> </b></p>
+                                <p><b><?= $item ?></b></p>
                                 <p><?= $qty ?></p>
                                 <p class="grey-text"></p>
                             </div>
@@ -160,17 +173,21 @@ class viewBids extends Bids {
                     </div>
                     <br>
                     <p>
-                        <b>Budget:</b><br>
+                        <b>Budget</b><br>
                         ₱ <?= $budget ?>
                     </p>
                     
+                    <p>
+                        <b>Category</b><br>
+                        <span>(Click category below to see related itmes)</span>
+                    </p>
                     <span><br><?= $tagchip ?></span>
                     
                 </div>
             </div>
 
             <link href="<?= $this->BASE_DIR ?>static/css/timer.css" type="text/css" rel="stylesheet"/>
-            <link href="<?= $this->BASE_DIR ?>static/css/bid.css" type="text/css" rel="stylesheet"/>
+            <link href="<?= $this->BASE_DIR ?>static/css/bid.css?v=1" type="text/css" rel="stylesheet"/>
             <?php if($status) { ?>
             <script> $(function(){ timer('<?= $dateNeeded ?>') }) </script>
             <?php
@@ -183,12 +200,12 @@ class viewBids extends Bids {
         if(!$winner) {
         ?> 
         <a class="waves-effect waves-light btn orange darken-3" href="#!">Pending Winner </a><br><br>
-        * Purchaser is still choosing for a winner.
+        * Client is still choosing for a winner.
         <?php } else {   
         $product = unserialize($winner[1]);
         ?>
         <a href="<?= $this->BASE_DIR ?>user/<?= $winner[2][0] ?>/" class="waves-effect waves-light btn orange darken-3">@<?= $winner[2][0] ?> won</a><br>
-        <div class="glance white">
+        <div class="white">
             <div class="product-card">
                 <div class="thumbnail">
                     <img id="bidding-details" src="<?= $this->BASE_DIR ?>static/asset/user/<?= $winner[2][1] ?>" class="margin-auto materialboxed" />

@@ -14,9 +14,9 @@ class controllerSearch extends DBHandler {
             $options[] = array('b.cs_bidding_location LIKE ?', 's', "%{$location}%");
         }
 
-        $filter = "AND (b.cs_bidding_title LIKE ? OR b.cs_bidding_details LIKE ? OR b.cs_bidding_tags LIKE ? OR b.cs_bidding_location LIKE ?)";
-        $type = "ssss";
-        $value = array("%{$queue}%", "%{$queue}%", "%{$queue}%", "%{$queue}%");
+        $filter = "AND (b.cs_bidding_title LIKE ? OR b.cs_bidding_details LIKE ? OR b.cs_bidding_tags LIKE ? OR b.cs_bidding_location LIKE ? OR c.cs_category_name LIKE ?)";
+        $type = "sssss";
+        $value = array("%{$queue}%", "%{$queue}%", "%{$queue}%", "%{$queue}%", "%{$queue}%");
 
         if(!empty($options)){
             foreach($options as $key => $v){

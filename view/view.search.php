@@ -103,7 +103,7 @@ class Search extends DBHandler {
         if(isset($_GET['category']) && !empty($_GET['category'])) {
             echo '<option value="'.$_GET['category'].'" selected>Category</option>';
         }
-        echo '<option value="0">All Caregories</option>';
+        echo '<option value="0">All Categories</option>';
         $connection = $this->connectDB();
         $stmt = $connection->prepare("SELECT * FROM cs_categories ORDER BY cs_category_name ASC");
         $stmt->execute();
