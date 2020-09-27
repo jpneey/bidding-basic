@@ -1,4 +1,5 @@
 <?php defined('included') || die("Bad request"); ?>
+<meta name=”robots” content="index, follow">
 <noscript><meta http-equiv="refresh" content="0; url=<?= $BASE_DIR ?>no-js/" /></noscript>
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">

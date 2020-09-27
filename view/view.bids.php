@@ -97,7 +97,7 @@ class viewBids extends Bids {
             $dateNeeded = $viewBid[0]['cs_bidding_date_needed'];
             $location = $viewBid[0]['cs_bidding_location'];
             /* $tags = preg_split('@,@', $viewBid[0]['cs_bidding_tags'], NULL, PREG_SPLIT_NO_EMPTY); */
-            $tagchip = '<a href="'.$this->BASE_DIR.'search/?queue='.$viewBid[0]["cs_category_name"].'"><span class="chip grey lighten-1 white-text"><i class="material-icons close">search</i>'.$viewBid[0]["cs_category_name"].'</span><a>';
+            $tagchip = '<a href="'.$this->BASE_DIR.'search/?queue='.$viewBid[0]["cs_category_name"].'"><span class="chip grey lighten-1 white-text"><i class="material-icons close">search</i>'.$viewBid[0]["cs_category_name"].'</span></a>';
             $tagchip .= '<a href="'.$this->BASE_DIR.'search/?queue='.$location.'"><span class="chip grey lighten-3">'.$location.'</span></a>';
             $item = $viewBid[0]['cs_product_name'];
             $budget = number_format($viewBid[0]['cs_product_price'], '2', '.', ',');
@@ -179,7 +179,7 @@ class viewBids extends Bids {
                     
                     <p>
                         <b>Category</b><br>
-                        <span>(Click category below to see related itmes)</span>
+                        <span>(Click category below to see more related items)</span>
                     </p>
                     <span><br><?= $tagchip ?></span>
                     
@@ -313,7 +313,7 @@ class viewBids extends Bids {
             <div class="title grey-text text-darken-3"><b>What's New?</b></div>
             <div class="sub-title grey-text">Lorem Ipsum dotor sit amte, connectiture de` elipsis.</div>
             <div class="sub-title">
-                <p><a href="<?= $this->BASE_DIR ?>my/dashboard/?action=add" class="btn btn-small orange white-text z-depth-0">Blog <i class="material-icons right">trending_up</i></a></p>
+                <p><a href="<?= $this->BASE_DIR ?>blogs/" class="btn btn-small orange white-text z-depth-0">Blog <i class="material-icons right">trending_up</i></a></p>
             </div>
             
             <div class="image-wrapper"></div>

@@ -29,4 +29,28 @@ class controllerSearch extends DBHandler {
         return array($filter,$type,$value);
     }
 
+    public function searchBlog($queue, $location, $category){
+
+        $queue = Sanitizer::filter($queue, 'var', 'str');
+        $options = array();
+
+        if($category){
+            $options[] = array('b.cs_blog_category_id = ?', 'i', $category);
+        }
+
+        $filter = "AND (b.cs_blog_title LIKE ? OR b.cs_blog_content LIKE ? OR b.cs_blog_description LIKE ? OR b.cs_blog_keywords LIKE ? OR c.cs_category_name LIKE ?)";
+        $type = "sssss";
+        $value = array("%{$queue}%", "%{$queue}%", "%{$queue}%", "%{$queue}%", "%{$queue}%");
+
+        if(!empty($options)){
+            foreach($options as $key => $v){
+                $filter .= " AND ".$options[$key][0];
+                $type .= $options[$key][1];
+                $value[] = $options[$key][2];
+            }
+        }
+
+        return array($filter,$type,$value);
+    }
+
 }

@@ -17,7 +17,7 @@ if($isLoggedIn) {
                 <img src="<?= $BASE_DIR ?>static/asset/logo.png" alt="Site Logo" />
             </a>
             <ul class="right">
-                <li><a href="<?= $BASE_DIR ?>home/" class="hide-on-med-and-down">Blog</a></li>
+                <li><a href="<?= $BASE_DIR ?>blogs/" class="hide-on-med-and-down">Blog</a></li>
                 <li><a href="<?= $BASE_DIR ?>home/" class="hide-on-med-and-down">Biddings</a></li>
                 <li><a href="<?= $BASE_DIR ?>supplier/" class="hide-on-med-and-down">Suppliers</a></li>
                 <?php if($isLoggedIn) { ?>
@@ -49,7 +49,7 @@ if($isLoggedIn) {
     </li>
     
     <li class="col s3">
-        <a href="#!" class="grey-text text-darken-1 block"><i class="material-icons">inbox</i></a>
+        <a href="<?= $BASE_DIR ?>blogs/" class="grey-text text-darken-1 block"><i class="material-icons">inbox</i></a>
         <p class="no-margin grey-text text-darken-1"><b>Blog</b></p>
     </li>
 </ul>
