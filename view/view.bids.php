@@ -97,7 +97,7 @@ class viewBids extends Bids {
             $dateNeeded = $viewBid[0]['cs_bidding_date_needed'];
             $location = $viewBid[0]['cs_bidding_location'];
             /* $tags = preg_split('@,@', $viewBid[0]['cs_bidding_tags'], NULL, PREG_SPLIT_NO_EMPTY); */
-            $tagchip = '<a href="'.$this->BASE_DIR.'search/?queue='.$viewBid[0]["cs_category_name"].'"><span class="chip grey lighten-1 white-text"><i class="material-icons close">search</i>'.$viewBid[0]["cs_category_name"].'</span></a>';
+            $tagchip = '<a href="'.$this->BASE_DIR.'search/?queue='.$viewBid[0]["cs_category_name"].'"><span class="chip grey lighten-1 white-text">'.$viewBid[0]["cs_category_name"].'</span></a>';
             $tagchip .= '<a href="'.$this->BASE_DIR.'search/?queue='.$location.'"><span class="chip grey lighten-3">'.$location.'</span></a>';
             $item = $viewBid[0]['cs_product_name'];
             $budget = number_format($viewBid[0]['cs_product_price'], '2', '.', ',');

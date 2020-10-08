@@ -14,7 +14,7 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
         <div class="col s12">
             <div class="row">
                 <div class="col s12">
-                    <label><a class="grey-text" href="<?= $BASE_DIR ?>">Home</a > My > Transaction</label>
+                    <label><a class="grey-text" href="<?= $BASE_DIR ?>">Home</a> > My > Transaction</label>
                     <h1><b>Transactions</b></h1>
                 </div>
                 <div class="col s12" style="overflow: auto;">

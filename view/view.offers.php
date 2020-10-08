@@ -298,7 +298,7 @@ class viewOffers extends Offers {
                                     <p>Duis eget neque eget massa viverra dignissim.</p>
                                     
                                     <a href="<?= $this->BASE_DIR ?>home/?sidebar=2" class="modal-close waves-effect waves-green btn">Register Now</a>
-                                    <a href="#!" class="modal-close red white-text waves-effect btn-flat">Close</a>
+                                    <a href="<?= $this->BASE_DIR ?>home/?sidebar=0" class="modal-close red white-text waves-effect btn-flat">Login</a>
                                 </div>
                             </div>
 

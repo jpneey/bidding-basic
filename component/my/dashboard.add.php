@@ -134,7 +134,7 @@ $viewLocation = new viewLocation($BASE_DIR);
                         id="cs_product_unit"  
                     />
                     <script>
-                        $(document).ready(function(){
+                        $(function(){
                             $('#cs_product_unit').autocomplete({
                                     minLength: 1,
                                     limit: 3,
@@ -150,7 +150,15 @@ $viewLocation = new viewLocation($BASE_DIR);
                             $('#cs_product_unit').on('keyup', function(){
                                 $(this).autocomplete('open');
                             })
+                            termsModal();
                         });
+
+                        function termsModal(){
+                            $('#terms').on('change', function(){
+                                $('#terms-modal').modal();
+                                $('#terms-modal').modal('open');
+                            })
+                        }
                     </script>
                 </div>
 
@@ -167,13 +175,6 @@ $viewLocation = new viewLocation($BASE_DIR);
                         pattern=" 0+\.[0-9]*[1-9][0-9]*$"  
                     />
                 </div>
-                
-                <style>
-                    .chips input {
-                        width: 70% !important;
-                    }
-                </style>
-
 
                 <div class="input-field no-margin col s12 m8">
                     <p><label>Total Budget</label></p>
@@ -191,11 +192,19 @@ $viewLocation = new viewLocation($BASE_DIR);
                 <div class="input-field no-margin col s12">
                     <p>
                         <label>
-                            <input required type="checkbox" class="filled" />
+                            <input required type="checkbox" class="filled" id="terms"/>
                             <span>Terms and Conditions</span>
                         </label>
                     </p>
                     <button type="submit" class="btn z-depth-1 orange white-text">Post Bidding</button>
+                </div>
+
+                <div id="terms-modal" class="modal">
+                    <div class="modal-content">
+                        <p><b>Terms & Conditions</b></p>
+                        <p>Lorem ipsum dotor sit amet Quisque vel ligula a velit fringilla euismod. Nulla facilisi. Donec vehicula mollis arcu a consequat. Praesent rhoncus rhoncus velit at hendrerit. Praesent porttitor quam ut ante ullamcorper volutpat. In a convallis elit. Ut posuere blandit est, ut congue libero sagittis id. Nulla orci enim, varius sed pretium eleifend, laoreet congue orci. Etiam tempor urna a ex auctor, posuere pellentesque sem varius. Donec magna leo, maximus eu risus eget, sodales fringilla eros. Mauris hendrerit augue at turpis dapibus, nec condimentum lorem vestibulum.</p>
+                        <a href="#!" class="waves-effect modal-close waves-green btn">I agree</a>
+                    </div>
                 </div>
 
                 
