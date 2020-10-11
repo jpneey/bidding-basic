@@ -105,9 +105,10 @@ $viewLocation = new viewLocation($BASE_DIR);
                     />
                 </div> -->
 
-                <div class="input-field col s12 m7 no-margin">
+                <div class="input-field col s12 m6 no-margin">
+                
                     <p>
-                        <label>Date Needed<br>* each post expires after seven(7) days</label>
+                        <label>Date Needed</label>
                     </p>
                     <input 
                         required 
@@ -116,9 +117,17 @@ $viewLocation = new viewLocation($BASE_DIR);
                         class="custom-input datepicker validate"  
                     />
                 </div>
+                
+                <div class="input-field col s12 m6 no-margin">
+                    <p>
+                        <label>Time Needed</label>
+                    </p>
+                    <input required name="time" type="text" class="custom-input timepicker">
+                    
+                </div>
 
-                <div class="input-field col s12 m5 tooltipped no-margin" data-position="bottom" data-tooltip="ie: kg, pcs, in">
-                    <p><label>&nbsp;<br>Unit of Measure</label></p>
+                <div class="input-field col s12 m6 tooltipped no-margin" data-position="bottom" data-tooltip="ie: kg, pcs, in">
+                    <p><label>Unit of Measure</label></p>
                     <input 
                         required 
                         type="hidden" 
@@ -162,7 +171,7 @@ $viewLocation = new viewLocation($BASE_DIR);
                     </script>
                 </div>
 
-                <div class="input-field no-margin col s12 m4 tooltipped" data-position="bottom" data-tooltip="* whole number only">
+                <div class="input-field no-margin col s12 m6 tooltipped" data-position="bottom" data-tooltip="* whole number only">
                     <p><label>Quantity</label></p>
                     <input 
                         required 
@@ -213,4 +222,4 @@ $viewLocation = new viewLocation($BASE_DIR);
     </div>
 </div>
 </form>
-<script src="<?php echo $BASE_DIR ?>static/js/services/services.addbid.js?v=beta-69ers" type="text/javascript"></script>
+<script src="<?php echo $BASE_DIR ?>static/js/services/services.addbid.js?v=beta-75" type="text/javascript"></script>

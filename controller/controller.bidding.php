@@ -21,7 +21,7 @@ date_default_timezone_set('Asia/Manila');
 switch ($action) {
 
     case 'add':
-        
+
         if(!$auth->compareSession('auth', true) && $auth->compareSession('__user_role', 1)){
             echo json_encode(array('code' => 0, 'message' => 'Oh no! You need to login to perform this action.'));
             exit();
@@ -69,6 +69,8 @@ switch ($action) {
         }
 
         $_POST['cs_bidding_permalink'] = $cs_bidding_permalink;
+        $time = $_POST["cs_bidding_date_needed"] . " " . $_POST["time"];
+        $_POST["cs_bidding_date_needed"] = date_format(date_create($time), 'Y-m-d H:i:s');
 
         $postArr = array(
             array("cs_bidding_category_id", "int", "i", "post"),
