@@ -8,6 +8,10 @@ class viewBlogs extends Blogs {
     }
     public function ViewBlogs($filter = array()) {
         $blogs = $this->getAllBlogs($filter);
+        ?>
+        <script type="text/javascript" src="<?= $this->BASE_DIR ?>static/js/lazy.js"></script>
+        <script type="text/javascript" src="<?= $this->BASE_DIR ?>static/js/lazy-init.js"></script>
+        <?php
         if(!empty($blogs)){
         foreach($blogs as $key => $value) {
             $blog_title = $blogs[$key]["cs_blog_title"];
@@ -19,7 +23,7 @@ class viewBlogs extends Blogs {
 
             $blog_featured_image = '
             <div class="feed-image-wrapper">
-                <img src="'.$blog_featured_image.'" alt="'.$blog_title.'"/>
+                <img class="lazy" data-src="'.$blog_featured_image.'" alt="'.$blog_title.'"/>
             </div>
             ';
 

@@ -27,7 +27,7 @@ class Notification extends DBHandler {
         $connection = $this->connectDB();
         $userId = $this->userId;
 
-        $stmt = $connection->prepare("SELECT cs_notif, cs_added FROM cs_notifications WHERE cs_user_id = ? AND cs_notif_read != 0 ORDER BY cs_added DESC");
+        $stmt = $connection->prepare("SELECT cs_notif, cs_added FROM cs_notifications WHERE cs_user_id = ? AND cs_notif_read != 0 ORDER BY cs_added DESC LIMIT 5");
         $stmt->bind_param('i', $userId);
         $stmt->execute();
         if($asCount) { $count = $stmt->get_result()->num_rows;}

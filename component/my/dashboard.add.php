@@ -10,6 +10,23 @@ $viewCategory = new viewCategory($BASE_DIR);
 $location = new Location();
 $viewLocation = new viewLocation($BASE_DIR); 
 
+$connection = $dbhandler->connectDB();
+$stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_biddings WHERE cs_bidding_user_id = ? AND cs_bidding_status = '1'");
+$stmt->bind_param("i", $__user_id);
+$stmt->execute();
+$stmt->store_result();
+$active = $stmt->num_rows();
+$stmt->close();
+$notif = '';
+if($active >= 4) {
+    $notif = '
+    <div class="chip red lighten-1 white-text">
+        Your account has reached the maximum(4) total of active biddings
+        <i class="close material-icons">close</i>
+    </div>
+    ';
+}
+
 ?>
 
 <form action="<?= $BASE_DIR ?>controller/controller.bidding.php?action=add" class="add-form" method="POST" enctype="multipart/form-data" >
@@ -20,6 +37,7 @@ $viewLocation = new viewLocation($BASE_DIR);
                 <div class="col s12">
                     <label>Home > My > Dashboard > Add</label>
                     <h1><b>Add New Bidding</b></h1>
+                    <?= $notif ?>
                 </div>
             
                 <div class="input-field no-margin col s12 m8">

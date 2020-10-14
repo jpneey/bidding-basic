@@ -16,7 +16,10 @@ class viewBids extends Bids {
 
     public function ViewFeed($filter = array(), $emptyMessage = "Active Biddings will go here but unfortunately there are no active biddings as of the moment. How about viewing our suppliers ?", $loggedInUserRole = 0){
         $bidsInFeed = $this->getBiddings($filter);
-  
+        ?>
+        <script type="text/javascript" src="<?= $this->BASE_DIR ?>static/js/lazy.js"></script>
+        <script type="text/javascript" src="<?= $this->BASE_DIR ?>static/js/lazy-init.js"></script>
+        <?php
         if(!empty($bidsInFeed)){
     
             foreach($bidsInFeed as $key=>$value){
@@ -31,7 +34,7 @@ class viewBids extends Bids {
                 if($bidsInFeed[$key]["cs_bidding_picture"] !== '#!'){
                     $bidInFeedPicture = '
                     <div class="feed-image-wrapper">
-                        <img src="'.$this->BASE_DIR.'static/asset/bidding/'.$bidsInFeed[$key]["cs_bidding_picture"].'" alt="'.$bidInFeedTitle.'"/>
+                        <img class="lazy" data-src="'.$this->BASE_DIR.'static/asset/bidding/'.$bidsInFeed[$key]["cs_bidding_picture"].'" alt="'.$bidInFeedTitle.'"/>
                     </div>
                     ';
                 }
@@ -130,7 +133,9 @@ class viewBids extends Bids {
                     <p class="no-margin"><?=  number_format($viewBid[0]['cs_owner_rating'], 1,'.',',') . ' out of ' . $rated ?> review(s)</p>
                     <?php } ?>
                     <br>
+                    <br>
                     <div class="divider" ></div>
+                    <br>
                     <br>
                     
                     <p><b>Details</b><br><?= nl2br($details); ?></p>

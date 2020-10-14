@@ -1,9 +1,7 @@
 <?php defined('included') || die("Bad request"); ?>
   <!--  Scripts-->
+  <span><i class="material-icons">caret_up</i></span>
   <footer></footer>
-  
-
-
     <div id="upgrade-to-pro" class="modal">
         <div class="modal-content">
             <p><b>Upgrade to Pro</b></p>

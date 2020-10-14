@@ -15,7 +15,7 @@
             maxDate: maxdate,
             defaultDate: mindate,
             setDefaultDate: mindate,
-            format: 'yyyy-m-d 8:00:00'
+            format: 'yyyy-m-d'
         });
     }
 

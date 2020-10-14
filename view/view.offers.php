@@ -278,7 +278,7 @@ class viewOffers extends Offers {
                     </div>
                 </div>
                 
-                <script src="<?= $this->BASE_DIR ?>static/js/services/services.addoffer.js?v=beta-s20sasd56sss0" type="text/javascript"></script>
+                <script src="<?= $this->BASE_DIR ?>static/js/services/services.addoffer.js?v=beta-s20s67asd56sss0" type="text/javascript"></script>
 
                 <?php
             } else {

@@ -533,3 +533,5 @@ nav .unread {
   height: 80px;
   border-radius: 50%;
 }
+
+.divider { background-color: #e2e2e2 !important; }
