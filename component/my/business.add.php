@@ -60,27 +60,6 @@ if(empty($product)){
                     </select>
                 </div>
 
-
-                <div class="input-field no-margin col s12">
-                    <p>
-                        <label>Enter up to five(5) tags.</label>
-                    </p>
-                </div>
-                
-                <div class="input-field no-margin col s12">
-                    <div class="chips myChip custom-input no-margin">
-                        <input 
-                            class="custom-input validate"
-                        />
-                    </div>
-                    <input 
-                        required
-                        name="cs_bidding_tags"
-                        type="hidden"
-                        id="tags"
-                    />
-                </div>
-
                 <div class="input-field no-margin col s12">
                     <br>
                     <input type="submit" class="btn z-depth-1 orange white-text" value="Update Business" />

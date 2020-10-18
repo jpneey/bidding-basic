@@ -46,14 +46,21 @@ function login(){
         var parsedData = JSON.parse(data);
 
         if(parsedData.code == '0') {
-
           location.reload();
           return;
-
         }
 
         var action = '<button onclick="M.Toast.dismissAll();" class="btn-flat toast-action"><i class="close material-icons">close</i></button>';
 
+        
+        if(parsedData.code == '11') {
+          M.toast({
+            html: parsedData.message + action,
+            classes: "orange white-text",
+            displayLength: 3600000
+          });
+          return;
+        }
         M.toast({
           html: parsedData.message + action,
           classes: "orange white-text"

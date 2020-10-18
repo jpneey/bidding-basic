@@ -35,7 +35,7 @@ if($isLoggedIn) {
 
 <ul class="bottom-bar white no-margin z-depth-0 hide-on-med-and-up show-on-medium-and-down row">
     <li class="col s3">
-        <a href="#!" data-target="profile-nav" class="sidenav-trigger grey-text text-darken-1 block"><i class="material-icons">perm_identity</i></a>
+        <a href="#!" data-target="profile-nav" class="sidenav-trigger grey-text text-darken-1 block"><i class="material-icons">menu</i></a>
         <p class="no-margin grey-text text-darken-1"><b>Account</b></p>
     </li>
     <li class="col s3">

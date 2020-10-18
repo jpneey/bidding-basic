@@ -8,11 +8,8 @@
 
     function datePicker() {
         var mindate = new Date();
-        var maxdate = new Date();
-        maxdate.setDate(maxdate.getDate() + 6);
         $('.datepicker').datepicker({
             minDate: mindate,
-            maxDate: maxdate,
             defaultDate: mindate,
             setDefaultDate: mindate,
             format: 'yyyy-m-d'
@@ -114,7 +111,8 @@
     }
 
     function imageOffer() {
-        $('body').on('click', '.addImage', function(){
+        $('#imagesForm').find('input[type=file]').attr('disabled', true);
+        $('body').on('click', '.addImage', function(){ 
             $('#imagesForm').fadeToggle()
             $('#imagesForm').find('input[type=file]').attr('disabled', false);
             $(this).removeClass('addImage').removeClass('orange').addClass('removeImage').addClass('red').text('Remove Image');

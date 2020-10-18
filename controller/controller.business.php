@@ -49,7 +49,7 @@ switch ($action) {
         }
 
         $cs_business_category = Sanitizer::filter('cs_business_category', 'post', 'int');
-        $cs_bidding_tags = Sanitizer::filter('cs_bidding_tags', 'post');
+        $cs_bidding_tags = "";
 
         $cs_business_status = '1';
 

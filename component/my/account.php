@@ -74,7 +74,7 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
                     />
                 </div>
 
-                <?php if($newUser){ ?>
+                <?php if(!$newUser){ ?>
                        
                 <div class="input-field no-margin col s12">
                     <p><label>New Password *</label></p>
@@ -91,8 +91,12 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
                     <p><label>Account Type *</label></p>
                     <select required name="account-type" class="custom-input validate browser-default">
                         <option value="0" disabled selected>Choose your option</option>
-                        <option value="2">I would like to participate on biddings and promote my services</option>
-                        <option value="1">I would like to find suppliers and post biddings.</option>
+                        <optgroup label="Product/Service Provider">
+                            <option value="2">I would like to participate on biddings and promote my services</option>
+                        </optgroup>
+                        <optgroup label="Client/Purchaser">
+                            <option value="1">I would like to find suppliers and post biddings.</option>
+                        </optgroup>
                     </select>
                 </div>
 

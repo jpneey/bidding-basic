@@ -63,16 +63,11 @@ class viewUser extends User {
             <a href="<?= $linkedin ?>" class="chip blue white-text darken-1" >Linkedin</a>
             <a href="<?= $website ?>" class="chip orange white-text darken-1" >Website</a>
             <?php if(!empty($telephone)){ ?>
-            <a href="tel:<?= $telephone ?>" class="chip teal white-text" >+<?= $telephone ?></a>
+            <br><a href="tel:<?= $telephone ?>" class="chip teal white-text" >+<?= $telephone ?></a>
             <? } if(!empty($mobile)) { ?>
             <a href="tel:<?= $mobile ?>" class="chip teal white-text darken-2" ><?= $mobile ?></a>
             <?php
             }
-        }
-
-        if(!empty($business)) { ?>
-            <a href="../../supplier/<?= $business ?>" class="chip orange white-text" >Canvasspoint Business</a>
-        <?php
         }
     }
 

@@ -133,5 +133,22 @@ function markAsRead(){
         var link = $(this).data('to');
         var src = root + link;
         $(this).attr('href', src);
+
+        var t = $(this).parent('.mark-this-read').data('del');
+        $(this).parent()
+            .attr('onclick', 'readNotif("'+src+'", "'+t+'")')
+            .css({'cursor':'pointer'})
     });
+}
+
+function readNotif(redir, t){
+    $.ajax({
+        url: root + 'controller/controller.user.php?action=read&t='+t,
+        type: 'GET',
+        processData: false,
+        contentType: false,
+        success: function() {
+            window.location.href = redir;
+        }   
+    })
 }

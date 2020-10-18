@@ -126,7 +126,7 @@ if($active >= 4) {
                 <div class="input-field col s12 m6 no-margin">
                 
                     <p>
-                        <label>Date Needed</label>
+                        <label>Bidding Deadline</label>
                     </p>
                     <input 
                         required 

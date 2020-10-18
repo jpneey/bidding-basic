@@ -209,14 +209,16 @@ class viewOffers extends Offers {
                                 <div class="input-field price-tooltip no-margin col s12 m7 tooltipped" 
                                         data-position="bottom" 
                                         data-tooltip="expected budget">
+                                    <!-- 
                                     <p><label>Your offer for <b><span class="qty-c">{qty}</span> <span class="qty">{qty}</span></b></label></p>
+                                     -->
+                                    <p><label>Your bid / price</b></label></p>
                                     <input 
                                         required 
                                         type="number" 
                                         name="cs_offer_price" 
                                         class="custom-input validate"  
-                                        min="0.00" 
-                                        max="10000.00" 
+                                        min="0.00"
                                         step="0.01"
                                     />
                                 </div>

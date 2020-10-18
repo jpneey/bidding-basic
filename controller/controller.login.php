@@ -93,7 +93,7 @@ switch($mode) {
         $mail->Subject = $emailSubject;
         $mail->Body = $htmlMessage;
 
-        $code = '1';
+        $code = '11';
         $message = 'An email confirmation was sent to: '.$userEmail. "";   
         
         if(!$mail->Send()) {

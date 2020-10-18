@@ -57,6 +57,14 @@ class sideNav {
             <?php
         }
         ?>
+        <li>
+            <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/dashboard/">My Dashboard</a>
+        </li>
+
+        <li>
+            <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/transactions/">My Transactions</a>
+        </li>
+
         <li class="no-padding">
             <ul class="collapsible collapsible-accordion">
                 <li>
@@ -73,14 +81,6 @@ class sideNav {
                     </div>
                 </li>
             </ul>
-        </li>
-        
-        <li>
-            <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/dashboard/">My Dashboard</a>
-        </li>
-
-        <li>
-            <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/transactions/">My Transactions</a>
         </li>
 
         <li>
