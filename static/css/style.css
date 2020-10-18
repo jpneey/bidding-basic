@@ -535,3 +535,12 @@ nav .unread {
 }
 
 .divider { background-color: #e2e2e2 !important; }
+
+.darknav {
+  background: #2d2d2d;
+  z-index: 79999;
+}
+.darknav .material-icons,
+.darknav a {
+  color: white !important;
+}

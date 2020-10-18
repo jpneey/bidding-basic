@@ -22,6 +22,7 @@ $(function(){
     });
     $('.collapsible').collapsible();
     $('#profile-nav').sidenav();
+    $('#menu-nav').sidenav();
     $('#notification-nav').sidenav({
         menuWidth: '200',
         edge: 'right'

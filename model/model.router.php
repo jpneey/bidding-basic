@@ -16,7 +16,7 @@ class Router {
 
         if(isset($_SERVER["QUERY_STRING"])) {
             $uri = explode("/", $_SERVER["QUERY_STRING"]);
-            $view = isset($uri[0]) && !empty($uri[0]) ? $uri[0] : 'home';
+            $view = isset($uri[0]) && !empty($uri[0]) ? $uri[0] : 'index';
         }
 
         return $this->getPage($view);
@@ -25,12 +25,17 @@ class Router {
     public function getPage($pageTitle = '404') {
 
         require_once 'include/include.import.php';
+
+        if($pageTitle == "i=1") {
+            require_once './page/index.php';
+            return;
+        }
         
         if(file_exists("./page/".$pageTitle.".php")) {
             require_once './page/'.$pageTitle.'.php';
             return;
         }
-
+        
         $pageTitle = $pageTitle.' - Not Found'; 
         require_once  './page/404.php';
         return;

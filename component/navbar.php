@@ -19,7 +19,9 @@ if($isLoggedIn) {
             <ul class="right">
                 <li><a href="<?= $BASE_DIR ?>blogs/" class="hide-on-med-and-down">Blog</a></li>
                 <li><a href="<?= $BASE_DIR ?>home/" class="hide-on-med-and-down">Biddings</a></li>
+                <li><a href="<?= $BASE_DIR ?>home/?sidebar=0" class="hide-on-med-and-down">Login</a></li>
                 <li><a href="<?= $BASE_DIR ?>supplier/" class="hide-on-med-and-down">Suppliers</a></li>
+                <li><a href="#!" data-target="menu-nav" class="sidenav-trigger no-margin"><i class="material-icons">menu</i></a></li>
                 <?php if($isLoggedIn) { ?>
                 <li><a href="#!" data-target="notification-nav" class="sidenav-trigger show-on-large no-margin"><i class="material-icons">notifications_none</i></a> 
                     <?php if($unread) { ?>
@@ -32,6 +34,17 @@ if($isLoggedIn) {
     </nav>
 </div>
 
+<ul id="menu-nav" class="sidenav darknav z-depth-0">
+    <li class="navbar-fixed"></li>
+    <li >
+        <a href="#!"></a>
+    </li>
+    <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>blogs/">Blog</a></li>
+    <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>home/">Biddings</a></li>
+    <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>home/?sidebar=0">Login</a></li>
+    <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>supplier/">Suppliers</a></li>
+                
+</ul>
 
 <ul class="bottom-bar white no-margin z-depth-0 hide-on-med-and-up show-on-medium-and-down row">
     <li class="col s3">
