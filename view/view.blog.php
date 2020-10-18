@@ -22,24 +22,26 @@ class viewBlogs extends Blogs {
             $blog_added = $blogs[$key]["cs_blog_added"];
 
             $blog_featured_image = '
-            <div class="feed-image-wrapper">
-                <img class="lazy" data-src="'.$blog_featured_image.'" alt="'.$blog_title.'"/>
-            </div>
+            <img class="lazy" data-src="'.$blog_featured_image.'" alt="'.$blog_title.'"/>
             ';
-
-
         ?>
-        <a href="<?= $this->BASE_DIR.'blog/'.$blog_permalink ?>">
-            <div class="post-card white z-depth-0 waves-effect">    
-                <div class="title grey-text text-darken-3"><b class="truncate"><?= $blog_title ?></b></div>
-                <div class="sub-title grey-text"><?= $category_name.' @ '.$blog_added ?></div>
-                <div class="preview grey-text text-darken-3"><span class="truncate"><?= $blog_description ?></span></div>
-                
-                <div class="image-wrapper">
+        <a href="<?= $this->BASE_DIR . 'blog/' . $blog_permalink ?>" class="grey-text text-darken-3">               
+            <div class="card feed z-depth-0">
+                <div class="card-image">
                     <?= $blog_featured_image ?>
+                    <div class="overlay"></div>
+                    <span class="card-title truncate">
+                        <br>
+                        <?= $blog_title ?>
+                    </span>
+                </div>
+                <div class="card-content">
+                <small><?= $category_name.' @ '.$blog_added ?></small>
+
+                    <p class="truncate un-margin"><?= $blog_description ?></p>
                 </div>
             </div>
-        </a>
+            </a>
         <?php
         }
         } else {

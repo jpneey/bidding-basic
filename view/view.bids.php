@@ -31,35 +31,39 @@ class viewBids extends Bids {
                 $datePosted = '<time class="timeago" datetime="'.$bidsInFeed[$key]["cs_bidding_added"].'">'.$bidsInFeed[$key]["cs_bidding_added"].'</time>';
                 $bidInFeedPicture = '';
                 $rated = $bidsInFeed[$key]["cs_rated"];
-                if($bidsInFeed[$key]["cs_bidding_picture"] !== '#!'){
-                    $bidInFeedPicture = '
-                    <div class="feed-image-wrapper">
-                        <img class="lazy" data-src="'.$this->BASE_DIR.'static/asset/bidding/'.$bidsInFeed[$key]["cs_bidding_picture"].'" alt="'.$bidInFeedTitle.'"/>
-                    </div>
-                    ';
-                }
+
+                $bidInFeedPicture = ($bidsInFeed[$key]["cs_bidding_picture"] == '#!') ?
+                    '<img class="lazy" src="'.$this->BASE_DIR.'static/asset/media/default.jpg" data-src="'.$this->BASE_DIR.'static/asset/media/default.jpg" alt="'.$bidInFeedTitle.'"/>' :
+                    '<img class="lazy" src="'.$this->BASE_DIR.'static/asset/media/default.jpg" data-src="'.$this->BASE_DIR.'static/asset/bidding/'.$bidsInFeed[$key]["cs_bidding_picture"].'" alt="'.$bidInFeedTitle.'"/>' ;
                 $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($bidsInFeed[$key]['cs_owner_rating']));
                 if(empty($rated)){
                     $rating = str_repeat('<i class="material-icons orange-text">star</i>', 3);    
                 }
                 
-                ?>
-                <a href="<?= $this->BASE_DIR.'bid/'.$bidInFeedLink ?>">
-                    <div class="post-card white z-depth-0 waves-effect">    
-                        <div class="title grey-text text-darken-3"><b class="truncate"><?= $bidInFeedTitle ?></b></div>
-                        <div class="sub-title grey-text"><?= $province.' @ '.$datePosted ?></div>
-                        <div class="preview grey-text text-darken-3"><span class="truncate"><?= $bidInFeedDetails ?></span></div>
-                        
-                        <div class="sub-title grey-text">
-                        <?php if(!empty($rated)) { ?>
-                        <?= number_format($bidsInFeed[$key]['cs_owner_rating'], 1, '.', ',') ?> out of <?= $rated ?> review(s)
-                        <?php } ?>
-                        </div>
-                        <div class="ratings"><?= $rating ?></div>
-                        <div class="image-wrapper">
-                            <?= $bidInFeedPicture ?>
-                        </div>
+                ?> 
+                <a href="<?= $this->BASE_DIR . 'bid/' . $bidInFeedLink ?>" class="grey-text text-darken-3">               
+                <div class="card feed z-depth-0">
+                    <div class="card-image">
+                        <?= $bidInFeedPicture ?>
+                        <div class="overlay"></div>
+                        <span class="card-title truncate">
+                            <small><?= $province.' @ '.$datePosted ?></small>
+                            <br>
+                            <?= $bidInFeedTitle ?>
+                        </span>
                     </div>
+                    <div class="card-content">
+                        <p class="truncate un-margin"><?= $bidInFeedDetails ?></p>
+                        <p><small>
+                            <?php if(!empty($rated)) { ?>
+                            <?= number_format($bidsInFeed[$key]['cs_owner_rating'], 1, '.', ',') ?> out of <?= $rated ?> review(s)
+                            <?php } else { echo "No reviews yet"; } ?>
+                            </small>
+                        </p>
+                        <span class="ratings un-pad"><?= $rating ?></span>
+                        
+                    </div>
+                </div>
                 </a>
                 <?php
             }
@@ -79,11 +83,14 @@ class viewBids extends Bids {
             }
             ?>
             
-            <div class="post-card white z-depth- waves-effect">    
-                <div class="title"><b>There's nothing here.</b></div>
-                <div class="sub-title grey-text"><?= $emptyMessage ?></div>
-                <p class="sub-title grey-text"><a href="<?= $this->BASE_DIR.$buttonLink ?>" class="btn orange white-text"><?= $button ?></a></p>
-                <div class="image-wrapper"></div>
+            <div class="card feed z-depth-0">
+                <div class="card-content">
+                    <p><b>There's nothing here.</b></p>
+                    <br>
+                    <p><?= $emptyMessage ?></p>
+                    <br>
+                    <p class="sub-title grey-text"><a href="<?= $this->BASE_DIR.$buttonLink ?>" class="btn orange white-text"><?= $button ?></a></p>
+                </div>
             </div>
             <?php
         }

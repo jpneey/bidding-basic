@@ -12,7 +12,7 @@
   <link href="<?= $BASE_DIR ?>static/css/feed.css?v=beta-sxx2" type="text/css" rel="stylesheet"/>
   <link href="<?= $BASE_DIR ?>static/css/no-side.css?v=beta-sxx2" type="text/css" rel="stylesheet"/>
   <link href="<?= $BASE_DIR ?>static/js/swiper/swiper-bundle.min.css?v=beta-sxx2" type="text/css" rel="stylesheet"/>
-  <link href="<?= $BASE_DIR ?>static/css/index.css?v=beta-<?= rand(4,40) ?>" type="text/css" rel="stylesheet"/>
+  <link href="<?= $BASE_DIR ?>static/css/index.css?v=beta-2222" type="text/css" rel="stylesheet"/>
 
 </head>
 <body>
@@ -97,8 +97,8 @@
 
     <script src="<?= $BASE_DIR ?>static/js/services/services.feed.js?v=beta-199"></script>
     <script src="<?= $BASE_DIR ?>static/js/swiper/swiper-bundle.min.js?v=beta-199"></script>
-    <script src="<?= $BASE_DIR ?>static/js/no-side.js?v=beta-<?= rand(4,40) ?>"></script>
-    <script src="<?= $BASE_DIR ?>static/js/index.js?v=beta-<?= rand(4,40) ?>"></script>
+    <script src="<?= $BASE_DIR ?>static/js/no-side.js?v=beta-222"></script>
+    <script src="<?= $BASE_DIR ?>static/js/index.js?v=beta-222"></script>
 <?php
     require "./component/footer.php";
     } else {

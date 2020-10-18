@@ -15,32 +15,18 @@ class viewSupplier extends Supplier {
     }
 
     public function ViewFeed(){
-        $supplier = $this->getSuppliers();
+        // $supplier = $this->getSuppliers();
+        $supplier = array();
         if(!empty($supplier)){
-            foreach($supplier as $key=>$value){
-                $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($supplier[$key]['cs_owner_rating']));
-                ?>
-                <a href="<?= $this->BASE_DIR ?>/supplier/<?= $supplier[$key]['cs_business_link'] ?>">
-                    <div class="col s12 m4">
-                        <div class="supplier-card white z-depth-1">
-                            <div class="logo">
-                                <img src="<?= $this->BASE_DIR ?>static/asset/user/<?= $supplier[$key]['cs_business_logo'] ?>" />
-                            </div>
-                            <div class="content">
-                                <div class="title grey-text text-darken-3"><b class="truncate"><?= $supplier[$key]['cs_business_name'] ?></b></div>
-                                <div class="sub-title grey-text"><?= $supplier[$key]['cs_business_category'] ?></div>
-                                <span class="ratings"><?= $rating ?></span>
-                            </div>
-                        </div>
-                    </div>
-                </a>
+            foreach($supplier as $key=>$value){ ?>
+                <!-- products here -->
                 <?php
             }
         } else {
             
             $BASE_DIR = $this->BASE_DIR;
             $emptyTitle = "It's quiet in here..";
-            $emptyMessage = "Suppliers will appear here, but ufortunately there are no active suppliers right now.";
+            $emptyMessage = "Featured products will appear here, but ufortunately there are no featured products right now.";
             require_once "./component/empty.php";
         }
     }

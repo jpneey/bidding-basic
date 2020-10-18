@@ -5,6 +5,9 @@ $(function(){
         visibleOnly: true,
         onError: function(element) {
             console.log('error loading ' + element.data('src'));
-        }
+        },
+        afterLoad: function(element) {
+            console.log('error loading ' + element.data('src'));
+        },
     });
 })

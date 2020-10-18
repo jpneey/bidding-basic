@@ -27,7 +27,8 @@ $s_mode = ($s_mode) ? $s_mode : 'bid';
   <div class="main">
     <div class="wrapper wrapper-top-bottom">
       <div class="container row">  
-        <div class="col s12 m9" id="bidding-feed">
+        <div class="col s12" id="bidding-feed">
+          <div class="feed-wrap-main">
           <?php
 
                       
@@ -66,13 +67,6 @@ $s_mode = ($s_mode) ? $s_mode : 'bid';
             }
 
           ?>
-        </div>
-
-        <div class="col s12 m3 feed-sidebar hide-on-med-and-down">
-          <div class="search-bar">
-            <?php  
-            $viewBids->viewSideBar($loggedInUserRole);
-            ?>
           </div>
         </div>
 

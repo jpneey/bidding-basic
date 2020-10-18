@@ -20,6 +20,7 @@
     <div class="wrapper wrapper-top-bottom">
       <div class="container row">
         <div class="col s12 m12" id="bidding-feed">
+          <div class="feed-wrap-main">
             <?php 
             $search = new Search($BASE_DIR, 'blog');
             $search->searchForm(true, 2);
@@ -29,8 +30,8 @@
             $blog = new Blogs();
             $viewBlogs = new viewBlogs($BASE_DIR);
             $viewBlogs->viewBlogs(array(), "Active Biddings will go here but unfortunately there are no active biddings as of the moment. How about viewing our suppliers ?", $loggedInUserRole);
-            
-          ?>
+            ?>
+          </div>
         </div>
         <div class="col s12 m3 feed-sidebar hide-on-med-and-down">
           <div class="search-bar">

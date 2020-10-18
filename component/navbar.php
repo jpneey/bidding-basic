@@ -20,7 +20,7 @@ if($isLoggedIn) {
                 <li><a href="<?= $BASE_DIR ?>blogs/" class="hide-on-med-and-down">Blog</a></li>
                 <li><a href="<?= $BASE_DIR ?>home/" class="hide-on-med-and-down">Biddings</a></li>
                 <li><a href="<?= $BASE_DIR ?>home/?sidebar=0" class="hide-on-med-and-down">Login</a></li>
-                <li><a href="<?= $BASE_DIR ?>supplier/" class="hide-on-med-and-down">Suppliers</a></li>
+                <li><a href="<?= $BASE_DIR ?>product/" class="hide-on-med-and-down">Products</a></li>
                 <li><a href="#!" data-target="menu-nav" class="sidenav-trigger no-margin"><i class="material-icons">menu</i></a></li>
                 <?php if($isLoggedIn) { ?>
                 <li><a href="#!" data-target="notification-nav" class="sidenav-trigger show-on-large no-margin"><i class="material-icons">notifications_none</i></a> 
@@ -42,7 +42,7 @@ if($isLoggedIn) {
     <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>blogs/">Blog</a></li>
     <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>home/">Biddings</a></li>
     <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>home/?sidebar=0">Login</a></li>
-    <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>supplier/">Suppliers</a></li>
+    <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>product/">Products</a></li>
                 
 </ul>
 
@@ -57,8 +57,8 @@ if($isLoggedIn) {
     </li>
     
     <li class="col s3">
-        <a href="<?= $BASE_DIR ?>supplier/" class="grey-text text-darken-1 block"><i class="material-icons">people_outline</i></a>
-        <p class="no-margin grey-text text-darken-1"><b>Suppliers</b></p>
+        <a href="<?= $BASE_DIR ?>product/" class="grey-text text-darken-1 block"><i class="material-icons">shopping_bag</i></a>
+        <p class="no-margin grey-text text-darken-1"><b>Products</b></p>
     </li>
     
     <li class="col s3">
