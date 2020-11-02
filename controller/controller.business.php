@@ -152,6 +152,68 @@ switch ($action) {
         $response = $business->addBusinessProduct($cs_category_id, $cs_user_id, $cs_product_name, $cs_product_details, $cs_product_image, $cs_product_price, $cs_sale_price, $cs_unit, $cs_product_permalink, $cs_link, $cs_link_text);
         $message = $response;
         break;
+
+    case 'inquire':
+        
+        $userEmail = Sanitizer::filter('myemail', 'post', 'email');
+        $inquire = Sanitizer::filter('inquiry', 'post', 'int');
+        $notes = Sanitizer::filter('notes', 'post');
+
+
+        $stmt = $connection->prepare("SELECT p.cs_product_name, u.cs_user_name, u.cs_user_email FROM cs_products p LEFT JOIN cs_users u ON p.cs_user_id = u.cs_user_id WHERE p.cs_product_id = ? LIMIT 1");
+        $stmt->bind_param('s', $inquire);
+        $stmt->execute();
+        $account = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+
+        if(empty($account)){
+            echo json_encode(array('code' => 0, 'message' => 'Oh no! You need to login to perform this action.'));
+            die();
+        }   
+
+        $to = $account[0]["cs_user_email"];
+        $product = $account[0]["cs_product_name"];
+        $username = $account[0]["cs_user_name"];
+
+        require 'mail/mail.php';
+
+        $mail->AddAddress($to);
+        
+        $emailSubject = "Product Inquiry - " . $product;   //subject
+        $emailPreheader = "Someone wants to know more about your product"; //short message
+        $emailGreeting = $userEmail;
+        $emailContent = $notes;
+        $emailAction = Sanitizer::getUrl()."user/".$username ."/";    //link
+        $emailActionText = "Your profile";
+        $emailFooterContent = "Inquiry for: <b>".$product."</b>. Please reply to: ".$userEmail;
+        $emailRegards = "- Canvasspoint Team";
+        
+        
+        ob_start();
+        require 'mail/template/basic.php';
+        $htmlMessage = ob_get_contents();
+        ob_end_clean(); 
+        
+        
+        $mail->Subject = $emailSubject;
+        $mail->Body = $htmlMessage;
+
+        $code = '2';
+        $message = 'Your message was successfully forwarded to: '.$to;   
+        
+        if(!$mail->Send()) {
+            $code = '1';
+            $message = 'We are unable to reach '.$to. " :( ".$mail->ErrorInfo;   
+        } else {
+            $stmt = $connection->prepare("UPDATE cs_products SET cs_inquired = cs_inquired + 1 WHERE cs_product_id = ? LIMIT 1");
+            $stmt->bind_param('s', $inquire);
+            $stmt->execute();
+            $stmt->close();
+        }
+
+        $message = json_encode(array('code' => $code, 'message' => $message));
+
+        break;
 }
 
 echo $message;

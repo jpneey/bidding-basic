@@ -66,6 +66,8 @@ function login(){
           classes: "orange white-text"
         });
 
+        $('.modal').modal("close");
+
       }
     })
     

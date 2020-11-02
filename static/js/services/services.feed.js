@@ -160,7 +160,7 @@ function viewPoster() {
           M.toast({ html: data.message, classes: "red white-text"});  
           return
         }
-        window.location.href = root + data.path + '/' + data.selector + '/';
+        window.location.href = root + 'user' + '/' + data.selector + '/';
         return
       }
     })

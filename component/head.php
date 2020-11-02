@@ -10,5 +10,5 @@
 <script src="<?= $BASE_DIR ?>static/js/jquery.js"></script>
 <script src="<?= $BASE_DIR ?>static/js/materialize.min.js"></script>
 <script src="<?= $BASE_DIR ?>static/js/timeago.js"></script>
-<script src="<?= $BASE_DIR ?>static/js/init.js?v=beta-badet"></script>
-<script src="<?= $BASE_DIR ?>static/js/services/services.login.js"></script>
+<script src="<?= $BASE_DIR ?>static/js/init.js?v=beta-55"></script>
+<script src="<?= $BASE_DIR ?>static/js/services/services.login.js?v=beta-55"></script>

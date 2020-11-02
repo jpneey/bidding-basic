@@ -231,7 +231,7 @@ class Offers extends DBHandler {
         $image_two = $offers['img-two'];
         $image_three = $offers['img-three'];
 
-        return json_encode(array('code' => 1, 'offer' => $modal, 'email' => $email, 'connect' => $quickConnect, 'view' => $offer[2], 'img' => $image, 'img_two' => $image_two, 'img_three' => $image_three));
+        return json_encode(array('code' => 1, 'offer' => $modal, 'email' => $email, 'connect' => $quickConnect, 'view' => $username, 'img' => $image, 'img_two' => $image_two, 'img_three' => $image_three));
 
     }
 

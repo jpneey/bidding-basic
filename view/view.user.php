@@ -37,9 +37,9 @@ class viewUser extends User {
                         <?= $this->contactDetails(unserialize($user[0]['cs_contact_details']), $user[0]['cs_user_business']) ?>
                         <a href="mailto:<?= $user[0]['cs_user_email'] ?>" class="chip teal white-text darken-1" ><?= $user[0]['cs_user_email'] ?></a>
                     </div>
-                    <p><?= $user[0]['cs_user_detail'] ?></p>
+                    <p><?= nl2br($user[0]['cs_user_detail']) ?></p>
 
-                    <?php $this->viewBusinessProducts($user[0]['cs_user_id']);  ?>
+                    <?php $this->viewBusinessProducts($user[0]['cs_user_id'], $user[0]['cs_user_email']);  ?>
                     <?php $this->ratings($user[0]['cs_user_ratings']);  ?>
                 </div>
             </div>
@@ -78,13 +78,16 @@ class viewUser extends User {
 
     public function ratings($ratings){
         if(!empty($ratings)) { 
-            echo '<p><b>What other people say</b></p>';
+            echo '<br><br><p><b>What other people say</b></p>';
             foreach($ratings as $key=>$value) {
         ?>
             <div class="content">
                 <p class="no-margin black-text">Anonymous</p>
                 <p class="no-margin grey-text text-darken-1"><?= $ratings[$key]['cs_comment']; ?></p>
                 <p class="ratings no-margin"><?= str_repeat('<i class="material-icons orange-text">star</i>', round($ratings[$key]['cs_rating'])) ?></p>
+                <br>
+                <div class="divider"></div>
+                <br>
             </div>
             <br>
         <?php
@@ -92,12 +95,13 @@ class viewUser extends User {
         }
     }
 
-    public function viewBusinessProducts($user_id){
+    public function viewBusinessProducts($user_id, $email){
         $products = $this->getBusinessProducts($user_id);
+        $productOpts = array();
         if(!empty($products)) {
             echo "<br><p><b>Featured Products/Services</b></p>";
             echo "
-            <div class=\"feed-wrap-main\">
+            <div class=\"feed-wrap-maisn\">
             ";
             foreach($products as $key=>$value){             
                 $sale = ($products[$key]["cs_sale_price"] < $products[$key]["cs_product_price"]) ? true : false;
@@ -110,6 +114,9 @@ class viewUser extends User {
                             <small><?= $products[$key]["cs_category_name"] ?></small> 
                             <br>
                             <?= $products[$key]["cs_product_name"] ?>
+                            <?php 
+                            $productOpts[] = "<option value='".$products[$key]["cs_product_id"]."'>".$products[$key]["cs_product_name"]."</option>";
+                            ?>
                         </span>
                     </div>
                     <div class="card-content">
@@ -120,12 +127,61 @@ class viewUser extends User {
                             <?= ($sale) ? '<small><s>'.number_format($products[$key]["cs_product_price"], 2, '.', '.') .'</s></small>' : "" ?>
                             <?= " / " . $products[$key]["cs_unit"]  ?>
                         </p>
+                        <br>
+                        <button data-target="inquire-product-pro" class="btn modal-trigger">Inquire</button>
+
                     </div>
                 </div>
+                
                 <?php
             }
             echo "</div>";
+            $this->getProductForm($email, $productOpts);
         }
+    }
+
+    public function getProductForm($email, $productOpts){
+        ?>
+        <form action="<?= $this->BASE_DIR ?>controller/controller.business.php?action=inquire" class="login-form" method="POST" enctype="multipart/form-data" >
+            <div id="inquire-product-pro" class="modal modal-sm">
+                <div class="modal-content">
+                    
+                    <div class="row">
+                        <div class="input-field no-margin col s12">
+                            <p><label>Your email address</label></p>
+                            <input 
+                                required 
+                                type="email" 
+                                name="myemail" 
+                                class="custom-input validate"
+                                placeholder="my@email.com"  
+                            />
+                            <p><label>Product / Service</label></p>
+                            <select 
+                                required 
+                                name="inquiry" 
+                                class="custom-input validate browser-default"  
+                            >
+                                <option disabled selected>Selected</option>
+                                <?php foreach($productOpts as $opt){
+                                    echo $opt;
+                                } ?>
+                            </select>
+                        </div>
+
+                        <div class="input-field no-margin col s12">
+                            <p><label>Message to <u><?= $email ?></u> </label></p>
+                            <textarea required name="notes" class="custom-input materialize-textarea"></textarea>
+                        </div>
+
+                    </div>    
+
+                    <input type="submit" class="btn z-depth-0 orange white-text" value="Inquire" />
+                    <a href="#!" class="modal-close red white-text waves-effect btn-flat">Cancel Inquiry</a>
+                </div>
+            </div>
+        </form>
+        <?php
     }
 
 }
