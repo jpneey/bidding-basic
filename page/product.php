@@ -26,8 +26,8 @@
 
             require_once "model/model.supplier.php";
             require_once "view/view.supplier.php";
-            $supplier = new Supplier();
-            $viewSupplier = new viewSupplier($BASE_DIR);
+
+            $viewSupplier = new viewSupplier($BASE_DIR, $conn);
             $viewSupplier->viewFeed();  
           
           ?>

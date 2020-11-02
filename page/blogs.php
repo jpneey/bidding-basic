@@ -22,13 +22,12 @@
         <div class="col s12 m12" id="bidding-feed">
           <div class="feed-wrap-main">
             <?php 
-            $search = new Search($BASE_DIR, 'blog');
+            $search = new Search($BASE_DIR, 'blog', $conn);
             $search->searchForm(true, 2);
 
             require_once "model/model.blog.php";
             require_once "view/view.blog.php";
-            $blog = new Blogs();
-            $viewBlogs = new viewBlogs($BASE_DIR);
+            $viewBlogs = new viewBlogs($BASE_DIR, $conn);
             $viewBlogs->viewBlogs(array(), "Active Biddings will go here but unfortunately there are no active biddings as of the moment. How about viewing our suppliers ?", $loggedInUserRole);
             ?>
           </div>

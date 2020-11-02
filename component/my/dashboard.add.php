@@ -5,9 +5,9 @@ require_once "model/model.location.php";
 require_once "view/view.location.php";
 require_once "model/model.category.php";
 require_once "view/view.category.php";
-$category = new Category();
+$category = new Category($conn);
 $viewCategory = new viewCategory($BASE_DIR);
-$location = new Location();
+$location = new Location($conn);
 $viewLocation = new viewLocation($BASE_DIR); 
 
 $connection = $dbhandler->connectDB();

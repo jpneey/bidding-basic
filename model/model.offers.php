@@ -2,12 +2,25 @@
 
 class Offers extends DBHandler {
 
-    public function getAllOffers(){
+    private $connect;
 
+    public function __construct($conn = null){
+        if($conn) {
+           $this->connect = $conn; 
+        } else {
+            $this->connect = $this->connectDB();
+        }
+    }
+
+    public function getconn(){
+        if(!$this->connect){
+            $this->connect = $this->connectDB();
+        }
+        return $this->connect;
     }
 
     public function getLowestBidOffer($biddingId){
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT cs_offer, cs_offer_price, cs_date_added FROM cs_offers WHERE cs_bidding_id = ? ORDER BY cs_offer_price ASC LIMIT 1");
         $stmt->bind_param('i', $biddingId);
         $stmt->execute();
@@ -21,7 +34,7 @@ class Offers extends DBHandler {
 
         $result = array();
 
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         if(!$supplier){
             $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_biddings WHERE cs_bidding_id = ? AND cs_bidding_user_id = ? ");
             $stmt->bind_param('ii', $biddingId, $userId);
@@ -74,7 +87,7 @@ class Offers extends DBHandler {
 
     public function isDeletable($selector) {
 
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         date_default_timezone_set('Asia/Manila');
         $currentDateTime = date('Y-m-d');
     
@@ -101,7 +114,7 @@ class Offers extends DBHandler {
     }
 
     public function viewOffer($selector, $userId, $view = false){
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $supplier = false;
 
         $initQuery = "SELECT * FROM cs_offers WHERE cs_offer_id = ? LIMIT 1";
@@ -223,7 +236,7 @@ class Offers extends DBHandler {
     }
 
     public function hasWinner($biddingId){
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT cs_offer_owner_id FROM cs_bidding_winners WHERE cs_bidding_id = ?");
         $stmt->bind_param('i', $biddingId);
         $stmt->execute();
@@ -233,7 +246,7 @@ class Offers extends DBHandler {
     }
 
     public function getViewable($userId){
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $userId = (int)$userId;
         $stmt = $connection->prepare("SELECT cs_allowed_view FROM cs_bidder_options WHERE cs_user_id = '$userId'");
         $stmt->execute();
@@ -243,7 +256,7 @@ class Offers extends DBHandler {
     }
 
     public function hasOffer($biddingId, $userId){
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT cs_offer_id FROM cs_offers WHERE cs_bidding_id = ? AND cs_user_id = ?");
         $stmt->bind_param("ii", $biddingId, $userId);
         $stmt->execute();
@@ -253,7 +266,7 @@ class Offers extends DBHandler {
     }
 
     public function getUserOffers($userId, $status){
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT cs_offer_id, cs_bidding_id, cs_offer, cs_date_added, cs_offer_status FROM cs_offers WHERE cs_user_id = ? AND cs_offer_status = '$status'");
         $stmt->bind_param('i', $userId);
         $stmt->execute();
@@ -277,7 +290,7 @@ class Offers extends DBHandler {
     }
     
     public function getCountOffer($biddingId){
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT * FROM cs_offers WHERE cs_bidding_id = ?");
         $stmt->bind_param('i', $biddingId);
         $stmt->execute();
@@ -292,7 +305,7 @@ class Offers extends DBHandler {
         
         $user_id = (int)$user_id;
 
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_offers WHERE cs_offer_status = 0 AND cs_user_id = '$user_id'");
         $stmt->execute();
         $stmt->store_result();
@@ -327,7 +340,7 @@ class Offers extends DBHandler {
         date_default_timezone_set('Asia/Manila');
         $currentDateTimeStamp = date('Y-m-d H:i:s');
 
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
 
         $stmt = $connection->prepare("SELECT cs_bidding_title, cs_bidding_permalink, cs_bidding_user_id FROM cs_biddings WHERE cs_bidding_id = ?");
         $stmt->bind_param("i",$offerArray[3][0]);
@@ -361,7 +374,7 @@ class Offers extends DBHandler {
      */
 
     public function deleteOffer($selector, $userId){
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
 
         $stmt = $connection->prepare("SELECT cs_bidding_id, cs_offer FROM cs_offers WHERE cs_offer_id = ? AND cs_user_id = ?");
         $stmt->bind_param('ii', $selector, $userId);
@@ -409,7 +422,7 @@ class Offers extends DBHandler {
     }
 
     public function bidStatus($userId, $biddingId) {
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT cs_bidding_status, cs_bidding_permalink FROM cs_biddings WHERE cs_bidding_id = ? AND cs_bidding_user_id = ?");
         $stmt->bind_param("ii", $biddingId, $userId);
         $stmt->execute();

@@ -2,9 +2,26 @@
 
 class Business extends DBHandler {
 
+    private $connect;
+
+    public function __construct($conn = null){
+        if($conn) {
+           $this->connect = $conn; 
+        } else {
+            $this->connect = $this->connectDB();
+        }
+    }
+
+    public function getconn(){
+        if(!$this->connect){
+            $this->connect = $this->connectDB();
+        }
+        return $this->connect;
+    }
+
     public function getBusinesses($filter = 'ORDER BY cs_business_id DESC'){
         
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT * FROM cs_business WHERE cs_business_status IN(1,2) $filter");
         $stmt->execute();
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -15,7 +32,7 @@ class Business extends DBHandler {
 
     public function getUserBusiness($__user_id){
         $id = (int)$__user_id;
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT * FROM cs_business WHERE cs_user_id = '$id' LIMIT 1");
         $stmt->execute();
         $result = $stmt->get_result()->fetch_row();
@@ -33,7 +50,7 @@ class Business extends DBHandler {
     
     public function getBusinessProducts($__user_id){
         
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT p.*, c.cs_category_name, AVG(r.cs_rating) AS cs_owner_rating FROM cs_products p LEFT JOIN cs_categories c ON c.cs_category_id = p.cs_category_id LEFT JOIN cs_user_ratings r ON p.cs_user_id = r.cs_user_rated_id WHERE p.cs_user_id = ? GROUP BY p.cs_product_id");
         $stmt->bind_param("i", $__user_id);
         $stmt->execute();
@@ -47,7 +64,7 @@ class Business extends DBHandler {
         if(empty($value)){
             return json_encode(array('code' => 1, 'message' => 'Missing Value parameter'));
         }
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = 
         $connection->prepare("INSERT INTO 
         cs_business(cs_user_id, cs_business_name, cs_business_link, 
@@ -60,7 +77,7 @@ class Business extends DBHandler {
     }
 
     public function postUserFeatured($__user_id, $value){
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("UPDATE cs_business SET cs_business_featured = ? WHERE cs_user_id = ?");
         $stmt->bind_param('si', $value,$__user_id);
         $stmt->execute();
@@ -72,7 +89,7 @@ class Business extends DBHandler {
         if(empty($value)){
             return json_encode(array('code' => 1, 'message' => 'Missing Value parameter'));
         }
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("UPDATE cs_business SET cs_business_name = ?, cs_business_link = ?, cs_business_tags = ?, cs_business_category = ? WHERE cs_user_id = ?");
         $stmt->bind_param('sssii', $value[1],$value[2],$value[3],$value[5],$value[0]);
         $stmt->execute();
@@ -81,7 +98,7 @@ class Business extends DBHandler {
     }
 
     public function updateBusinessProduct($cs_category_id, $cs_user_id, $cs_product_name, $cs_product_details, $cs_product_price, $cs_sale_price, $cs_unit, $cs_product_permalink, $cs_link, $cs_link_text, $cs_product_id){
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("UPDATE cs_products SET 
             cs_category_id = ?,
             cs_product_name = ?,
@@ -105,7 +122,7 @@ class Business extends DBHandler {
         
         error_reporting(0);
         
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT cs_account_status FROM cs_users WHERE cs_user_role = 2 AND cs_user_id = ?");
         $stmt->bind_param('i', $cs_user_id);
         $stmt->execute();
@@ -135,7 +152,7 @@ class Business extends DBHandler {
     }
 
     private function deleteProductImage($cs_product_id, $cs_user_id){
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT cs_product_image FROM cs_products WHERE cs_product_id = ? AND cs_user_id = ?");
         $stmt->bind_param("ii", $cs_product_id, $cs_user_id);
         $stmt->execute();
@@ -152,7 +169,7 @@ class Business extends DBHandler {
 
     public function updateProductImage($cs_user_id, $cs_product_id, $cs_product_old_image, $cs_product_image){
         $this->deleteProductImage($cs_product_id, $cs_user_id);
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("UPDATE cs_products SET cs_product_image = ? WHERE cs_product_id = ? AND cs_user_id = ?");
         $stmt->bind_param("sii", $cs_product_image, $cs_product_id, $cs_user_id);
         $stmt->execute();
@@ -163,7 +180,7 @@ class Business extends DBHandler {
     public function deleteProduct($id, $userId){
 
         $this->deleteProductImage($id, $userId);
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("DELETE FROM cs_products WHERE cs_product_id = ? AND cs_user_id = ?");
         $stmt->bind_param("ii", $id, $userId);
         $stmt->execute();

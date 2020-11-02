@@ -13,7 +13,7 @@ if($isBidder) {
         default:
             require_once "model/model.bids.php";
             require_once "view/view.bids.php";
-            $viewBids = new viewBids($BASE_DIR);
+            $viewBids = new viewBids($BASE_DIR, $conn);
             $viewBids->viewUserBidStatus($__user_id);
             $viewBids->viewUserBids($__user_id, 0);
             $viewBids->viewUserBids($__user_id, 1);
@@ -25,7 +25,7 @@ if($isBidder) {
 if($isSupplier) {
     require_once "model/model.offers.php";
     require_once "view/view.offers.php";
-    $viewOffers = new viewOffers($BASE_DIR);
+    $viewOffers = new viewOffers($BASE_DIR, $conn);
     $viewOffers->viewUserOfferStatus($__user_id);
     $viewOffers->viewUserOffers($__user_id, 0);
     $viewOffers->viewUserOffers($__user_id, 1);

@@ -2,9 +2,9 @@
 
 require_once "model/model.notification.php";
 require_once "view/view.search.php";
-$search = new Search($BASE_DIR, 'bid');
+$search = new Search($BASE_DIR, 'bid', $conn);
 if($isLoggedIn) {
-    $notification = new Notification($__user_id);
+    $notification = new Notification($__user_id, $conn);
     $unread = $notification->getUnread();
 }
 

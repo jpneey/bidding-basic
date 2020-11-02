@@ -10,8 +10,9 @@ require_once "../model/model.constant.php";
 
 $auth = new Auth();
 $dbhandler = new DBHandler();
-$user = new User();
-$bid = new Bids();
+$conn = $dbhandler->connectDB();
+$user = new User($conn);
+$bid = new Bids($conn);
 
 $connection = $dbhandler->connectDB();
 $action = Sanitizer::filter('action', 'get');

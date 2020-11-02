@@ -32,10 +32,10 @@ $selector = Sanitizer::filter($uri[1], 'var');
             require_once "view/view.offers.php";
             require_once "controller/controller.sanitizer.php";
 
-            $bid = new Bids();
-            $offer = new Offers();
-            $viewBids = new viewBids($BASE_DIR);
-            $viewOffers = new viewOffers($BASE_DIR);
+            $bid = new Bids($conn);
+            $offer = new Offers($conn);
+            $viewBids = new viewBids($BASE_DIR, $conn);
+            $viewOffers = new viewOffers($BASE_DIR, $conn);
             if(!$selector){
               $emptyTitle = "Ah yes, 404";
               $emptyMessage = "It seems like the page you are looking for was moved, deleted or didn't exist at all.";

@@ -6,8 +6,11 @@ class viewBids extends Bids {
 
     private $BASE_DIR;
 
-    public function __construct($BASE_DIR) {
+    public function __construct($BASE_DIR, $conn = null) {
         $this->BASE_DIR = $BASE_DIR;
+        if($conn){
+            parent::__construct($conn);
+        }
     }
 
     public function load($v){

@@ -6,11 +6,11 @@ require_once "model/model.business.php";
 require_once "view/view.business.php"; 
 require_once "model/model.category.php";
 require_once "view/view.category.php";
-$category = new Category();
-$viewCategory = new viewCategory($BASE_DIR);
-$viewBusiness = new viewBusiness($BASE_DIR);
 
-$business = new Business();
+$viewCategory = new viewCategory($BASE_DIR, $conn);
+$viewBusiness = new viewBusiness($BASE_DIR, $conn);
+
+$business = new Business($conn);
 
 $userBusiness = $business->getUserBusiness($__user_id);
 

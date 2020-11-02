@@ -6,6 +6,14 @@ class DBHandler extends Sanitizer {
 	private $password = "";
 	private $database = "cs_canvasspoint";
 	private $conn;
+
+	/* private $host = "sql100.epizy.com";
+	private $user = "epiz_26364296";
+	private $password = "nG9FIT86L2J";
+	private $database = "epiz_26364296_cpoint";
+	private $conn; */
+
+	private $c;
 	
 	function __construct() {
 		$this->conn = $this->connectDB();
@@ -15,8 +23,10 @@ class DBHandler extends Sanitizer {
 	}
 	
 	function connectDB() {
-		$conn = new mysqli($this->host,$this->user,$this->password,$this->database);
-		return $conn;
+		if(!$this->c){
+			$this->c = new mysqli($this->host,$this->user,$this->password,$this->database);
+		}
+		return $this->c;
 	}
 	
 }

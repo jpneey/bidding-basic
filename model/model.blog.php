@@ -2,9 +2,26 @@
 
 class Blogs extends DBHandler {
 
+    private $connect;
+
+    public function __construct($conn = null){
+        if($conn) {
+           $this->connect = $conn; 
+        } else {
+            $this->connect = $this->connectDB();
+        }
+    }
+
+    public function getconn(){
+        if(!$this->connect){
+            $this->connect = $this->connectDB();
+        }
+        return $this->connect;
+    }
+
     public function getAllBlogs($filter = array()){
         
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $query = "SELECT 
             b.cs_blog_title,
             b.cs_blog_permalink,
@@ -34,7 +51,7 @@ class Blogs extends DBHandler {
 
     public function getBlog($permalink) {
 
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $query = "SELECT b.*, c.cs_category_name FROM cs_blogs b
         LEFT JOIN cs_categories c ON b.cs_blog_category_id = c.cs_category_id
         WHERE b.cs_blog_id = ? OR b.cs_blog_permalink = ? LIMIT 1";

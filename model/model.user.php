@@ -2,10 +2,25 @@
 
 class User extends DBHandler {
 
-    
+    private $connect;
+
+    public function __construct($conn = null){
+        if($conn) {
+           $this->connect = $conn; 
+        } else {
+            $this->connect = $this->connectDB();
+        }
+    }
+
+    public function getconn(){
+        if(!$this->connect){
+            $this->connect = $this->connectDB();
+        }
+        return $this->connect;
+    }
     public function getAllUsers(){
 
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT * FROM cs_users");
         $stmt->execute();
     
@@ -18,7 +33,7 @@ class User extends DBHandler {
     public function getUser($id, $param = false){
         
         $passedId = (int)$id;
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT * FROM cs_users WHERE cs_user_id = ? LIMIT 1");
 
         $stmt->bind_param('i', $passedId);
@@ -35,7 +50,7 @@ class User extends DBHandler {
 
     public function getProfile($handle){
         
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT * FROM cs_users WHERE cs_user_name = ? LIMIT 1");
 
         $stmt->bind_param('s', $handle);
@@ -71,7 +86,7 @@ class User extends DBHandler {
     public function getUserBids($id, $misc = false){
 
         $passedId = (int)$id;
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         
         $stmt = $connection->prepare("SELECT * FROM cs_biddings WHERE cs_bidding_user_id = ?");
         $stmt->bind_param('i', $passedId);
@@ -87,7 +102,7 @@ class User extends DBHandler {
 
     public function updateUserCol($userId, $column, $binding, $value, $uniq = false){
         
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
 
         if($uniq){
             $stmt = $connection->prepare("SELECT cs_user_id FROM cs_users WHERE $column = ? AND cs_user_id != ?");
@@ -119,7 +134,7 @@ class User extends DBHandler {
                 break;
         }
 
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare(
         "SELECT 
         t.cs_bidder_id, 
@@ -141,7 +156,7 @@ class User extends DBHandler {
     }
 
     public function getRating($from, $to){
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT cs_rating_id, cs_rating, cs_comment FROM cs_user_ratings WHERE cs_user_id = ? AND cs_user_rated_id = ?");
         $stmt->bind_param('ii', $from, $to);
         $stmt->execute();
@@ -160,7 +175,7 @@ class User extends DBHandler {
     }
 
     public function postRating($from, $to, $rate, $comment){
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("INSERT INTO cs_user_ratings(cs_user_id, cs_user_rated_id, cs_rating, cs_comment) VALUES(?,?,?,?)");
         $stmt->bind_param('iiis', $from, $to, $rate, $comment);
         if($stmt->execute()){
@@ -171,14 +186,14 @@ class User extends DBHandler {
     }
 
     public function successTransaction($transactionId, $value){
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("UPDATE cs_offers SET cs_offer_success = ? WHERE cs_offer_id = ?");
         $stmt->bind_param('ii', $value, $transactionId);
         $stmt->execute();
     }
 
     public function updateRating($from, $to, $rate, $comment){
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("UPDATE cs_user_ratings SET cs_rating = ?, cs_comment = ? WHERE cs_user_id = ? AND cs_user_rated_id = ?");
         $stmt->bind_param('isii', $rate, $comment, $from, $to);
         if($stmt->execute()){
@@ -194,7 +209,7 @@ class User extends DBHandler {
             $t = (int)$t;
             $query .= " AND cs_notif_id = '$t'";
         }
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare($query);
         $stmt->bind_param('i', $id);
         $stmt->execute();
@@ -203,7 +218,7 @@ class User extends DBHandler {
 
     public function deleteNotifs($id){
         $query = "DELETE FROM cs_notifications WHERE cs_user_id = ? AND cs_notif_read = 1";
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare($query);
         $stmt->bind_param('i', $id);
         $stmt->execute();
@@ -211,7 +226,7 @@ class User extends DBHandler {
 
     public function getBusinessProducts($__user_id){
         
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT p.*, c.cs_category_name, AVG(r.cs_rating) AS cs_owner_rating FROM cs_products p LEFT JOIN cs_categories c ON c.cs_category_id = p.cs_category_id LEFT JOIN cs_user_ratings r ON p.cs_user_id = r.cs_user_rated_id WHERE p.cs_user_id = ? GROUP BY p.cs_product_id");
         $stmt->bind_param("i", $__user_id);
         $stmt->execute();

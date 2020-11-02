@@ -39,8 +39,10 @@
             <?php }
             require_once "model/model.bids.php";
             require_once "view/view.bids.php";
-            $bid = new Bids();
-            $viewBids = new viewBids($BASE_DIR);
+
+            $bid = new Bids($conn);
+
+            $viewBids = new viewBids($BASE_DIR, $conn);
             $viewBids->viewFeed(array(), "Active Biddings will go here but unfortunately there are no active biddings as of the moment. How about viewing our suppliers ?", $loggedInUserRole);
             
           ?>

@@ -2,9 +2,26 @@
 
 class Bids extends DBHandler {
 
+    private $connect;
+
+    public function __construct($conn = null){
+        if($conn) {
+           $this->connect = $conn; 
+        } else {
+            $this->connect = $this->connectDB();
+        }
+    }
+
+    public function getconn(){
+        if(!$this->connect){
+            $this->connect = $this->connectDB();
+        }
+        return $this->connect;
+    }
+
     public function getAllBids(){
 
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT * FROM cs_biddings ORDER BY cs_bidding_expiration DESC");
         $stmt->execute();
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -14,7 +31,7 @@ class Bids extends DBHandler {
     }
 
     public function checkOwnership($selector, $userId){
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_biddings WHERE cs_bidding_user_id = ? AND cs_bidding_permalink = ?");
         $stmt->bind_param('is', $userId, $selector);
         $stmt->execute();
@@ -25,7 +42,7 @@ class Bids extends DBHandler {
 
     public function getBid($id, $param = false){
         
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("
             SELECT 
             b.*, 
@@ -56,8 +73,7 @@ class Bids extends DBHandler {
     }
 
     public function getBiddings($filter = array()){
-        
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $query = "SELECT  
         b.cs_bidding_title, b.cs_bidding_permalink, 
         b.cs_bidding_added, b.cs_bidding_location,
@@ -85,7 +101,7 @@ class Bids extends DBHandler {
 
     public function getUserBids($user_id, $status = 0){
         $passedId = (int)$user_id;
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         
         $stmt = $connection->prepare("SELECT cs_bidding_id, cs_bidding_title, cs_bidding_permalink, cs_bidding_status, cs_bidding_added FROM cs_biddings WHERE cs_bidding_user_id = ? AND cs_bidding_status = $status ORDER BY cs_bidding_id DESC");
         $stmt->bind_param('i', $passedId);
@@ -109,7 +125,7 @@ class Bids extends DBHandler {
     }
 
     public function isDeletable($selector){
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT cs_bidding_id, cs_bidding_status FROM cs_biddings WHERE cs_bidding_permalink = ? LIMIT 1");
         $stmt->bind_param('s', $selector);
         $stmt->execute();
@@ -127,7 +143,7 @@ class Bids extends DBHandler {
 
     public function hasOpenBid($biddingId) {
         
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
 
         $stmt = $connection->prepare("SELECT cs_offer_status, cs_offer_success FROM cs_offers WHERE cs_bidding_id = '$biddingId'");
         $stmt->execute();
@@ -147,7 +163,7 @@ class Bids extends DBHandler {
 
     public function hasOnlyClosedBid($biddingId) {
         
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT cs_offer_status, cs_user_id FROM cs_offers WHERE cs_bidding_id = '$biddingId'");
         $stmt->execute();
         $offers = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -164,7 +180,7 @@ class Bids extends DBHandler {
     }
 
     public function hasWinner($biddingId){
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT cs_offer_owner_id, cs_offer FROM cs_bidding_winners WHERE cs_bidding_id = ?");
         $stmt->bind_param('i', $biddingId);
         $stmt->execute();
@@ -187,7 +203,7 @@ class Bids extends DBHandler {
         
         $user_id = (int)$user_id;
 
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_biddings WHERE cs_bidding_status = 1 AND cs_bidding_user_id = '$user_id'");
         $stmt->execute();
         $stmt->store_result();
@@ -221,7 +237,7 @@ class Bids extends DBHandler {
         $currentDateTime = date('Y-m-d H:i:s');
         $nextweek = date('Y-m-d H:i:s', strtotime('+1 week'));
         
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("INSERT INTO cs_biddings($prepArray[0]) VALUES($prepArray[1], '$currentDateTime', '$nextweek', 1)");
         $stmt->bind_param($prepArray[2], ...$prepArray[3]);
         $stmt->execute();
@@ -235,7 +251,7 @@ class Bids extends DBHandler {
 
     public function postProductInBidding($prodArray, $bidding_id, $link){
         
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("INSERT INTO cs_products_in_biddings(cs_bidding_id, $prodArray[0]) VALUES($bidding_id, $prodArray[1])");
         $stmt->bind_param($prodArray[2], ...$prodArray[3]);
         $result = $stmt->execute();
@@ -259,7 +275,7 @@ class Bids extends DBHandler {
         $currentDateTime = date('Y-m-d');
         $currentDateTimeStamp = date('Y-m-d H:i:s');
 
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("UPDATE cs_biddings SET cs_bidding_status = '0' WHERE DATE(cs_bidding_date_needed) <= '$currentDateTime' AND cs_bidding_status = '1'");
         $stmt->execute();
         $stmt->close();
@@ -292,7 +308,7 @@ class Bids extends DBHandler {
     
     public function biddingFinish($userId, $selector){
 
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT cs_bidding_id, cs_bidding_title, cs_bidding_permalink FROM cs_biddings WHERE cs_bidding_user_id = ? AND cs_bidding_permalink = ?");
         $stmt->bind_param("is", $userId, $selector);
         $stmt->execute();
@@ -343,7 +359,7 @@ class Bids extends DBHandler {
      */
 
     public function deleteBid($selector, $userId){
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT cs_bidding_id, cs_bidding_picture FROM cs_biddings WHERE (cs_bidding_user_id = ? AND cs_bidding_permalink = ? AND cs_bidding_status = 2)");
         $stmt->bind_param('is', $userId, $selector);
         $stmt->execute();

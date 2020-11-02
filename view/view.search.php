@@ -4,14 +4,27 @@ class Search extends DBHandler {
 
     private $BASE_DIR;
     private $DEFAULT;
+    private $connect;
 
-    public function __construct($BASE_DIR, $DEFAULT) {
+    public function __construct($BASE_DIR, $DEFAULT, $conn = null) {
         $this->BASE_DIR = $BASE_DIR;
         $this->DEFAULT = $DEFAULT;
+        if($conn) {
+            $this->connect = $conn; 
+        } else {
+            $this->connect = $this->connectDB();
+        }
     }
 
     public function load($v){
         return $v;
+    }
+
+    public function getconn(){
+        if(!$this->connect){
+            $this->connect = $this->connectDB();
+        }
+        return $this->connect;
     }
 
     public function searchForm($filter = false){
@@ -86,7 +99,7 @@ class Search extends DBHandler {
             echo '<option value="'.$_GET['location'].'" selected>Search in '.$_GET['location'].'</option>';
         } */
         echo '<option value="0">All Locations</option>';
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT * FROM cs_locations ORDER BY cs_location ASC");
         $stmt->execute();
         $locations = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -104,7 +117,7 @@ class Search extends DBHandler {
             echo '<option value="'.$_GET['category'].'" selected>Category</option>';
         } */
         echo '<option value="0">All Categories</option>';
-        $connection = $this->connectDB();
+        $connection = $this->getconn();
         $stmt = $connection->prepare("SELECT * FROM cs_categories ORDER BY cs_category_name ASC");
         $stmt->execute();
         $category = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);

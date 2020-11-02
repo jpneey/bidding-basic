@@ -4,8 +4,7 @@ $selector = Sanitizer::filter($uri[1], 'var');
 require_once "model/model.blog.php";
 require_once "view/view.blog.php";
 
-$blog = new Blogs();
-$viewBlog = new viewBlogs($BASE_DIR);
+$viewBlog = new viewBlogs($BASE_DIR, $conn);
 
 $perma = Sanitizer::filter($uri[1], 'var');
 

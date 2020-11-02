@@ -30,7 +30,7 @@ if(!$selector){
         <div class="col s12">
           <?php
             require_once "view/view.user.php";
-            $viewUser = new viewUser($BASE_DIR);
+            $viewUser = new viewUser($BASE_DIR, $conn);
             $viewUser->viewProfile($selector);
           ?>
         </div>

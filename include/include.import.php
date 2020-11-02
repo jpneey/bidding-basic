@@ -8,7 +8,10 @@ require_once "model/model.user.php";
 require_once "model/model.constant.php";
 
 $dbhandler = new DBHandler();
-$user = new User();
+
+$conn = $dbhandler->connectDB();
+
+$user = new User($conn);
 
 $auth = new Auth();
 $__user_id = 0;

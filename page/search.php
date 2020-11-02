@@ -34,7 +34,7 @@ $s_mode = ($s_mode) ? $s_mode : 'bid';
                       
             require_once "model/model.bids.php";
             require_once "view/view.bids.php";
-            $bid = new Bids();
+            $bid = new Bids($conn);
             $viewBids = new viewBids($BASE_DIR);
           
             require_once "view/view.search.php";
