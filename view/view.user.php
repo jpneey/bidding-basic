@@ -106,7 +106,7 @@ class viewUser extends User {
             foreach($products as $key=>$value){             
                 $sale = ($products[$key]["cs_sale_price"] < $products[$key]["cs_product_price"]) ? true : false;
                 ?>
-                <div class="card feed z-depth-0 myproduct on-profile">
+                <div class="card feed z-depth-0 myproduct on-profile" id="<?= $products[$key]["cs_product_permalink"] ?>">
                     <div class="card-image">
                         <img class="lazy" src="<?= $this->BASE_DIR.'static/asset/product/'.$products[$key]["cs_product_image"] ?>" alt="<?= $products[$key]["cs_product_name"] ?>"/>
                         <div class="overlay"></div>

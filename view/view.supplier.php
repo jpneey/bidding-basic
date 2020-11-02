@@ -17,9 +17,12 @@ class viewSupplier extends Supplier {
         return $v;
     }
 
-    public function ViewFeed(){
-        
-        $products = $this->getProducts();
+    public function ViewFeed($filter = array()){
+        if(!empty($filter)){
+            $products = $this->searchProducts($filter);
+        } else {
+            $products = $this->getProducts();
+        }
         if(!empty($products)){
             ?>    
             <script type="text/javascript" src="<?= $this->BASE_DIR ?>static/js/lazy.js"></script>
@@ -32,29 +35,31 @@ class viewSupplier extends Supplier {
                 $sale = ($products[$key]["cs_sale_price"] < $products[$key]["cs_product_price"]) ? true : false;
 
                 ?>
-                <a href="<?= $this->BASE_DIR . 'user/' . $products[$key]["cs_user_name"] ?>" class="grey-text text-darken-3">               
+                <a href="<?= $this->BASE_DIR . 'user/' . $products[$key]["cs_user_name"] . "/#" . $products[$key]["cs_product_permalink"] ?>" class="grey-text text-darken-3">               
                     <div class="card feed z-depth-0 categ-filter"
                     data-category="<?= $products[$key]["cs_category_name"] ?>"
                     >
-                        <div class="card-image">
-                            
-                            <img class="lazy" data-src="<?= $this->BASE_DIR.'static/asset/product/'.$products[$key]["cs_product_image"] ?>" alt="<?= $products[$key]["cs_product_name"] ?>"/>
-                            <div class="overlay"></div>
-                            <span class="card-title truncate">
-                                <small><?= $products[$key]["cs_category_name"] ?></small> 
-                                <br>
-                                <?= $products[$key]["cs_product_name"] ?>
-                                <small class="m-tag orange darken-1">PRODUCT</small>
-                            </span>
-                        </div>
-                        <div class="card-content">
-                            <span class="ratings un-pad"><?= $rating ?></span>
-                            <p class="truncate un-margin"><?= $products[$key]["cs_product_details"] ?></p>
-                            <p>
-                                <b>&#8369; <?= ($sale) ? number_format($products[$key]["cs_sale_price"], 2, '.', ',') : number_format($products[$key]["cs_product_price"], 2, '.', ',') ?></b>
-                                <?= ($sale) ? '<small><s>'.number_format($products[$key]["cs_product_price"], 2, '.', ',').'</s></small>' : "" ?>
-                                <?= " / " . $products[$key]["cs_unit"]  ?>
-                            </p>
+                        <div class="hoverable">
+                            <div class="card-image">
+                                
+                                <img class="lazy" data-src="<?= $this->BASE_DIR.'static/asset/product/'.$products[$key]["cs_product_image"] ?>" alt="<?= $products[$key]["cs_product_name"] ?>"/>
+                                <div class="overlay"></div>
+                                <span class="card-title truncate">
+                                    <small><?= $products[$key]["cs_category_name"] ?></small> 
+                                    <br>
+                                    <?= $products[$key]["cs_product_name"] ?>
+                                    <small class="m-tag orange darken-1">PRODUCT</small>
+                                </span>
+                            </div>
+                            <div class="card-content">
+                                <span class="ratings un-pad"><?= $rating ?></span>
+                                <p class="truncate un-margin"><?= $products[$key]["cs_product_details"] ?></p>
+                                <p>
+                                    <b>&#8369; <?= ($sale) ? number_format($products[$key]["cs_sale_price"], 2, '.', ',') : number_format($products[$key]["cs_product_price"], 2, '.', ',') ?></b>
+                                    <?= ($sale) ? '<small><s>'.number_format($products[$key]["cs_product_price"], 2, '.', ',').'</s></small>' : "" ?>
+                                    <?= " / " . $products[$key]["cs_unit"]  ?>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </a>

@@ -75,3 +75,20 @@ function login(){
   });
 
 }
+
+$(function(){
+
+  scroll(0,0);
+
+  setTimeout(function(){
+    scroll(0,0);
+  },100)
+  setTimeout(function(){
+    if(window.location.hash) {
+      $('html, body').animate({
+        scrollTop: $(window.location.hash).offset().top + 'px'
+      }, 1000, 'swing')
+    }
+  }, 110)
+
+})

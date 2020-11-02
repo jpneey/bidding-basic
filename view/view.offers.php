@@ -404,7 +404,7 @@ class viewOffers extends Offers {
             ?>
             <div class="col s12 block">
                 <a href="<?= $this->BASE_DIR.'bid/'.$link.'/' ?>">
-                    <div class="feed-card feed-card-full white z-depth-0 <?= $statusStyle ?>">
+                    <div class="feed-card feed-card-full white <?= $statusStyle ?> hoverable">
                         <div class="feed-card white z-depth-0">
                             <div class="feed-head">
                                 <div class="feed-user-avatar">

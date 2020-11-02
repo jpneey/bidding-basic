@@ -71,16 +71,11 @@ class Search extends DBHandler {
         <a href="#!" class="filter grey-text">Filters</a>
         <div class="filter-panel">
         <select required name="mode" class="browser-default c">
-            <option value="<?= $this->DEFAULT ?>" selected>Search in <?= $this->DEFAULT ?></option>
+            <option value="<?= $this->DEFAULT ?>" selected>Search in <?= ucfirst($this->DEFAULT) ?></option>
             <?php 
-                switch($this->DEFAULT) {
-                    case 'bid':
-                        echo '<option value="blog">Search in Blog</option>';
-                        break;
-                    default:
-                        echo '<option value="bid">Search in Bid</option>';
-                        break;
-                }
+                echo '<option value="blog">Search in Blog</option>';
+                echo '<option value="product">Search in Products</option>';
+                echo '<option value="bid">Search in Bid</option>';
             ?>
         </select>
         <select required name="category" class="browser-default b" id="search-category">

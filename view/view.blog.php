@@ -32,19 +32,20 @@ class viewBlogs extends Blogs {
             <div class="card feed categ-filter z-depth-0"
             data-category = "<?= $category_name ?>"
             >
-                <div class="card-image">
-                    <?= $blog_featured_image ?>
-                    <div class="overlay"></div>
-                    <span class="card-title truncate">
-                        <br>
-                        <?= $blog_title ?>
-                        <small class="m-tag orange darken-2">BLOG POST</small>
-                    </span>
-                </div>
-                <div class="card-content">
-                <small><?= $category_name.' @ '.$blog_added ?></small>
-
-                    <p class="truncate un-margin"><?= $blog_description ?></p>
+                <div class="hoverable">
+                    <div class="card-image">
+                        <?= $blog_featured_image ?>
+                        <div class="overlay"></div>
+                        <span class="card-title truncate">
+                            <br>
+                            <?= $blog_title ?>
+                            <small class="m-tag orange darken-2">BLOG POST</small>
+                        </span>
+                    </div>
+                    <div class="card-content">
+                        <small><?= $category_name.' @ '.$blog_added ?></small>
+                        <p class="truncate un-margin"><?= $blog_description ?></p>
+                    </div>
                 </div>
             </div>
         </a>
@@ -53,10 +54,10 @@ class viewBlogs extends Blogs {
         } else {
         ?>
             
-        <div class="post-card white z-depth- waves-effect">    
+        <div class="card feed z-depth-0 waves-effect">    
             <div class="title"><b>There's nothing here.</b></div>
             <div class="sub-title grey-text">Sadly, there are no blog post related to your searching criteria. If you are using multiple filters, please try again with less filter.</div>
-            <p class="sub-title grey-text"><a href="<?= $this->BASE_DIR ?>" class="btn orange white-text">Home</a></p>
+            <p class="sub-title grey-text"><a href="<?= $this->BASE_DIR ?>" class="btn orange white-text z-depth-0">Home</a></p>
             <div class="image-wrapper"></div>
         </div>
         <?php

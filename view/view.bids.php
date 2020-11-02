@@ -48,30 +48,29 @@ class viewBids extends Bids {
                 <div class="card feed categ-filter loc-filter z-depth-0"
                 data-category="<?= $catName ?>"
                 data-location="<?= $province ?>"
-                >
-                    <div class="card-image">
-                        <?= $bidInFeedPicture ?>
-                        <div class="overlay"></div>
-                        <span class="card-title truncate">
-                            <small><?= $province.' @ '.$datePosted ?></small>
-                            <br>
-                            <?= $bidInFeedTitle ?>
-                            <br>
-                            <small class="m-tag orange darken-1"><?= $catName ?></small>
-                        </span>
-                    </div>
-                    <div class="card-content">
-                        <span class="ratings un-pad"><?= $rating ?></span>
-                        <p class="truncate un-margin"><?= $bidInFeedDetails ?></p>
-                        <p>
-                            <small>
-                            <?php if(!empty($rated)) { ?>
-                            <?= number_format($bidsInFeed[$key]['cs_owner_rating'], 1, '.', ',') ?> out of <?= $rated ?> review(s)
-                            <?php } else { echo "No reviews yet"; } ?>
-                            </small>
-                        </p>
-                        
-                        
+                >   <div class="hoverable">
+                        <div class="card-image">
+                            <?= $bidInFeedPicture ?>
+                            <div class="overlay"></div>
+                            <span class="card-title truncate">
+                                <small><?= $province.' @ '.$datePosted ?></small>
+                                <br>
+                                <?= $bidInFeedTitle ?>
+                                <br>
+                                <small class="m-tag orange darken-1"><?= $catName ?></small>
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <span class="ratings un-pad"><?= $rating ?></span>
+                            <p class="truncate un-margin"><?= $bidInFeedDetails ?></p>
+                            <p>
+                                <small>
+                                <?php if(!empty($rated)) { ?>
+                                <?= number_format($bidsInFeed[$key]['cs_owner_rating'], 1, '.', ',') ?> out of <?= $rated ?> review(s)
+                                <?php } else { echo "No reviews yet"; } ?>
+                                </small>
+                            </p>
+                        </div>
                     </div>
                 </div>
                 </a>
@@ -306,7 +305,7 @@ class viewBids extends Bids {
                 $datePosted = '<time>'.date_format(date_create($userBids[$key]["cs_bidding_added"]), 'D d M Y').'</time>'; ?>
  
                 <a href="<?= $this->BASE_DIR.'bid/'.$bidInFeedLink ?>">
-                    <div class="feed-card feed-card-full white z-depth-0 <?= $statusStyle ?>">
+                    <div class="feed-card feed-card-full white <?= $statusStyle ?> hoverable">
                         <div class="feed-head">
                             <p class="grey-text text-darken-3">
                                 <?= $bidInFeedTitle ?><br>

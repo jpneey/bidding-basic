@@ -29,6 +29,34 @@ class controllerSearch extends DBHandler {
         return array($filter,$type,$value);
     }
 
+    public function searchProduct($queue, $location, $category){
+
+        $queue = Sanitizer::filter($queue, 'var', 'str');
+        $options = array();
+
+        if($category){
+            $options[] = array('c.cs_category_id = ?', 'i', $category);
+        }
+
+        if($location){
+            $options[] = array('c.cs_category_name LIKE ?', 's', "%{$location}%");
+        }
+
+        $filter = "AND (p.cs_product_name LIKE ? OR p.cs_product_details LIKE ? OR p.cs_product_price LIKE ? OR p.cs_unit LIKE ? OR c.cs_category_name LIKE ?)";
+        $type = "sssss";
+        $value = array("%{$queue}%", "%{$queue}%", "%{$queue}%", "%{$queue}%", "%{$queue}%");
+
+        if(!empty($options)){
+            foreach($options as $key => $v){
+                $filter .= " AND ".$options[$key][0];
+                $type .= $options[$key][1];
+                $value[] = $options[$key][2];
+            }
+        }
+
+        return array($filter,$type,$value);
+    }
+
     public function searchBlog($queue, $location, $category){
 
         $queue = Sanitizer::filter($queue, 'var', 'str');

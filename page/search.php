@@ -38,11 +38,14 @@ $s_mode = ($s_mode) ? $s_mode : 'bid';
             $viewBids = new viewBids($BASE_DIR);
           
             require_once "view/view.search.php";
-            $search = new Search($BASE_DIR, 'bid');
-            $search->searchForm(true);
           
             switch($s_mode){
                 case 'blog':
+
+                        
+                  $search = new Search($BASE_DIR, 'blog');
+                  $search->searchForm(true);
+
                   require_once "controller/controller.search.php";
                   require_once "model/model.blog.php";
                   require_once "view/view.blog.php";
@@ -54,11 +57,27 @@ $s_mode = ($s_mode) ? $s_mode : 'bid';
                   $viewBlogs->viewBlogs($filter, "There are no active biddings that matches your search criteria.<br>How about viewing our suppliers ?");  
                   
                   break;
-                case 'supplier':
-                
-                    break;
+                case 'product':
+    
+                  $search = new Search($BASE_DIR, 'product');
+                  $search->searchForm(true);
+
+                  require_once "controller/controller.search.php";
+                  require_once "model/model.supplier.php";
+                  require_once "view/view.supplier.php";
+                  $controllerSearch = new controllerSearch();
+
+                  $filter = $controllerSearch->searchProduct($s_queue, $s_location, $s_category);
+
+                  $viewSupplier = new viewSupplier($BASE_DIR, $conn);
+                  $viewSupplier->viewFeed($filter);
+
+                  break;
                 case 'bid':
                 default:
+
+                  $search = new Search($BASE_DIR, 'bid');
+                  $search->searchForm(true);
                   require_once "controller/controller.search.php";
                   $controllerSearch = new controllerSearch();
                   $filter = $controllerSearch->searchBid($s_queue, $s_location, $s_category);

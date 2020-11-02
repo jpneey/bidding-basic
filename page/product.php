@@ -22,6 +22,8 @@
         <div class="col s12" id="bidding-feed">
           <div class="feed-wrap-main">
           <?php
+
+            $search = new Search($BASE_DIR, 'product', $conn);
             $search->searchForm(true);
 
             require_once "model/model.supplier.php";
