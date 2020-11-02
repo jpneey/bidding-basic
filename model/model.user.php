@@ -201,4 +201,24 @@ class User extends DBHandler {
         return true;
     }
 
+    public function deleteNotifs($id){
+        $query = "DELETE FROM cs_notifications WHERE cs_user_id = ? AND cs_notif_read = 1";
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare($query);
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+    }
+
+    public function getBusinessProducts($__user_id){
+        
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("SELECT p.*, c.cs_category_name, AVG(r.cs_rating) AS cs_owner_rating FROM cs_products p LEFT JOIN cs_categories c ON c.cs_category_id = p.cs_category_id LEFT JOIN cs_user_ratings r ON p.cs_user_id = r.cs_user_rated_id WHERE p.cs_user_id = ? GROUP BY p.cs_product_id");
+        $stmt->bind_param("i", $__user_id);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+
+        return $result;
+    }
+
 }

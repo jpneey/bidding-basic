@@ -177,6 +177,11 @@ switch ($action) {
         $user->readNotifs($__user_id, $s);
         break;
 
+    case 'deleteread':
+        $s = Sanitizer::filter('t', 'get');
+        $user->deleteNotifs($__user_id);
+        break;
+
     case 'rate-update':
         /* $to = Sanitizer::filter('to', 'get');
         $rate = Sanitizer::filter('rate', 'post', 'int');

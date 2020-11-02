@@ -1,3 +1,38 @@
+@font-face {
+  font-family: 'Material Icons';
+  font-style: normal;
+  font-weight: 400;
+  src: url(font/MaterialIcons-Regular.eot); /* For IE6-8 */
+  src: local('Material Icons'),
+       local('MaterialIcons-Regular'),
+       url(font/MaterialIcons-Regular.ttf) format('truetype');
+}
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;  /* Preferred icon size */
+  display: inline-block;
+  line-height: 1;
+  text-transform: none;
+  letter-spacing: normal;
+  word-wrap: normal;
+  white-space: nowrap;
+  direction: ltr;
+
+  /* Support for all WebKit browsers. */
+  -webkit-font-smoothing: antialiased;
+  /* Support for Safari and Chrome. */
+  text-rendering: optimizeLegibility;
+
+  /* Support for Firefox. */
+  -moz-osx-font-smoothing: grayscale;
+
+  /* Support for IE. */
+  font-feature-settings: 'liga';
+}
+
 html, body {
   font-family: 'Poppins', sans-serif;
   background-color:white;
@@ -213,6 +248,7 @@ input.browser-default,
   padding-right: 15px  !important;
   border-color: transparent !important;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.125) !important;
+  appearance: none;
 }
 .ratings {width: 100%;}
 .ratings > i {
@@ -595,12 +631,39 @@ nav .unread {
   width: 100%;
   margin: auto;
 }
+.feed-wrap-main::after {
+  content: " ";
+  display: table;
+  clear: both;
+}
+.feed-wrap-main .m-tag {
+  display: block;
+  width: 70px;
+  text-align: center;
+}
 
 
 .feed-wrap-main .feed {
   float: left;
   width: 50%;
   padding: 0 15px;
+  transition: all 0.5s;
+}
+
+.feed.hidden {
+  width: 0;
+  overflow: hidden;
+  transition: all 0.5s;
+  padding: 0;
+}
+
+.card .card-content.on-dashboard {
+  padding-left: 0 !important;
+}
+
+.card.feed.on-profile {
+  border: 1px solid #e2dfdf;
+  padding: 0;
 }
 
 @media only screen and (min-width: 1450px) {  
@@ -617,6 +680,19 @@ nav .unread {
   .feed-wrap-main .feed {
     float: none;
     width: 100%;
+    padding: 0;
+  }
+  .card .card-content.on-dashboard {
+    padding: 24px !important;
+  }
+
+  
+  .feed.hidden {
+    width: 0;
+    height: 0;
+    margin: 0;
+    overflow: hidden;
+    transition: all 0.5s;
     padding: 0;
   }
   

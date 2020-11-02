@@ -447,9 +447,7 @@ class viewOffers extends Offers {
                     break;
                 case '2':
                 case 2:
-
-                    echo "<br><a href=\"#!\" class=\"btn waves-effect green white-text\">Bidding Marked as Complete</a> ";
-                    echo "<a href=\"#!\" data-selector=\"$status[1]\" data-mode=\"bid\" class=\"data-delete btn waves-effect red white-text\">Delete</a>";
+                    echo "<br><a href=\"#!\" data-selector=\"$status[1]\" data-mode=\"bid\" class=\"data-delete btn waves-effect red white-text\">Permanently Delete bidding</a>";
                     break;
             }
         }

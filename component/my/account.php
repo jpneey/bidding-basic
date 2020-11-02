@@ -74,7 +74,7 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
                     />
                 </div>
 
-                <?php if(!$newUser){ ?>
+                <?php if($newUser){ ?>
                        
                 <div class="input-field no-margin col s12">
                     <p><label>New Password *</label></p>

@@ -30,6 +30,18 @@ class Business extends DBHandler {
 
         return $result;
     }
+    
+    public function getBusinessProducts($__user_id){
+        
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("SELECT p.*, c.cs_category_name, AVG(r.cs_rating) AS cs_owner_rating FROM cs_products p LEFT JOIN cs_categories c ON c.cs_category_id = p.cs_category_id LEFT JOIN cs_user_ratings r ON p.cs_user_id = r.cs_user_rated_id WHERE p.cs_user_id = ? GROUP BY p.cs_product_id");
+        $stmt->bind_param("i", $__user_id);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+
+        return $result;
+    }
 
     public function postUserBusiness($value = array()){
         if(empty($value)){
@@ -66,6 +78,99 @@ class Business extends DBHandler {
         $stmt->execute();
         $stmt->close();
         return json_encode(array('code' => 1, 'message' => 'Business Updated'));
+    }
+
+    public function updateBusinessProduct($cs_category_id, $cs_user_id, $cs_product_name, $cs_product_details, $cs_product_price, $cs_sale_price, $cs_unit, $cs_product_permalink, $cs_link, $cs_link_text, $cs_product_id){
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("UPDATE cs_products SET 
+            cs_category_id = ?,
+            cs_product_name = ?,
+            cs_product_details = ?,
+            cs_product_price = ?,
+            cs_sale_price = ?,
+            cs_unit = ?,
+            cs_product_permalink = ?,
+            cs_link = ?,
+            cs_link_text = ?
+            WHERE cs_product_id = ? AND cs_user_id = ?
+        ");
+
+        $stmt->bind_param("issssssssii",$cs_category_id, $cs_product_name, $cs_product_details, $cs_product_price, $cs_sale_price, $cs_unit, $cs_product_permalink, $cs_link, $cs_link_text, $cs_product_id, $cs_user_id);
+        $stmt->execute();
+        $stmt->close();
+        return json_encode(array('code' => 2, 'message' => 'Product Updated', 'link' => '../my/business/?updated=product'));
+    }
+
+    public function addBusinessProduct($cs_category_id, $cs_user_id, $cs_product_name, $cs_product_details, $cs_product_image, $cs_product_price, $cs_sale_price, $cs_unit, $cs_product_permalink, $cs_link, $cs_link_text){
+        
+        error_reporting(0);
+        
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("SELECT cs_account_status FROM cs_users WHERE cs_user_role = 2 AND cs_user_id = ?");
+        $stmt->bind_param('i', $cs_user_id);
+        $stmt->execute();
+        $cs_account_status = $stmt->get_result()->fetch_row();
+        $stmt->close();
+
+        if(empty($cs_account_status) || empty($cs_account_status[0])) {
+            return json_encode(array('code' => 0, 'message' => 'Please upgrade to PRO'));
+        }
+
+        $stmt = $connection->prepare("SELECT cs_product_id FROM cs_products WHERE cs_user_id = ?");
+        $stmt->bind_param('i', $cs_user_id);
+        $stmt->execute();
+        $total_products = $stmt->get_result()->num_rows;
+        $stmt->close();
+
+        if($total_products > 3){
+            return json_encode(array('code' => 0, 'message' => 'You\'ve reached your maximum(3) amount of featured products.'));
+        }
+
+        $stmt = $connection->prepare("INSERT INTO cs_products(cs_category_id, cs_user_id, cs_product_name, cs_product_details, cs_product_image, cs_product_price, cs_sale_price, cs_unit, cs_product_permalink, cs_link, cs_link_text) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+        $stmt->bind_param("iisssssssss", $cs_category_id, $cs_user_id, $cs_product_name, $cs_product_details, $cs_product_image, $cs_product_price, $cs_sale_price, $cs_unit, $cs_product_permalink, $cs_link, $cs_link_text);
+        $stmt->execute();
+        $stmt->close();
+
+        return json_encode(array('code' => 2, 'message' => 'Product Added', 'link' => '../my/business/?updated=product'));
+    }
+
+    private function deleteProductImage($cs_product_id, $cs_user_id){
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("SELECT cs_product_image FROM cs_products WHERE cs_product_id = ? AND cs_user_id = ?");
+        $stmt->bind_param("ii", $cs_product_id, $cs_user_id);
+        $stmt->execute();
+        $image = $stmt->get_result()->fetch_row();
+        $stmt->close();
+
+        if(empty($image)) {
+            return json_encode(array('code' => 0, 'message' => 'It looks like you are unauthorized to perform this action.'));
+        }
+
+        $link = '../static/asset/product/'.$image[0];
+        if(file_exists($link) && !is_dir($link)){ unlink($link);}
+    }
+
+    public function updateProductImage($cs_user_id, $cs_product_id, $cs_product_old_image, $cs_product_image){
+        $this->deleteProductImage($cs_product_id, $cs_user_id);
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("UPDATE cs_products SET cs_product_image = ? WHERE cs_product_id = ? AND cs_user_id = ?");
+        $stmt->bind_param("sii", $cs_product_image, $cs_product_id, $cs_user_id);
+        $stmt->execute();
+        $stmt->close();
+        return json_encode(array('code' => 2, 'message' => 'Image Updated', 'link' => '../my/business/?updated=product'));
+    }
+
+    public function deleteProduct($id, $userId){
+
+        $this->deleteProductImage($id, $userId);
+        $connection = $this->connectDB();
+        $stmt = $connection->prepare("DELETE FROM cs_products WHERE cs_product_id = ? AND cs_user_id = ?");
+        $stmt->bind_param("ii", $id, $userId);
+        $stmt->execute();
+        $stmt->close();
+
+        return json_encode(array('code' => 2, 'message' => 'Item permanently deleted', 'link' => '../my/business/?updated=product'));
+
     }
 
     

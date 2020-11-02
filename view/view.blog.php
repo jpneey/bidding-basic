@@ -26,13 +26,16 @@ class viewBlogs extends Blogs {
             ';
         ?>
         <a href="<?= $this->BASE_DIR . 'blog/' . $blog_permalink ?>" class="grey-text text-darken-3">               
-            <div class="card feed z-depth-0">
+            <div class="card feed categ-filter z-depth-0"
+            data-category = "<?= $category_name ?>"
+            >
                 <div class="card-image">
                     <?= $blog_featured_image ?>
                     <div class="overlay"></div>
                     <span class="card-title truncate">
                         <br>
                         <?= $blog_title ?>
+                        <small class="m-tag orange darken-2">BLOG POST</small>
                     </span>
                 </div>
                 <div class="card-content">
@@ -41,7 +44,7 @@ class viewBlogs extends Blogs {
                     <p class="truncate un-margin"><?= $blog_description ?></p>
                 </div>
             </div>
-            </a>
+        </a>
         <?php
         }
         } else {

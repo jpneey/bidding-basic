@@ -48,6 +48,7 @@ if(!$selector){
             prepareModal(<?= $viewOnLoad ?>)
         })
     </script>
+    <script src="<?= $BASE_DIR ?>static/js/services/services.feed.js?v=beta-199"></script>
     <?php
     }
     require "./component/footer.php";

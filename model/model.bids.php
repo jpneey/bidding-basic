@@ -69,7 +69,7 @@ class Bids extends DBHandler {
         
         if(!empty($filter)) { $query .= " ".$filter[0];}
 
-        $query .= " GROUP BY cs_bidding_id ORDER BY cs_bidding_id DESC";
+        $query .= " GROUP BY cs_bidding_id ORDER BY cs_owner_rating DESC, cs_bidding_title ASC";
 
         $stmt = $connection->prepare($query);
         if(!empty($filter)) {
@@ -275,7 +275,7 @@ class Bids extends DBHandler {
                 $id = $toNotif[$key]["cs_bidding_user_id"];
                 $list[] = $id;
                 $link = $toNotif[$key]['cs_bidding_permalink'];
-                $notification = "Bidding: <a data-to\"bid/$link\"><b>".$toNotif[$key]["cs_bidding_title"] . "</b></a> has expired.";
+                $notification = "Bidding: <a data-to=\"bid/$link\"><b>".$toNotif[$key]["cs_bidding_title"] . "</b></a> has expired.";
                 $stmt = $connection->prepare("INSERT INTO cs_notifications(cs_notif, cs_user_id, cs_added) VALUES('$notification', '$id', '$currentDateTimeStamp')");
                 $stmt->execute();
                 $stmt->close();

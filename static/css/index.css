@@ -88,7 +88,9 @@
     color: white;
     margin-bottom: 15px !important;
 }
-
+.home-panel .panel-content a.btn {
+    margin-bottom: 5px !important;
+}
 .home-panel .panel-content p.has-icon {
     position: relative;
     padding-left: 60px;
@@ -116,6 +118,14 @@
 }
 .tooltipped {
     cursor: pointer;
+}
+
+.panel-content a.mm {
+    text-align: center;
+    display: block;
+    max-width: 150px;
+    margin: 40px auto;
+    border-radius: 25px;
 }
 
 @media only screen and (max-width: 700px) {  

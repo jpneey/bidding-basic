@@ -15,123 +15,61 @@ class viewSupplier extends Supplier {
     }
 
     public function ViewFeed(){
-        // $supplier = $this->getSuppliers();
-        $supplier = array();
-        if(!empty($supplier)){
-            foreach($supplier as $key=>$value){ ?>
-                <!-- products here -->
+        
+        $products = $this->getProducts();
+        if(!empty($products)){
+            ?>    
+            <script type="text/javascript" src="<?= $this->BASE_DIR ?>static/js/lazy.js"></script>
+            <script type="text/javascript" src="<?= $this->BASE_DIR ?>static/js/lazy-init.js"></script>
+            <?php
+            
+            foreach($products as $key=>$value){ 
+                $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($products[$key]['cs_owner_rating']));
+                
+                $sale = ($products[$key]["cs_sale_price"] < $products[$key]["cs_product_price"]) ? true : false;
+
+                ?>
+                <a href="<?= $this->BASE_DIR . 'user/' . $products[$key]["cs_user_name"] ?>" class="grey-text text-darken-3">               
+                    <div class="card feed z-depth-0 categ-filter"
+                    data-category="<?= $products[$key]["cs_category_name"] ?>"
+                    >
+                        <div class="card-image">
+                            
+                            <img class="lazy" data-src="<?= $this->BASE_DIR.'static/asset/product/'.$products[$key]["cs_product_image"] ?>" alt="<?= $products[$key]["cs_product_name"] ?>"/>
+                            <div class="overlay"></div>
+                            <span class="card-title truncate">
+                                <small><?= $products[$key]["cs_category_name"] ?></small> 
+                                <br>
+                                <?= $products[$key]["cs_product_name"] ?>
+                                <small class="m-tag orange darken-1">PRODUCT</small>
+                            </span>
+                        </div>
+                        <div class="card-content">
+                            <span class="ratings un-pad"><?= $rating ?></span>
+                            <p class="truncate un-margin"><?= $products[$key]["cs_product_details"] ?></p>
+                            <p>
+                                <b>&#8369; <?= ($sale) ? number_format($products[$key]["cs_sale_price"], 2, '.', ',') : number_format($products[$key]["cs_product_price"], 2, '.', ',') ?></b>
+                                <?= ($sale) ? '<small><s>'.number_format($products[$key]["cs_product_price"], 2, '.', ',').'</s></small>' : "" ?>
+                                <?= " / " . $products[$key]["cs_unit"]  ?>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+
                 <?php
             }
         } else {
-            
-            $BASE_DIR = $this->BASE_DIR;
-            $emptyTitle = "It's quiet in here..";
-            $emptyMessage = "Featured products will appear here, but ufortunately there are no featured products right now.";
-            require_once "./component/empty.php";
-        }
-    }
-
-    public function viewSupplier($selector, $loggedInId){
-        $selector = Sanitizer::filter($selector, 'var');
-        $supplier = $this->getSupplier($selector);
-        if(!empty($supplier)){
-            $title = $supplier[2];
-            $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($supplier[12]));
-            $tags = preg_split('@,@', $supplier[4], NULL, PREG_SPLIT_NO_EMPTY);
-            $tagchip = '';
-            foreach($tags as $tag) {
-                $tagchip .= '<span class="chip grey lighten-3">'.$tag.'</span>';
-            }
-
-        ?>
-            <div class="page white z-depth-1">
-                <div id="introduction" class="content scrollspy">
-                    <label><a href="<?= $this->BASE_DIR ?>" class="grey-text">Home</a> > supplier > <?= $title ?></label>
+            ?>
+            <div class="card feed z-depth-0">
+                <div class="card-content">
+                    <p><b>There's nothing here yet.</b></p>
                     <br>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptate odit aperiam maxime itaque autem aliquid enim ipsam repellendus quod laboriosam, vel cum unde pariatur debitis tempore temporibus excepturi ut officiis.</p>
                     <br>
-                    <h1 class="no-margin">
-                        <b><?= $title ?></b>
-                        <span class="ratings"><?= $rating ?></span>
-                    </h1>
-                    <p><br><b>Products & Services</b></p>
-                    <div><span class="chip white-text grey lighten-1"><?= $supplier[13] ?></span><?= $tagchip ?></div>
-                    <p><br><?= $supplier[10] ?></p>
-                    <?= $this->featuredProduct(unserialize($supplier[5])) ?>
-                    <p><br><b>Contact Details</b></p>
-                    <div>
-                        <?= $this->contactDetails($supplier[9]) ?>
-                        <a href="mailto:<?= $supplier[8] ?>" class="chip teal white-text darken-1" ><?= $supplier[8] ?></a>
-                    </div>
-                    <?= $this->ratings($supplier[14]) ?>
+                    <p class="sub-title grey-text"><a href="<?= $this->BASE_DIR ?>" class="btn orange white-text z-depth-0">Back to home</a></p>
                 </div>
             </div>
-
-            <link href="<?= $this->BASE_DIR ?>static/css/timer.css" type="text/css" rel="stylesheet"/>
-            <link href="<?= $this->BASE_DIR ?>static/css/bid.css" type="text/css" rel="stylesheet"/>
-
-        <?php
-        }
-    }
-
-    public function featuredProduct($products = array()){
-        
-        if(!empty($products)){
-        ?>
-        <div class="glance white">
-            <?php                
-                $item = $products[1];
-                $budget = number_format($products[4], '2', '.', ',');
-                $qty = $products[3] . ' ' . $products[2];
-                $picture = $products[0];
-            ?>
-            <div class="product-card item">
-                <div class="thumbnail">
-                    <img id="bidding-details" src="<?= $this->BASE_DIR ?>static/asset/bidding/<?= $picture ?>" class="margin-auto materialboxed" />
-                </div>
-                <div class="content">
-                    <p class="truncate grey-text">₱ <?= $budget ?> - <?= $qty ?></p>
-                    <p><b><?= $item ?></b></p>
-                </div>
-            </div>
-        </div>
-    <?php
-        }
-    }
-    
-    public function contactDetails($contacts = array()){ 
-        if(!empty($contacts)){
-            $facebook = (isset($contacts['cs_facebook']) && !empty($contacts['cs_facebook'])) ? $contacts['cs_facebook'] : '#!';
-            $linkedin = (isset($contacts['cs_linkedin']) && !empty($contacts['cs_linkedin'])) ? $contacts['cs_linkedin'] : '#!';
-            $website = (isset($contacts['cs_website']) && !empty($contacts['cs_website'])) ? $contacts['cs_website'] : '#!';
-            
-            $telephone = (isset($contacts['cs_telephone']) && !empty($contacts['cs_telephone'])) ? $contacts['cs_telephone'] : '';
-            $mobile = (isset($contacts['cs_mobile']) && !empty($contacts['cs_mobile'])) ? $contacts['cs_mobile'] : '';
-            
-            ?>
-            <a href="<?= $facebook ?>" class="chip blue white-text darken-3" >Facebook</a>
-            <a href="<?= $linkedin ?>" class="chip blue white-text darken-1" >Linkedin</a>
-            <a href="<?= $website ?>" class="chip orange white-text darken-1" >Website</a><br>
-            <?php if(!empty($telephone)){ ?>
-            <a href="tel:<?= $telephone ?>" class="chip teal white-text" >+<?= $telephone ?></a>
-            <? } if(!empty($mobile)) { ?>
-            <a href="tel:<?= $mobile ?>" class="chip teal white-text darken-2" ><?= $mobile ?></a>
             <?php
-            }
-        }
-    }
-
-    public function ratings($ratings){
-        if(!empty($ratings)) { 
-            echo '<p><br><b>What other people say</b></p>';
-            foreach($ratings as $key=>$value) {
-        ?>
-            <div class="content rating-comments">
-                <p class="no-margin black-text">Anonymous</p>
-                <p class="no-margin grey-text text-darken-1"><?= $ratings[$key]['cs_comment']; ?></p>
-                <p class="ratings no-margin"><?= str_repeat('<i class="material-icons orange-text">star</i>', round($ratings[$key]['cs_rating'])) ?></p>
-            </div>
-        <?php
-            }
         }
     }
     

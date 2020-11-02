@@ -20,15 +20,18 @@
     <div class="wrapper wrapper-top-bottom">
       <div class="container row">
         <div class="col s12" id="bidding-feed">
+          <div class="feed-wrap-main">
           <?php
+            $search->searchForm(true);
 
             require_once "model/model.supplier.php";
             require_once "view/view.supplier.php";
             $supplier = new Supplier();
             $viewSupplier = new viewSupplier($BASE_DIR);
-            (!empty($uri[1])) ? $viewSupplier->viewSupplier($uri[1], $__user_id) : $viewSupplier->viewFeed();  
+            $viewSupplier->viewFeed();  
           
           ?>
+          </div>
         </div>
 
       </div>

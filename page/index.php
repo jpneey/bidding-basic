@@ -12,7 +12,7 @@
   <link href="<?= $BASE_DIR ?>static/css/feed.css?v=beta-sxx2" type="text/css" rel="stylesheet"/>
   <link href="<?= $BASE_DIR ?>static/css/no-side.css?v=beta-sxx2" type="text/css" rel="stylesheet"/>
   <link href="<?= $BASE_DIR ?>static/js/swiper/swiper-bundle.min.css?v=beta-sxx2" type="text/css" rel="stylesheet"/>
-  <link href="<?= $BASE_DIR ?>static/css/index.css?v=beta-2222" type="text/css" rel="stylesheet"/>
+  <link href="<?= $BASE_DIR ?>static/css/index.css?v=beta-222s2" type="text/css" rel="stylesheet"/>
 
 </head>
 <body>
@@ -26,10 +26,9 @@
                 <div class="home-panel">
                     <div class="panel-content">
                         <h1 class="un-margin">Welcome<br>to Canvasspoint.</h1>
-                        <p  class="un-margin">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Provident rerum error corrupti.<br>
-                        Create your account for free!</p>
-                        <a href="#features" data-index="1" class="waves-effect swipe-scroll btn btn-small orange darken-4 white-text z-depth-0">Clients</a>
-                        <a href="#features" data-index="2" class="waves-effect swipe-scroll btn btn-small orange white-text z-depth-0">Suppliers</a>
+                        <p  class="un-margin">Where <b>demand</b> meets <b>supply.</b></p>
+                        <a href="#features" data-index="1" class="waves-effect swipe-scroll btn btn-small orange white-text z-depth-0">I need an product/service</a><br>
+                        <a href="#features" data-index="2" class="waves-effect swipe-scroll btn btn-small teal darken-2 white-text z-depth-0">I supply a product/service</a>
                     </div>
                     <div class="overflow"></div>
                     <img src="<?= $BASE_DIR ?>static/asset/media/baking.jpg?v=3" alt="canvasspoint">
@@ -47,31 +46,32 @@
                                 <p class="has-icon truncate"><i class="material-icons circle orange darken-1 white-text">done_all</i> Lorem Ipsum dotor sit amet dotor</p>
                                 <p class="has-icon truncate"><i class="material-icons circle orange white-text">done_all</i> Rapidly growing community</p>
                                 <p class="has-icon truncate"><i class="material-icons circle orange lighten-1 white-text">done_all</i> Free & Scalable Plans</p>
+                            
                             </div>
                         </div>
                         <div class="swiper-slide home-panel dark">
                             <div class="panel-content">
-                                <h1 class="un-margin">The Clients.</h1>
-                                <p  class="un-margin">It consectetur adipisicing elit. Provident rerum error corrupti.<br></p>
+                                <h1 class="un-margin">Client</h1>
+                                <p  class="un-margin">As a client, you can post your product/service requirement and suppliers will send their best bids based on your specific requirement.<br></p>
                                 <br>
-                                <p class="has-icon truncate"><i class="number circle green lighten-1 white-text">1</i> Post a bidding for what you need.</p>
-                                <p class="has-icon truncate"><i class="number circle green lighten-1 white-text">2</i> Suppliers will make an offer for it.</p>
-                                <p class="has-icon truncate"><i class="number circle green lighten-1 white-text">3</i> Choose bidding winner.</p>
-                                <p class="has-icon truncate pro tooltipped" data-position="bottom" data-tooltip="Pro Feature"><i class="material-icons circle orange white-text">all_inclusive</i> Choose multiple bidding winners</p>
-                                <p class="has-icon truncate"><i class="material-icons pulse circle green darken-2 white-text">done</i> Get what you need.</p>
+                                <p class="has-icon truncate"><i class="number circle green lighten-1 white-text">1</i> Post what you need</p>
+                                <p class="has-icon truncate"><i class="number circle green white-text">2</i> Suppliers will send their best bid.</p>
+                                <p class="has-icon truncate"><i class="number circle green darken-1 white-text">3</i> Choose from the bids.</p>
+                                <p class="has-icon truncate"><i class="number circle green darken-2 white-text">4</i> Complete transaction with the supplier.</p>
+                                <a href="#features" data-index="3" class="waves-effect swipe-scroll btn btn-small orange white-text z-depth-0 mm">Get Started</a>
                             </div>
 
                         </div>
                         <div class="swiper-slide home-panel dark">
                             <div class="panel-content">
-                                <h1 class="un-margin">The Suppliers.</h1>
-                                <p  class="un-margin">It consectetur adipisicing elit. Provident rerum error corrupti.<br></p>
+                                <h1 class="un-margin">Suppliers</h1>
+                                <p  class="un-margin">Find clients who need your product/service in one place and offer your best bid.<br></p>
                                 <br>
-                                <p class="has-icon truncate pro tooltipped" data-position="bottom" data-tooltip="Pro Feature"><i class="material-icons circle orange white-text">all_inclusive</i> Publish Your Featured Products</p>
-                                <p class="has-icon truncate"><i class="number circle green lighten-1 white-text">1</i> Find active biddings.</p>
-                                <p class="has-icon truncate"><i class="number circle green lighten-1 white-text">2</i> Make an offer for it.</p>
-                                <p class="has-icon truncate"><i class="number circle green lighten-1 white-text">3</i> Win the bidding.</p>
-                                <p class="has-icon truncate"><i class="material-icons pulse circle green darken-2 white-text">done</i> Add sales to your business.</p>
+                                <p class="has-icon truncate"><i class="number circle green lighten-1 white-text">1</i> Choose from the requirement posts.</p>
+                                <p class="has-icon truncate"><i class="number circle green white-text">2</i> Provide your best bid.</p>
+                                <p class="has-icon truncate"><i class="number circle green darken-1 white-text">3</i> Win the bid once the client chooses you.</p>
+                                <p class="has-icon truncate"><i class="number circle green darken-2 white-text">4</i> Complete transaction with the client.</p>
+                                <a href="#features" data-index="3" class="waves-effect swipe-scroll btn btn-small orange white-text z-depth-0 mm">Get Started</a>
                             </div>
                         </div>
 

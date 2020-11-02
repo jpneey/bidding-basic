@@ -70,21 +70,21 @@ class Search extends DBHandler {
                 }
             ?>
         </select>
-        <select required name="category" class="browser-default b">
+        <select required name="category" class="browser-default b" id="search-category">
             <?= $this->getCategories() ?>
         </select>
-        <select required name="location" class="browser-default a">
-            
+        <select required name="location" class="browser-default a" id="search-location">
             <?= $this->getLocations() ?>
         </select>
+        <button type="button" class="btn waves-effect white black-text z-depth-0 clear-filter">Clear Filters</button>
         </div>
         <?php
     }
 
     public function getLocations(){
-        if(isset($_GET['location']) && !empty($_GET['location'])) {
+        /* if(isset($_GET['location']) && !empty($_GET['location'])) {
             echo '<option value="'.$_GET['location'].'" selected>Search in '.$_GET['location'].'</option>';
-        }
+        } */
         echo '<option value="0">All Locations</option>';
         $connection = $this->connectDB();
         $stmt = $connection->prepare("SELECT * FROM cs_locations ORDER BY cs_location ASC");
@@ -100,9 +100,9 @@ class Search extends DBHandler {
         }
     }
     public function getCategories(){
-        if(isset($_GET['category']) && !empty($_GET['category'])) {
+        /* if(isset($_GET['category']) && !empty($_GET['category'])) {
             echo '<option value="'.$_GET['category'].'" selected>Category</option>';
-        }
+        } */
         echo '<option value="0">All Categories</option>';
         $connection = $this->connectDB();
         $stmt = $connection->prepare("SELECT * FROM cs_categories ORDER BY cs_category_name ASC");

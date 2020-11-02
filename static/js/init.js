@@ -15,7 +15,7 @@ $(function(){
     $('.modal').modal({
         inDuration : '500',
         outDuration : '500',
-        preventScrolling: false
+        preventScrolling: true
     });
     $('.fixed-action-btn').floatingActionButton({
         hoverEnabled: false
@@ -101,15 +101,16 @@ function searchToggle() {
 }
 
 function markAsRead(){
-    $('.mark-as-read').on('click', function(){
-        $('.unread').fadeOut(500);
-        $('.notif-panel').addClass('read');
+    $('.delete-all-read').on('click', function(){
         $.ajax({
-            url: root + 'controller/controller.user.php?action=read',
+            url: root + 'controller/controller.user.php?action=deleteread',
             type: 'GET',
             processData: false,
             contentType: false,
-            success: function(data) {
+            success: function() {
+                $('.notif-panel.read').fadeOut(500, function(){
+                    $(this).remove();
+                })
                 
             }   
         })

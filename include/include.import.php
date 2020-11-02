@@ -18,7 +18,7 @@ $isLoggedIn = $auth->compareSession('auth', true);
 $isBidder = false;
 $isSupplier = false;
 
-$loggedInUserAvatar = $loggedInUserName = $loggedInUserEmail = '';
+$loggedInAccountType = $loggedInUserAvatar = $loggedInUserName = $loggedInUserEmail = '';
 
 if($isLoggedIn){
     $__user_id   = (int)$auth->getSession('__user_id');

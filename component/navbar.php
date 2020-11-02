@@ -19,7 +19,9 @@ if($isLoggedIn) {
             <ul class="right">
                 <li><a href="<?= $BASE_DIR ?>blogs/" class="hide-on-med-and-down">Blog</a></li>
                 <li><a href="<?= $BASE_DIR ?>home/" class="hide-on-med-and-down">Biddings</a></li>
+                <?php if(!$isLoggedIn) { ?>
                 <li><a href="<?= $BASE_DIR ?>home/?sidebar=0" class="hide-on-med-and-down">Login</a></li>
+                <?php } ?>
                 <li><a href="<?= $BASE_DIR ?>product/" class="hide-on-med-and-down">Products</a></li>
                 <li><a href="#!" data-target="menu-nav" class="sidenav-trigger no-margin"><i class="material-icons">menu</i></a></li>
                 <?php if($isLoggedIn) { ?>
@@ -41,7 +43,9 @@ if($isLoggedIn) {
     </li>
     <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>blogs/">Blog</a></li>
     <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>home/">Biddings</a></li>
+    <?php if(!$isLoggedIn) { ?>
     <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>home/?sidebar=0">Login</a></li>
+    <?php } ?>
     <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>product/">Products</a></li>
                 
 </ul>
@@ -70,7 +74,7 @@ if($isLoggedIn) {
     <ul id="notification-nav" class="sidenav grey lighten-3">
         <li class="navbar-fixed"></li>
         <li class="white">
-            <a class="waves-effect mark-as-read"><i class="material-icons left">notes</i><b>Mark All as read</b></a>
+            <a class="waves-effect mark-as-read delete-all-read"><i class="material-icons left">notes</i><b>Delete all read</b></a>
         </li>
         
         <li class="notif-panel">

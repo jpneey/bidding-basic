@@ -9,6 +9,7 @@ $(function(){
   offerModalTrigger();
   prepareOffer();
   viewModal();
+  seachDropdown();
 })
 
 
@@ -164,4 +165,62 @@ function viewPoster() {
       }
     })
   })
+}
+
+function seachDropdown(){
+  $('#search-category').on('change', function(){
+    filterSearch(0);
+  })
+  $('#search-location').on('change', function(){
+    filterSearch(1);
+  })
+
+  $('.clear-filter').on('click', function(){
+    $('#search-category, #search-location').val(0);
+    $(".categ-filter, .loc-filter").removeClass("hidden");
+  })
+
+}
+function filterSearch(t){
+  var cat = $.trim($("#search-category option:selected").text());
+  var loc = $.trim($("#search-location option:selected").text());
+  /* categ-filter loc-filter */
+  if(t == 0) {
+    $(".categ-filter").removeClass("hidden");
+    if(cat != "All Categories"){
+      $(".categ-filter").not("[data-category='"+cat+"']").toggleClass("hidden", function(){
+        $(".categ-filter[data-category='"+cat+"']").removeClass("hidden");
+      });
+    } else {
+      $(".categ-filter").removeClass("hidden");
+    }
+    
+    if(loc != "All Locations"){
+      $(".loc-filter").addClass("hidden");
+      if(cat != "All Categories"){
+        $(".loc-filter[data-location='"+loc+"'][data-category='"+cat+"']").removeClass("hidden");
+      } else {
+        $(".loc-filter[data-location='"+loc+"']").removeClass("hidden");
+      }
+    }
+    
+  }
+  if(t == 1) {
+    $(".loc-filter").removeClass("hidden");
+    if(loc != "All Locations"){
+      $(".loc-filter").not("[data-location='"+loc+"']").toggleClass("hidden", function(){
+        $(".loc-filter[data-location='"+loc+"']").removeClass("hidden");
+      });
+    } else {
+      $(".loc-filter").removeClass("hidden");
+    }
+    if(cat != "All Categories"){
+      $(".categ-filter").addClass("hidden");
+      if(loc != "All Locations"){
+        $(".categ-filter[data-location='"+loc+"'][data-category='"+cat+"']").removeClass("hidden");
+      } else {
+        $(".categ-filter[data-category='"+cat+"']").removeClass("hidden");
+      }
+    }
+  }
 }

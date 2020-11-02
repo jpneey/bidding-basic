@@ -21,13 +21,13 @@ class viewBids extends Bids {
         <script type="text/javascript" src="<?= $this->BASE_DIR ?>static/js/lazy-init.js"></script>
         <?php
         if(!empty($bidsInFeed)){
-    
             foreach($bidsInFeed as $key=>$value){
                 $bidInFeedTitle = $bidsInFeed[$key]["cs_bidding_title"];
                 $bidInFeedDetails = $bidsInFeed[$key]["cs_bidding_details"];
                 $bidInFeedLink = $bidsInFeed[$key]["cs_bidding_permalink"];
                 $datePosted = $bidsInFeed[$key]["cs_bidding_added"];
                 $province = $bidsInFeed[$key]["cs_bidding_location"];
+                $catName = $bidsInFeed[$key]["cs_category_name"];
                 $datePosted = '<time class="timeago" datetime="'.$bidsInFeed[$key]["cs_bidding_added"].'">'.$bidsInFeed[$key]["cs_bidding_added"].'</time>';
                 $bidInFeedPicture = '';
                 $rated = $bidsInFeed[$key]["cs_rated"];
@@ -42,7 +42,10 @@ class viewBids extends Bids {
                 
                 ?> 
                 <a href="<?= $this->BASE_DIR . 'bid/' . $bidInFeedLink ?>" class="grey-text text-darken-3">               
-                <div class="card feed z-depth-0">
+                <div class="card feed categ-filter loc-filter z-depth-0"
+                data-category="<?= $catName ?>"
+                data-location="<?= $province ?>"
+                >
                     <div class="card-image">
                         <?= $bidInFeedPicture ?>
                         <div class="overlay"></div>
@@ -50,17 +53,21 @@ class viewBids extends Bids {
                             <small><?= $province.' @ '.$datePosted ?></small>
                             <br>
                             <?= $bidInFeedTitle ?>
+                            <br>
+                            <small class="m-tag orange darken-1"><?= $catName ?></small>
                         </span>
                     </div>
                     <div class="card-content">
+                        <span class="ratings un-pad"><?= $rating ?></span>
                         <p class="truncate un-margin"><?= $bidInFeedDetails ?></p>
-                        <p><small>
+                        <p>
+                            <small>
                             <?php if(!empty($rated)) { ?>
                             <?= number_format($bidsInFeed[$key]['cs_owner_rating'], 1, '.', ',') ?> out of <?= $rated ?> review(s)
                             <?php } else { echo "No reviews yet"; } ?>
                             </small>
                         </p>
-                        <span class="ratings un-pad"><?= $rating ?></span>
+                        
                         
                     </div>
                 </div>

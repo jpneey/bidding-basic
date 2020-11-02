@@ -66,73 +66,90 @@ switch ($action) {
 
         break;
 
-    
-    case 'update-product':
+    case "product-delete":
+        $cs_user_id = $__user_id;
+        $toDelete = Sanitizer::filter('to-d', 'post', 'int');
+        $message = $business->deleteProduct($toDelete, $cs_user_id);
+        break;
 
-        $stmt = $connection->prepare("SELECT cs_business_id, cs_business_featured FROM cs_business WHERE cs_user_id = '$__user_id'");
-        $stmt->execute();
-        $exist = $stmt->get_result()->fetch_row();
-        $stmt->close();
+    case "product-update":
 
-        $update = (!empty($exist)) ? true : false;
-        
-        $cs_product_image = "#!";
+        $cs_product_id = Sanitizer::filter('cs_product_id', 'post', 'int');
+        $cs_category_id = Sanitizer::filter('cs_category_id', 'post');
+        $cs_user_id = $__user_id;
         $cs_product_name = Sanitizer::filter('cs_product_name', 'post');
-        $cs_product_unit = Sanitizer::filter('cs_product_unit', 'post');
-        $cs_product_qty = Sanitizer::filter('cs_product_qty', 'post', 'int');
+        $cs_product_details = Sanitizer::filter('cs_product_details', 'post');
+        
         $cs_product_price = Sanitizer::filter('cs_product_price', 'post');
+        $cs_sale_price = (Sanitizer::filter('cs_sale_price', 'post')) ?: $cs_product_price;
+        $cs_unit = Sanitizer::filter('cs_unit', 'post');
+        $cs_product_permalink = strtolower(Sanitizer::url($cs_product_name) . '-' . $cs_user_id.Sanitizer::generatePassword(3));
+        $cs_link = "#!";
+        $cs_link_text = "Add to Cart";
 
+        $response = $business->updateBusinessProduct($cs_category_id, $cs_user_id, $cs_product_name, $cs_product_details, $cs_product_price, $cs_sale_price, $cs_unit, $cs_product_permalink, $cs_link, $cs_link_text, $cs_product_id);
+        $message = $response;
+        break;
+
+    case "product-image":
+
+        $cs_user_id = $__user_id;
+        $cs_product_id = Sanitizer::filter('cs_product_id', 'post', 'int');
+        $cs_product_old_image = Sanitizer::filter('cs_product_old_image', 'post');
+        $cs_product_image = '#!';
         if (
-            FileValidator::isUploaded('cs_featured_image') &&
-            FileValidator::allowedSize('cs_featured_image', 3000000) &&
-            FileValidator::allowedType('cs_featured_image', array('jpg', 'png', 'jpeg', 'gif'))
+            FileValidator::isUploaded('cs_product_image') &&
+            FileValidator::allowedSize('cs_product_image', 3000000) &&
+            FileValidator::allowedType('cs_product_image', array('jpg', 'png', 'jpeg', 'gif'))
         ) {
-            $directory = '../static/asset/bidding/';
-            $cs_product_image = FileValidator::rename('featured-product', 'cs_featured_image');
+            $directory = '../static/asset/product/';
+            $cs_product_image = FileValidator::rename('prod', 'cs_product_image');
 
-            if (!FileValidator::upload($directory, 'cs_featured_image', $cs_product_image)) {
+            if (!FileValidator::upload($directory, 'cs_product_image', $cs_product_image)) {
                 $message = "File Upload(".$cs_product_image.") failed!";
                 echo json_encode(array('code' => 0, 'message' => $message));
                 exit();
-            }
-            if($update){
-                $featured = unserialize($exist[1]);
-                if(!empty($featured)){
-                    if(file_exists($directory.$featured[0])){
-                        unlink($directory.$featured[0]);
-                    }
-                }
-            }
+            } 
         }
 
-        $product = array(
-            $cs_product_image,
-            $cs_product_name,
-            $cs_product_unit,
-            $cs_product_qty,
-            $cs_product_price
-        );
-        $productToStore = serialize($product);
-
-        $message = $business->postUserFeatured($__user_id, $productToStore) ;
+        $cs_product_image = Sanitizer::sanitize($cs_product_image);
+        $message = $business->updateProductImage($cs_user_id, $cs_product_id, $cs_product_old_image, $cs_product_image);
+    
         break;
 
-    case 'delete':
-        $stmt = $connection->prepare("SELECT cs_business_id, cs_business_featured FROM cs_business WHERE cs_user_id = '$__user_id'");
-        $stmt->execute();
-        $exist = $stmt->get_result()->fetch_row();
-        $stmt->close();
+    case "product":
 
-        $featured = unserialize($exist[1]);
-        if(!empty($featured)){
-            $directory = '../static/asset/bidding/';
-            if(file_exists($directory.$featured[0])){
-                unlink($directory.$featured[0]);
-            }
+        $cs_category_id = Sanitizer::filter('cs_category_id', 'post');
+        $cs_user_id = $__user_id;
+        $cs_product_name = Sanitizer::filter('cs_product_name', 'post');
+        $cs_product_details = Sanitizer::filter('cs_product_details', 'post');
+
+        $cs_product_image = '#!';
+        if (
+            FileValidator::isUploaded('cs_product_image') &&
+            FileValidator::allowedSize('cs_product_image', 3000000) &&
+            FileValidator::allowedType('cs_product_image', array('jpg', 'png', 'jpeg', 'gif'))
+        ) {
+            $directory = '../static/asset/product/';
+            $cs_product_image = FileValidator::rename('prod', 'cs_product_image');
+
+            if (!FileValidator::upload($directory, 'cs_product_image', $cs_product_image)) {
+                $message = "File Upload(".$cs_product_image.") failed!";
+                echo json_encode(array('code' => 0, 'message' => $message));
+                exit();
+            } 
         }
 
-        $productToStore = serialize(array());
-        $message = $business->postUserFeatured($__user_id, $productToStore) ;
+        $cs_product_image = Sanitizer::sanitize($cs_product_image);
+
+        $cs_product_price = Sanitizer::filter('cs_product_price', 'post');
+        $cs_sale_price = (Sanitizer::filter('cs_sale_price', 'post')) ?: $cs_product_price;
+        $cs_unit = Sanitizer::filter('cs_unit', 'post');
+        $cs_product_permalink = strtolower(Sanitizer::url($cs_product_name) . '-' . $cs_user_id.Sanitizer::generatePassword(3));
+        $cs_link = "#!";
+        $cs_link_text = "Add to Cart";
+        $response = $business->addBusinessProduct($cs_category_id, $cs_user_id, $cs_product_name, $cs_product_details, $cs_product_image, $cs_product_price, $cs_sale_price, $cs_unit, $cs_product_permalink, $cs_link, $cs_link_text);
+        $message = $response;
         break;
 }
 
