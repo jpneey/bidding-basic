@@ -137,7 +137,8 @@ input.browser-default,
 
 .feed-card {
   margin-bottom: 15px;
-  border: 1px solid #e0e0e0;
+  border: 1px dashed #f2f2f2;
+
 }
 .feed-card .feed-card {
   border: none;
@@ -420,9 +421,35 @@ input.browser-default,
     padding: 15px !important;
   }
   .card-counter {
-    right: 10px;
-    top: 5px;
-    width: 40px;
+    left: 3px;
+    top: auto;
+    width: calc(100% - 3px);
+    position: relative;
+    display: block;
+    margin-bottom: 20px;
+    margin-top: -25px;
+    background: white;
+    height: 26px;
+    border-bottom: 1px solid #ddd;
+  }
+  .feed-card {
+    margin-bottom: -15px;
+    padding-bottom: 20px;
+  }
+  .card-counter > * {
+    display: inline-block;
+    height: 25px;
+    width: 33%;
+    font-size: 12px;
+    line-height: 25px;
+    margin-left: 0;
+    text-transform: lowercase;
+  }
+  .card-counter > *.orange {
+    display: none;
+  }
+  td .btn-small {
+    width: 100%;
   }
 
 }
@@ -528,7 +555,7 @@ nav .unread {
 
 .notif-panel a{
   color: #424242;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .notif-panel span {
@@ -537,11 +564,13 @@ nav .unread {
   line-height: 18px !important;
   font-size: 13px !important;
   border-bottom: 1px dashed #ddd;
+  text-decoration: none;
 }
 
 .notif-panel.read * {
   color: #9c9c9c;
   background-color: transparent;
+  text-decoration: none;
 }
 
 .rating-comments {
@@ -689,7 +718,7 @@ nav .unread {
 
 @media only screen and (max-width: 700px) {  
   .feed {
-    border: 1px solid #e2dfdf;
+    border: 1px dashed #f2f2f2;
   }
   .feed-wrap-main .feed {
     float: none;
@@ -709,5 +738,109 @@ nav .unread {
     transition: all 0.5s;
     padding: 0;
   }
+
+  .feed-footer p, .feed-head > p:nth-of-type(1) {
+    padding: 0 20px;
+  }
   
+}
+
+.item-cart,
+.this-timer {
+  background: #f9f9f9;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.125) !important;
+}
+
+
+.this-timer.white,
+.item-cart {
+  background: white;
+  box-shadow: none !important;
+  border: 1px dashed #f2f2f2;
+}
+
+body tr,
+.divider {
+  border-bottom: 1px dashed #f2f2f2;
+}
+.divider {
+  background-color: white !important;
+  background: white !important;
+}
+.this-timer.ns {
+  padding: 0 25px;
+  box-shadow: none !important;
+}
+.panel-adjust{
+  padding-top: 0px !important;
+  margin-top: -85px !important;
+}
+
+@media only screen and (max-width : 800px) {
+  body .page.panel-adjust{
+    padding-top: 0px !important;
+    margin-top: -20px !important;
+  }
+}
+.this-timer img {
+  display: block;
+  margin: 0 auto !important;
+  width: 43px;
+  height: 43px;
+}
+
+.this-timer i { line-height: 40px !important; }
+
+.this-timer .time {
+  width: 25%;
+  display: block;
+  text-align: center;
+  float: left;
+  padding: 25px 0;
+}
+
+.this-timer.dashed .time {
+  border-right: 1px dashed #f2f2f2;
+}
+.this-timer .time.w-50 {
+  width: 50%;
+  text-align: left;
+  border-left: 1px dashed #f2f2f2;
+  padding-left: 25px;
+}
+
+.this-timer.ns .time{
+  width: 100%;
+}
+
+.this-timer .time span {
+  display: block;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.this-timer.sm .time span {
+  font-size: 13px;
+}
+
+.this-timer::after {
+  content: " ";
+  clear: both;
+  display: table;
+}
+
+@media only screen and (max-width: 700px) {  
+  .this-timer .time {
+    padding: 15px 0;
+  }
+  .this-timer .time.w-50 {
+    width: 75%;
+    padding-left: 15px;
+  }
+}
+
+
+body .btn,
+body .btn-small {
+  box-shadow: none !important;
 }

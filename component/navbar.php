@@ -22,7 +22,7 @@ if($isLoggedIn) {
                 <?php if(!$isLoggedIn) { ?>
                 <li><a href="<?= $BASE_DIR ?>home/?sidebar=0" class="hide-on-med-and-down">Login</a></li>
                 <?php } ?>
-                <li><a href="<?= $BASE_DIR ?>product/" class="hide-on-med-and-down">Products</a></li>
+                <li><a href="<?= $BASE_DIR ?>product/" class="hide-on-med-and-down">Featured Items</a></li>
                 <li><a href="#!" data-target="menu-nav" class="sidenav-trigger no-margin"><i class="material-icons">menu</i></a></li>
                 <?php if($isLoggedIn) { ?>
                 <li><a href="#!" data-target="notification-nav" class="sidenav-trigger show-on-large no-margin"><i class="material-icons">notifications_none</i></a> 
@@ -46,7 +46,7 @@ if($isLoggedIn) {
     <?php if(!$isLoggedIn) { ?>
     <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>home/?sidebar=0">Login</a></li>
     <?php } ?>
-    <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>product/">Products</a></li>
+    <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>product/">Featured Items</a></li>
                 
 </ul>
 
@@ -62,7 +62,7 @@ if($isLoggedIn) {
     
     <li class="col s3">
         <a href="<?= $BASE_DIR ?>product/" class="grey-text text-darken-1 block"><i class="material-icons">shopping_bag</i></a>
-        <p class="no-margin grey-text text-darken-1"><b>Products</b></p>
+        <p class="no-margin grey-text text-darken-1"><b>Featured</b></p>
     </li>
     
     <li class="col s3">

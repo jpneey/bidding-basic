@@ -1,6 +1,6 @@
 <?php 
 
-$auth->redirect('auth', true, $BASE_DIR.'home/?unauth=1');
+$auth->redirect('auth', true, $BASE_DIR.'404/?unauth=1');
 $pageTitle = Sanitizer::filter($uri[1], 'variable') ?: 'account';
 $myView = 'component/my/'.$pageTitle.'.php';
 

@@ -83,6 +83,7 @@
                                 <p>Enter a reachable Email Address, and an email confirmation will be sent.</p>
                                 <input required name="cs_ems" placeholder="email-address" type="email" class="custom-input browser-default no-border grey lighten-4">
                                 <input name="submit" type="submit" value="Confirm my Email" class="browser-default submit no-border orange white-text">
+                                <label>Already registered? <a href="<?= $BASE_DIR ?>home/?sidebar=0" style="text-decoration: underline">login here</a> instead.</label>
                             </form>
 
                             </div>

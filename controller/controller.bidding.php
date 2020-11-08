@@ -124,12 +124,12 @@ switch ($action) {
 
         if(strtotime($cs_bidding_date_needed) < strtotime($today)){
             if($uploaded){ unlink($directory.$cs_bidding_picture);}
-            echo json_encode(array('code' => 0, 'message' => 'Please select a valid \'date needed\' time.'));
+            echo json_encode(array('code' => 0, 'message' => 'Please select a valid \'Bidding deadline\' date.'));
             exit();
         }
         if(strtotime($cs_bidding_date_needed) > strtotime($expiration)){
             if($uploaded){ unlink($directory.$cs_bidding_picture);}
-            echo json_encode(array('code' => 0, 'message' => 'Your expected date exceeds your post\'s expiration!'));
+            echo json_encode(array('code' => 0, 'message' => 'Your Bidding deadline exceeds the maximum timespan of biddings which is seven days.'));
             exit();
         }
 

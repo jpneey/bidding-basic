@@ -8,7 +8,7 @@ $selector = Sanitizer::filter($uri[1], 'var');
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>Canvasspoint - <?php echo str_replace('-', ' ', $selector) ?></title>
+  <title>Canvasspoint - <?= ucfirst(str_replace('-', ' ', $selector)) ?></title>
 
   <?php
     require "component/head.php";

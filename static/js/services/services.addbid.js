@@ -96,6 +96,22 @@
             setDefaultDate: mindate,
             format: 'yyyy-m-d'
         });
+
+        var style = "font-size: 13px; margin-top: 15px; display: block;";
+        var message = "<small style='"+style+"'>Bids are only allowed to be active for seven days from the date today. Please choose date within 7 days.</small>";
+        $('.bidding-deadline').datepicker({
+            minDate: mindate,
+            maxDate: maxdate,
+            defaultDate: mindate,
+            setDefaultDate: mindate,
+            format: 'yyyy-m-d',
+            onOpen: function(){
+                $('.datepicker-date-display').append(message)
+            },
+            onClose: function(){
+                $('.datepicker-date-display').find('small').remove()
+            }
+        })
     }
     function addBid(){
 

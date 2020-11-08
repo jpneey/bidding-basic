@@ -10,5 +10,15 @@
             <a href="#!" class="modal-close red white-text waves-effect btn-flat">Close</a>
         </div>
     </div>
+
+    <div id="confirm" class="modal modal-sm">
+        <div class="modal-content">
+            <p><b>Are you sure?</b></p>
+            <p id="confirm-message">Proceed to update / delete this item ?</p>
+            <a href="#!" data-confirm="true" class="modal-close modal-confirm waves-effect waves-green btn">Proceed</a>
+            <a href="#!" data-confirm="false" class="modal-close modal-confirm  red white-text waves-effect btn-flat">Cancel</a>
+        </div>
+    </div>
+
   </body>
 </html>

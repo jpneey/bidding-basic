@@ -57,6 +57,7 @@ $addSuccess = (isset($successToRate)) ?: false;
     $(function(){
         rateModal();
         submitRate();
+        autoRate();
     })
 
     function rateModal() {
@@ -125,5 +126,18 @@ $addSuccess = (isset($successToRate)) ?: false;
             })
         })
     }
+
+    function autoRate(){
+        var urlParams = new URLSearchParams(window.location.search); //get all parameters
+        var foo = urlParams.get('to');
+        if(foo !== null){
+
+            $('a[data-name="'+foo+'"]').trigger('click').click();
+            var clean_uri = location.protocol + "//" + location.host + location.pathname;
+            window.history.replaceState({}, document.title, clean_uri);
+
+        }
+    }
+
 
 </script>

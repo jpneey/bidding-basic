@@ -16,6 +16,7 @@ class viewOffers extends Offers {
     }
 
     public function viewMyOffers($userId, $biddingId, $supplier = false) {
+
         $offers = $this->getBidOffers($userId, $biddingId, $supplier);
         if(!empty($offers)) {
             ?>
@@ -31,6 +32,7 @@ class viewOffers extends Offers {
                     <tbody>
                     <?php 
                         $linkToOwner = '#!';
+                        $userName = "404";
                         $viewable = $this->getViewable($userId);
                         $thisViewable = $viewable;
                         foreach($offers as $k=>$v) {
@@ -38,11 +40,11 @@ class viewOffers extends Offers {
                             $id = $offers[$k]['cs_offer_id'];
                             $status = $offers[$k]['cs_offer_status'];
                             $price = $offers[$k]['cs_offer_price'];
-                            $rated = ($offers[$k]['cs_rated']) ? 'out of ' . $offers[$k]['cs_rated'] . ' review(s)' : 'No ratings yet.';
+                            $rated = ($offers[$k]['cs_rated']) ? '/ 5.0<br>out of ' . $offers[$k]['cs_rated'] . ' review(s)' : 'No ratings yet.';
                             $rating = ($offers[$k]['cs_rated']) ? number_format($offers[$k]['cs_owner_rating'],1,'.',',') : '';
                             echo '<tr>';
                             echo '<td><b>₱</b>'.number_format($price, '2', '.', ',').'<br><label>'.$offered['qty'].' <span class="qty">{qty}</span></label></td>';
-                            echo '<td><b>'.$rating.'</b> '.$rated.'</td>';
+                            echo '<td><b>'.$rating.'</b>'.$rated.'</td>';
                             if(!$supplier){
                                 switch( $offers[$k]['cs_offer_success']){
                                     case '2':
@@ -53,31 +55,32 @@ class viewOffers extends Offers {
                                         break;
                                     case '0':
                                     default:
-                                        $successAction = '<a href="#!" data-name="'.$id.'" data-to="'.$offers[$k]["cs_user_id"].'" class="btn-small rate-modal-trigger waves-effect orange darken-2 white-text">Finalize Proposal</a> ';
+                                        $successAction = '<a href="#!" data-name="'.$id.'" data-to="'.$offers[$k]["cs_user_id"].'" class="btn-small rate-modal-trigger waves-effect orange darken-2 white-text  z-depth-0">Finalize Proposal</a> ';
                                         break;
                                 }
                                 switch($status){
                                     case '0':
-                                        echo '<td><a href="#offer-modal" data-offer="'.$id.'" class="modal-trigger offer-modal-trigger btn-small waves-effect green white-text">open</a></td>';
+                                        echo '<td><a href="#offer-modal" data-offer="'.$id.'" class=" z-depth-0 modal-trigger offer-modal-trigger btn-small waves-effect green white-text">open</a></td>';
                                         break;
                                     case '1':
                                         $thisViewable--;
-                                        echo '<td><a href="#!" data-offer="'.$id.'" class="view-modal btn-small waves-effect orange white-text">view</a> ';
+                                        echo '<td><a href="#!" data-offer="'.$id.'" class=" z-depth-0 view-modal btn-small waves-effect orange white-text">view</a> ';
                                         echo $successAction;
                                         echo '</td>';
                                         break;
                                     case '0':
                                     default:
-                                        echo '<td><a href="#!" data-offer="'.$id.'" class="btn-small waves-effect red white-text">rejected</a></td>';
+                                        echo '<td><a href="#!" data-offer="'.$id.'" class=" z-depth-0 btn-small waves-effect red white-text">rejected</a></td>';
                                         break;
                                 }
                             } else {
-                                
                                 echo '<td>';
                                 switch($status){
                                     case '1':
-                                        echo '<a href="#winner-offer" id="wtrg" class="modal-trigger btn-small waves-effect orange white-text">Winner</a> ';
-                                        $linkToOwner = $this->BASE_DIR.'user/'.$offers[$k]['cs_purchaser'];
+                                        echo '<a href="#winner-offer" id="wtrg" class="modal-trigger btn-small z-depth-0 waves-effect orange white-text">Winner</a> ';
+                                        $userName = $offers[$k]['cs_purchaser'];
+                                        $linkToOwner = $this->BASE_DIR.'user/'.$userName;
+                                        $userName = $this->BASE_DIR.'my/transactions/?to='.$userName;
                                         ?>
                                         <script>
                                         $(function(){
@@ -87,14 +90,14 @@ class viewOffers extends Offers {
                                         })
                                         </script>
                                         <?php
-                                        echo '<a href="'.$linkToOwner.'" class="btn-small waves-effect orange darken-2 white-text">Contact Purchaser</a>';
+                                        echo '<a href="'.$linkToOwner.'" class="btn-small waves-effect z-depth-0 orange darken-2 white-text">Contact Client</a>';
                                         break;
                                     case '2':
-                                        echo '<a href="#!" class="btn-small waves-effect red lighten-1 white-text">Rejected</a> ';
+                                        echo '<a href="#!" class="btn-small waves-effect red lighten-1 white-text z-depth-0">Rejected</a> ';
                                         echo '<a href="#!" data-mode="offer" data-selector="'.$id.'" class="data-delete btn-small waves-effect red white-text">Delete</a> ';
                                         break;
                                     default:
-                                        echo '<a href="#active-offers" class="modal-trigger btn-small waves-effect green white-text">Active</a> ';
+                                        echo '<a href="#active-offers" class="modal-trigger btn-small waves-effect green white-text z-depth-0">Active</a> ';
                                         echo '<a href="#!" data-mode="offer" data-selector="'.$id.'" class="data-delete btn-small waves-effect red white-text">Cancel</a> ';
                                 }
                                 echo '</td>';
@@ -113,7 +116,9 @@ class viewOffers extends Offers {
                 <div id="winner-offer" class="modal modal-sm">
                     <div class="modal-content">
                         <p><b>Hooray!</b></p>
-                        <p>Your proposal won this bidding. Both client and supplier can now view each other's profile.<br><br><a href="<?= $linkToOwner ?>" class="btn orange" >View Purchaser</a></p>
+                        <p>Your proposal won this bidding. Both client and supplier can now view each other's profile.<br><br>
+                        <a href="<?= $userName ?>" class="btn green z-depth-0">Rate Client</a>
+                        <a href="<?= $linkToOwner ?>" class="btn orange z-depth-0">View Client</a></p>
                     </div>
                 </div>
                 <div id="offer-modal" class="modal" style="max-width: 440px">
@@ -148,7 +153,20 @@ class viewOffers extends Offers {
             <script>$(function(){$(".qty").text($('.item').data('unit'));})</script>
             
         <?php
-        } ?>
+        } else if($userId) {
+
+            if($this->checkOwnership($biddingId, $userId)) {
+
+        ?>
+        <div class="col s12" id="client-only">
+            <div class="this-timer sm ns">
+                <div class="time w-50">
+                    <span>This section is empty.</span>
+                    <label>It looks like there are no proposals on this bidding.</label>
+                </div>
+            </div>
+        </div>
+        <?php } } ?>
         <div class="col s12">
         <?php $offers = $this->getBidControl($userId, $biddingId); ?>
         </div>
@@ -165,10 +183,18 @@ class viewOffers extends Offers {
                         $postedOn = $offers[$k]['cs_date_added'];
                         $price = $offers[$k]['cs_offer_price'];
                         $datePosted = '<time class="timeago" datetime="'.$postedOn.'">'.$postedOn.'</time>';
-                        echo '<div class="bid-offer orange-text">';
-                        echo '<p class="truncate"><b>₱</b> '.number_format($price, '2', '.', ',').'</p>';
-                        echo '<label>'.$datePosted.'</label>';
-                        echo '</div>';
+                        ?>
+                        <div class="this-timer white sm">
+                            <div class="time">
+                                <i class="material-icons grey-text text-lighten-2">trending_down</i>
+                            </div>
+                            <div class="time w-50">
+                                <span><b>₱</b><?= number_format($price, '2', '.', ',') ?></span>
+                                <label><?= $datePosted ?></label>
+                            </div>
+                        </div>
+
+                        <?php
                     }
                 }
             ?>
@@ -182,6 +208,7 @@ class viewOffers extends Offers {
             $hasOffer = $this->hasOffer($biddingId, $userId);
             if($isSupplier && !$hasOffer) {
                 ?>
+                <style>#client-only { display: none; }</style>
                 <div class="page white z-depth-0">
                     <div id="submit-offer" class="content sm row scrollspy">
                 
@@ -288,29 +315,21 @@ class viewOffers extends Offers {
                 <?php
             } else {
                 ?>
-                <div class="page white z-depth-0">
+                <div class="page white z-depth-0 panel-adjust">
                     <div id="submit-offer" class="content sm row scrollspy">
                         
                         <?php $this->viewLowestOffer($biddingId); ?>
                         <?php $this->viewMyOffers($userId, $biddingId); ?>
                         <?php if(!$isSupplier){ ?>
+                        <div class="panel-adjust"></div>
                         <div class="col s12">
                             <?php if(!$userId) { ?>
                             <p>You need to login on a supplier account inorder to participate in biddings. Bidders remain anonymous until it's offer is selected by the client and won the bidding.</p>
-                            <div id="how-to-bid" class="modal modal-sm">
-                                <div class="modal-content">
-                                    <p><b>Canvasspoint Suppliers</b></p>
-                                    <p>Duis eget neque eget massa viverra dignissim.</p>
-                                    
-                                    <a href="<?= $this->BASE_DIR ?>home/?sidebar=2" class="modal-close waves-effect waves-green btn">Register Now</a>
-                                    <a href="<?= $this->BASE_DIR ?>home/?sidebar=0" class="modal-close red white-text waves-effect btn-flat">Login</a>
-                                </div>
-                            </div>
-
-                            <a href="#how-to-bid" class="modal-trigger btn waves-effect orange white-text">Learn how</a>
+                            <a href="<?php $this->BASE_DIR ?>../../index/?ref=learn&learn=2" class="z-depth-0 btn waves-effect orange white-text">Learn how</a>
                             <?php } ?>
                         </div>
                         <?php } else { ?>
+                        <style>#client-only { display: none; }</style>
                         <?php $this->viewMyOffers($userId, $biddingId, true); ?>
                         <div class="col s12">
                             <br>
@@ -421,7 +440,7 @@ class viewOffers extends Offers {
                 </a>
                 
                 <span class="card-counter">
-                    <a href="#!" data-selector="<?= $offerId ?>" data-mode="offer" class="right data-delete z-depth-0 red white-text center-align">DELETE</a>
+                    <a href="#!" data-selector="<?= $offerId ?>" data-mode="offer"  data-message="This action is permanent. Proceed to delete this proposal?" class="right data-delete z-depth-0 red white-text center-align">DELETE</a>
                     <a href="#!" data-offer="<?= $offerId ?>" data-mode="offer" class="view-modal right z-depth-0 green white-text center-align">VIEW</a>
                 </span>
 
@@ -446,11 +465,11 @@ class viewOffers extends Offers {
                 case 0:
                 case '1':
                 case 1:
-                    echo "<br><a href=\"#!\" data-selector=\"$status[1]\" data-mode=\"bid-finish\" class=\"data-delete btn waves-effect orange white-text\">Mark as <b>Complete</b></a>";
+                    echo "<br><a href=\"#!\" data-selector=\"$status[1]\" data-mode=\"bid-finish\" data-message=\"Marking this post as complete will notify suppliers with unopenned proposals that their proposal was rejected.\" class=\"data-delete btn waves-effect orange white-text  z-depth-0\">Mark as <b>Complete</b></a>";
                     break;
                 case '2':
                 case 2:
-                    echo "<br><a href=\"#!\" data-selector=\"$status[1]\" data-mode=\"bid\" class=\"data-delete btn waves-effect red white-text\">Permanently Delete bidding</a>";
+                    echo "<br><a href=\"#!\" data-selector=\"$status[1]\" data-mode=\"bid\" data-message=\"This action is permanent. Proceed to delete this post?\" class=\"data-delete btn waves-effect red white-text  z-depth-0\">Permanently Delete bidding</a>";
                     break;
             }
         }

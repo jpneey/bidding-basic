@@ -143,7 +143,7 @@ class User extends DBHandler {
         u.cs_user_name 
         FROM cs_transactions t 
         INNER JOIN cs_users u ON $role_condition_join 
-        WHERE $role_condition ");
+        WHERE $role_condition");
 
         $stmt->bind_param('i', $userId);
         $stmt->execute();

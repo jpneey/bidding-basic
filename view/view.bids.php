@@ -87,7 +87,7 @@ class viewBids extends Bids {
 
                 default:
                     $buttonLink = "supplier/";
-                    $button = "View Suppliers";
+                    $button = "View Featured Items";
                     break;
             }
             ?>
@@ -151,58 +151,59 @@ class viewBids extends Bids {
                     <br>
                     <br>
                     <div class="divider" ></div>
-                    <br>
-                    <br>
+                    <div class="product-card item" data-budget="₱ <?= $budget ?>" data-item="<?= $item ?>" data-qty="<?= $viewBid[0]['cs_product_qty'] ?>" data-unit="<?= $viewBid[0]['cs_product_unit'] ?>"></div>
                     
-                    <p><b>Details</b><br><?= nl2br($details); ?></p>
-
-                    <?php if($status == 1) { ?>
-                    <p id="timer-wrapper">
-                        <b>Bidding ends in</b><br>
-                        <span id="days">00</span> <span>days</span>
-                        <span id="hours">00</span> <span>hours</span>
-                        <span id="minutes">00</span> <span>minutes</span>
-                        <span id="seconds">00</span> <span>seconds</span>  
+                    <p><b>Bidding Details</b><br><?= nl2br($details); ?></p>
+                    <p>
+                        <b>Categories</b><br>
+                        <span>Click category below to see more related items.</span>
+                        <span><br><br><?= $tagchip ?></span>
                     </p>
-                    <?php } else { ?>
-                        <p>
-                            <a class="waves-effect waves-light btn orange" href="#~">Bidding Ended</a>
-                            <?= $this->getBidWinner($viewBid[0]['cs_bidding_id']); ?>
-                            <br><br>
+                    <div class="row">
+                        <p class="col s6">
+                            <b>Bidding Expiration</b><br>
+                            <?= date_format(date_create($dateNeeded), 'g:ia jS F Y') ?>
                         </p>
-                    <?php } ?>
-                    <p>
-                        <b>Bidding Expiration</b><br>
-                        <?= date_format(date_create($dateNeeded), 'g:ia \o\n l jS F Y') ?>
-                    </p>
-                    <p>
-                        <b>Location</b><br>
-                        <?= $location ?>
-                    </p>
-                    <br>
-                    <div class="glance white">
-                        <div class="product-card item" data-budget="₱ <?= $budget ?>" data-item="<?= $item ?>" data-qty="<?= $viewBid[0]['cs_product_qty'] ?>" data-unit="<?= $viewBid[0]['cs_product_unit'] ?>">
-                            <div class="thumbnail">
-                                <img id="bidding-details" src="<?= $this->BASE_DIR ?>static/asset/bidding/<?= $picture ?>" class="margin-auto materialboxed" />
-                            </div>
-                            <div class="content">
-                                <p><b><?= $item ?></b></p>
-                                <p><?= $qty ?></p>
-                                <p class="grey-text"></p>
-                            </div>
+                        <p class="col s6 right-align">
+                            <b>Location</b><br>
+                            <?= $location ?>
+                        </p>
+                    </div>
+                    <?php if($status == 1) { ?>
+
+                    <div class="this-timer dashed white" id="timer-wrapper">
+                        <div class="time">
+                            <span id="days">00</span>
+                            <label>Days</label>
+                        </div>
+                        <div class="time">
+                            <span id="hours">00</span>
+                            <label>hours</label>
+                        </div>
+                        <div class="time">
+                            <span id="minutes">00</span>
+                            <label>minutes</label>
+                        </div>
+                        <div class="time">
+                            <span id="seconds">00</span>
+                            <label>seconds</label>
                         </div>
                     </div>
+
+                    <?php } else { ?>
+                        <?= $this->getBidWinner($viewBid[0]['cs_bidding_id']); ?>
+                    <?php } ?>
                     <br>
-                    <p>
-                        <b>Budget</b><br>
-                        ₱ <?= $budget ?>
-                    </p>
-                    
-                    <p>
-                        <b>Category</b><br>
-                        <span>(Click category below to see more related items)</span>
-                    </p>
-                    <span><br><?= $tagchip ?></span>
+                    <p><b>Item / Service Needed</b></p>
+                    <div class="this-timer white sm">
+                        <div class="time">
+                            <img id="bidding-details" src="<?= $this->BASE_DIR ?>static/asset/bidding/<?= $picture ?>" class="margin-auto materialboxed" />
+                        </div>
+                        <div class="time w-50">
+                            <span class="truncate"><?= $item ?></span>
+                            <label>₱ <?= $budget ?> / <?= $qty ?></label>
+                        </div>
+                    </div>
                     
                 </div>
             </div>
@@ -213,29 +214,44 @@ class viewBids extends Bids {
             <script> $(function(){ timer('<?= $dateNeeded ?>') }) </script>
             <?php
             }
+        } else { ?>
+            <script>
+                window.location.href = root + "my/dashboard/";
+            </script>
+            <?php
         }
     }
 
     public function getBidWinner($biddingId){ 
         $winner = $this->hasWinner($biddingId);
+        ?>
+        <p><b>Bidding Ended</b></p>
+        <?php
         if(!$winner) {
         ?> 
-        <a class="waves-effect waves-light btn orange darken-3" href="#!">Pending Winner </a><br><br>
-        * Client is still choosing for a winner.
+        <div class="this-timer white sm">
+            <div class="time">
+                <i class="material-icons grey-text text-lighten-2">help_outline</i>
+            </div>
+            <div class="time w-50">
+                <span>Bidding Ended</span>
+                <label>The client is still choosing for a winner</label>
+            </div>
+        </div>
+
         <?php } else {   
         $product = unserialize($winner[1]);
         ?>
+        <!-- 
         <a href="<?= $this->BASE_DIR ?>user/<?= $winner[2][0] ?>/" class="waves-effect waves-light btn orange darken-3">@<?= $winner[2][0] ?> won</a><br>
-        <div class="white">
-            <div class="product-card">
-                <div class="thumbnail">
-                    <img id="bidding-details" src="<?= $this->BASE_DIR ?>static/asset/user/<?= $winner[2][1] ?>" class="margin-auto materialboxed" />
-                </div>
-                <div class="content">
-                    <p class="truncate"><b>Bid Winner:</b></p>
-                    <p><?= $winner[2][0] ?></p>
-                    <p class="truncate grey-text">₱ <?= number_format($product["price"][0], 2,'.',',') ?></p>
-                </div>
+         -->
+        <div class="this-timer white sm">
+            <div class="time">
+                <img id="bidding-details" src="<?= $this->BASE_DIR ?>static/asset/user/<?= $winner[2][1] ?>" class="margin-auto materialboxed" />
+            </div>
+            <div class="time w-50">
+                <span>@<?= $winner[2][0] ?></span>
+                <label>Bidding Winner</label>
             </div>
         </div>
 
@@ -318,7 +334,7 @@ class viewBids extends Bids {
                 </a>
                 
                 <span class="card-counter">
-                    <a href="#!" data-selector="<?= $bidInFeedLink ?>" data-mode="bid" class="right data-delete z-depth-0 red white-text center-align">DELETE</a>
+                    <a href="#!" data-selector="<?= $bidInFeedLink ?>" data-mode="bid"  data-message="This action is permanent. Proceed to delete this post?" class="right data-delete z-depth-0 red white-text center-align">DELETE</a>
                     <a class="z-depth-0 right orange white-text center-align tooltipped" data-position="bottom" data-tooltip="total bids"><?= $bidInFeedOfferCount ?></a>
                 </span>
             <?php

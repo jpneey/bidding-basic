@@ -348,7 +348,7 @@ class Offers extends DBHandler {
         $notifDetails = $stmt->get_result()->fetch_row();
         $stmt->close();
 
-        $notificationMessage = "Bidding: <a data-to='bid/$notifDetails[1]/'><b>$notifDetails[0]</b></a> - Someone has submitted a bid.";
+        $notificationMessage = "Bidding: <a data-to='bid/$notifDetails[1]/'><b>$notifDetails[0]</b></a> - Someone submitted a bid.";
 
         $stmt = $connection->prepare("INSERT INTO cs_notifications(cs_notif, cs_user_id, cs_added) VALUES(?,?,?)");
         $stmt->bind_param("sis", $notificationMessage,$notifDetails[2], $currentDateTimeStamp);
@@ -366,6 +366,16 @@ class Offers extends DBHandler {
         }
         return json_encode(array('code' => 0, 'message' => 'Posting failed.'));
 
+    }
+
+    public function checkOwnership($selector, $userId){
+        $connection = $this->getconn();
+        $stmt = $connection->prepare("SELECT cs_bidding_id FROM cs_biddings WHERE cs_bidding_user_id = ? AND cs_bidding_id = ?");
+        $stmt->bind_param('ii', $userId, $selector);
+        $stmt->execute();
+        $result = $stmt->get_result()->num_rows;
+        $stmt->close();
+        return (empty($result)) ? false : true;
     }
 
     /**

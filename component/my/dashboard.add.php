@@ -132,7 +132,7 @@ if($active >= 4) {
                         required 
                         type="text" 
                         name="cs_bidding_date_needed" 
-                        class="custom-input datepicker validate"  
+                        class="custom-input datepicker bidding-deadline validate"  
                     />
                 </div>
                 
@@ -240,4 +240,4 @@ if($active >= 4) {
     </div>
 </div>
 </form>
-<script src="<?php echo $BASE_DIR ?>static/js/services/services.addbid.js?v=beta-75" type="text/javascript"></script>
+<script src="<?php echo $BASE_DIR ?>static/js/services/services.addbid.js?v=beta-755" type="text/javascript"></script>
