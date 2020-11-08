@@ -458,9 +458,13 @@ input.browser-default,
 }
 
 .btn, .btn-large, .btn-small, .btn-floating, .btn-large, .btn-small, .btn-flat {
-  font-size: 12px;
   border-radius: 0;
   margin-bottom: 5px;
+}
+.btn, .btn-large, .btn-small, .btn-floating, .btn-large, .btn-small, .btn-flat,
+.btn, input, select, textarea {
+  font-size: 12px !important;
+  font-family: 'Poppins', sans-serif !important;
 }
 
 .modal {
@@ -469,6 +473,10 @@ input.browser-default,
   top: 5% !important;
   max-height: 94% !important;
   z-index: 5555555 !important;
+}
+
+body .modal {
+  box-shadow: none !important;
 }
 
 .modal-sm {
@@ -639,7 +647,11 @@ nav .unread {
 .feed-wrap-main .m-tag {
   display: block;
   width: 70px;
-  text-align: center;
+  text-align: center;  
+  text-transform: lowercase;
+  padding-left: 5px;
+  padding-right: 5px;
+
 }
 
 
@@ -662,8 +674,10 @@ nav .unread {
 }
 
 .card.feed.on-profile {
-  border: 1px solid #e2dfdf;
-  padding: 0;
+  padding-left: 0;
+}
+.card.feed.on-profile .card-content{
+  background: #f9f9f9;
 }
 
 @media only screen and (min-width: 1450px) {  

@@ -172,7 +172,7 @@ class viewBids extends Bids {
                         </p>
                     <?php } ?>
                     <p>
-                        <b>Date Needed</b><br>
+                        <b>Bidding Expiration</b><br>
                         <?= date_format(date_create($dateNeeded), 'g:ia \o\n l jS F Y') ?>
                     </p>
                     <p>
