@@ -77,6 +77,11 @@ class sideNav {
                             <li>
                                 <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/contact/">Contact Details</a>
                             </li>
+                            
+                            <li>
+                                <a class="waves-effect" href="<?= $this->detailArray[5] ?>my/plan/">My Plan</a>
+                            </li>
+
                         </ul>
                     </div>
                 </li>

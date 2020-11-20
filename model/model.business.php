@@ -30,6 +30,18 @@ class Business extends DBHandler {
         return $result;
     }
 
+    public function getMaxProduct($__user_id){
+        $id = (int)$__user_id;
+        $connection = $this->getconn();
+        $stmt = $connection->prepare("SELECT cs_to_featured FROM cs_plans WHERE cs_user_id = ? AND cs_plan_status = 1");
+        $stmt->bind_param("i", $__user_id);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+
+        return (!empty($result)) ? $result[0]["cs_to_featured"] : 0;
+    }
+
     public function getUserBusiness($__user_id){
         $id = (int)$__user_id;
         $connection = $this->getconn();
@@ -123,13 +135,14 @@ class Business extends DBHandler {
         error_reporting(0);
         
         $connection = $this->getconn();
-        $stmt = $connection->prepare("SELECT cs_account_status FROM cs_users WHERE cs_user_role = 2 AND cs_user_id = ?");
+        // $stmt = $connection->prepare("SELECT cs_account_status FROM cs_users WHERE cs_user_role = 2 AND cs_user_id = ?");
+        $stmt = $connection->prepare("SELECT p.cs_plan_id, u.cs_user_role FROM cs_users u LEFT JOIN cs_plans p ON (u.cs_user_id = p.cs_user_id AND p.cs_plan_status = 1) WHERE u.cs_user_role = 2 AND u.cs_user_id = ?");
         $stmt->bind_param('i', $cs_user_id);
         $stmt->execute();
         $cs_account_status = $stmt->get_result()->fetch_row();
         $stmt->close();
 
-        if(empty($cs_account_status) || empty($cs_account_status[0])) {
+        if(empty($cs_account_status) || !$cs_account_status[0]) {
             return json_encode(array('code' => 0, 'message' => 'Please upgrade to PRO'));
         }
 
@@ -138,9 +151,9 @@ class Business extends DBHandler {
         $stmt->execute();
         $total_products = $stmt->get_result()->num_rows;
         $stmt->close();
-
-        if($total_products > 3){
-            return json_encode(array('code' => 0, 'message' => 'You\'ve reached your maximum(3) amount of featured products.'));
+        $max = $this->getMaxProduct($cs_user_id);
+        if($total_products > $max){
+            return json_encode(array('code' => 0, 'message' => 'You\'ve reached your maximum('.$max.') amount of featured products.'));
         }
 
         $stmt = $connection->prepare("INSERT INTO cs_products(cs_category_id, cs_user_id, cs_product_name, cs_product_details, cs_product_image, cs_product_price, cs_sale_price, cs_unit, cs_product_permalink, cs_link, cs_link_text) VALUES(?,?,?,?,?,?,?,?,?,?,?)");

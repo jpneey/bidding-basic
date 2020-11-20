@@ -60,6 +60,12 @@
                         return;
                     }
 
+                    if(parsedData.code == '9') {
+                        var url = window.location.href;
+                        window.location.href = root += 'thank-you/?sidebar=0';
+                        return;
+                    }
+
                     if(parsedData.code == '8') {
                         var url = window.location.href;
                         window.location.href = root;

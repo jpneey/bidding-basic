@@ -17,10 +17,11 @@ class viewBusiness extends Business {
 
     public function viewBusinessProducts($user_id){
         $products = $this->getBusinessProducts($user_id);
+        $max = $this->getMaxProduct($user_id);
         $total = count($products);
         ?>
-        <button type="button" class="btn grey grey-text lighten-4 z-depth-0"><?= $total ?> / 3 active products</button>
-        <?php if ($total < 3) { ?>                         
+        <button type="button" class="btn grey grey-text lighten-4 z-depth-0"><?= $total ?> / <?= $max ?> active products</button>
+        <?php if ($total < $max) { ?>                         
         <button type="button" class="waves-effect btn z-depth-0 orange darken-2 white-text modal-trigger" data-target="add-product-pro">Add <i class="right material-icons">add</i></button>                         
         <?php } ?>
         <br><br>            

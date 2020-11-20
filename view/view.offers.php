@@ -126,7 +126,7 @@ class viewOffers extends Offers {
                         <p>Your account can only open <b><?= $viewable ?></b> proposal(s) per bidding.
                         <?php
                             if($thisViewable <= 0) { 
-                                echo '</p><br><br><a href="mailto:info@canvasspoint.com" class="btn-small orange">Upgrade to Pro</a>';
+                                echo '</p><br><br><a href="../../my/plan/" class="btn-small orange">Upgrade to Pro</a>';
                                 echo ' <a href="#!" class="btn-small red modal-close">cancel</a>';
                             }
                         ?>

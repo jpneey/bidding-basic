@@ -106,11 +106,11 @@ if($isLoggedIn) {
     <?php
 
         $sideChip = '<span class="chip chip white-text grey lighten-1">Free</span>';
-        $sideChip .= ' <a href="#upgrade-to-pro" class="modal-trigger" ><span class="chip chip white-text orange darken-2">Upgrade to pro</span></a>';
+        $sideChip .= ' <a href="'.$BASE_DIR.'my/plan/"><span class="chip chip white-text orange darken-2">Upgrade to pro</span></a>';
 
         if($isLoggedIn){
             if(!empty($loggedInAccountType)){
-                $sideChip = '<span class="chip orange white-text">Premium User</span>';
+                $sideChip = ' <a href="'.$BASE_DIR.'my/plan/"><span class="chip chip white-text orange darken-2">Premium User</span></a>';
             }
         }
 

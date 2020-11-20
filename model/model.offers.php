@@ -248,7 +248,8 @@ class Offers extends DBHandler {
     public function getViewable($userId){
         $connection = $this->getconn();
         $userId = (int)$userId;
-        $stmt = $connection->prepare("SELECT cs_allowed_view FROM cs_bidder_options WHERE cs_user_id = '$userId'");
+        /* $stmt = $connection->prepare("SELECT cs_allowed_view FROM cs_bidder_options WHERE cs_user_id = '$userId'"); */
+        $stmt = $connection->prepare("SELECT cs_to_view FROM cs_plans WHERE cs_user_id = '$userId'");
         $stmt->execute();
         $allowed = $stmt->get_result()->fetch_row();
         $stmt->close();

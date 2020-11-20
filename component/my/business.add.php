@@ -74,7 +74,7 @@ $optionCategory = ob_get_clean();
             <div class="row" id="products">
                 <div class="col s12">
                     <p><label>Featured Products</label></p>
-                    <?php if(!empty($loggedInAccountType)){ ?>
+                    <?php if($loggedInAccountType){ ?>
                     <form action="<?= $BASE_DIR ?>controller/controller.business.php?action=product" class="add-form" method="POST" enctype="multipart/form-data" >
                         <div id="add-product-pro" class="modal modal-sm">
                             <div class="modal-content">
@@ -265,7 +265,7 @@ $optionCategory = ob_get_clean();
                     <div class="card-panel grey lighten-4 z-depth-0">
                         <p><b>Upgrade to pro</b></p>
                         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Delectus accusantium quisquam, rem asperiores quo minima animi! Perspiciatis eum cumque eius. Impedit, sint delectus! Voluptatum optio a ea corporis alias? Quibusdam?</p>
-                        <a href="#upgrade-to-pro" class="modal-trigger"><span class="chip chip white-text orange darken-2">Upgrade</span></a>
+                        <a href="<?= $BASE_DIR ?>my/plan/"><span class="chip chip white-text orange darken-2">Upgrade</span></a>
                     </div>
                     <?php } ?>
                 </div>

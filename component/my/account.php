@@ -107,10 +107,39 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
                     <input type="submit" class="btn z-depth-1 orange white-text" value="Update Profile" />
                 </div>
 
-                
+                <div class="input-field no-margin col s12">
+                <br>
+                <div class="divider"></div>
+                <br>
+                <button type="button" data-target="delete-account" class="waves-effect btn modal-trigger red white-text z-depth-0">Delete My Account</button>
+                </div>
             </div>
         </div>
     </div>
 </div>
 </form>
-<script src="<?php echo $BASE_DIR ?>static/js/services/services.user.js?v=5sss" type="text/javascript"></script>
+
+
+
+<div id="delete-account" class="modal modal-sm">
+    <div class="modal-content">
+        <form action="<?= $BASE_DIR ?>controller/controller.user.php?action=delete-user<?php if($newUser) { echo "&redir=1"; } ?>" class="user-form" method="POST" enctype="multipart/form-data" >
+            <p><b>Account Deletion</b></p>
+            <p>Deleting your account is instant. Please proceed with caution. Plans, transactions, bidding or offers will be deleted permanently.However, your ratings on other canvasspoint users will remain untouched.</p>
+            <input 
+            required 
+            type="password" 
+            name="cs_user_password" 
+            class="custom-input validate"
+            placeholder="your password"  
+            <?php if($newUser){ ?>
+            value="<?= $pw ?>"
+            readonly
+            <?php } ?>
+            />
+            <button type="submit" class="waves-effect red btn">Delete Account</button>
+            <a href="#!" class="modal-close modal-confirm  green white-text waves-effect btn-flat">Cancel</a>
+        </form>
+    </div>
+</div>
+<script src="<?php echo $BASE_DIR ?>static/js/services/services.user.js?v=69" type="text/javascript"></script>

@@ -235,6 +235,73 @@ switch ($action) {
         }
     
         break;
+
+
+    case "cli-pro":
+        $message = json_encode(array('code' => 1, 'path' => 'Request Success. Please wait while we are processing your order'));
+        
+        $kind = "client";
+        if($__user_role != 1){ $kind = "supplier"; }
+
+
+        if($user->hasActivePlan($__user_id)){
+            echo json_encode(array('code' => 0, 'message' => 'It seems like there are active / or pending plans on your account.<br>Upgrade to pro requests are only limited to 1 pending/active request per account.'));
+            die();
+        }
+
+
+        $user->requestUpgrade($kind, $__user_id);
+
+        $message = json_encode(array('code' => 1, 'message' => 'Request Success. Please wait while we are processing your order'));
+        
+        break;
+
+    case "cli-pro-ppal":
+
+        $em = Sanitizer::filter('em', 'get');
+        
+        if($__user_role != 1){
+            echo json_encode(array('code' => 0, 'message' => 'This plan is only available for Canvasspoint Suppliers.'));
+            die();
+        }
+
+        if($user->hasActivePlan($__user_id)){
+            echo json_encode(array('code' => 0, 'message' => 'It seems like there are active / or pending plans on your account.<br>Upgrade to pro requests are only limited to 1 pending/active request per account.'));
+            die();
+        }
+
+        $user->requestUpgrade('paypal', $__user_id, $em);
+
+        $message = json_encode(array('code' => 1, 'message' => 'Paypal Transaction Success. Please wait while we are processing your order'));
+        
+        break;
+
+    case "delete-user":
+
+        $cs_user_password = Sanitizer::filter('cs_user_password', 'post');
+
+        $stmt = $connection->prepare("SELECT * FROM cs_users WHERE cs_user_id = ? LIMIT 1");
+        
+        $stmt->bind_param('i', $__user_id);
+        $stmt->execute();
+        $account = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close(); 
+    
+        if(empty($account)){ 
+            echo json_encode(array('code' => 0, 'message' => 'Account not found'));
+            exit;
+        }
+
+        if(!password_verify($cs_user_password, $account[0]['cs_user_password'])){
+            echo json_encode(array('code' => 0, 'message' => 'Invalid login credentials'));
+            exit;
+        }
+
+        $user->deleteUser($__user_id);
+        $auth->sessionDie();
+        $message = json_encode(array('code' => 9, 'message' => 'Action Complete'));
+
+        break;
 }
 
 echo $message;

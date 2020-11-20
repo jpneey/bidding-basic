@@ -26,12 +26,15 @@ $loggedInAccountType = $loggedInUserAvatar = $loggedInUserName = $loggedInUserEm
 if($isLoggedIn){
     $__user_id   = (int)$auth->getSession('__user_id');
     $loggedInUserRole = (int)$auth->getSession('__user_role');
-    $loggedInUserName = $user->getUser($__user_id, "cs_user_name");
-    $loggedInUserEmail = $user->getUser($__user_id, "cs_user_email");
-    $loggedInUserAvatar = $user->getUser($__user_id, "cs_user_avatar");
-    $loggedInAccountType = $user->getUser($__user_id, "cs_account_status");
+    $__user = $user->getUser($__user_id);
+    
+    $loggedInUserName = $__user[0]["cs_user_name"];
+    $loggedInUserEmail = $__user[0]["cs_user_email"];
+    $loggedInUserAvatar = $__user[0]["cs_user_avatar"];
+    $loggedInAccountType = $__user[0]["cs_plan_id"];
     $isBidder =($loggedInUserRole == '1') ? true : false;
     $isSupplier =($loggedInUserRole == '2') ? true : false;
+
 }
 
 

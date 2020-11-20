@@ -34,7 +34,7 @@ class User extends DBHandler {
         
         $passedId = (int)$id;
         $connection = $this->getconn();
-        $stmt = $connection->prepare("SELECT * FROM cs_users WHERE cs_user_id = ? LIMIT 1");
+        $stmt = $connection->prepare("SELECT u.*, p.* FROM cs_users u LEFT JOIN cs_plans p ON (u.cs_user_id = p.cs_user_id AND p.cs_plan_status = 1) WHERE u.cs_user_id = ? GROUP BY u.cs_user_id LIMIT 1");
 
         $stmt->bind_param('i', $passedId);
         $stmt->execute();
@@ -46,6 +46,76 @@ class User extends DBHandler {
             return $result[0][$param];
         }
         return (empty($result)) ? 'guest' : $result;
+    }
+
+    public function getPlans($userId){
+        
+        $passedId = (int)$userId;
+        $connection = $this->getconn();
+        $stmt = $connection->prepare("SELECT p.* FROM cs_plans p WHERE p.cs_user_id = ? ORDER BY cs_plan_id DESC");
+        $stmt->bind_param('i', $passedId);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $result;
+    }
+
+    public function requestUpgrade($type, $id, $em = false){
+        $connection = $this->getconn();
+        $passedId = (int)$id;
+        $mod = "Direct Pay";
+        
+        $hash = $passedId . microtime(false) . $passedId . '_dp';
+        switch($type){
+            case "supplier":
+                $toView = 0;
+                $toOpen = 0;
+                $toFeat = 3;
+                break;
+            case "client":
+                $toView = 4;
+                $toOpen = 4;
+                $toFeat = 0;
+                break;
+            case "paypal":
+                $toView = 4;
+                $toOpen = 4;
+                $toFeat = 0;
+                $mod = "Paypal";
+                $hash = $em;
+                break;
+        }
+
+        
+        date_default_timezone_set('Asia/Manila');
+        $currentDateTime = date('Y-m-d H:i:s');
+
+        $query = "INSERT INTO 
+            cs_plans(cs_user_id, cs_plan_status, 
+                    cs_to_open, cs_to_view, cs_to_featured, 
+                    date_added, cs_plan_payment, cs_gateway_comment, expires) 
+            VALUES (?, 0, ?, ?, ?, ?, '$mod', ?, ?)";
+
+        $stmt = $connection->prepare($query);
+        $stmt->bind_param("iiiisss", $passedId, $toOpen, $toView, $toFeat, $currentDateTime, $hash, $currentDateTime);
+        $exec = $stmt->execute();
+        $stmt->close();
+
+        return $exec;
+
+
+    }
+
+    public function hasActivePlan($userId){
+        
+        $passedId = (int)$userId;
+        $connection = $this->getconn();
+        $stmt = $connection->prepare("SELECT p.* FROM cs_plans p WHERE p.cs_user_id = ? AND (p.cs_plan_status = 1 OR p.cs_plan_status = 0)");
+        $stmt->bind_param('i', $passedId);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return (empty($result)) ? false : true;
     }
 
     public function getProfile($handle){
@@ -216,8 +286,9 @@ class User extends DBHandler {
         return true;
     }
 
-    public function deleteNotifs($id){
+    public function deleteNotifs($id, $all = false){
         $query = "DELETE FROM cs_notifications WHERE cs_user_id = ? AND cs_notif_read = 1";
+        if($all){ $query = "DELETE FROM cs_notifications WHERE cs_user_id = ?"; }
         $connection = $this->getconn();
         $stmt = $connection->prepare($query);
         $stmt->bind_param('i', $id);
@@ -236,4 +307,116 @@ class User extends DBHandler {
         return $result;
     }
 
+    public function deleteUser($userId){
+        $connection = $this->getconn();
+        $query = "SELECT cs_user_avatar FROM cs_users WHERE cs_user_id = ?";
+        $stmt = $connection->prepare($query);
+        $stmt->bind_param('i', $userId);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_row();
+        $stmt->close();
+
+        if(!empty($result)) {
+            if(file_exists('../static/asset/user/'.$result[0])) {
+                unlink('../static/asset/user/'.$result[0]);
+            }
+        }
+
+        $query = "DELETE FROM cs_users WHERE cs_user_id = ?";
+        $stmt = $connection->prepare($query);
+        $stmt->bind_param('i', $userId);
+        $stmt->execute();
+        $stmt->close();
+
+        $this->deleteUserOffer($userId);
+        $this->deleteUserBid($userId);
+        $this->deleteUserProducts($userId);
+        $this->deleteNotifs($userId, true);
+    }
+
+    public function deleteUserOffer($userId){
+        
+        $connection = $this->getconn();
+        $stmt = $connection->prepare("SELECT cs_bidding_id, cs_offer FROM cs_offers WHERE cs_user_id = ?");
+        $stmt->bind_param('i', $userId);
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+
+        if(!empty($result)) {
+            foreach($result as $key => $value) {
+                $image = unserialize($result[$key]["cs_offer"]);
+                $link = '../static/asset/bidding/'.$image['img'];
+                if(file_exists($link)){ unlink($link);}
+                $link = '../static/asset/bidding/'.$image['img-two'];
+                if(file_exists($link)){ unlink($link);}
+                $link = '../static/asset/bidding/'.$image['img-three'];
+                if(file_exists($link)){ unlink($link);}
+            }
+        }
+
+        $stmt = $connection->prepare("DELETE FROM cs_offers WHERE cs_user_id = ?");
+        $stmt->bind_param('i',$userId);
+        $exec = $stmt->execute();
+        $stmt->close();
+        return ($exec) ?: false;
+    }
+
+
+    public function deleteUserBid($userId){
+        $connection = $this->getconn();
+        $stmt = $connection->prepare("SELECT cs_bidding_id, cs_bidding_picture FROM cs_biddings WHERE cs_bidding_user_id = ?");
+        $stmt->bind_param('i', $userId);
+        $stmt->execute();
+        $exist = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+
+        foreach($exist as $key => $value){
+
+            $image = '../static/asset/bidding/'.$exist[$key]["cs_bidding_picture"];
+            $biddingId = $exist[$key]["cs_bidding_id"];
+            
+            if(file_exists($image)){ unlink($image); }
+
+            $stmt = $connection->prepare("DELETE FROM cs_products_in_biddings WHERE cs_bidding_id = ?");
+            $stmt->bind_param('i', $biddingId);
+            $stmt->execute();
+            $stmt->close();
+
+            $stmt = $connection->prepare("UPDATE cs_offers SET cs_offer_status = 2 WHERE cs_bidding_id = ? AND cs_offer_status = 0");
+            $stmt->bind_param('i', $biddingId);
+            $stmt->execute();
+            $stmt->close();
+        }
+
+        $stmt = $connection->prepare("DELETE FROM cs_biddings WHERE cs_bidding_user_id = ?");
+        $stmt->bind_param('i', $userId);
+        $exec = $stmt->execute();
+        $stmt->close();
+
+        return ($exec) ?: false;
+    }
+
+    public function deleteUserProducts($userId){
+        $connection = $this->getconn();
+        $stmt = $connection->prepare("SELECT cs_product_image FROM cs_products WHERE cs_user_id = ?");
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $image = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+
+        if(!empty($image)){
+            foreach($image as $key => $value){
+                $link = '../static/asset/product/'.$image[$key]["cs_product_image"];
+                if(file_exists($link) && !is_dir($link)){ unlink($link);}
+            }
+        }
+
+        $stmt = $connection->prepare("DELETE FROM cs_products WHERE cs_user_id = ?");
+        $stmt->bind_param("i", $userId);
+        $exec = $stmt->execute();
+        $stmt->close();
+
+        return ($exec) ?: false;
+    }
 }
