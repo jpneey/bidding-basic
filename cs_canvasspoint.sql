@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2020 at 11:30 AM
+-- Generation Time: Nov 22, 2020 at 11:29 AM
 -- Server version: 10.4.6-MariaDB
 -- PHP Version: 7.1.31
 
@@ -60,11 +60,11 @@ CREATE TABLE `cs_bidder_options` (
 --
 
 INSERT INTO `cs_bidder_options` (`cs_option_id`, `cs_user_id`, `cs_allowed_view`) VALUES
-(1, 1, 4),
+(1, 1, 1),
 (2, 4, 1),
 (3, 2, 1),
 (4, 3, 4),
-(5, 6, 4);
+(5, 6, 1);
 
 -- --------------------------------------------------------
 
@@ -94,9 +94,20 @@ CREATE TABLE `cs_biddings` (
 --
 
 INSERT INTO `cs_biddings` (`cs_bidding_id`, `cs_bidding_category_id`, `cs_bidding_user_id`, `cs_bidding_title`, `cs_bidding_permalink`, `cs_bidding_picture`, `cs_bidding_details`, `cs_bidding_tags`, `cs_bidding_location`, `cs_bidding_date_needed`, `cs_bidding_added`, `cs_bidding_expiration`, `cs_bidding_status`, `cs_expired_notif`) VALUES
-(35, 1, 1, 'Plastic Cups', 'plastic-cups', '#!', 'Test', '1', 'Antipolo City', '2020-11-14 17:03:00', '2020-11-08 17:03:42', '2020-11-15 17:03:42', 2, 0),
-(36, 12, 4, 'Plastic Cups', 'plastic-cups-2', '#!', 'Lorem ipsum dotor sit amet', '1', 'Antipolo City', '2020-11-12 17:05:00', '2020-11-08 17:05:55', '2020-11-15 17:05:55', 2, 0),
-(38, 1, 1, 'Prepare the elements you want to lazy load', 'prepare-the-elements-you-want-to-lazy-load', '#!', 'Test', '1', 'Antipolo City', '2020-11-14 17:46:00', '2020-11-08 17:46:24', '2020-11-15 17:46:24', 1, 0);
+(40, 1, 1, 'Test', 'test', '#!', 'Test', '1', 'Antipolo City', '2020-11-21 13:22:00', '2020-11-15 13:23:05', '2020-11-22 13:23:05', 1, 0),
+(41, 12, 1, 'Static Website', 'static-website', '#!', 'Lorem ipsim', '1', 'Antipolo City', '2020-11-26 18:26:00', '2020-11-20 23:26:39', '2020-11-27 23:26:39', 1, 0),
+(42, 12, 1, '1 Static Website', 'static-website-1', '#!', 'Lorem ipsim dotor sit amet connectiru lorem', '1', 'Antipolo City', '2020-11-26 18:26:00', '2020-11-20 23:26:39', '2020-11-27 23:26:39', 1, 0),
+(43, 12, 1, '2 Static Website', 'static-website-2', '#!', 'Lorem ipsim', '1', 'Antipolo City', '2020-11-26 18:26:00', '2020-11-20 23:26:39', '2020-11-27 23:26:39', 1, 0),
+(44, 12, 1, '3 Static Website', 'static-website-3', '#!', 'Lorem ipsim', '1', 'Antipolo City', '2020-11-26 18:26:00', '2020-11-20 23:26:39', '2020-11-27 23:26:39', 1, 0),
+(45, 12, 1, '4 Static Website', 'static-website-4', '#!', 'Lorem ipsim', '1', 'Antipolo City', '2020-11-26 18:26:00', '2020-11-20 23:26:39', '2020-11-27 23:26:39', 1, 0),
+(46, 12, 1, '5 Static Website', 'static-website-5', '#!', 'Lorem ipsim', '1', 'Antipolo City', '2020-11-26 18:26:00', '2020-11-20 23:26:39', '2020-11-27 23:26:39', 1, 0),
+(47, 12, 1, '6 Static Website', 'static-website-6', '#!', 'Lorem ipsim', '1', 'Antipolo City', '2020-11-26 18:26:00', '2020-11-20 23:26:39', '2020-11-27 23:26:39', 1, 0),
+(48, 12, 1, '7 Static Website', 'static-website-7', '#!', 'Lorem ipsim', '1', 'Antipolo City', '2020-11-26 18:26:00', '2020-11-20 23:26:39', '2020-11-27 23:26:39', 1, 0),
+(49, 12, 1, '8 Static Website', 'static-website-8', '#!', 'Lorem ipsim', '1', 'Antipolo City', '2020-11-26 18:26:00', '2020-11-20 23:26:39', '2020-11-27 23:26:39', 1, 0),
+(50, 12, 1, '9 Static Website', 'static-website-9', '#!', 'Lorem ipsim', '1', 'Antipolo City', '2020-11-26 18:26:00', '2020-11-20 23:26:39', '2020-11-27 23:26:39', 1, 0),
+(51, 12, 1, '10 Static Website', 'static-website-10', '#!', 'Lorem ipsim', '1', 'Antipolo City', '2020-11-26 18:26:00', '2020-11-20 23:26:39', '2020-11-27 23:26:39', 1, 0),
+(52, 12, 4, 'Plastic Cups', 'plastic-cups', '#!', 'Test', '1', 'Metro Manila', '2020-11-26 18:41:00', '2020-11-20 23:41:26', '2020-11-27 23:41:26', 1, 0),
+(53, 12, 4, '11 Test', '11-test', 'jp-81358-baking.jpg', 'here but unfortunately there are no active biddings as of the mo', '1', 'Antipolo City', '2020-11-28 17:20:00', '2020-11-22 16:20:16', '2020-11-29 16:20:16', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -112,13 +123,6 @@ CREATE TABLE `cs_bidding_winners` (
   `cs_bidding_owner_id` int(11) NOT NULL,
   `cs_offer` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `cs_bidding_winners`
---
-
-INSERT INTO `cs_bidding_winners` (`cs_winner_id`, `cs_offer_id`, `cs_bidding_id`, `cs_offer_owner_id`, `cs_bidding_owner_id`, `cs_offer`) VALUES
-(27, 36, 35, 2, 1, 'a:8:{s:7:\"product\";s:12:\"Plastic Cups\";s:3:\"qty\";s:2:\"50\";s:4:\"date\";s:10:\"2020-11-30\";s:5:\"notes\";s:92:\"Bidders remain anonymous until it&#39;s offer is selected by the client and won the bidding.\";s:3:\"img\";s:2:\"#!\";s:7:\"img-two\";s:2:\"#!\";s:9:\"img-three\";s:2:\"#!\";s:5:\"price\";a:1:{i:0;s:8:\"429.9900\";}}');
 
 -- --------------------------------------------------------
 
@@ -162,15 +166,6 @@ CREATE TABLE `cs_business` (
   `cs_business_status` int(11) NOT NULL DEFAULT 0,
   `cs_business_category` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `cs_business`
---
-
-INSERT INTO `cs_business` (`cs_business_id`, `cs_user_id`, `cs_business_name`, `cs_business_link`, `cs_business_tags`, `cs_business_featured`, `cs_business_status`, `cs_business_category`) VALUES
-(3, 2, 'Dine In Furnishing', 'dine-in-furnishing', '', '', 1, 12),
-(4, 3, 'Dine In Furnishing', 'dine-in-furnishing-1', '', '', 1, 2),
-(5, 6, 'Code ni Pepes', 'code-ni-pepes', '', '', 1, 1);
 
 -- --------------------------------------------------------
 
@@ -234,8 +229,9 @@ CREATE TABLE `cs_notifications` (
 --
 
 INSERT INTO `cs_notifications` (`cs_notif_id`, `cs_notif_read`, `cs_notif`, `cs_user_id`, `cs_added`) VALUES
-(74, 1, 'Bidding: <a data-to=\'bid/plastic-cups/\'><b>Plastic Cups</b></a> - Someone submitted a bid.', 1, '2020-11-08 17:07:42'),
-(75, 1, 'Bidding: <a data-to=\"bid/plastic-cups\"><b>Plastic Cups</b></a> - Congratulations! You won the bidding!', 2, '2020-11-08 17:09:45');
+(84, 1, 'Bidding: <a data-to=\'my/plan/\'><b>Your account was upgraded to PRO!</b></a>', 4, '2020-11-15 21:33:11'),
+(85, 1, 'Bidding: <a data-to=\'my/plan/\'><b>Your account was upgraded to PRO!</b></a>', 4, '2020-11-15 21:34:09'),
+(97, 0, 'Bidding: <a data-to=\'my/plan/\'><b>Your account was upgraded to PRO!</b></a>', 6, '2020-11-20 20:04:45');
 
 -- --------------------------------------------------------
 
@@ -259,7 +255,34 @@ CREATE TABLE `cs_offers` (
 --
 
 INSERT INTO `cs_offers` (`cs_offer_id`, `cs_bidding_id`, `cs_user_id`, `cs_offer`, `cs_offer_price`, `cs_date_added`, `cs_offer_status`, `cs_offer_success`) VALUES
-(36, 35, 2, 'a:7:{s:7:\"product\";s:12:\"Plastic Cups\";s:3:\"qty\";s:2:\"50\";s:4:\"date\";s:10:\"2020-11-30\";s:5:\"notes\";s:92:\"Bidders remain anonymous until it&#39;s offer is selected by the client and won the bidding.\";s:3:\"img\";s:2:\"#!\";s:7:\"img-two\";s:2:\"#!\";s:9:\"img-three\";s:2:\"#!\";}', '429.9900', '2020-11-08 09:07:42', 1, 1);
+(40, 40, 1, 'a:7:{s:7:\"product\";s:4:\"Test\";s:3:\"qty\";s:2:\"15\";s:4:\"date\";s:10:\"2020-11-30\";s:5:\"notes\";s:4:\"Test\";s:3:\"img\";s:2:\"#!\";s:7:\"img-two\";s:2:\"#!\";s:9:\"img-three\";s:2:\"#!\";}', '56.0000', '2020-11-15 13:37:50', 0, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cs_plans`
+--
+
+CREATE TABLE `cs_plans` (
+  `cs_plan_id` int(11) NOT NULL,
+  `cs_user_id` int(11) NOT NULL,
+  `cs_plan_status` int(11) NOT NULL DEFAULT 0,
+  `cs_to_open` int(11) NOT NULL DEFAULT 4,
+  `cs_to_view` int(11) NOT NULL DEFAULT 4,
+  `cs_to_featured` int(11) NOT NULL DEFAULT 3,
+  `date_added` timestamp NOT NULL DEFAULT current_timestamp(),
+  `cs_plan_payment` varchar(255) NOT NULL,
+  `cs_gateway_comment` varchar(255) NOT NULL DEFAULT '',
+  `expires` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cs_plans`
+--
+
+INSERT INTO `cs_plans` (`cs_plan_id`, `cs_user_id`, `cs_plan_status`, `cs_to_open`, `cs_to_view`, `cs_to_featured`, `date_added`, `cs_plan_payment`, `cs_gateway_comment`, `expires`) VALUES
+(21, 1, 0, 4, 4, 0, '2020-11-22 07:31:28', 'Direct Pay', '10.79098000 16060302881_dp', '2020-11-22 07:31:28'),
+(22, 2, 1, 0, 0, 3, '2020-11-22 07:39:34', 'Direct Pay', '20.13192900 16060307742_dp', '2020-11-22 07:39:34');
 
 -- --------------------------------------------------------
 
@@ -288,8 +311,8 @@ CREATE TABLE `cs_products` (
 --
 
 INSERT INTO `cs_products` (`cs_product_id`, `cs_category_id`, `cs_user_id`, `cs_product_name`, `cs_product_details`, `cs_product_image`, `cs_product_price`, `cs_sale_price`, `cs_unit`, `cs_product_permalink`, `cs_link`, `cs_link_text`, `cs_inquired`) VALUES
-(15, 2, 6, 'ES6 Js Tutorial', 'Lorem Ipsum dotor sit amet connectirure', 'prod-55952-480px-JavaScript-logo.png', '16.0000', '11.0000', 'hour', 'es6-js-tutorial-6uc6', '#!', 'Add to Cart', 0),
-(16, 1, 6, 'Type script lorem', 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ex provident dolorem doloremque nisi animi assumenda quidem, sint dolor illum, magnam consequuntur possimus nam rem asperiores, labore fuga cupiditate aut optio!', 'prod-53261-microsoft-delivers-typescript-30-angular-support-coming-soon-typescript-png-816_816.png', '6700.0000', '400.0000', 'hour', 'type-script-lorem-6vd5', '#!', 'Add to Cart', 1);
+(27, 12, 2, 'ES6 Js Tutorial', 'Test', 'prod-58257-baking.jpg', '620.0000', '600.0000', 'kg', 'es6-js-tutorial-226u', '#!', 'Add to Cart', 0),
+(28, 2, 2, 'Fresh Banana', 'Test', 'prod-37125-humaaans.png', '670.0000', '599.0000', 'kg', 'fresh-banana-2psg', '#!', 'Add to Cart', 0);
 
 -- --------------------------------------------------------
 
@@ -311,9 +334,32 @@ CREATE TABLE `cs_products_in_biddings` (
 --
 
 INSERT INTO `cs_products_in_biddings` (`cs_product_id`, `cs_bidding_id`, `cs_product_name`, `cs_product_unit`, `cs_product_qty`, `cs_product_price`) VALUES
-(35, 35, 'Plastic Cups', 'pc', 50, '600.0000'),
-(36, 36, 'Plastic Cups', 'kg', 50, '9000.0000'),
-(38, 38, 'Prepare the elements you want to lazy load', 'kg', 67, '700.0000');
+(40, 40, 'Test', 'kg', 15, '600.0000'),
+(41, 41, 'Static Website', 'pc', 15, '60.0000'),
+(42, 52, 'Plastic Cups', 'hy', 21, '200.0000'),
+(43, 42, 'Static Website', 'pc', 15, '60.0000'),
+(44, 53, '11 Test', 'kg', 15, '700.0000');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `cs_store`
+--
+
+CREATE TABLE `cs_store` (
+  `cs_setting_id` int(11) NOT NULL,
+  `cs_setting_name` varchar(255) NOT NULL,
+  `cs_setting_value` varchar(255) NOT NULL,
+  `cs_status` int(11) NOT NULL DEFAULT 1
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `cs_store`
+--
+
+INSERT INTO `cs_store` (`cs_setting_id`, `cs_setting_name`, `cs_setting_value`, `cs_status`) VALUES
+(1, 'admin_email', 'burato348@gmail.com', 1),
+(2, 'admin_home', '1590,210,127,0', 1);
 
 -- --------------------------------------------------------
 
@@ -353,13 +399,6 @@ CREATE TABLE `cs_transactions` (
   `cs_is_success` int(11) NOT NULL DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `cs_transactions`
---
-
-INSERT INTO `cs_transactions` (`cs_transaction_id`, `cs_bidder_id`, `cs_bid_owner_id`, `cs_bidding_title`, `cs_bidding_id`, `cs_is_success`) VALUES
-(40, 2, 1, 'Plastic Cups', 35, 0);
-
 -- --------------------------------------------------------
 
 --
@@ -383,12 +422,11 @@ CREATE TABLE `cs_users` (
 --
 
 INSERT INTO `cs_users` (`cs_user_id`, `cs_user_name`, `cs_user_email`, `cs_contact_details`, `cs_user_detail`, `cs_user_password`, `cs_user_role`, `cs_user_avatar`, `cs_account_status`) VALUES
-(1, 'jpneey', 'burato348@gmail.com', 'a:5:{s:11:\"cs_facebook\";N;s:11:\"cs_linkedin\";N;s:10:\"cs_website\";N;s:12:\"cs_telephone\";N;s:9:\"cs_mobile\";N;}', 'You are one click away on reaching the next step of Canvasspoint&#39;s registration process! Please click the button below to setup your account\r\n\r\nLorem ipsum dolor sit amet consectetur adipisicing elit. Eius voluptatum esse quas possimus, officiis nemo ', '$2y$10$k4AYoKWROtb//0wZRqtnC.fq0Jdeh3xlNkgNPLF5193tB6bwOdUlS', '1', 'jp-95245-jp.jpg', 2),
+(1, 'jpneey', 'burato348@gmail.com', 'a:5:{s:11:\"cs_facebook\";N;s:11:\"cs_linkedin\";N;s:10:\"cs_website\";N;s:12:\"cs_telephone\";N;s:9:\"cs_mobile\";N;}', 'You are one click away on reaching the next step of Canvasspoint&#39;s registration process! Please click the button below to setup your account\r\n\r\nLorem ipsum dolor sit amet consectetur adipisicing elit. Eius voluptatum esse quas possimus, officiis nemo ', '$2y$10$k4AYoKWROtb//0wZRqtnC.fq0Jdeh3xlNkgNPLF5193tB6bwOdUlS', '1', 'jp-95245-jp.jpg', 0),
 (2, 'dine-in', 'supplier@mail.com', 'a:5:{s:11:\"cs_facebook\";N;s:11:\"cs_linkedin\";N;s:10:\"cs_website\";N;s:12:\"cs_telephone\";s:7:\"8700555\";s:9:\"cs_mobile\";s:12:\"095967800909\";}', 'When it comes to choosing the most perfect dining set for sale in the Philippines, look no further than Dine-In Furnishing. We have a wide range of furniture pieces which carries the creativity and ingenuity of every Filipino in the country. We take pride', '$2y$10$qkY8Vtz7p97.R2VerRzyPuKjRVResSXzyhaGsc78bXcJ.K2nNlArO', '2', 'jp-17177-08012020010811.png', 0),
 (3, 'foo-bar', 'admin@mail.com', 'a:5:{s:11:\"cs_facebook\";N;s:11:\"cs_linkedin\";N;s:10:\"cs_website\";N;s:12:\"cs_telephone\";s:7:\"8700555\";s:9:\"cs_mobile\";s:11:\"09296209999\";}', 'Lorem ipsum dolor sit amet consectetur, adipisicing elit. Distinctio nostrum aperiam autem, cum laborum nihil id tempore non voluptas explicabo quasi maiores a iure sit dolore doloremque blanditiis ratione iusto!', '$2y$10$qkY8Vtz7p97.R2VerRzyPuKjRVResSXzyhaGsc78bXcJ.K2nNlArO', '2', 'jp-21235-icon.jpg', 0),
 (4, 'leafa', 'leafa@gmail.com', 'a:5:{s:11:\"cs_facebook\";N;s:11:\"cs_linkedin\";N;s:10:\"cs_website\";N;s:12:\"cs_telephone\";N;s:9:\"cs_mobile\";N;}', 'You are one click away on reaching the next step of Canvasspoint&#39;s registration process! Please click the button below to setup your account', '$2y$10$k4AYoKWROtb//0wZRqtnC.fq0Jdeh3xlNkgNPLF5193tB6bwOdUlS', '1', 'jp-65542-ae1c29bea800e5c1adde375bb4b06e56--simple-fashion-minimalist-fashion-minimalist-outfits.jpg', 0),
-(5, 'user-', '', NULL, NULL, '', '0', 'avatar.png', 0),
-(6, 'pepe', 'codenipepe@gmail.com', 'a:5:{s:11:\"cs_facebook\";N;s:11:\"cs_linkedin\";N;s:10:\"cs_website\";N;s:12:\"cs_telephone\";N;s:9:\"cs_mobile\";s:11:\"09296209056\";}', 'Your temporary password is: k0QxU. You&#39;ll need this inorder to update your account after clicking the button above.', '$2y$10$c1H5kd29XYTVDSWKEiwj4OY6JPUSLVrFANyDwA6eQ4sxgpMrw9hMW', '2', 'jp-28819-php-512.png', 2);
+(6, 'pepes', 'codenipepe@gmail.com', 'a:5:{s:11:\"cs_facebook\";N;s:11:\"cs_linkedin\";N;s:10:\"cs_website\";N;s:12:\"cs_telephone\";N;s:9:\"cs_mobile\";s:11:\"09296209056\";}', 'Your temporary password is: k0QxU. You&#39;ll need this inorder to update your account after clicking the button above.', '$2y$10$c1H5kd29XYTVDSWKEiwj4OY6JPUSLVrFANyDwA6eQ4sxgpMrw9hMW', '2', 'jp-28819-php-512.png', 0);
 
 -- --------------------------------------------------------
 
@@ -417,14 +455,6 @@ CREATE TABLE `cs_user_ratings` (
   `cs_rating` int(5) NOT NULL,
   `cs_comment` text NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `cs_user_ratings`
---
-
-INSERT INTO `cs_user_ratings` (`cs_rating_id`, `cs_user_id`, `cs_user_rated_id`, `cs_rating`, `cs_comment`) VALUES
-(22, 1, 2, 4, 'Great and fast service delivery.'),
-(23, 2, 1, 4, 'Lorem ipsum dotor sit amet');
 
 --
 -- Indexes for dumped tables
@@ -491,6 +521,12 @@ ALTER TABLE `cs_offers`
   ADD PRIMARY KEY (`cs_offer_id`);
 
 --
+-- Indexes for table `cs_plans`
+--
+ALTER TABLE `cs_plans`
+  ADD PRIMARY KEY (`cs_plan_id`);
+
+--
 -- Indexes for table `cs_products`
 --
 ALTER TABLE `cs_products`
@@ -501,6 +537,12 @@ ALTER TABLE `cs_products`
 --
 ALTER TABLE `cs_products_in_biddings`
   ADD PRIMARY KEY (`cs_product_id`);
+
+--
+-- Indexes for table `cs_store`
+--
+ALTER TABLE `cs_store`
+  ADD PRIMARY KEY (`cs_setting_id`);
 
 --
 -- Indexes for table `cs_tags`
@@ -552,7 +594,7 @@ ALTER TABLE `cs_bidder_options`
 -- AUTO_INCREMENT for table `cs_biddings`
 --
 ALTER TABLE `cs_biddings`
-  MODIFY `cs_bidding_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `cs_bidding_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=54;
 
 --
 -- AUTO_INCREMENT for table `cs_bidding_winners`
@@ -588,25 +630,37 @@ ALTER TABLE `cs_locations`
 -- AUTO_INCREMENT for table `cs_notifications`
 --
 ALTER TABLE `cs_notifications`
-  MODIFY `cs_notif_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=76;
+  MODIFY `cs_notif_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=118;
 
 --
 -- AUTO_INCREMENT for table `cs_offers`
 --
 ALTER TABLE `cs_offers`
-  MODIFY `cs_offer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
+  MODIFY `cs_offer_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+
+--
+-- AUTO_INCREMENT for table `cs_plans`
+--
+ALTER TABLE `cs_plans`
+  MODIFY `cs_plan_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 
 --
 -- AUTO_INCREMENT for table `cs_products`
 --
 ALTER TABLE `cs_products`
-  MODIFY `cs_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `cs_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
 
 --
 -- AUTO_INCREMENT for table `cs_products_in_biddings`
 --
 ALTER TABLE `cs_products_in_biddings`
-  MODIFY `cs_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
+  MODIFY `cs_product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+
+--
+-- AUTO_INCREMENT for table `cs_store`
+--
+ALTER TABLE `cs_store`
+  MODIFY `cs_setting_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `cs_tags`
@@ -618,13 +672,13 @@ ALTER TABLE `cs_tags`
 -- AUTO_INCREMENT for table `cs_transactions`
 --
 ALTER TABLE `cs_transactions`
-  MODIFY `cs_transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=41;
+  MODIFY `cs_transaction_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT for table `cs_users`
 --
 ALTER TABLE `cs_users`
-  MODIFY `cs_user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `cs_user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `cs_user_address`
@@ -636,7 +690,7 @@ ALTER TABLE `cs_user_address`
 -- AUTO_INCREMENT for table `cs_user_ratings`
 --
 ALTER TABLE `cs_user_ratings`
-  MODIFY `cs_rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `cs_rating_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
