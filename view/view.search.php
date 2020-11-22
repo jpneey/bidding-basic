@@ -68,7 +68,7 @@ class Search extends DBHandler {
 
     public function filters(){
         ?>
-        <a href="#!" class="filter grey-text">Filters</a>
+        <a href="#!" class="filter grey-text"><i class="search material-icons">tune</i></a>
         <div class="filter-panel">
         <select required name="mode" class="browser-default c">
             <option value="<?= $this->DEFAULT ?>" selected>Search in <?= ucfirst($this->DEFAULT) ?></option>

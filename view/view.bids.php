@@ -51,18 +51,16 @@ class viewBids extends Bids {
                 >   <div class="hoverable">
                         <div class="card-image">
                             <?= $bidInFeedPicture ?>
-                            <div class="overlay"></div>
+                            <!-- <div class="overlay"></div> -->
                             <span class="card-title truncate">
-                                <small><?= $province.' @ '.$datePosted ?></small>
-                                <br>
-                                <?= $bidInFeedTitle ?>
-                                <br>
-                                <small class="m-tag orange darken-1"><?= $catName ?></small>
+                                <button class="btn btn-xs orange darken-4"><?= $catName ?></button>
+                                <button class="btn btn-xs orange darken-2"><?= $province ?></button>
                             </span>
                         </div>
                         <div class="card-content">
-                            <span class="ratings un-pad"><?= $rating ?></span>
-                            <p class="truncate un-margin"><?= $bidInFeedDetails ?></p>
+                            <span class="truncate"><?= $bidInFeedTitle ?></span>
+                            <p class="truncate un-margin"><?= $datePosted .' - ' . $bidInFeedDetails ?></p>
+                            <span class="ratings un-pad star-on-feed"><?= $rating ?></span>
                             <p>
                                 <small>
                                 <?php if(!empty($rated)) { ?>

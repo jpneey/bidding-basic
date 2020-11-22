@@ -2,101 +2,45 @@
 
 defined('included') || die("Bad request"); 
 
-$_plans = $user->getPlans($__user_id);
+$clientPlan = 200.00;
+$supplierPlan = 150.00;
+
+$toPay = 180;
+
+$_plans_expired = $user->getPlans($__user_id, false, true);
+
+$_plans = $user->getPlans($__user_id, false);
 
 $direct_pay_msg = '<p>After submitting your  <span class="orange-text">upgrade to pro</span> request, You will be contacted by one of our sales person to arrange the payment mode for your order. This should only take around 3 working days depending on the said arrangement.</p>';
+$pay_script = "";
 
-ob_start();
-?>
-<script>
-    $(function(){
-        $('#sup-pro').on('click', function(){
-            $('#load-wrap').fadeIn(500);
-            $('#sup-pro').attr('disabled', true);
-            $('.modal').modal('close');
-            $.ajax({
-                method: "GET",
-                url: root + "controller/controller.user.php?action=cli-pro",
-                success: function(data){
-                    data = JSON.parse(data);
-                    switch(data.code){
-                        case 1:
-                            var classes = 'green darken-2 white-text';
-                            $('#this-plan').load(location.href+" #this-plan>*", "");
-                            break;
-                        default:
-                            var classes = 'red white-text';
-                            break;
-                    }
-                    var action = '<button onclick="M.Toast.dismissAll();" class="btn-flat toast-action"><i class="close material-icons">close</i></button>';
-                    M.toast({
-                        html: data.message + action,
-                        classes: classes,
-                        displayLength: 12000
-                    });
-                    $('#sup-pro').attr('disabled', true);
-                    setTimeout(function(){
-                        $('#load-wrap').fadeOut(500);
-                    }, 1000)
-                    return
-                }
-            })
-        })
-    })
-</script>
-<?php
-$pay_script = ob_get_clean();
-
-if(!empty($_plans)){ 
+if(!empty($_plans)){
+    $loop = $_plans;
+    if(!empty($_plans_expired)) {
+        $loop = $user->getPlans($__user_id, true);
+    }
     ob_start();
-    ?>
-    <div class="col s12">
-        <table class="responsive-table">
-            <tr>
-                <th>Plan</th>
-                <th>Date Added</th>
-                <th>Payment Method</th>
-                <th>Plan Status</th>
-                <th>Expires</th>
-            </tr>
-            <?php foreach($_plans as $k => $v){ 
-                $added = date('d M Y', strtotime($_plans[$k]["date_added"]));
-                $expires = date('d M Y', strtotime($_plans[$k]["expires"]));
-                $payment = ucwords($_plans[$k]["cs_plan_payment"]);
-                switch($_plans[$k]["cs_plan_status"]){
-                    case 0:
-                        $status = "<span class='btn btn-sm orange darken-2 white-text'>Processing</span>";
-                        $expires = "--";
-                        break;
-                    case 1:
-                        $status = "<span class='btn btn-sm green darken-2 white-text'>Active</span>";
-                        break;
-                    case 2:
-                        $status = "<span class='btn btn-sm red darken-2 white-text'>Expired</span>";
-                        break;
-                    default:
-                        $status = "<span class='btn btn-sm grey darken-2 white-text'>Canceled</span>";
-                        $expires = "--";
-                }  
-            ?>
-            <tr>
-                <td>Premium</td>
-                <td><?= $added ?></td>
-                <td><?= $payment ?></td>
-                <td><?= $status ?></td>
-                <td><?= $expires ?></td>
-            </tr>
-            <?php } ?>
-        </table>
-        <br>
-        <br>
-    </div>
-<?php 
+    require "component/paypal/history.php";
     $_plans = ob_get_clean();
-} else { $_plans = ""; } ?>
+} else  { 
+    $_plans = ""; 
+}
+
+if(!empty($_plans_expired) && empty($_plans)){
+    $loop = $_plans_expired; 
+    ob_start();
+    require "component/paypal/history.php";
+    $_plans_expired = ob_get_clean();
+} else {
+    $_plans_expired = "";
+}
+
+
+
+?>
 
 <div class="col s12 white page z-depth-1" id="this-plan">
-    <div class="row content">
+    <div class="row content" style="padding: 15px">
         <div class="col s12">
             <div class="row">
                 <div class="col s12">
@@ -106,10 +50,11 @@ if(!empty($_plans)){
                     <br>
                 </div>
 
-                <?php if($isBidder) { echo $_plans ?>
+                <?php if($isBidder) { echo $_plans; echo $_plans_expired; ?>
                 <div class="col s12 m6">
                     <div class="plan <?= ($loggedInAccountType) ?: 'active' ?>">
-                        <span class="plan-title">Free</span>
+                        <h1><b>Free</b></h1>
+                        <span class="plan-title">Free / Lifetime</span>
                         <ul class="plan-features">
                             <li>Open one (1) offer per bid</li>
                             <li>Post up to four (4) active biddings</li>
@@ -121,17 +66,21 @@ if(!empty($_plans)){
 
                 <div class="col s12 m6">
                     <div class="plan <?= ($loggedInAccountType) ? 'active' : 'x' ?>">
-                        <span class="plan-title">Premium</span>
+                    
+                        <?php $toPay = $clientPlan; ?>
+
+                        <h1><b>Pro</b></h1>
+                        <span class="plan-title">₱ <?= number_format($clientPlan, 2, '.', ',') ?> / Year</span>
                         <ul class="plan-features">
                             <li>All on free</li>
                             <li>Open up to four (4) offers per bid for a year.</li>
                         </ul>
                         <?php if(!$loggedInAccountType){ ?>
-                        <button class="plan-button waves-effect modal-trigger" data-target="direct-pay">₱ 420.69 / Year</button>
 
-                        <?php /* require "component/paypal/premium-client.php" */ ?>     
+                        <?php if(empty($_plans)){ ?>
 
-
+                        <button class="plan-button waves-effect modal-trigger" data-target="direct-pay">Contact Sales</button>
+                             
                         <div id="direct-pay" class="modal modal-sm left-align">
                             <div class="modal-content">
                                 <p><b>Premium Client</b></p>
@@ -141,6 +90,12 @@ if(!empty($_plans)){
                             </div>
                         </div>
 
+                        <?php require "component/paypal/premium-client.php"; ?>
+
+                        <?php } else { ?>
+                        <button class="plan-button waves-effect">Purchase Pending</button>
+                        <?php } ?>
+
                         <?php } else { ?>
                         <button class="plan-button waves-effect">Current Plan</button>                        
                         <?php } ?>
@@ -149,13 +104,14 @@ if(!empty($_plans)){
                   </div>
                 
                 <?php } ?>
-                <?php if($isSupplier) { echo $_plans ?>
+                <?php if($isSupplier) { echo $_plans; echo $_plans_expired; ?>
                     
                 <div class="col s12 m6">
                     <div class="plan <?= ($loggedInAccountType) ?: 'active' ?>">
-                        <span class="plan-title">Free</span>
+                        <h1><b>Free</b></h1>
+                        <span class="plan-title">Free / Lifetime</span>
                         <ul class="plan-features">
-                            <li>Submit one (1) proposal per bidding</li>
+                            <li>One proposal per bidding</li>
                         </ul>
                         <button class="plan-button waves-effect">Free / Lifetime</button>
                     </div>
@@ -163,13 +119,21 @@ if(!empty($_plans)){
 
                 <div class="col s12 m6">
                     <div class="plan <?= ($loggedInAccountType) ? 'active' : 'x' ?>">
-                        <span class="plan-title">Premium</span>
+
+                        <?php $toPay = $supplierPlan; ?>
+
+                        <h1><b>Pro</b></h1>
+                        <span class="plan-title">₱ <?= number_format($supplierPlan, 2, '.', ',') ?> / Year</span>
+
                         <ul class="plan-features">
-                            <li>All on free</li>
-                            <li>Post up to three (3) featured item on canvasspoint</li>
+                            <li>One proposal per bidding</li>
+                            <li>Three featured item on canvasspoint</li>
                         </ul>
                         <?php if(!$loggedInAccountType){ ?>
-                        <button class="plan-button waves-effect modal-trigger" data-target="direct-pay">₱ 420.69 / Year</button>
+
+                        <?php if(empty($_plans)){ ?>
+
+                        <button class="plan-button waves-effect modal-trigger" data-target="direct-pay">Contact Sales</button>
 
                         <div id="direct-pay" class="modal modal-sm left-align">
                             <div class="modal-content">
@@ -179,6 +143,12 @@ if(!empty($_plans)){
                                 <?= $pay_script; ?>
                             </div>
                         </div>
+                        
+                        <?php require_once "component/paypal/premium-client.php"; ?>
+                        
+                        <?php } else { ?>
+                        <button class="plan-button waves-effect">Purchase Pending</button>
+                        <?php } ?>
 
                         <?php } else { ?>
                         <button class="plan-button waves-effect">Current Plan</button>                        

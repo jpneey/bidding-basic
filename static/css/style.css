@@ -411,7 +411,7 @@ input.browser-default,
     padding-top: 15px;
   }
   .container {
-    width: 90% !important;
+    width: 100% !important;
   }
   .minimal .page {
     padding: 20px !important;
@@ -692,6 +692,7 @@ nav .unread {
 
 .card.feed.on-profile {
   padding-left: 0;
+  width: 100%;
 }
 .card.feed.on-profile .card-content{
   background: #f9f9f9;
@@ -900,4 +901,22 @@ body table.responsive-table th {
     padding: 20px !important;
   }
 
+}
+
+.search.material-icons {
+  vertical-align: middle;
+  font-size: 21px;
+}
+
+button.btn.btn-xs {
+  height: 20px;
+  line-height: 20px;
+  font-size: 10px !important;
+}
+
+.star-on-feed {
+  height: 15px; margin-left: -2px;
+}
+.card .card-image .card-title {
+  padding: 10px 24px !important
 }

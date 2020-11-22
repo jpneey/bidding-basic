@@ -48,11 +48,14 @@ class User extends DBHandler {
         return (empty($result)) ? 'guest' : $result;
     }
 
-    public function getPlans($userId){
+    public function getPlans($userId, $expires = true, $expired_only = false){
         
         $passedId = (int)$userId;
         $connection = $this->getconn();
-        $stmt = $connection->prepare("SELECT p.* FROM cs_plans p WHERE p.cs_user_id = ? ORDER BY cs_plan_id DESC");
+        $query = "SELECT p.* FROM cs_plans p WHERE p.cs_user_id = ? ORDER BY cs_plan_id DESC";
+        if(!$expires) { $query = "SELECT p.* FROM cs_plans p WHERE p.cs_user_id = ? AND p.cs_plan_status != 2 ORDER BY cs_plan_id DESC"; }
+        if($expired_only) { $query = "SELECT p.* FROM cs_plans p WHERE p.cs_user_id = ? AND p.cs_plan_status = 2 ORDER BY cs_plan_id DESC"; }
+        $stmt = $connection->prepare($query);
         $stmt->bind_param('i', $passedId);
         $stmt->execute();
         $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
@@ -60,7 +63,7 @@ class User extends DBHandler {
         return $result;
     }
 
-    public function requestUpgrade($type, $id, $em = false){
+    public function requestUpgrade($type, $id, $em = false, $get_id = false){
         $connection = $this->getconn();
         $passedId = (int)$id;
         $mod = "Direct Pay";
@@ -77,12 +80,19 @@ class User extends DBHandler {
                 $toOpen = 4;
                 $toFeat = 0;
                 break;
-            case "paypal":
+            case "paypal-client":
                 $toView = 4;
                 $toOpen = 4;
                 $toFeat = 0;
                 $mod = "Paypal";
-                $hash = $em;
+                $hash = ($em) ?: 'n/a';
+                break;
+            case "paypal-supplier":
+                $toView = 0;
+                $toOpen = 0;
+                $toFeat = 3;
+                $mod = "Paypal";
+                $hash = ($em) ?: 'n/a';
                 break;
         }
 
@@ -99,6 +109,11 @@ class User extends DBHandler {
         $stmt = $connection->prepare($query);
         $stmt->bind_param("iiiisss", $passedId, $toOpen, $toView, $toFeat, $currentDateTime, $hash, $currentDateTime);
         $exec = $stmt->execute();
+
+        if($get_id) {
+            $exec = $stmt->insert_id;
+        }
+
         $stmt->close();
 
         return $exec;
@@ -418,5 +433,108 @@ class User extends DBHandler {
         $stmt->close();
 
         return ($exec) ?: false;
+    }
+
+    /* site settings */
+
+    public function getAdminEmail(){
+        $connection = $this->getconn();
+        $stmt = $connection->prepare("SELECT cs_setting_value FROM cs_store WHERE cs_setting_name = 'admin_email' AND cs_status = 1 LIMIT 1");
+        $stmt->execute();
+        $email = $stmt->get_result()->fetch_row();
+        $stmt->close();
+
+        if(empty($email)) { return false; }
+        if(!filter_var($email[0], FILTER_SANITIZE_EMAIL)) { return false; }
+
+        return $email[0];
+    }
+
+    public function getTotalCounts(){
+        $connection = $this->getconn();
+        $stmt = $connection->prepare("SELECT cs_setting_value FROM cs_store WHERE cs_setting_name = 'admin_home' AND cs_status = 1 LIMIT 1");
+        $stmt->execute();
+        $settings = $stmt->get_result()->fetch_row();
+        $stmt->close();
+
+        if(!empty($settings)) { 
+            $values = explode(',', $settings[0]);
+            $index = 0;            
+            foreach($values as $value){
+                if(empty($value)) {
+                    switch($index) {
+                        case 0:
+                            $values[$index] = $this->getHomeData("bids");
+                            break;
+                        case 1:
+                            $values[$index] = $this->getHomeData("clients");
+                            break;
+                        case 2:
+                            $values[$index] = $this->getHomeData("suppliers");
+                            break;
+                        case 3: 
+                            $values[$index] = $this->getHomeData("bid-today");
+                            break;
+                    }
+                }
+                $index++;
+            }
+        } else {
+            $values = array(
+                $values[0] = $this->getHomeData("bids"),
+                $values[1] = $this->getHomeData("clients"),
+                $values[2] = $this->getHomeData("suppliers"),
+                $values[3] = $this->getHomeData("bid-today")
+            );
+        }
+        
+        return $values;
+    }
+
+    public function getHomeData($kind){
+        $connection = $this->getconn();
+        switch($kind){
+            case "bids":
+                $query = "SELECT COUNT(cs_bidding_id) AS counted FROM cs_biddings";
+                break;
+            case "suppliers":
+                $query = "SELECT COUNT(cs_user_id) AS counted FROM cs_users WHERE cs_user_role = 2";
+                break;
+            case "clients":
+                $query = "SELECT COUNT(cs_user_id) AS counted FROM cs_users WHERE cs_user_role = 1";
+                break;
+            case "bid-today":
+                $date = date("Y-m-d");
+                $query = "SELECT COUNT(cs_bidding_id) AS counted FROM cs_biddings WHERE DATE(cs_bidding_added) = '$date'";
+                break;
+        }
+
+        $stmt = $connection->prepare($query);
+        $stmt->execute();
+        $counted = $stmt->get_result()->fetch_row();
+        $stmt->close();
+
+        return (!empty($counted)) ? $counted[0] : 0;
+    }
+
+    public function sendMail($emailSubject, $emailPreheader, $emailGreeting, $emailContent, $emailAction, $emailActionText, $emailFooterContent, $emailRegards, $to = false){
+        
+        if(!$to) { $to = $this->getAdminEmail(); };
+        if(!$to) { return false; }
+        
+        require "../controller/mail/mail.php";
+
+        $mail->AddAddress($to);
+          
+        ob_start();
+        require '../controller/mail/template/basic.php';
+        $htmlMessage = ob_get_contents();
+        ob_end_clean(); 
+        
+        
+        $mail->Subject = $emailSubject;
+        $mail->Body = $htmlMessage;
+
+        return $mail->send();
     }
 }

@@ -43,22 +43,21 @@ class viewSupplier extends Supplier {
                             <div class="card-image">
                                 
                                 <img class="lazy" data-src="<?= $this->BASE_DIR.'static/asset/product/'.$products[$key]["cs_product_image"] ?>" alt="<?= $products[$key]["cs_product_name"] ?>"/>
-                                <div class="overlay"></div>
+                                <!-- <div class="overlay"></div> -->
                                 <span class="card-title truncate">
-                                    <small><?= $products[$key]["cs_category_name"] ?></small> 
-                                    <br>
-                                    <?= $products[$key]["cs_product_name"] ?>
-                                    <small class="m-tag orange darken-1">PRODUCT</small>
+                                    <button class="btn btn-xs orange darken-4">Product</button>
+                                    <button class="btn btn-xs orange darken-2"><?= $products[$key]["cs_category_name"] ?></button>
                                 </span>
                             </div>
-                            <div class="card-content">
-                                <span class="ratings un-pad"><?= $rating ?></span>
-                                <p class="truncate un-margin"><?= $products[$key]["cs_product_details"] ?></p>
+                            <div class="card-content">  
                                 <p>
                                     <b>&#8369; <?= ($sale) ? number_format($products[$key]["cs_sale_price"], 2, '.', ',') : number_format($products[$key]["cs_product_price"], 2, '.', ',') ?></b>
                                     <?= ($sale) ? '<small><s>'.number_format($products[$key]["cs_product_price"], 2, '.', ',').'</s></small>' : "" ?>
                                     <?= " / " . $products[$key]["cs_unit"]  ?>
                                 </p>
+                                <?= $products[$key]["cs_product_name"] ?>
+                                <span class="ratings un-pad"><?= $rating ?></span>
+                                <p class="truncate un-margin"><?= $products[$key]["cs_product_details"] ?></p>
                             </div>
                         </div>
                     </div>

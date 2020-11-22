@@ -10,6 +10,8 @@ $(function(){
   prepareOffer();
   viewModal();
   seachDropdown();
+  
+  paginate();
 })
 
 
@@ -178,10 +180,16 @@ function seachDropdown(){
   $('.clear-filter').on('click', function(){
     $('#search-category, #search-location').val(0);
     $(".categ-filter, .loc-filter").removeClass("hidden");
+    paginate();
   })
 
 }
 function filterSearch(t){
+  try {
+    $('.feed-wrap-main').data('paginate').kill();
+  } catch(err) {
+    console.log(err);
+  }
   var cat = $.trim($("#search-category option:selected").text());
   var loc = $.trim($("#search-location option:selected").text());
   /* categ-filter loc-filter */
@@ -223,4 +231,19 @@ function filterSearch(t){
       }
     }
   }
+}
+
+function paginate(){
+  $('.feed-wrap-main').paginate({
+    perPage: 12,      
+    autoScroll: true,           
+    scope: 'a',         
+    paginatePosition: ['bottom'],     
+    containerTag: 'div style="padding: 15px"',
+    paginationTag: 'ul',
+    itemTag: 'li',
+    linkTag: 'a',
+    useHashLocation: false,           
+    onPageClick: function() {}   
+  });
 }

@@ -1,72 +1,112 @@
-<div id="smart-button-container">
-    <div style="text-align: center;">
-        <div id="paypal-button-container"></div>
-    </div>
-</div>
+<script src="https://www.paypal.com/sdk/js?client-id=AfZdF2lOZy9aFXfW4yjrTM6lXyrQ6o2B3ZDD7JEdewVo41eURFDZieln1b4MupLzVgv-dr9GOe15ndTZ&currency=PHP"> // Replace YOUR_SB_CLIENT_ID with your sandbox client ID
+</script>
+<div id="paypal-button-container"></div>
 
-
-<script src="https://www.paypal.com/sdk/js?client-id=AfZdF2lOZy9aFXfW4yjrTM6lXyrQ6o2B3ZDD7JEdewVo41eURFDZieln1b4MupLzVgv-dr9GOe15ndTZ&currency=PHP" data-sdk-integration-source="button-factory"></script>
+<!-- Add the checkout buttons, set up the order and approve the order -->
 <script>
-    function initPayPalButton() {
-        paypal.Buttons({
-            style: {
-            shape: 'rect',
-            color: 'gold',
-            layout: 'vertical',
-            label: 'paypal',
-        },
 
-        createOrder: function(data, actions) {
-          return actions.order.create({
-            purchase_units: [{"description":"Canvasspoint Premium Client","amount":{"currency_code":"PHP","value":420.69}}]
-          });
-        },
+  paypal.Buttons({
 
-        onApprove: function(data, actions) {
-          return actions.order.capture().then(function(details, data) {
-            seedDB(details);
-          });
-        },
+    style: {
+      shape: 'rect',
+      color: 'black',
+      layout: 'vertical',
+      label: 'paypal',
+      size: 'responsive'     
+    },
 
-        onError: function(err) {
-          console.log(err);
-        }
-      }).render('#paypal-button-container');
-    }
+    createOrder: function(data, actions) {
+      return actions.order.create({
+        purchase_units: [{
+          amount: {
+            value: '<?= $toPay ?>'
+          }
+        }]
 
-    initPayPalButton();
-
-    function seedDB(details){
-        
-        var em = details.payer.email_address
-        var nm = details.payer.name.given_name + " " + details.payer.name.surname
-
+      });
+    },
+    onApprove: function(data, actions) {
+      return actions.order.capture().then(function(details) {
+        $('#load-wrap').fadeIn(100);
         $.ajax({
-            method: "GET",
-            url: root + "controller/controller.user.php?action=cli-pro-ppal&em="+em+nm,
-            success: function(data){
-                data = JSON.parse(data);
-                switch(data.code){
-                    case 1:
-                        var classes = 'green darken-2 white-text';
-                        $('#this-plan').load(location.href+" #this-plan>*", "");
-                        break;
-                    default:
-                        var classes = 'red white-text';
-                        break;
-                }
-                var action = '<button onclick="M.Toast.dismissAll();" class="btn-flat toast-action"><i class="close material-icons">close</i></button>';
-                M.toast({
-                    html: data.message + action,
-                    classes: classes,
-                    displayLength: 12000
-                });
-                $('#sup-pro').attr('disabled', true);
-                setTimeout(function(){
-                    $('#load-wrap').fadeOut(500);
-                }, 1000)
-                return
+          url: 
+            root + "controller/controller.payment.php?action=cli-paypal&or="
+            +data.orderID
+            +"&nm="+details.payer.name.given_name + " " + details.payer.name.surname
+            +"&em="+details.payer.email_address,
+          type: 'get',
+          processData: false,
+          contentType: false,
+          success: function(data){
+
+            data = JSON.parse(data);
+            switch(data.code){
+              case 1:
+                  setTimeout(function(){
+                      window.location.href = root + "thank-you/?direct=1&order=" + data.order_id;
+                  }, 1500)                          
+                  return
+                  break;
+              default:
+                  var classes = 'red white-text';
+                  break;
             }
+
+            var action = '<button onclick="M.Toast.dismissAll();" class="btn-flat toast-action"><i class="close material-icons">close</i></button>';
+            M.toast({
+                html: data.message + action,
+                classes: classes,
+                displayLength: 12000
+            });
+            $('#sup-pro').attr('disabled', true);
+            setTimeout(function(){
+                $('#load-wrap').fadeOut(500);
+            }, 1000)
+
+            return
+          }
         })
+      });
     }
-</script>                 
+  }).render('#paypal-button-container'); // Display payment options on your web page
+</script>
+
+<script>
+    $(function(){
+        $('#sup-pro').on('click', function(){
+            $('#load-wrap').fadeIn(500);
+            $('#sup-pro').attr('disabled', true);
+            $('.modal').modal('close');
+            $.ajax({
+                method: "GET",
+                url: root + "controller/controller.payment.php?action=cli-pro",
+                success: function(data){
+                    data = JSON.parse(data);
+                    switch(data.code){
+                        case 1:
+                            setTimeout(function(){
+                                window.location.href = root + "thank-you/?direct=0&order=" + data.order_id;
+                            }, 1500)                          
+                            return
+                            break;
+                        default:
+                            var classes = 'red white-text';
+                            break;
+                    }
+                    var action = '<button onclick="M.Toast.dismissAll();" class="btn-flat toast-action"><i class="close material-icons">close</i></button>';
+                    M.toast({
+                        html: data.message + action,
+                        classes: classes,
+                        displayLength: 12000
+                    });
+                    $('#sup-pro').attr('disabled', true);
+                    setTimeout(function(){
+                        $('#load-wrap').fadeOut(500);
+                    }, 1000)
+                    return
+                }
+            })
+        })
+    })
+</script>
+

@@ -103,7 +103,7 @@ class viewUser extends User {
         $productOpts = array();
         if(!empty($products)) {
             echo "
-            <div class=\"feed-wrap-main\">
+            <div>
             ";
             foreach($products as $key=>$value){             
                 $sale = ($products[$key]["cs_sale_price"] < $products[$key]["cs_product_price"]) ? true : false;

@@ -8,6 +8,7 @@
 
   <?php
     require "component/head.php";
+    $count = $user->getTotalCounts();
   ?>
   <link href="<?= $BASE_DIR ?>static/css/feed.css?v=beta-sxx2" type="text/css" rel="stylesheet"/>
   <link href="<?= $BASE_DIR ?>static/css/no-side.css?v=beta-sxx2" type="text/css" rel="stylesheet"/>
@@ -43,9 +44,10 @@
                                 <h1 class="un-margin">The Lorem.</h1>
                                 <p  class="un-margin">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Provident rerum error corrupti.</p>
                                 <br>
-                                <p class="has-icon truncate"><i class="material-icons circle orange darken-1 white-text">done_all</i> Lorem Ipsum dotor sit amet dotor</p>
-                                <p class="has-icon truncate"><i class="material-icons circle orange white-text">done_all</i> Rapidly growing community</p>
-                                <p class="has-icon truncate"><i class="material-icons circle orange lighten-1 white-text">done_all</i> Free & Scalable Plans</p>
+                                <p class="has-icon truncate"><i class="material-icons circle orange white-text">analytics</i> <b><?= $count[0] ?></b> Total Biddings At Canvasspoint</p>
+                                <p class="has-icon truncate"><i class="material-icons circle orange white-text">group</i> <b><?= $count[1] ?></b> Registered Clients.
+                                <p class="has-icon truncate"><i class="material-icons circle orange white-text">groups</i> <b><?= $count[2] ?></b> Registered Suppliers / Providers</p></p>
+                                <p class="has-icon truncate"><i class="material-icons circle orange white-text">poll</i> <b><?= $count[3] ?></b> Bidding(s) Added Today</p></p>
                             
                             </div>
                         </div>

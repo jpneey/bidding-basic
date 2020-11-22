@@ -236,46 +236,6 @@ switch ($action) {
     
         break;
 
-
-    case "cli-pro":
-        $message = json_encode(array('code' => 1, 'path' => 'Request Success. Please wait while we are processing your order'));
-        
-        $kind = "client";
-        if($__user_role != 1){ $kind = "supplier"; }
-
-
-        if($user->hasActivePlan($__user_id)){
-            echo json_encode(array('code' => 0, 'message' => 'It seems like there are active / or pending plans on your account.<br>Upgrade to pro requests are only limited to 1 pending/active request per account.'));
-            die();
-        }
-
-
-        $user->requestUpgrade($kind, $__user_id);
-
-        $message = json_encode(array('code' => 1, 'message' => 'Request Success. Please wait while we are processing your order'));
-        
-        break;
-
-    case "cli-pro-ppal":
-
-        $em = Sanitizer::filter('em', 'get');
-        
-        if($__user_role != 1){
-            echo json_encode(array('code' => 0, 'message' => 'This plan is only available for Canvasspoint Suppliers.'));
-            die();
-        }
-
-        if($user->hasActivePlan($__user_id)){
-            echo json_encode(array('code' => 0, 'message' => 'It seems like there are active / or pending plans on your account.<br>Upgrade to pro requests are only limited to 1 pending/active request per account.'));
-            die();
-        }
-
-        $user->requestUpgrade('paypal', $__user_id, $em);
-
-        $message = json_encode(array('code' => 1, 'message' => 'Paypal Transaction Success. Please wait while we are processing your order'));
-        
-        break;
-
     case "delete-user":
 
         $cs_user_password = Sanitizer::filter('cs_user_password', 'post');

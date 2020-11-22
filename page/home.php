@@ -48,18 +48,12 @@
           ?>
           </div>
         </div>
-        <!-- <div class="col s12 m3 feed-sidebar hide-on-med-and-down">
-          <div class="search-bar"> -->
-            <?php  
-            // $viewBids->viewSideBar($loggedInUserRole);
-            ?>
-          <!-- </div>
-        </div> -->
 
       </div>
     </div>
   </div>
   <script src="<?= $BASE_DIR ?>static/js/services/services.feed.js?v=beta-1s99"></script>
+  
   <?php
     require "./component/footer.php";
   ?>
