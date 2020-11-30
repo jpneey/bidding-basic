@@ -248,7 +248,8 @@ input.browser-default,
   padding-left: 15px  !important;
   padding-right: 15px  !important;
   border-color: transparent !important;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.125) !important;
+  /* box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.125) !important; */
+  box-shadow: none !important;
   appearance: none;
 }
 .ratings {width: 100%;}
@@ -411,6 +412,9 @@ input.browser-default,
     padding-top: 15px;
   }
   .container {
+    width: 90% !important;
+  }
+  .container.on-plan {
     width: 100% !important;
   }
   .minimal .page {
@@ -706,9 +710,9 @@ nav .unread {
 }
 
 @media only screen and (max-width: 700px) {  
-  .feed {
+  /* .feed {
     border: 1px dashed #f2f2f2;
-  }
+  } */
   .feed-wrap-main .feed {
     float: none;
     width: 100%;

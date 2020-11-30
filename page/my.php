@@ -24,7 +24,7 @@ $myView = 'component/my/'.$pageTitle.'.php';
   ?>
   <div class="main">
     <div class="wrapper wrapper-top-bottom">
-      <div class="container row">
+      <div class="container on-plan row">
         <div class="col s12 m12">
           <?php
           

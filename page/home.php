@@ -26,6 +26,7 @@
             if($isBidder) { ?>
             <div class="card feed z-depth-0 hide-on-med-and-up dashed">
                 <div class="card-content">
+                    <br>
                     <p>Post your requirement and suppliers will make a bid/offer for it.</p>
                     <br>
                     <div class="sub-title">
