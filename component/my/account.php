@@ -62,7 +62,7 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
                     <p><label>Current Password *</label></p>
                     <input 
                         required 
-                        type="text" 
+                        type="password" 
                         name="cs_user_password" 
                         class="custom-input validate"
                         placeholder="my-secret"  

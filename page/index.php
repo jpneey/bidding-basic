@@ -41,8 +41,8 @@
                     <div class="swiper-wrapper">
                         <div class="swiper-slide home-panel dark">
                             <div class="panel-content">
-                                <h1 class="un-margin">The Lorem.</h1>
-                                <p  class="un-margin">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Provident rerum error corrupti.</p>
+                                <h1 class="un-margin">At A Glance</h1>
+                                <p  class="un-margin">Be part of Canvasspoint's growing community.</p>
                                 <br>
                                 <p class="has-icon truncate"><i class="material-icons circle orange white-text">analytics</i> <b><?= $count[0] ?></b> Total Biddings At Canvasspoint</p>
                                 <p class="has-icon truncate"><i class="material-icons circle orange white-text">group</i> <b><?= $count[1] ?></b> Registered Clients.

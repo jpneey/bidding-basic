@@ -4,6 +4,27 @@ defined('included') || die("Bad request");
 
 $dashboardAction = Sanitizer::filter('action', 'get');
 
+
+$message = Sanitizer::filter('p', 'get');
+
+$newUser = (empty($loggedInUserRole)) ? true : false;
+$loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
+
+?>
+<div class="col s12 white page z-depth-0">
+    <div class="row" style="margin-top: 25px">
+        <div class="col s12">
+            <div class="row">
+                <div class="col s12">
+                    <a class="dashboard-show btn white grey-text" style="border: 1px dashed #ddd" data-target="#main-dashboard">My Dashboard</a>
+                    <a class="dashboard-show btn white grey-text" data-target="#transaction-dashboard">Transaction History</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div data-target="#transaction-dashboard" id="main-dashboard">
+<?php
 if($isBidder) {
     switch($dashboardAction){
         case 'add':
@@ -32,6 +53,10 @@ if($isSupplier) {
     $viewOffers->viewUserOffers($__user_id, 2);
 
 }
+
+echo '</div>';
+
+require_once "transactions.php";
 ?>
 
 

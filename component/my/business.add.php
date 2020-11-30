@@ -263,9 +263,9 @@ $optionCategory = ob_get_clean();
                         } else {
                     ?>
                     <div class="card-panel grey lighten-4 z-depth-0">
-                        <p><b>Upgrade to pro</b></p>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Delectus accusantium quisquam, rem asperiores quo minima animi! Perspiciatis eum cumque eius. Impedit, sint delectus! Voluptatum optio a ea corporis alias? Quibusdam?</p>
-                        <a href="<?= $BASE_DIR ?>my/plan/"><span class="chip chip white-text orange darken-2">Upgrade</span></a>
+                        <p><b>Featured Items</b></p>
+                        <p>By becoming a <b>Premium Supplier</b>, You will be granted the ability to post up to three featured Items at Canvasspoint.</p>
+                        <a href="<?= $BASE_DIR ?>my/plan/"><span class="chip chip white-text orange darken-2">Upgrade to Pro</span></a>
                     </div>
                     <?php } ?>
                 </div>
