@@ -1,8 +1,8 @@
 $(function(){
     rateModal();
     submitRate();
-    autoRate();
     dashboardNavi();
+    autoRate();
 })
 
 function rateModal() {
@@ -77,6 +77,8 @@ function autoRate(){
     var foo = urlParams.get('to');
     if(foo !== null){
 
+        $('[data-target="#transaction-dashboard"]').trigger('click').click();
+
         $('a[data-name="'+foo+'"]').trigger('click').click();
         var clean_uri = location.protocol + "//" + location.host + location.pathname;
         window.history.replaceState({}, document.title, clean_uri);
@@ -91,7 +93,7 @@ function dashboardNavi() {
             $(this).css(({'border' : 'none'}));
         })
 
-        $(this).css({'border' : '1px dashed #ddd'});
+        $(this).css({'border' : '2px dashed #999'});
 
         var $toShow = $($(this).data('target'));
         $toShow.fadeIn();

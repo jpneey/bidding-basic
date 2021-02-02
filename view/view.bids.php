@@ -53,8 +53,8 @@ class viewBids extends Bids {
                             <?= $bidInFeedPicture ?>
                             <!-- <div class="overlay"></div> -->
                             <span class="card-title truncate">
-                                <button class="btn btn-xs orange darken-4"><?= $catName ?></button>
-                                <button class="btn btn-xs orange darken-2"><?= $province ?></button>
+                                <button class="btn btn-xs card-tag-v"><?= $catName ?></button>
+                                <button class="btn btn-xs card-tag-v"><?= $province ?></button>
                             </span>
                         </div>
                         <div class="card-content">
@@ -146,10 +146,7 @@ class viewBids extends Bids {
                     <?php if(!empty($rated)){ ?>
                     <p class="no-margin"><?=  number_format($viewBid[0]['cs_owner_rating'], 1,'.',',') . ' out of ' . $rated ?> review(s)</p>
                     <?php } ?>
-                    <br>
-                    <br>
-                    <div class="divider" ></div>
-                    <div class="product-card item" data-budget="₱ <?= $budget ?>" data-item="<?= $item ?>" data-qty="<?= $viewBid[0]['cs_product_qty'] ?>" data-unit="<?= $viewBid[0]['cs_product_unit'] ?>"></div>
+                    <div class="product-card item no-p-m" data-budget="₱ <?= $budget ?>" data-item="<?= $item ?>" data-qty="<?= $viewBid[0]['cs_product_qty'] ?>" data-unit="<?= $viewBid[0]['cs_product_unit'] ?>"></div>
                     
                     <p><b>Bidding Details</b><br><?= nl2br($details); ?></p>
                     <p>
@@ -158,11 +155,11 @@ class viewBids extends Bids {
                         <span><br><br><?= $tagchip ?></span>
                     </p>
                     <div class="row">
-                        <p class="col s6">
+                        <p class="col s12">
                             <b>Bidding Expiration</b><br>
                             <?= date_format(date_create($dateNeeded), 'g:ia jS F Y') ?>
                         </p>
-                        <p class="col s6 right-align">
+                        <p class="col s12">
                             <b>Location</b><br>
                             <?= $location ?>
                         </p>
@@ -263,22 +260,30 @@ class viewBids extends Bids {
 
         ?>
             <div class="col s12 m4">
-                <div class="dashboard-panel green lighten-0 white-text z-depth-0">
-                    <h1><b><?= $counts[0] ?></b></h1>
-                    <p>Active Bidding</p>
-                </div>
+                <a href="#active-biddings">
+                    <div class="dashboard-panel green lighten-0 white-text z-depth-0">
+                        <h1><b><?= $counts[0] ?></b></h1>
+                        <p>Active Bidding</p>
+                    </div>
+                </a>
             </div>
+            
             <div class="col s12 m4">
-                <div class="dashboard-panel red lighten-0 white-text z-depth-0">
-                    <h1><b><?= $counts[2] ?></b></h1>
-                    <p>Expired Bidding</p>
-                </div>
+                <a href="#finished-biddings">
+                    <div class="dashboard-panel orange lighten-0 white-text z-depth-0">
+                        <h1><b><?= $counts[1] ?></b></h1>
+                        <p>Finished Bidding</p>
+                    </div>
+                </a>
             </div>
+
             <div class="col s12 m4">
-                <div class="dashboard-panel orange lighten-0 white-text z-depth-0">
-                    <h1><b><?= $counts[1] ?></b></h1>
-                    <p>Finished Bidding</p>
-                </div>
+                <a href="#expired-biddings">
+                    <div class="dashboard-panel red lighten-0 white-text z-depth-0">
+                        <h1><b><?= $counts[2] ?></b></h1>
+                        <p>Expired Bidding</p>
+                    </div>
+                </a>
             </div>
 
         <?php
@@ -291,22 +296,25 @@ class viewBids extends Bids {
                 $title = "Active Bidding";
                 $tip = "Active Biddings means that the post is yet to expire and still accepting bid proposals from our suppliers.";
                 $statusStyle = 'feed-border green-text';
+                $ref = 'active-biddings';
                 break;
             case '2':
-                $title = "Finished Bidding";
+                $title = "Finished Biddings";
                 $statusStyle = 'feed-border orange-text';
+                $ref = 'finished-biddings';
                 $tip = "This bidding is finalized and can now be safely deleted.";
                 break;
             case '0':
-                $title = "Expired Bidding";
+                $title = "Expired Biddings";
                 $tip = "This bidding has expired and will not receive future proposals anymore. Suppliers are now waiting for you to choose a winner or finalize this post";
                 $statusStyle = 'feed-border red-text';
+                $ref = 'expired-biddings';
                 break;
         }
         $userBids = $this->getUserBids($user_id, $status);
         if(!empty($userBids)){
             ?>
-                <div class="col s12 block">
+                <div class="col s12 block" id="<?= $ref ?>">
                     <p><b><?= $title ?></b><br><span class="grey-text" style="font-size: 12px;"><?= $tip ?></span></p>
                 </div>
             <?php

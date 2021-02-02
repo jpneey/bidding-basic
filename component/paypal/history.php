@@ -13,17 +13,17 @@
                 $payment = ucwords($loop[$k]["cs_plan_payment"]);
                 switch($loop[$k]["cs_plan_status"]){
                     case 0:
-                        $status = "<span class='btn btn-sm orange darken-2 white-text'>Processing</span>";
+                        $status = "<b>Processing</b>";
                         $expires = "--";
                         break;
                     case 1:
-                        $status = "<span class='btn btn-sm green darken-2 white-text'>Active</span>";
+                        $status = "<b>Active</b>";
                         break;
                     case 2:
-                        $status = "<span class='btn btn-sm red darken-2 white-text'>Expired</span>";
+                        $status = "<b>Expired</b>";
                         break;
                     default:
-                        $status = "<span class='btn btn-sm grey darken-2 white-text'>Canceled</span>";
+                        $status = "<b>Canceled</b>";
                         $expires = "--";
                 }  
             ?>

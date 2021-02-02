@@ -80,7 +80,7 @@ class viewOffers extends Offers {
                                         echo '<a href="#winner-offer" id="wtrg" class="modal-trigger btn-small z-depth-0 waves-effect orange white-text">Winner</a> ';
                                         $userName = $offers[$k]['cs_purchaser'];
                                         $linkToOwner = $this->BASE_DIR.'user/'.$userName;
-                                        $userName = $this->BASE_DIR.'my/transactions/?to='.$userName;
+                                        $userName = $this->BASE_DIR.'my/dashboard/?to='.$userName;
                                         ?>
                                         <script>
                                         $(function(){
@@ -236,7 +236,7 @@ class viewOffers extends Offers {
                                         pattern=" 0+\.[0-9]*[1-9][0-9]*$"  
                                     />
                                 
-                                <div class="input-field price-tooltip no-margin col s12 m7 tooltipped" 
+                                <div class="input-field price-tooltip no-margin col s12 m7" 
                                         data-position="bottom" 
                                         data-tooltip="expected budget">
                                     <!-- 
@@ -291,7 +291,7 @@ class viewOffers extends Offers {
                                 
                             <div class="col s12">
                                 <br>
-                                <a href="#!" class="btn addImage waves-effect orange white-text">Attach Image</a>
+                                <a href="#!" class="btn addImage waves-effect btn-secondary white-text">Attach Image</a>
                                 <p><?= $this->postOfferTitle($this->getCountOffer($biddingId)) ?></p>
                                 <button type="submit" class="btn white-text">Submit Offer</button>
                                 <a href="#bid-faqs" class="btn modal-trigger waves-effect grey white-text">Faqs</a>
@@ -333,8 +333,8 @@ class viewOffers extends Offers {
                         <?php $this->viewMyOffers($userId, $biddingId, true); ?>
                         <div class="col s12">
                             <br>
-                            <p>Your Offer was submitted successfully and only one offer per supplier is allowed per bidding. Offers can't be canceled once the bidding reaches three (3) days before expiration.</p>
-                            <a href="#!" class="btn waves-effect grey lighten-1 white-text">Offer Submitted</a>
+                            <p>Your offer was submitted successfully and only one offer per supplier is allowed per bidding. Offers can't be canceled once the bidding reaches three (3) days before expiration.</p>
+                            <a href="#!" class="btn waves-effect grey lighten-1 white-text">Offer submitted</a>
                             <a href="<?= $this->BASE_DIR ?>my/dashboard/" class="btn waves-effect green white-text">Dashboard</a>
                         </div>
                         <script src="<?= $this->BASE_DIR ?>static/js/services/services.delete.js" type="text/javascript"></script>
@@ -353,9 +353,9 @@ class viewOffers extends Offers {
     protected function postOfferTitle($count){
         switch($count) {
             case '0':
-                return 'Be the first one to submit an offer in this thread. Bidders remain anonymous until it\'s offer is selected by the client and won the bidding.';
+                return 'Be the first one to submit an offer. Your identity will stay anonymous unless you are selected and won have won the bidding.';
             default:
-                return 'Join '.$count.' other supplier and submit your offer. Bidders remain anonymous until it\'s offer is selected by the client and won the bidding.';
+                return 'Join '.$count.' other supplier and submit an offer. Bidders remain anonymous until it\'s offer is selected by the client and won the bidding.';
         }
     }
     
@@ -364,52 +364,61 @@ class viewOffers extends Offers {
         $counts = $this->getDashboardCounts($user_id);
 
         ?>
-            <div class="col s12 m4">
-                <div class="dashboard-panel green lighten-0 white-text z-depth-0">
-                    <h1><b><?= $counts[0] ?></b></h1>
-                    <p>Active Proposal</p>
+            <a href="#active-proposals">
+                <div class="col s12 m4">
+                    <div class="dashboard-panel green lighten-0 white-text z-depth-0">
+                        <h1><b><?= $counts[0] ?></b></h1>
+                        <p>Active Proposal</p>
+                    </div>
                 </div>
-            </div>
-            <div class="col s12 m4">
-                <div class="dashboard-panel red lighten-0 white-text z-depth-0">
-                    <h1><b><?= $counts[2] ?></b></h1>
-                    <p>Rejected Proposal</p>
+            </a>
+            <a href="#rejected-proposals">
+                <div class="col s12 m4">
+                    <div class="dashboard-panel red lighten-0 white-text z-depth-0">
+                        <h1><b><?= $counts[2] ?></b></h1>
+                        <p>Rejected Proposal</p>
+                    </div>
                 </div>
-            </div>
-            <div class="col s12 m4">
-                <div class="dashboard-panel orange lighten-0 white-text z-depth-0">
-                    <h1><b><?= $counts[1] ?></b></h1>
-                    <p>Accepted Proposal</p>
+            </a>
+            <a href="#accepted-proposals">
+                <div class="col s12 m4">
+                    <div class="dashboard-panel orange lighten-0 white-text z-depth-0">
+                        <h1><b><?= $counts[1] ?></b></h1>
+                        <p>Accepted Proposal</p>
+                    </div>
                 </div>
-            </div>
-
+            </a>
         <?php
     }
 
     public function viewUserOffers($userId, $status){
         
         $userOffers = $this->getUserOffers($userId, $status);
+        $link = '';
         switch($status){
             case '0':
                 $titled = "Active Proposals";
                 $tip = "This means the bidding is yet to end and your proposal can still be chosen.";
                 $statusStyle = 'feed-border green-text';
+                $link = "active-proposals";
                 break;
             case '1':
                 $titled = "Accepted Proposals";
                 $tip = "Propsals that won the bidding and proposals openned by the purchaser goes here.";
                 $statusStyle = 'feed-border orange-text';
+                $link = "accepted-proposals";
                 break;
             case '2':
                 $titled = "Rejected Proposals";
                 $tip = "Rejected proposals goes here. Rejected proposals can be safely deleted.";
                 $statusStyle = 'feed-border red-text';
+                $link = "rejected-proposals";
                 break;
         }
         
         if(!empty($userOffers)){
             ?>
-            <div class="col s12 block">
+            <div class="col s12 block" id="<?= $link ?>">
                 <p><b><?= $titled ?></b><br><span class="grey-text" style="font-size: 12px;"><?= $tip ?></span></p>
             </div>
             <?php
@@ -465,7 +474,7 @@ class viewOffers extends Offers {
                 case 0:
                 case '1':
                 case 1:
-                    echo "<br><a href=\"#!\" data-selector=\"$status[1]\" data-mode=\"bid-finish\" data-message=\"Marking this post as complete will notify suppliers with unopenned proposals that their proposal was rejected.\" class=\"data-delete btn waves-effect orange white-text  z-depth-0\">Mark as <b>Complete</b></a>";
+                    echo "<br><a href=\"#!\" data-selector=\"$status[1]\" data-mode=\"bid-finish\" data-message=\"Marking this post as complete will notify suppliers with unopened proposals that their proposal was rejected.\" class=\"data-delete btn waves-effect orange white-text  z-depth-0\">Mark as <b>Complete</b></a>";
                     break;
                 case '2':
                 case 2:

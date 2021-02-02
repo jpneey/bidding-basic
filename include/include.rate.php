@@ -51,5 +51,5 @@ $addSuccess = (isset($successToRate)) ?: false;
     </form>
 </div>
 
-<script src="<?= $BASE_DIR ?>static/js/services/services.rate.js" type="text/javascript"></script>
+<script src="<?= $BASE_DIR ?>static/js/services/services.rate.js?v=367" type="text/javascript"></script>
 

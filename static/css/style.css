@@ -32,10 +32,12 @@
   /* Support for IE. */
   font-feature-settings: 'liga';
 }
-
+html {
+  scroll-behavior: smooth;
+}
 html, body {
   font-family: 'Poppins', sans-serif;
-  background-color:white;
+  background-color:white; 
 }
 
 body.minimal {
@@ -220,7 +222,7 @@ input.browser-default,
 }
 
 .page > .content{
-  padding: 90px;
+  padding: 45px 90px;
 }
 .content.sm {
   padding-top: 15px !important;
@@ -482,10 +484,8 @@ input.browser-default,
 
 .modal img {
   display: inline-block;
-  height: 150px;
   margin-top: 15px;
-  margin-right: 15px;
-  width: auto;
+  max-width: 100%;
 }
 
 .btn, .btn-large, .btn-small, .btn-floating, .btn-large, .btn-small, .btn-flat {
@@ -592,11 +592,22 @@ nav .unread {
   display: inline-block;
 }
 
-#profile_pic {
+
+#img-wrap-box {
+  position: relative;
   display: block;
   width: 80px;
   height: 80px;
   border-radius: 50%;
+  overflow: hidden;
+}
+#profile_pic {
+  display: block;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .divider { background-color: #e2e2e2 !important; }
@@ -766,7 +777,7 @@ body tr,
 }
 .panel-adjust{
   padding-top: 0px !important;
-  margin-top: -85px !important;
+  margin-top: -40px !important;
 }
 
 @media only screen and (max-width : 800px) {
@@ -778,7 +789,7 @@ body tr,
 .this-timer img {
   display: block;
   margin: 0 auto !important;
-  width: 43px;
+  width: auto;
   height: 43px;
 }
 
@@ -923,4 +934,100 @@ button.btn.btn-xs {
 }
 .card .card-image .card-title {
   padding: 10px 24px !important
+}
+
+.card-tag-v {
+  background: rgba(0,0,0,0.4) !important;
+}
+
+.no-p-m { padding: 0 !important; margin: 0 !important; }
+
+body .toast {
+  background: #8cdedc!important;
+  background-color: #8cdedc!important;
+}
+
+
+body .toast .close {
+  color: #fff !important;
+}
+
+body .submit,
+body .btn {
+  transition: all 0.2s;
+}
+
+body .btn-update,
+body .data-delete:hover,
+body .view-modal:hover,
+body .file-field.input-field div.btn,
+body .btn-secondary:not(.removeImage),
+body .submit:hover,
+body .btn:hover, body .btn-small:hover,
+body .modal-close:hover {
+  background: #34495e !important;
+  background-color: #34495e !important;
+  color: #ffffff !important;
+}
+
+body .pro-color {
+  background: #fdb924;
+  background-color: #fdb924;
+}
+
+body .dashboard-show:hover,
+body .dashboard-show {
+  background: white !important;
+  color: #111 !important;
+}
+
+body *.sidenav-tag {
+  margin-bottom: 25px;
+  border-radius: 25px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+body *.current-page {
+  color: #fdb924 !important;
+}
+
+
+div.time label { text-transform: lowercase; }
+
+
+@media only screen and (max-width : 800px) {
+
+  body.minimal.blog .page {
+    padding: 20px 0 !important;
+  }
+
+  body.minimal.blog .page > .content {
+    padding: 15px 0 !important;
+  }
+
+  div.time label {
+    font-size: 10px;
+  }
+
+}
+
+
+.img-wrap {
+  position: relative;
+  display: block;
+  width: 80px;
+  height: 80px;
+  border-radius: 40px;
+  overflow: hidden;
+  background: white;
+  border: 3px solid white;
+}
+
+.img-wrap img {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
 }

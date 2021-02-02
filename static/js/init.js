@@ -1,7 +1,3 @@
-var root = 'http://localhost/bidding-basic/';
-/* var root = 'http://jpburato.epizy.com/'; */
-
-
 $.fn.isInViewport = function() {
     var elementTop = $(this).offset().top;
     var elementBottom = elementTop + $(this).outerHeight();
@@ -33,6 +29,7 @@ $(function(){
     searchToggle();
     markAsRead();
     sidebars();
+    activeLinks();
 })
 
 $(window).on('load', function(){
@@ -153,4 +150,18 @@ function readNotif(redir, t){
             window.location.href = redir;
         }   
     })
+}
+
+function activeLinks(){
+    var cURL = window.location.href;
+    
+    $.each($('.nav-main-link'), function () {
+        var $this = $(this);
+        var $src = $this.attr('href');
+        if($src == cURL) {
+            $this.addClass('current-page');
+        }        
+    })
+
+    return
 }

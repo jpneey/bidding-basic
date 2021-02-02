@@ -40,7 +40,7 @@ class viewBusiness extends Business {
                     </span>
                 </div>
                 <div class="card-content on-dashboard">
-                    <button type="button" class="waves-effect btn z-depth-0 yellow darken-2 white-text update-product"
+                    <button type="button" class="waves-effect btn z-depth-0 btn-update darken-2 white-text update-product"
                         data-name = "<?= $products[$key]["cs_product_name"] ?>"
                         data-id = "<?= $products[$key]["cs_product_id"] ?>"
                         data-category = "<?= $products[$key]["cs_category_id"] ?>"

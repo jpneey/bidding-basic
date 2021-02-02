@@ -94,7 +94,7 @@ $contact = unserialize($user->getUser($__user_id, "cs_contact_details"));
                 <br>
                 <br>
 
-                    <input type="submit" class="btn z-depth-1 orange white-text" value="Update Profile" />
+                    <input type="submit" class="btn z-depth-1 btn-update white-text" value="Update Profile" />
                 </div>
 
                 

@@ -43,9 +43,10 @@ class Business extends DBHandler {
     }
 
     public function getUserBusiness($__user_id){
-        $id = (int)$__user_id;
         $connection = $this->getconn();
-        $stmt = $connection->prepare("SELECT * FROM cs_business WHERE cs_user_id = '$id' LIMIT 1");
+        $stmt = $connection->prepare("SELECT b.*, u.cs_user_detail FROM cs_business b LEFT JOIN cs_users u ON b.cs_user_id = u.cs_user_id WHERE b.cs_user_id = ? LIMIT 1");
+        $stmt->bind_param("i", $__user_id);
+
         $stmt->execute();
         $result = $stmt->get_result()->fetch_row();
         $stmt->close();
@@ -95,6 +96,15 @@ class Business extends DBHandler {
         $stmt->execute();
         $stmt->close();
         return json_encode(array('code' => 1, 'message' => 'Featured Product Updated'));
+    }
+
+    public function updateDetails($detail, $userId){
+        $connection = $this->getconn();
+        $stmt = $connection->prepare("UPDATE cs_users SET cs_user_detail = ? WHERE cs_user_id = ?");
+        $stmt->bind_param('si', $detail, $userId);
+        $stmt->execute();
+        $stmt->close();
+        return true;
     }
 
     public function updateUserBusiness($value = array()){

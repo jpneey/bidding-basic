@@ -39,7 +39,7 @@ class viewBlogs extends Blogs {
                         <span class="card-title truncate">
                             <br>
                             <?= $blog_title ?>
-                            <small class="m-tag orange darken-2">BLOG POST</small>
+                            <small class="m-tag card-tag-v darken-2">Blog post</small>
                         </span>
                     </div>
                     <div class="card-content">

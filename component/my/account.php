@@ -5,6 +5,7 @@ defined('included') || die("Bad request");
 $message = Sanitizer::filter('p', 'get');
 
 $newUser = (empty($loggedInUserRole)) ? true : false;
+$hasPw = true;
 $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
 
 ?>
@@ -19,14 +20,20 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
                     <h1><b>My Account</b></h1>
                     <?php if($newUser){ 
                         $pw = Sanitizer::filter('pw', 'get');
+                        if(!$pw) {
+                            $hasPw = false;
+                        }
                     ?>
                     <p>Please fill in the required fields inorder to finish the registration process.</p>
                     <?php } ?>
                 </div>
                 
                 <div class="file-field input-field no-margin col s12">
-                    <img src="<?= $BASE_DIR . "static/asset/user/" .$loggedInUserAvatar ?>" alt="dp" id="profile_pic" />
+                    <div id="img-wrap-box">
+                        <img src="<?= $BASE_DIR . "static/asset/user/" .$loggedInUserAvatar ?>" alt="dp" id="profile_pic" />
+                    </div>
                 </div>
+
             
                 <div class="file-field input-field no-margin col s12">
                     <p><label>Logo / Display Picture </label></p>
@@ -68,13 +75,15 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
                         placeholder="my-secret"  
                         <?php if($newUser){ ?>
                         value="<?= $pw ?>"
+                        <?php } ?>
+                        <?php if($newUser && $hasPw){ ?>
                         readonly
                         <?php } ?>
 
                     />
                 </div>
 
-                <?php if($newUser){ ?>
+                <?php if($newUser && $hasPw){ ?>
                        
                 <div class="input-field no-margin col s12">
                     <p><label>New Password *</label></p>
@@ -86,7 +95,11 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
                         min="5"
                         placeholder="* please fill this field to secure your account"
                     />
-                </div>           
+                </div>    
+                <?php } ?>
+
+                <?php if($newUser){ ?>
+
                 <div class="input-field no-margin col s12">
                     <p><label>Account Type *</label></p>
                     <select required name="account-type" class="custom-input validate browser-default">
@@ -104,7 +117,7 @@ $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
                 <div class="input-field no-margin col s12">
                 <br>
                 <br>
-                    <input type="submit" class="btn z-depth-1 orange white-text" value="Update Profile" />
+                    <input type="submit" class="btn z-depth-1 btn-update white-text" value="Update Profile" />
                 </div>
 
                 <div class="input-field no-margin col s12">

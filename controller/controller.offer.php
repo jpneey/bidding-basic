@@ -26,6 +26,11 @@ switch ($action) {
 
         $_POST['cs_user_id'] = $auth->getSession('__user_id');
         $_POST['cs_bidding_id'] = Sanitizer::filter('bid', 'get', 'int');
+
+        if(!$_POST['cs_user_id']) {
+            echo json_encode(array('code' => 0, 'message' => 'You have been logged out, please log in'));
+            exit();
+        }
         
         $postArr = array(
             array("cs_bidding_id", "int"),
@@ -90,7 +95,7 @@ switch ($action) {
             for( $i=0 ; $i < $totalImages ; $i++ ) {
                 ${$images[$i]} = FileValidator::validateFile('cs_offer_image', 3000000, array('jpg', 'png', 'jpeg', 'gif'), 'img', '../static/asset/bidding/', true, $i);
                 if(!${$images[$i]}) { 
-                    echo json_encode(array('code' => 0, 'message' => 'Image Upload Failed. Images must be less than 3mb.'));
+                    echo json_encode(array('code' => 0, 'message' => 'Image upload failed. size must be less than 3MB.'));
                     die(); 
                 }
             }

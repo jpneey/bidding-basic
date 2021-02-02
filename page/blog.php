@@ -36,7 +36,7 @@ $cs_blog_featured_image = $thisBlog[0]["cs_blog_featured_image"];
   ?>
 
 </head>
-<body class="minimal">
+<body class="minimal blog">
 
   <?php
     require "component/navbar.php";

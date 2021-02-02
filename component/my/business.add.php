@@ -57,14 +57,23 @@ $optionCategory = ob_get_clean();
                     >
                     <option 
                         value="<?= $userBusiness[7] ?>"  
-                    >Selected</option>
+                    >Select</option>
                     <?= $optionCategory ?>
                     </select>
                 </div>
 
+                <div class="input-field no-margin col s12 12">
+                    <p><label>Description / Intro</label></p>
+                    <textarea
+                        required 
+                        name="cs_business_details" 
+                        class="custom-input materialize-textarea validate"
+                    ><?= $userBusiness[8] ?></textarea>
+                </div>
+
                 <div class="input-field no-margin col s12">
                     <br>
-                    <input type="submit" class="btn z-depth-0 orange white-text" value="Update Business" />
+                    <input type="submit" class="btn z-depth-0 btn-update white-text" value="Update Business" />
                 </div>
             </div>
             </form>
@@ -216,7 +225,7 @@ $optionCategory = ob_get_clean();
                                 </div>
 
                             </div>    
-                            <input type="submit" class="btn z-depth-0 orange white-text" value="Update Product" />
+                            <input type="submit" class="btn z-depth-0 btn-update white-text" value="Update Product" />
                             </form>
                             <br>
                             <div class="divider"></div>
@@ -242,7 +251,7 @@ $optionCategory = ob_get_clean();
                                 </div>
                             </div>
                             
-                            <input type="submit" class="btn z-depth-0 orange white-text" value="Update Image" />
+                            <input type="submit" class="btn z-depth-0 btn-update white-text" value="Update Image" />
                             <a href="#!" class="modal-close red white-text waves-effect btn-flat">Cancel</a>
                             </form>
                         </div>
@@ -265,7 +274,7 @@ $optionCategory = ob_get_clean();
                     <div class="card-panel grey lighten-4 z-depth-0">
                         <p><b>Featured Items</b></p>
                         <p>By becoming a <b>Premium Supplier</b>, You will be granted the ability to post up to three featured Items at Canvasspoint.</p>
-                        <a href="<?= $BASE_DIR ?>my/plan/"><span class="chip chip white-text orange darken-2">Upgrade to Pro</span></a>
+                        <a href="<?= $BASE_DIR ?>my/plan/"><span class="chip chip white-text pro-color darken-2">Upgrade to Pro</span></a>
                     </div>
                     <?php } ?>
                 </div>

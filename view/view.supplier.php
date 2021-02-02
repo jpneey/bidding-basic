@@ -45,8 +45,8 @@ class viewSupplier extends Supplier {
                                 <img class="lazy" data-src="<?= $this->BASE_DIR.'static/asset/product/'.$products[$key]["cs_product_image"] ?>" alt="<?= $products[$key]["cs_product_name"] ?>"/>
                                 <!-- <div class="overlay"></div> -->
                                 <span class="card-title truncate">
-                                    <button class="btn btn-xs orange darken-4">Product</button>
-                                    <button class="btn btn-xs orange darken-2"><?= $products[$key]["cs_category_name"] ?></button>
+                                    <button class="btn btn-xs card-tag-v">Product</button>
+                                    <button class="btn btn-xs card-tag-v"><?= $products[$key]["cs_category_name"] ?></button>
                                 </span>
                             </div>
                             <div class="card-content">  

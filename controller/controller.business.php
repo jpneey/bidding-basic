@@ -50,7 +50,10 @@ switch ($action) {
         }
 
         $cs_business_category = Sanitizer::filter('cs_business_category', 'post', 'int');
+        $cs_business_details = Sanitizer::filter('cs_business_details', 'post');
         $cs_bidding_tags = "";
+
+        $business->updateDetails($cs_business_details, $__user_id);
 
         $cs_business_status = '1';
 
@@ -60,7 +63,7 @@ switch ($action) {
             $cs_bussines_link,
             $cs_bidding_tags,
             $cs_business_status,
-            $cs_business_category
+            $cs_business_category,
         );
 
         $message = ($update) ? $business->updateUserBusiness($businessToStore) : $business->postUserBusiness($businessToStore) ; 

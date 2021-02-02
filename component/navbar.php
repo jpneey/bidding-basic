@@ -17,12 +17,15 @@ if($isLoggedIn) {
                 <img src="<?= $BASE_DIR ?>static/asset/logo.png" alt="Site Logo" />
             </a>
             <ul class="right">
-                <li><a href="<?= $BASE_DIR ?>blogs/" class="hide-on-med-and-down">Blog</a></li>
-                <li><a href="<?= $BASE_DIR ?>home/" class="hide-on-med-and-down">Biddings</a></li>
+                <li><a href="<?= $BASE_DIR ?>home/" class="hide-on-med-and-down nav-main-link">Biddings</a></li>
+                <li><a href="<?= $BASE_DIR ?>product/" class="hide-on-med-and-down nav-main-link">Featured Items</a></li>
+
+                <li><a href="<?= $BASE_DIR ?>blogs/" class="hide-on-med-and-down nav-main-link">Blog</a></li>
+
                 <?php if(!$isLoggedIn) { ?>
-                <li><a href="<?= $BASE_DIR ?>home/?sidebar=0" class="hide-on-med-and-down">Login</a></li>
+                <li><a href="<?= $BASE_DIR ?>home/?sidebar=0" class="hide-on-med-and-down nav-main-link">Login</a></li>
                 <?php } ?>
-                <li><a href="<?= $BASE_DIR ?>product/" class="hide-on-med-and-down">Featured Items</a></li>
+
                 <li><a href="#!" data-target="menu-nav" class="sidenav-trigger no-margin"><i class="material-icons">menu</i></a></li>
                 <?php if($isLoggedIn) { ?>
                 <li><a href="#!" data-target="notification-nav" class="sidenav-trigger show-on-large no-margin"><i class="material-icons">notifications_none</i></a> 
@@ -38,15 +41,14 @@ if($isLoggedIn) {
 
 <ul id="menu-nav" class="sidenav darknav z-depth-0">
     <li class="navbar-fixed"></li>
-    <li >
-        <a href="#!"></a>
-    </li>
-    <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>blogs/">Blog</a></li>
+    <li><a href="#!"></a></li>
     <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>home/">Biddings</a></li>
+    <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>product/">Featured Items</a></li>
+
+    <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>blogs/">Blog</a></li>
     <?php if(!$isLoggedIn) { ?>
     <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>home/?sidebar=0">Login</a></li>
     <?php } ?>
-    <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>product/">Featured Items</a></li>
                 
 </ul>
 
@@ -105,12 +107,12 @@ if($isLoggedIn) {
     <li class="navbar-fixed"></li>
     <?php
 
-        $sideChip = '<span class="chip chip white-text grey lighten-1">Free</span>';
-        $sideChip .= ' <a href="'.$BASE_DIR.'my/plan/"><span class="chip chip white-text orange darken-2">Upgrade to pro</span></a>';
+        $sideChip = '<span class="chip chip white-text grey lighten-1" style="border-radius: 25px;">Free</span>';
+        $sideChip .= ' <a href="'.$BASE_DIR.'my/plan/"><span class="chip chip white-text pro-color sidenav-tag">Upgrade to pro</span></a>';
 
         if($isLoggedIn){
             if(!empty($loggedInAccountType)){
-                $sideChip = ' <a href="'.$BASE_DIR.'my/plan/"><span class="chip chip white-text orange darken-2">Premium User</span></a>';
+                $sideChip = ' <a href="'.$BASE_DIR.'my/plan/"><span class="chip chip white-text pro-color sidenav-tag">Pro User</span></a>';
             }
         }
 

@@ -34,10 +34,12 @@ class sideNav {
                 <div class="background">
                 </div>
                 <a href="#user">
-                    <img class="circle" src="<?= $this->detailArray[5].'static/asset/user/'.$this->detailArray[2] ?>" alt="<?= $this->detailArray[3] ?>'s' avatar" />
+                    <div class="circle img-wrap">
+                        <img src="<?= $this->detailArray[5].'static/asset/user/'.$this->detailArray[2] ?>" alt="<?= $this->detailArray[3] ?>'s' avatar" />
+                    </div>
                 </a>
                 <a href="<?= $this->detailArray[5].'user/'.$this->detailArray[3] ?>"><span class="grey-text name"><?= $this->detailArray[3] ?></span></a>
-                <a href="#email"><span class="grey-text email"><?= $this->detailArray[4] ?></span></a>
+                <a href="#email"><span class="grey-text email" style="padding-bottom: 0"><?= $this->detailArray[4] ?></span></a>
                 <?= $this->detailArray[7] ?>
             </div>
         </li>
@@ -103,7 +105,7 @@ class sideNav {
             case '2':
                 $action = 'register';
                 $h3 = 'Register';
-                $p = 'Enter a reachable<br>Email Address';
+                $p = '';
                 $buttonText = 'Confirm my Email';
                 break;
                 
