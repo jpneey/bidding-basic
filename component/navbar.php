@@ -3,6 +3,7 @@
 require_once "model/model.notification.php";
 require_once "view/view.search.php";
 $search = new Search($BASE_DIR, 'bid', $conn);
+$ratingInt = $user->getUserRating($__user_id);
 if($isLoggedIn) {
     $notification = new Notification($__user_id, $conn);
     $unread = $notification->getUnread();
@@ -28,7 +29,7 @@ if($isLoggedIn) {
 
                 <li><a href="#!" data-target="menu-nav" class="sidenav-trigger no-margin"><i class="material-icons">menu</i></a></li>
                 <?php if($isLoggedIn) { ?>
-                <li><a href="#!" data-target="notification-nav" class="sidenav-trigger show-on-large no-margin"><i class="material-icons">notifications_none</i></a> 
+                <li id="to-unread"><a href="#!" data-target="notification-nav" class="sidenav-trigger show-on-large no-margin"><i class="material-icons">notifications_none</i></a> 
                     <?php if($unread) { ?>
                         <span class="unread"><?= $unread ?></span>
                     <?php } ?>
@@ -126,7 +127,8 @@ if($isLoggedIn) {
             $loggedInUserEmail,
             $BASE_DIR,
             $mode,
-            $sideChip
+            $sideChip,
+            $ratingInt
         );
 
         $sideNav = new sideNav($detailArray);

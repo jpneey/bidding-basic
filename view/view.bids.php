@@ -317,13 +317,17 @@ class viewBids extends Bids {
                 <div class="col s12 block" id="<?= $ref ?>">
                     <p><b><?= $title ?></b><br><span class="grey-text" style="font-size: 12px;"><?= $tip ?></span></p>
                 </div>
+                <div class="block row no-margin <?= 'p-'.$ref ?>">
+
             <?php
+            $iteration = 0;
             foreach($userBids as $key=>$value){
                 $bidInFeedLink = $userBids[$key]["cs_bidding_permalink"];
                 $bidInFeedTitle = $userBids[$key]["cs_bidding_title"];
                 $bidInFeedOfferCount = $userBids[$key]["cs_bidding_offer_count"];
-                
-                echo '<div class="col s12 block">';
+                $style = ($iteration > 2) ? "style='display: none'" : "";
+                $toLoad = ($iteration > 2) ? "toLoad" : "";
+                echo "<div class=\"col s12 block $toLoad\" $style>";
                 $datePosted = '<time>'.date_format(date_create($userBids[$key]["cs_bidding_added"]), 'D d M Y').'</time>'; ?>
  
                 <a href="<?= $this->BASE_DIR.'bid/'.$bidInFeedLink ?>">
@@ -344,8 +348,10 @@ class viewBids extends Bids {
                     <a class="z-depth-0 right orange white-text center-align tooltipped" data-position="bottom" data-tooltip="total bids"><?= $bidInFeedOfferCount ?></a>
                 </span>
             <?php
+            $iteration++;
             echo '</div>';
             }
+            echo '</div>';
         }
     }
 

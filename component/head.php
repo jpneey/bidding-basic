@@ -12,7 +12,7 @@
 <script src="<?= $BASE_DIR ?>static/js/jquery.js"></script>
 <script src="<?= $BASE_DIR ?>static/js/materialize.min.js"></script>
 <script src="<?= $BASE_DIR ?>static/js/timeago.js"></script>
-<script src="<?= $BASE_DIR ?>static/js/init.js?v=beta-4456"></script>
+<script src="<?= $BASE_DIR ?>static/js/init.js?v=beta-45677"></script>
 <script src="<?= $BASE_DIR ?>static/js/services/services.login.js?v=beta-4456"></script>
 
 <link href="<?= $BASE_DIR ?>static/js/paginate/jquery.paginate.css?v=beta-sxx2" type="text/css" rel="stylesheet"/>

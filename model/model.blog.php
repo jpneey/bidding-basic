@@ -49,6 +49,26 @@ class Blogs extends DBHandler {
 
     }
 
+    public function getRelated($catID, $curPerma){
+        
+        $connection = $this->getconn();
+        $query = "SELECT 
+            cs_blog_title,
+            cs_blog_permalink
+            FROM cs_blogs 
+            WHERE cs_blog_permalink != ? AND cs_blog_category_id = ?
+            ORDER BY RAND() LIMIT 1";
+
+        $stmt = $connection->prepare($query);
+        $stmt->bind_param("si", $curPerma, $catID);
+        
+        $stmt->execute();
+        $result = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
+        $stmt->close();
+        return $result;
+
+    }
+
     public function getBlog($permalink) {
 
         $connection = $this->getconn();

@@ -435,6 +435,17 @@ class User extends DBHandler {
         return ($exec) ?: false;
     }
 
+    public function getUserRating($userId) {
+        $connection = $this->getconn();
+        $stmt = $connection->prepare("SELECT AVG(cs_rating) FROM cs_user_ratings WHERE cs_user_rated_id = ?");
+        $stmt->bind_param("i", $userId);
+        $stmt->execute();
+        $res = $stmt->get_result()->fetch_row();
+        $stmt->close();
+        if(!empty($res) && is_array($res)) { return $res[0]; }
+        return 0;
+    }
+
     /* site settings */
 
     public function getAdminEmail(){

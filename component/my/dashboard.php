@@ -11,7 +11,7 @@ $newUser = (empty($loggedInUserRole)) ? true : false;
 $loggedInUserDetail = $user->getUser($__user_id, "cs_user_detail");
 
 ob_start(); ?>
-<div class="col s12 white page z-depth-0">
+<div class="col s12 white page z-depth-0" style="z-index: 45">
     <div class="row" style="margin-top: 25px">
         <div class="col s12">
             <div class="row">
@@ -64,7 +64,6 @@ echo '</div>';
 
 require_once "transactions.php";
 ?>
-
-
 <script src="<?= $BASE_DIR ?>static/js/services/services.feed.js" type="text/javascript"></script>
 <script src="<?= $BASE_DIR ?>static/js/services/services.delete.js" type="text/javascript"></script>
+<script src="<?= $BASE_DIR ?>static/js/services/services.pagidash.js" type="text/javascript"></script>

@@ -28,17 +28,23 @@ class sideNav {
     }
 
     public function loadProfile(){
+
+        $rating = str_repeat('<i class="material-icons orange-text">star</i>', round($this->detailArray[8]));
+
         ?>
         <li>
             <div class="user-view ">
                 <div class="background">
                 </div>
-                <a href="#user">
+                <a href="<?= $this->detailArray[5].'user/'.$this->detailArray[3] ?>">
                     <div class="circle img-wrap">
                         <img src="<?= $this->detailArray[5].'static/asset/user/'.$this->detailArray[2] ?>" alt="<?= $this->detailArray[3] ?>'s' avatar" />
                     </div>
                 </a>
                 <a href="<?= $this->detailArray[5].'user/'.$this->detailArray[3] ?>"><span class="grey-text name"><?= $this->detailArray[3] ?></span></a>
+                
+                <a href="#!" class="ratings no-margin" style="line-height: 10px;"><?= $rating ?></a>
+                
                 <a href="#email"><span class="grey-text email" style="padding-bottom: 0"><?= $this->detailArray[4] ?></span></a>
                 <?= $this->detailArray[7] ?>
             </div>

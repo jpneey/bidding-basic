@@ -30,6 +30,13 @@ $(function(){
     markAsRead();
     sidebars();
     activeLinks();
+
+    /* fetch notifs every 2 seconds */
+
+    setInterval(() => {
+        refreshNotifs();
+    }, 120*1000);
+
 })
 
 $(window).on('load', function(){
@@ -37,6 +44,35 @@ $(window).on('load', function(){
         pageFade();
     }, 500)
 })
+
+function refreshNotifs(){
+
+    $.ajax({
+        url: root + 'controller/controller.notification.php',
+        type: 'GET',
+        processData: false,
+        contentType: false,
+        success: function(data) {
+            $('#to-unread').find('span.unread').remove();
+            if(parseInt(data) >= 1){
+                $('#to-unread').append(`<span class="unread">${data}</span>`);
+            }
+        }
+    })
+    $.ajax({
+        url: root + 'controller/controller.notification.php?mode=1',
+        type: 'GET',
+        processData: false,
+        contentType: false,
+        success: function(data) {
+            $('#notification-nav').html(data);
+            markAsRead();
+        }
+    })
+
+    
+    return
+}
 
 function sidebars(){
     var urlParams = new URLSearchParams(window.location.search); //get all parameters

@@ -29,3 +29,24 @@
 #blog-post h3 { font-size: 20px; }
 #blog-post h4 { font-size: 17px; }
 #blog-post h5 { font-size: 16px; }
+
+
+.sb-sharer {
+    display: inline-block;
+    position: relative;
+    width: 40px;
+    height: 40px;
+    background: #ddd;
+    overflow: hidden;
+}
+
+.sb-sharer svg {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#c-form {
+    display: none;
+}

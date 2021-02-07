@@ -421,16 +421,23 @@ class viewOffers extends Offers {
             <div class="col s12 block" id="<?= $link ?>">
                 <p><b><?= $titled ?></b><br><span class="grey-text" style="font-size: 12px;"><?= $tip ?></span></p>
             </div>
+            <div class="block row no-margin <?= 'p-'.$link ?>">
             <?php
+
+            $iteration = 0;
+
             foreach($userOffers as $key=>$value){
                 
                 $title = $userOffers[$key]["cs_bidding_title"];
                 $link = $userOffers[$key]["cs_bidding_permalink"];
                 $offerId = $userOffers[$key]["cs_offer_id"];
                 $datePosted = date_format(date_create($userOffers[$key]["cs_date_added"]), 'D d M Y');
-                $datePosted = '<time>'.$datePosted.'</time>'; 
+                $datePosted = '<time>'.$datePosted.'</time>';
+                
+                $style = ($iteration > 2) ? "style='display: none'" : "";
+                $toLoad = ($iteration > 2) ? "toLoad" : ""; 
             ?>
-            <div class="col s12 block">
+            <div class="col s12 block <?= $toLoad ?>" <?= $style ?>>
                 <a href="<?= $this->BASE_DIR.'bid/'.$link.'/' ?>">
                     <div class="feed-card feed-card-full white <?= $statusStyle ?> hoverable">
                         <div class="feed-card white z-depth-0">
@@ -460,7 +467,9 @@ class viewOffers extends Offers {
                 </div>
             </div>
             <?php
+            $iteration++;
             }
+            echo '</div>';
         }
     }
 

@@ -10,11 +10,10 @@ require_once "../model/model.constant.php";
 
 $auth = new Auth();
 $dbhandler = new DBHandler();
-$conn = $dbhandler->connectDB();
+$connection = $conn = $dbhandler->connectDB();
 $user = new User($conn);
 $bid = new Bids($conn);
 
-$connection = $dbhandler->connectDB();
 $action = Sanitizer::filter('action', 'get');
 
 date_default_timezone_set('Asia/Manila');
