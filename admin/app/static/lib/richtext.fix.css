@@ -1,0 +1,33 @@
+.richText .richText-form input[type="text"], .richText .richText-form input[type="file"], .richText .richText-form input[type="number"], .richText .richText-form select {
+    box-sizing: border-box;
+}
+
+.richText .richText-form button {
+    height: auto;
+    line-height: auto;
+    padding: 0 16px !important;
+}
+
+.richText .richText-toolbar ul li a {
+    color: #333;
+}
+
+.blog-page {
+    padding: 50px;
+}
+
+.blog-page input:not(.browser-default) {
+    border: 1px solid #efefef !important;
+    padding: 0 15px !important;
+    margin-top: 10px !important;
+    box-sizing: border-box !important;
+    background: #f9fbfc !important;
+}
+
+.richText .richText-editor img {
+
+    display: block;
+    width: 100%;
+    margin: 25px auto;
+
+}
