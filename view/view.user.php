@@ -23,7 +23,7 @@ class viewUser extends User {
                     <div class="glance white">
                         <div class="product-card item">
                             <div class="thumbnail">
-                                <img id="bidding-details" src="<?= $this->BASE_DIR ?>static/asset/user/<?= $user[0]['cs_user_avatar'] ?>" class="margin-auto materialboxed" />
+                                <img id="bidding-details" src="<?= $this->BASE_DIR ?>static/asset/user/<?= $user[0]['cs_user_avatar'] ?>" class="margin-auto image-pop" />
                             </div>
                             <div class="content">
                                 <p><b><?= $user[0]['cs_user_name'] ?></b></p>

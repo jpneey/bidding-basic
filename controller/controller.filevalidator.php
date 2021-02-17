@@ -54,6 +54,7 @@ class FileValidator {
         if (move_uploaded_file($case,$directory.$fileName)) {
             if(Self::allowedType($file, array('jpg', 'jpeg', 'JPG'), $i)) {
                 imagejpeg(imagecreatefromjpeg($directory . $fileName), $directory . $fileName, 40);
+                Self::correctImageOrientation($directory.$fileName);
             }
             return true;
         }
@@ -70,6 +71,35 @@ class FileValidator {
             return $renamed;
         }
         return false;
+    }
+
+    public static function correctImageOrientation($filename) {
+        if (function_exists('exif_read_data')) {
+            $exif = exif_read_data($filename);
+            if($exif && isset($exif['Orientation'])) {
+                $orientation = $exif['Orientation'];
+                if($orientation != 1){
+                $img = imagecreatefromjpeg($filename);
+                $deg = 0;
+                switch ($orientation) {
+                    case 3:
+                    $deg = 180;
+                    break;
+                    case 6:
+                    $deg = 270;
+                    break;
+                    case 8:
+                    $deg = 90;
+                    break;
+                }
+                if ($deg) {
+                    $img = imagerotate($img, $deg, 0);        
+                }
+                // then rewrite the rotated image back to the disk as $filename 
+                imagejpeg($img, $filename, 95);
+                } // if there is some rotation necessary
+            } // if have the exif orientation info
+        } // if function exists      
     }
 
 }

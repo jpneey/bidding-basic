@@ -947,9 +947,9 @@ body .toast {
   background-color: #8cdedc!important;
 }
 
-
+body .toast,
 body .toast .close {
-  color: #fff !important;
+  color: #111 !important;
 }
 
 body .submit,
@@ -1030,4 +1030,14 @@ div.time label { text-transform: lowercase; }
   left: 50%;
   transform: translate(-50%, -50%);
   width: 100%;
+}
+
+#image-pop img {
+  width: auto; max-height: 80vh; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%)
+}
+
+@media only screen and (max-width : 800px) {
+  #image-pop img {
+    width: 100%; max-height: 80vh;
+  }
 }

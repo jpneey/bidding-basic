@@ -11,7 +11,7 @@
   <link href="<?= $BASE_DIR ?>static/css/feed.css?v=beta-2.1" type="text/css" rel="stylesheet"/>
 
 </head>
-<body class="minimal un-pad-stars">
+<body class="un-pad-stars">
 
   <?php
     require "component/navbar.php";

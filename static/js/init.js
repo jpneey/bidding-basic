@@ -31,6 +31,7 @@ $(function(){
     sidebars();
     activeLinks();
 
+    imagePop();
     /* fetch notifs every 2 seconds */
 
     setInterval(() => {
@@ -200,4 +201,20 @@ function activeLinks(){
     })
 
     return
+}
+
+function imagePop(){
+    $(document).on('click', '.image-pop', function () {
+        var src  = $(this).attr('src');
+        var $wrapper = `<div id="image-pop" style="display:block; position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: #1b1b1b;z-index: 199999;">
+            <img src="${src}" />
+        </div>`;
+        $('body').append($wrapper);
+    })
+
+    $(document).on('click', '#image-pop', function () {
+        $(this).fadeOut(200, function(){
+            $(this).remove();
+        })
+    })
 }

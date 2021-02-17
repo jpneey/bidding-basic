@@ -131,8 +131,8 @@ function prepareModal(token){
 
 function viewOfferModal(data){
   var parsedData = JSON.parse(data);
-  var image = '<br><img src="'+ root + 'static/asset/bidding/' + parsedData.img+'" class="materialboxed" onError="this.onerror = \'\';this.style.display=\'none\';" />' + '<img src="'+ root + 'static/asset/bidding/' + parsedData.img_two+'" class="materialboxed" onError="this.onerror = \'\';this.style.display=\'none\';" />';
-  image += '<img src="'+ root + 'static/asset/bidding/' + parsedData.img_three+'" class="materialboxed" onError="this.onerror = \'\';this.style.display=\'none\';" />';
+  var image = '<br><img src="'+ root + 'static/asset/bidding/' + parsedData.img+'" class="image-pop" onError="this.onerror = \'\';this.style.display=\'none\';" />' + '<img src="'+ root + 'static/asset/bidding/' + parsedData.img_two+'" class="image-pop" onError="this.onerror = \'\';this.style.display=\'none\';" />';
+  image += '<img src="'+ root + 'static/asset/bidding/' + parsedData.img_three+'" class="image-pop" onError="this.onerror = \'\';this.style.display=\'none\';" />';
   var link = '<br><br>' + ' <a href="#!" data-view="'+parsedData.view+'"class="btn-small view-poster green lighten-1">profile</a>';
   $('#view-offer-content').html(parsedData.offer + link + image);
   $(".qty").text($('.item').data('unit'));

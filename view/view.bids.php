@@ -192,7 +192,7 @@ class viewBids extends Bids {
                     <p><b>Item / Service Needed</b></p>
                     <div class="this-timer white sm">
                         <div class="time">
-                            <img id="bidding-details" src="<?= $this->BASE_DIR ?>static/asset/bidding/<?= $picture ?>" class="margin-auto materialboxed" />
+                            <img id="bidding-details" src="<?= $this->BASE_DIR ?>static/asset/bidding/<?= $picture ?>" class="margin-auto image-pop" />
                         </div>
                         <div class="time w-50">
                             <span class="truncate"><?= $item ?></span>
