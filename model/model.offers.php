@@ -119,7 +119,7 @@ class Offers extends DBHandler {
 
         $initQuery = "SELECT * FROM cs_offers WHERE cs_offer_id = ? LIMIT 1";
 
-        // where and or fix ko dapat
+        /*  */
 
         $stmt = $connection->prepare($initQuery);
         $stmt->bind_param('i', $selector);
@@ -135,6 +135,13 @@ class Offers extends DBHandler {
         $stmt->bind_param('ii', $offer[1], $userId);
         $stmt->execute();
         $exists = $stmt->get_result()->fetch_row();
+        $stmt->close();
+
+        
+        $stmt = $connection->prepare("SELECT cs_bidding_user_id FROM cs_biddings WHERE cs_bidding_id = ? LIMIT 1");
+        $stmt->bind_param('i', $offer[1]);
+        $stmt->execute();
+        $owner = $stmt->get_result()->fetch_row();
         $stmt->close();
 
         if(empty($exists) && $userId != $offer[2]){
@@ -231,7 +238,9 @@ class Offers extends DBHandler {
         $image_two = $offers['img-two'];
         $image_three = $offers['img-three'];
 
-        return json_encode(array('code' => 1, 'offer' => $modal, 'email' => $email, 'connect' => $quickConnect, 'view' => $username, 'img' => $image, 'img_two' => $image_two, 'img_three' => $image_three));
+        $bID = (!empty($owner)) ? $owner[0] : '404';
+
+        return json_encode(array('code' => 1, 'offer' => $modal, 'email' => $email, 'connect' => $quickConnect, 'view' => $username, 'owner' => $bID, 'img' => $image, 'img_two' => $image_two, 'img_three' => $image_three));
 
     }
 

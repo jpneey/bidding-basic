@@ -242,7 +242,7 @@ class viewBids extends Bids {
          -->
         <div class="this-timer white sm">
             <div class="time">
-                <img id="bidding-details" src="<?= $this->BASE_DIR ?>static/asset/user/<?= $winner[2][1] ?>" class="margin-auto materialboxed" />
+                <img id="bidding-details" src="<?= $this->BASE_DIR ?>static/asset/user/<?= $winner[2][1] ?>" class="margin-auto image-pop" />
             </div>
             <div class="time w-50">
                 <span>@<?= $winner[2][0] ?></span>
@@ -317,7 +317,7 @@ class viewBids extends Bids {
                 <div class="col s12 block" id="<?= $ref ?>">
                     <p><b><?= $title ?></b><br><span class="grey-text" style="font-size: 12px;"><?= $tip ?></span></p>
                 </div>
-                <div class="block row no-margin <?= 'p-'.$ref ?>">
+                <div class="col s12  block row no-margin <?= 'p-'.$ref ?>" style="padding: 0;">
 
             <?php
             $iteration = 0;

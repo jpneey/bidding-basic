@@ -421,7 +421,7 @@ class viewOffers extends Offers {
             <div class="col s12 block" id="<?= $link ?>">
                 <p><b><?= $titled ?></b><br><span class="grey-text" style="font-size: 12px;"><?= $tip ?></span></p>
             </div>
-            <div class="block row no-margin <?= 'p-'.$link ?>">
+            <div class="col s12 block row no-margin <?= 'p-'.$link ?>" style="padding: 0">
             <?php
 
             $iteration = 0;

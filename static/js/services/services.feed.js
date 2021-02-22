@@ -123,6 +123,7 @@ function prepareModal(token){
         });  
         return
       }
+      console.log(data);
       viewOfferModal(data);
     }
   })
@@ -133,7 +134,7 @@ function viewOfferModal(data){
   var parsedData = JSON.parse(data);
   var image = '<br><img src="'+ root + 'static/asset/bidding/' + parsedData.img+'" class="image-pop" onError="this.onerror = \'\';this.style.display=\'none\';" />' + '<img src="'+ root + 'static/asset/bidding/' + parsedData.img_two+'" class="image-pop" onError="this.onerror = \'\';this.style.display=\'none\';" />';
   image += '<img src="'+ root + 'static/asset/bidding/' + parsedData.img_three+'" class="image-pop" onError="this.onerror = \'\';this.style.display=\'none\';" />';
-  var link = '<br><br>' + ' <a href="#!" data-view="'+parsedData.view+'"class="btn-small view-poster green lighten-1">profile</a>';
+  var link = '<br><br>' + ' <a href="#!" data-view="'+parsedData.view+'"class="btn-small view-poster vp-s green lighten-1">View Supplier</a>' + ' <a href="#!" data-view="'+parsedData.owner+'"class="btn-small vp-c view-poster green lighten-1">View Client</a>'
   $('#view-offer-content').html(parsedData.offer + link + image);
   $(".qty").text($('.item').data('unit'));
   $('#view-offer-modal').modal({
@@ -150,7 +151,6 @@ function viewOfferModal(data){
 function viewPoster() {
   $('.view-poster').on('click', function(){
     var token = $(this).data('view');
-
     $.ajax({
       url: root + 'controller/controller.user.php?action=view&selector='+token,
       type: 'GET',

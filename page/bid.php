@@ -58,6 +58,7 @@ $selector = Sanitizer::filter($uri[1], 'var');
         <a href="#!" class="modal-close red white-text waves-effect btn-flat">Close</a>
     </div>
   </div>
+  <style>.vp-c{display: none;}</style>
   <script src="<?php echo $BASE_DIR ?>static/js/services/services.feed.js?v=beta-7895" type="text/javascript"></script>
   <?php
     $viewOnLoad = Sanitizer::filter('view', 'get', 'int');

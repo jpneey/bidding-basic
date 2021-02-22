@@ -206,7 +206,7 @@ function activeLinks(){
 function imagePop(){
     $(document).on('click', '.image-pop', function () {
         var src  = $(this).attr('src');
-        var $wrapper = `<div id="image-pop" style="display:block; position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: #1b1b1b;z-index: 199999;">
+        var $wrapper = `<div id="image-pop" style="display:block; position: fixed;top: 0;left: 0;width: 100%;height: 100%;background: #1b1b1b;z-index: 199999666;">
             <img src="${src}" />
         </div>`;
         $('body').append($wrapper);
