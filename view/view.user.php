@@ -80,13 +80,89 @@ class viewUser extends User {
     }
 
     public function ratings($ratings){
-        if(!empty($ratings)) { 
-            echo '<br><br><p><b>What other people say</b></p>';
+        if(!empty($ratings)) {
+
+            $totalRatings = count($ratings);
+            $rate = 0;
+            $per1 = $per2 = $per3 = $per4 = $per5 = 0;
+            foreach($ratings as $k => $v){
+                $rate = $rate + $ratings[$k]["cs_rating"];
+                switch($ratings[$k]["cs_rating"]) {
+                    case 1:
+                        $per1++;
+                        break;
+                    case 2:
+                        $per2++;
+                        break;
+                    case 3:
+                        $per3++;
+                        break;
+                    case 4:
+                        $per4++;
+                        break;
+                    case 5:
+                        $per5++;
+                        break;
+                }
+            }
+
+            $rate = number_format(($rate / $totalRatings), 1);
+            ?>
+            <br><br>
+            <div class="row">
+                <div class="col s12 m3">
+                    <div class="breakdown-rating orange darken-1 center-align white-text">
+                        <h1 class="white-text"><?= $rate ?></h1>
+                        out of 5
+                    </div>
+                </div>
+                <div class="col s12 m9">
+                    <div class="breakdown-rates">
+                        <div class="breakdown">
+                            <p class="ratings no-margin"><?= str_repeat('<i class="material-icons orange-text">star</i>', 5) ?></p>
+                            <span class="broken"><?= $per5 . ' out of ' . $totalRatings ?></span>
+                            <div class="progress">
+                                <div class="determinate" style="width: <?= ($per5/$totalRatings) * 100 ?>%"></div>
+                            </div>
+                        </div>
+                        <div class="breakdown">
+                            <p class="ratings no-margin"><?= str_repeat('<i class="material-icons orange-text">star</i>', 4) ?></p>
+                            <span class="broken"><?= $per4 . ' out of ' . $totalRatings ?></span>
+                            <div class="progress">
+                                <div class="determinate" style="width: <?= ($per4/$totalRatings) * 100 ?>%"></div>
+                            </div>
+                        </div>
+                        <div class="breakdown">
+                            <p class="ratings no-margin"><?= str_repeat('<i class="material-icons orange-text">star</i>', 3) ?></p>
+                            <span class="broken"><?= $per3 . ' out of ' . $totalRatings ?></span>
+                            <div class="progress">
+                                <div class="determinate" style="width: <?= ($per3/$totalRatings) * 100 ?>%"></div>
+                            </div>
+                        </div>
+                        <div class="breakdown">
+                            <p class="ratings no-margin"><?= str_repeat('<i class="material-icons orange-text">star</i>', 2) ?></p>
+                            <span class="broken"><?= $per2 . ' out of ' . $totalRatings ?></span>
+                            <div class="progress">
+                                <div class="determinate" style="width: <?= ($per2/$totalRatings) * 100 ?>%"></div>
+                            </div>
+                        </div>
+                        <div class="breakdown">
+                            <p class="ratings no-margin"><?= str_repeat('<i class="material-icons orange-text">star</i>', 1) ?></p>
+                            <span class="broken"><?= $per1 . ' out of ' . $totalRatings ?></span>
+                            <div class="progress">
+                                <div class="determinate" style="width: <?= ($per1/$totalRatings) * 100 ?>%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
             foreach($ratings as $key=>$value) {
         ?>
             <div class="content">
-                <p class="no-margin black-text">Anonymous</p>
+                <p class="no-margin black-text"><b>Anonymous</b></p>
                 <p class="no-margin grey-text text-darken-1"><?= $ratings[$key]['cs_comment']; ?></p>
+                <br>
                 <p class="ratings no-margin"><?= str_repeat('<i class="material-icons orange-text">star</i>', round($ratings[$key]['cs_rating'])) ?></p>
                 <br>
                 <div class="divider"></div>
@@ -95,6 +171,57 @@ class viewUser extends User {
             <br>
         <?php
             }
+        } else {
+            ?>
+<br><br>
+            <div class="row">
+                <div class="col s12 m3">
+                    <div class="breakdown-rating orange darken-1 center-align white-text">
+                        <h1 class="white-text">0</h1>
+                        out of 5
+                    </div>
+                </div>
+                <div class="col s12 m9">
+                    <div class="breakdown-rates">
+                        <div class="breakdown">
+                            <p class="ratings no-margin"><?= str_repeat('<i class="material-icons orange-text">star</i>', 5) ?></p>
+                            <span class="broken">0  out of 0</span>
+                            <div class="progress">
+                                <div class="determinate" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="breakdown">
+                            <p class="ratings no-margin"><?= str_repeat('<i class="material-icons orange-text">star</i>', 4) ?></p>
+                            <span class="broken">0  out of 0</span>
+                            <div class="progress">
+                                <div class="determinate" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="breakdown">
+                            <p class="ratings no-margin"><?= str_repeat('<i class="material-icons orange-text">star</i>', 3) ?></p>
+                            <span class="broken">0  out of 0</span>
+                            <div class="progress">
+                                <div class="determinate" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="breakdown">
+                            <p class="ratings no-margin"><?= str_repeat('<i class="material-icons orange-text">star</i>', 2) ?></p>
+                            <span class="broken">0  out of 0</span>
+                            <div class="progress">
+                                <div class="determinate" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div class="breakdown">
+                            <p class="ratings no-margin"><?= str_repeat('<i class="material-icons orange-text">star</i>', 1) ?></p>
+                            <span class="broken">0  out of 0</span>
+                            <div class="progress">
+                                <div class="determinate" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
         }
     }
 

@@ -111,8 +111,8 @@ if(!empty($_plans_expired) && empty($_plans)){
                         <h1><b>Free</b></h1>
                         <span class="plan-title">Free / Lifetime</span>
                         <ul class="plan-features">
-                            <li>Maximum of one(1) proposal per bidding</li>
-                            <li style="border-color: transparent">&nbsp;</li>
+                            <li>3 proposals (1 per bidding)</li>
+                            <li style="opacity: 0">Feature up to 3 products/services</li>
                         </ul>
                         <button class="plan-button waves-effect">Free / Lifetime</button>
                     </div>
@@ -127,7 +127,7 @@ if(!empty($_plans_expired) && empty($_plans)){
                         <span class="plan-title">₱ <?= number_format($supplierPlan, 2, '.', ',') ?> / Year</span>
 
                         <ul class="plan-features">
-                            <li>Maximum of one(1) proposal per bidding</li>
+                            <li>6 proposals (1 per bidding)</li>
                             <li>Feature up to 3 products/services</li>
                         </ul>
                         <?php if(!$loggedInAccountType){ ?>

@@ -90,7 +90,8 @@ class viewOffers extends Offers {
                                         })
                                         </script>
                                         <?php
-                                        echo '<a href="'.$linkToOwner.'" class="btn-small waves-effect z-depth-0 orange darken-2 white-text">Contact Client</a>';
+                                        echo '<a href="'.$linkToOwner.'" class="btn-small waves-effect z-depth-0 orange darken-2 white-text">View Client</a>';
+                                        echo ' <a href="'.$userName.'" class="btn-small green z-depth-0">Rate Client</a>';
                                         break;
                                     case '2':
                                         echo '<a href="#!" class="btn-small waves-effect red lighten-1 white-text z-depth-0">Rejected</a> ';
@@ -117,7 +118,7 @@ class viewOffers extends Offers {
                     <div class="modal-content">
                         <p><b>Hooray!</b></p>
                         <p>Your proposal won this bidding. Both client and supplier can now view each other's profile.<br><br>
-                        <a href="<?= $userName ?>" class="btn green z-depth-0">Rate Client</a>
+                        <!-- <a href="<?= $userName ?>" class="btn green z-depth-0">Rate Client</a> -->
                         <a href="<?= $linkToOwner ?>" class="btn orange z-depth-0">View Client</a></p>
                     </div>
                 </div>
@@ -353,7 +354,7 @@ class viewOffers extends Offers {
     protected function postOfferTitle($count){
         switch($count) {
             case '0':
-                return 'Be the first one to submit an offer. Your identity will stay anonymous unless you are selected and won have won the bidding.';
+                return 'Be the first one to submit an offer. Your identity will stay anonymous unless you are selected and have won the bidding.';
             default:
                 return 'Join '.$count.' other supplier and submit an offer. Bidders remain anonymous until it\'s offer is selected by the client and won the bidding.';
         }

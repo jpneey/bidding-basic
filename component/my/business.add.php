@@ -43,7 +43,7 @@ $optionCategory = ob_get_clean();
                         type="text" 
                         name="cs_business_name" 
                         class="custom-input validate"
-                        value="<?= $userBusiness[2] ?>"  
+                        value="<?= (isset($userBusiness[2])) ? $userBusiness[2] : '' ?>"  
                     />
                 </div>
 
@@ -56,7 +56,7 @@ $optionCategory = ob_get_clean();
                         class="custom-input validate browser-default"  
                     >
                     <option 
-                        value="<?= $userBusiness[7] ?>"  
+                        value="<?= (isset($userBusiness[7])) ? $userBusiness[7] : '' ?>"  
                     >Select</option>
                     <?= $optionCategory ?>
                     </select>
@@ -68,7 +68,7 @@ $optionCategory = ob_get_clean();
                         required 
                         name="cs_business_details" 
                         class="custom-input materialize-textarea validate"
-                    ><?= $userBusiness[8] ?></textarea>
+                    ><?= (isset($userBusiness[8])) ? $userBusiness[8] : '' ?></textarea>
                 </div>
 
                 <div class="input-field no-margin col s12">
@@ -107,7 +107,7 @@ $optionCategory = ob_get_clean();
                                             class="custom-input validate browser-default"  
                                         >
                                         <option 
-                                            value="<?= $userBusiness[7] ?>"  
+                                            value="<?= (isset($userBusiness[7])) ? $userBusiness[7] : '' ?>"  
                                         >Selected</option>
                                         <?= $optionCategory ?>
                                         </select>

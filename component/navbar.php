@@ -22,6 +22,7 @@ if($isLoggedIn) {
                 <li><a href="<?= $BASE_DIR ?>product/" class="hide-on-med-and-down nav-main-link">Featured Items</a></li>
 
                 <li><a href="<?= $BASE_DIR ?>blogs/" class="hide-on-med-and-down nav-main-link">Blog</a></li>
+                <li><a href="<?= $BASE_DIR ?>faqs/" class="hide-on-med-and-down nav-main-link">Faqs</a></li>
 
                 <?php if(!$isLoggedIn) { ?>
                 <li><a href="<?= $BASE_DIR ?>home/?sidebar=0" class="hide-on-med-and-down nav-main-link">Login</a></li>
@@ -47,6 +48,7 @@ if($isLoggedIn) {
     <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>product/">Featured Items</a></li>
 
     <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>blogs/">Blog</a></li>
+    <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>faqs/">Faqs</a></li>
     <?php if(!$isLoggedIn) { ?>
     <li class="hide-on-med-and-up show-on-medium-and-down"><a href="<?= $BASE_DIR ?>home/?sidebar=0">Login</a></li>
     <?php } ?>

@@ -388,6 +388,28 @@ class Offers extends DBHandler {
         return (empty($result)) ? false : true;
     }
 
+    public function isPro($userId){
+        $connection = $this->getconn();
+        $stmt = $connection->prepare("SELECT cs_plan_id FROM cs_plans WHERE cs_user_id = ? AND cs_plan_status = 1");
+        $stmt->bind_param('i', $userId);
+        $stmt->execute();
+        $result = $stmt->get_result()->num_rows;
+        $stmt->close();
+        return (empty($result)) ? false : true;
+    }
+
+    public function validateActiveOffers($userId){
+        $max = ($this->isPro($userId)) ? 6 : 3;
+        $connection = $this->getconn();
+        $stmt = $connection->prepare("SELECT cs_offer_id FROM cs_offers WHERE cs_user_id = ? AND cs_offer_status = 0");
+        $stmt->bind_param('i', $userId);
+        $stmt->execute();
+        $result = $stmt->get_result()->num_rows;
+        $stmt->close();
+
+        return ($result >= $max) ? false : true;
+    }
+
     /**
      * Delete related functions
      * goes here

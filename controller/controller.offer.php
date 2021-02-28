@@ -31,6 +31,12 @@ switch ($action) {
             echo json_encode(array('code' => 0, 'message' => 'You have been logged out, please log in'));
             exit();
         }
+
+        $valid = $offer->validateActiveOffers($auth->getSession('__user_id'));
+        if(!$valid) {
+            echo json_encode(array('code' => 0, 'message' => 'Your account has reached the maximum active offers.'));
+            exit();
+        }
         
         $postArr = array(
             array("cs_bidding_id", "int"),

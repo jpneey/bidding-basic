@@ -950,6 +950,7 @@ body .toast {
 body .toast,
 body .toast .close {
   color: #111 !important;
+  font-weight: bold;
 }
 
 body .submit,
@@ -1040,4 +1041,55 @@ div.time label { text-transform: lowercase; }
   #image-pop img {
     width: 100%; max-height: 80vh;
   }
+}
+
+.breakdown-rating {
+  padding: 50px 0;
+  margin-bottom: 25px;
+}
+.breakdown-rating h1 {
+  margin: 0;
+}
+
+.breakdown-rates .ratings {
+  height: 15px;
+  margin: 5px 0 !important;
+}
+.breakdown-rates .progress {
+  margin: 0;
+}
+
+.breakdown {
+  position: relative;
+  display: block;
+  width: 100%;
+}
+
+.breakdown .broken {
+  position: absolute;
+  top: 0;
+  right: 0;
+  font-size: 11px;
+  font-weight: bold;
+  color: #999;
+}
+
+@media only screen and (max-width : 800px) {
+  .breakdown-rating {
+    display: none;
+  }
+}
+
+*.collapsible, *.collapsible * {
+  border: none !important;
+  background: #f9f9f9;
+}
+
+*.collapsible *.collapsible-body,
+*.collapsible li:nth-of-type(1) {
+  border-top: 1px solid rgb(233, 231, 231) !important;
+}
+
+*.collapsible li {
+  border-bottom: 1px solid rgb(233, 231, 231) !important;
 }
